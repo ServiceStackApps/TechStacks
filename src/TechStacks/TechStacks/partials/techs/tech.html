@@ -1,0 +1,16 @@
+﻿<div>
+    <h2 ng-show="tech.ProductUrl == null" style="display: inline-block">
+        {{tech.Name}}
+        <span ng-show="isFavorite &&  isAuthenticated" class="glyphicon" style="color: rgb(255, 223, 61); text-shadow: 1px -1px 1px grey" ng-click="removeFavorite()" ng-class="{'glyphicon-star-empty': hover,'glyphicon-star': !hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false"></span>
+        <span ng-show="!isFavorite && isAuthenticated" class="glyphicon" style="color: rgb(255, 223, 61); text-shadow: 1px -1px 1px grey" ng-click="addFavorite()" ng-class="{'glyphicon-star': emptyHover,'glyphicon-star-empty': !emptyHover}" ng-mouseenter="emptyHover=true" ng-mouseleave="emptyHover=false"></span>
+    </h2>
+    <h2 ng-show="tech.ProductUrl != null">
+        <a href="{{tech.ProductUrl}}" target="_blank">
+            {{tech.Name}}
+            <span ng-show="isFavorite && isAuthenticated" class="glyphicon" style="color: rgb(255, 223, 61); text-shadow: 1px -1px 1px grey" ng-click="removeFavorite()" ng-class="{'glyphicon-star-empty': hover,'glyphicon-star': !hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false"></span>
+            <span ng-show="!isFavorite && isAuthenticated" class="glyphicon" style="color: rgb(255, 223, 61); text-shadow: 1px -1px 1px grey" ng-click="addFavorite()" ng-class="{'glyphicon-star': emptyHover,'glyphicon-star-empty': !emptyHover}" ng-mouseenter="emptyHover=true" ng-mouseleave="emptyHover=false"></span>
+        </a>
+    </h2>
+    <a href="#/i/techs/{{tech.Id}}/edit" class="btn btn-primary" ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))" style="margin-top: -25px">Edit</a>
+    <div>{{tech.Description}}</div>
+</div>

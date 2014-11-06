@@ -1,0 +1,59 @@
+﻿<div>
+    <div ng-show="isAuthenticated" style="display: block;min-height: 150px">
+        <div class="col-md-2">
+            <h5>
+                Favorite Technologies
+            </h5>
+            <ul class="list-unstyled">
+                <li ng-repeat="tech in favoriteTechs"><a href="#/i/techs/{{tech.Id}}">{{tech.Name}}</a> <span class="glyphicon glyphicon-star" style="color:gold"></span></li>
+            </ul>
+            <h6 style="margin-top:25px">Cant find your favorite tech?</h6>
+            <a href="#/i/techs/create" class="btn btn-primary">Add technology</a>
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-default" ng-repeat="feedStack in feedStacks">
+                <div class="panel-heading"><a href="#/i/stacks/{{feedStack.Id}}">{{feedStack.Name}}</a>
+                    <span ng-show="isFavorite(feedStack)" class="glyphicon" style="color:rgb(255, 223, 61);text-shadow:  1px -1px 1px grey" ng-click="removeFavorite(feedStack)" ng-class="{'glyphicon-star-empty': hover,'glyphicon-star': !hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false"></span>
+                    <span ng-show="!isFavorite(feedStack)" class="glyphicon" style="color:rgb(255, 223, 61);text-shadow:  1px -1px 1px grey" ng-click="addFavorite(feedStack)" ng-class="{'glyphicon-star': emptyHover,'glyphicon-star-empty': !emptyHover}" ng-mouseenter="emptyHover=true" ng-mouseleave="emptyHover=false"></span>
+                <span class="pull-right">{{feedStack.LastModified | date: "yyyy-MM-dd"}}</span></div>
+                <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="#/i/stacks/{{feedStack.Id}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
+                <div class="panel-footer" >
+                    <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in feedStack.TechnologyChoices">
+                        <a href="#/i/techs/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
+                            <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" width="20" height="20">
+                            <span ng-if="!tech.LogoApproved" class="glyphicon glyphicon-cog"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <h5>
+                Favorite Stacks
+            </h5>
+            <ul class="list-unstyled">
+                <li ng-repeat="techStack in favoriteTechStacks"><a href="#/i/stacks/{{techStack.Id}}">{{techStack.Name}}</a> <span class="glyphicon glyphicon-star" style="color:gold"></span></li>
+            </ul>
+            <a style="margin-top: 25px" href="#/i/stacks/create" class="btn btn-primary">Create a TechStack</a>
+        </div>
+    </div>
+    <div ng-show="!isAuthenticated">
+        <h1>Welcome to TechStack!</h1>
+        <!-- Nav tabs -->
+        <h3>Latest stacks</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Create by</td>
+                    <td>Description</td>
+                </tr>
+            </thead>
+            <tr ng-repeat="tech in techStacks">
+                <td><a href="#/i/stacks/{{tech.Id}}">{{tech.Name}}</a></td>
+                <td ng-bind="tech.CreatedBy"></td>
+                <td>{{tech.Description | limitTo:25}}...</td>
+            </tr>
+        </table>
+    </div>
+</div>

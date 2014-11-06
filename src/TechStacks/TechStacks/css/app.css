@@ -1,0 +1,9 @@
+﻿body {
+
+}
+h1 {
+    text-align: center
+}
+.twitter { background: url(/img/twitter_normal.png) no-repeat; }
+.facebook { background: url(/img/facebook_normal.png) no-repeat; }
+.github { background: url(/img/github_normal.png) no-repeat; }

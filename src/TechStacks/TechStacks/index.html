@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="techStackApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="techStackApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="techStackApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html lang="en" ng-app="techStackApp">  <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>TechStack</title>
+        <meta name="description" content="">
+        <base href="/" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--build:css lib/css/bootstrap.min.css-->
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="css/bootstrap-theme.css" />
+        <!-- endbuild -->
+        <!--build:css css/style.min.css-->
+        <link rel="stylesheet" href="css/app.css" />
+        <!-- endbuild -->
+        <!-- build:js lib/js/jquery.min.js -->
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <!-- endbuild -->
+        <!-- build:js lib/js/bootstrap.min.js -->
+        <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <!-- endbuild -->
+        <!-- build:js lib/js/modernizr.min.js -->
+        <script src="bower_components/modernizr/modernizr.js"></script>
+        <!-- endbuild -->
+    </head>
+    <body>
+        <div class="navbar navbar-inverse" role="navigation" ng-controller="navigationCtrl">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        <img src="img/logo-280.png" width="22" height="22" style="margin-top: -8px" />TechStacks</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li ng-class="{ active: IsRouteActive('/')}"><a href="#/">Home</a></li>
+                        <li ng-class="{ active: IsRouteActive('/i/stacks')}"><a href="#/i/stacks">Stacks</a></li>
+                        <li ng-class="{ active: IsRouteActive('/i/techs')}"><a href="#/i/techs">Technologies</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ng-show="isAuthenticated"><span><a href="#/{{currentUserSession.UserName}}"><img style="margin-top:5px" ng-src="{{currentUserSession.DefaultProfileUrl}}" width="50" height="50" /></a></span></li>
+                        <li ng-hide="isAuthenticated"><a href="/auth/twitter"><img src="img/twitter_normal.png" alt="Sign in with Twitter" /></a></li>
+                        <!--<li ng-hide="isAuthenticated"><a href="auth/facebook"><img src="img/facebook_normal.png" alt="Sign in with Facebok" /></a></li>-->
+                        <li ng-hide="isAuthenticated"><a href="/auth/github"><img src="img/github_normal.png" alt="Sign in with Github" /></a></li>
+                        <li ng-show="isAuthenticated"><a href="/auth/logout">Logout</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+
+        <!-- In production use:
+            <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+            -->
+        <div class="container"><div ng-view></div></div>
+        
+        <!-- build:js lib/js/angular.min.js -->
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <!-- endbuild -->
+        <!-- build:js js/app.min.js -->
+        <script src="js/home/controllers.js"></script>
+        <script src="js/techs/controllers.js"></script>
+        <script src="js/techs/services.js"></script>
+        <script src="js/stacks/controllers.js"></script>
+        <script src="js/stacks/services.js"></script>
+        <script src="js/stacks/filters.js"></script>
+        <script src="js/navigation/controllers.js"></script>
+        <script src="js/user/controllers.js"></script>
+        <script src="js/user/services.js"></script>
+        <script src="js/app.js"></script>
+        <!-- endbuild -->
+    </body>
+</html>

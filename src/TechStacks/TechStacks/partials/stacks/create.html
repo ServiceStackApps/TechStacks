@@ -1,0 +1,14 @@
+﻿<div>
+    <h2>Create your technology stack</h2>
+    <form role="form">
+        <div class="form-group">
+            <label for="Name">Name</label>
+            <input type="text" class="form-control" id="Name" placeholder="Enter name of your stack" ng-model="newStack.Name" required>
+        </div>
+        <div class="form-group">
+            <label for="Description">Description</label>
+            <input type="text" class="form-control" id="Description" placeholder="Enter a description of your stack" ng-model="newStack.Description">
+        </div>
+        <button class="btn btn-primary" ng-click="createNewStack()">Create</button>
+    </form>
+</div>

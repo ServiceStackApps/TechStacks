@@ -1,0 +1,18 @@
+﻿<div>
+    <h3>Technologies</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td><strong>Name</strong></td>
+                <td><strong>Description</strong></td>
+                <td><strong>Vendor</strong></td>
+            </tr>
+        </thead>
+        <tr ng-repeat="tech in techs">
+            <td><a href="#/i/techs/{{tech.Id}}">{{tech.Name}}</a></td>
+            <td>{{tech.Description}}</td>
+            <td>{{tech.VendorName}}</td>
+        </tr>
+    </table>
+    <a ng-show="isAuthenticated" href="#/i/techs/create" class="btn btn-primary">Add technology</a>
+</div>

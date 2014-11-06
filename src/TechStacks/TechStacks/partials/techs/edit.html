@@ -1,0 +1,51 @@
+﻿<div style="margin-bottom: 20px;">
+    <h2><a href="#/i/stacks/{{currentStack.Id}}">{{tech.Name}}</a></h2>
+    <h3>Update technology</h3>
+    <form role="form">
+        <div class="form-group">
+            <label for="TechName">Technology Name</label>
+            <input type="text" class="form-control" id="TechName" placeholder="Enter name of the technology" ng-model="tech.Name">
+        </div>
+        <div class="form-group">
+            <label for="VendorName">Vendor Name</label>
+            <input type="text" class="form-control" id="VendorName" placeholder="Enter name of the vendor" ng-model="tech.VendorName">
+        </div>
+        <div class="form-group">
+            <label for="Description">Description</label>
+            <input type="text" class="form-control" id="Description" placeholder="Enter a description of the technology" ng-model="tech.Description">
+        </div>
+        <div class="form-group">
+            <label for="LogoUrl">
+                LogoUrl 
+                <span ng-if="isAuthenticated && hasRole('Admin') && !tech.LogoApproved" class="glyphicon glyphicon-unchecked" ng-click="approveLogo()"></span>
+                <span ng-if="isAuthenticated && hasRole('Admin') && tech.LogoApproved" class="glyphicon glyphicon-check" ng-click="unApproveLogo()"></span>
+            </label>
+            <input type="text" class="form-control" id="LogoUrl" placeholder="Enter a url for the technology logo" ng-model="tech.LogoUrl">
+        </div>
+        <div class="form-group">
+            <label for="VendorUrl">Vendor Url</label>
+            <input type="text" class="form-control" id="VendorUrl" placeholder="Enter url of the vendor" ng-model="tech.VendorUrl">
+        </div>
+        <div class="form-group">
+            <label for="ProductUrl">Product Url</label>
+            <input type="text" class="form-control" id="ProductUrl" placeholder="Enter url of the product" ng-model="tech.ProductUrl">
+        </div>
+        <div class="input-group">
+            <label>Add to tier</label>
+            <span ng-repeat="tier in allTiers" style="font-style: italic">
+                <span ng-show="tech.Tiers.indexOf(tier.name) == -1" ng-click="addTechToTier(tier)" class="btn-xs btn-success glyphicon glyphicon-plus-sign"><span style="margin-left:2px;">{{tier.name}}</span></span>
+            </span>
+        </div>
+        <div>
+            <ul>
+                <li ng-repeat="tier in allTiers" ng-show="tech.Tiers.indexOf(tier.name) != -1"><div class="btn-xs btn-danger glyphicon glyphicon-minus" ng-click="removeTierFromTech(tier)">{{tier.name}}</div></li>
+            </ul>
+        </div>
+        <button class="btn btn-primary" ng-click="done()">Update</button>
+        <div class="progress" ng-show="busy">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                <span style="font-size: larger">Loading...</span>
+            </div>
+        </div>
+    </form>
+</div>
