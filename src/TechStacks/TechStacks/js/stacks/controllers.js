@@ -70,62 +70,76 @@ app.controller('editStackCtrl', [
                 angular.forEach($scope.allTiers, function(tier) {
                     tier.show = filterTechChoiceByTier(tier.name).length > 0;
                 });
+                $scope.selectedTechs = extractToSelectedTechs($scope.currentStack.TechnologyChoices);
             });
         };
 
+        function extractToSelectedTechs(items) {
+            var result = [];
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                result.push(item.TechnologyId + ';' + item.Tier);
+            }
+            return result;
+        }
+
         $scope.refreshStack();
+
+        techStackServices.searchTech('').then(function (searchResults) {
+            var expandedResults = [];
+            for (var i = 0; i < searchResults.length; i++) {
+                var searchResult = searchResults[i];
+                for (var j = 0; j < searchResult.Tiers.length; j++) {
+                    var item = {};
+                    var tier = searchResult.Tiers[j];
+                    angular.extend(item, searchResult);
+                    angular.extend(item, {Tier: tier});
+                    expandedResults.push(item);
+                }
+            }
+            
+            $scope.searchResults = expandedResults;
+            
+        });
+
+        function getLocalTechChoice(id) {
+            var result;
+            var techId = id.split(';')[0];
+            var tier = id.split(';')[1];
+            for (var i = 0; i < $scope.currentStack.TechnologyChoices.length; i++) {
+                var technologyChoice = $scope.currentStack.TechnologyChoices[i];
+                if (technologyChoice.TechnologyId == techId && technologyChoice.Tier == tier) {
+                    result = technologyChoice;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        $scope.handleAddTech = function (item) {
+            var techId = item.split(';')[0];
+            var tier = item.split(';')[1];
+            var techChoice = { Tier: tier,TechnologyId: techId, TechnologyStackId: $scope.currentStack.Id };
+            techStackServices.addTechChoice(techChoice).then(function (techChoice) {
+                $scope.refreshStack();
+            });
+        }
+
+        $scope.handleRemoveTech = function (item) {
+            var techChoice = getLocalTechChoice(item);
+            techStackServices.removeTechChoice(techChoice).then(function (techStack) {
+                $scope.refreshStack();
+            });
+        }
 
         function filterTechChoiceByTier(tier) {
             return $filter('filter')($scope.currentStack.TechnologyChoices, { Tier: tier });
         }
 
-        $scope.$watch('techQuery', function(newVal, oldVal) {
-            if ($scope.techQuery) {
-                techStackServices.searchTech($scope.techQuery).then(function(searchResults) {
-                    $scope.searchResults = searchResults;
-                });
-            } else {
-                $scope.searchResults = [];
-            }
-        });
-
         $scope.removeTechChoice = function(techChoice) {
-            techStackServices.removeTechChoice(techChoice).then(function(techStack) {
-                $scope.refreshStack();
-            });
+            
         };
 
-        $scope.doesStackContainTechOfSameTier = function(tech, tier) {
-            if ($scope.currentStack.TechnologyChoices != null && $scope.currentStack.TechnologyChoices.length > 0) {
-                for (var i = 0; i < $scope.currentStack.TechnologyChoices.length; i++) {
-                    var existingTechChoice = $scope.currentStack.TechnologyChoices[i];
-                    if (existingTechChoice.TechnologyId == tech.Id && existingTechChoice.Tier == tier) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        $scope.addTechChoice = function(tech, selectedTier) {
-            if ($scope.currentStack.TechnologyChoices != null && $scope.currentStack.TechnologyChoices.length > 0) {
-                for (var i = 0; i < $scope.currentStack.TechnologyChoices.length; i++) {
-                    var existingTechChoice = $scope.currentStack.TechnologyChoices[i];
-                    if (existingTechChoice.TechnologyId == tech.Id && existingTechChoice.Tier == selectedTier) {
-                        return;
-                    }
-                }
-            }
-
-            var techChoice = {
-                TechnologyStackId: $scope.currentStack.Id,
-                TechnologyId: tech.Id,
-                Tier: selectedTier
-            }
-            techStackServices.addTechChoice(techChoice).then(function(techChoice) {
-                $scope.refreshStack();
-            });
-        };
 
         $scope.updateAll = function() {
             var updatePromises = [];

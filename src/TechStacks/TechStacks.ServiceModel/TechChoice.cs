@@ -16,7 +16,7 @@ namespace TechStacks.ServiceModel
         public long? Id { get; set; }
         public long? TechnologyStackId { get; set; }
         public long? TechnologyId { get; set; }
-        public TechnologyTier Tier { get; set; }
+        public TechnologyTier? Tier { get; set; }
     }
 
     public class TechChoiceResponse

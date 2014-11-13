@@ -37,9 +37,12 @@ namespace TechStacks.ServiceInterface.Filters
                 bool technologyFound;
                 bool stackFound;
                 bool techChoiceAlreadyExists;
+                bool tierExists;
                 using (var db = dbFactory.OpenDbConnection())
                 {
-                    technologyFound = db.Exists<Technology>(x => x.Id == dto.TechnologyId);
+                    var tech = db.SingleById<Technology>(dto.TechnologyId);
+                    technologyFound = tech != null;
+                    tierExists = tech != null && dto.Tier != null && tech.Tiers.Contains((TechnologyTier)dto.Tier);
                     stackFound = db.Exists<TechnologyStack>(x => x.Id == dto.TechnologyStackId);
                     techChoiceAlreadyExists = db.Exists<TechnologyChoice>(
                         x => x.TechnologyId == dto.TechnologyId && x.TechnologyStackId == dto.TechnologyStackId && x.Tier == dto.Tier);
@@ -55,6 +58,10 @@ namespace TechStacks.ServiceInterface.Filters
                 if (techChoiceAlreadyExists)
                 {
                     throw HttpError.Conflict("Tech choice already exists");
+                }
+                if (!tierExists)
+                {
+                    throw HttpError.NotFound("Invalid Tier with technology choice");
                 }
             }
         }

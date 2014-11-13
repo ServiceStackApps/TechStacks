@@ -25,6 +25,14 @@ app.service('techStackServices', ['$http', '$q', 'techServices', function ($http
             });
             return deferred.promise;
         },
+        allTechs: function () {
+            var deferred = $q.defer();
+            $http.get('/searchtech')
+                    .success(function (response) {
+                        deferred.resolve(response.Results);
+                    });
+            return deferred.promise;
+        },
         searchStacks: function(searchQuery) {
             var deferred = $q.defer();
             $http.get('/searchstacks/?NameContains=' + searchQuery)

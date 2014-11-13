@@ -121,4 +121,15 @@ namespace TechStacks
             });
         }
     }
+
+    public class TechChoiceValidator : AbstractValidator<TechChoice>
+    {
+        public TechChoiceValidator()
+        {
+            RuleSet(ApplyTo.Post, () =>
+            {
+                RuleFor(x => x.Tier).NotNull();
+            });
+        }
+    }
 }

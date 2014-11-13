@@ -10,37 +10,14 @@
             <label for="Description">Description</label>
             <textarea class="form-control" id="Description" placeholder="Enter a description of your stack" ng-model="currentStack.Description"></textarea>
         </div>
-        <div class="panel panel-default panel-body" style="padding: 0 10px;">
-            <h3 class="">Search for technologies</h3>
-            <div class="panel-body">
-                <div class="form-group">
-                    <label for="TechSearch">Search</label>
-                    <input type="text" class="form-control" id="TechSearch" placeholder="Search for a technology to add" ng-model="techQuery">
-                </div>
-                <div ng-show="searchResults" >
-                    <div class="panel-heading">Search Results</div>
-                    <ul>
-                        <li ng-repeat="tech in searchResults">
-                            {{tech.Name}} -
-                            <span ng-repeat="tier in tech.Tiers" style="font-style: italic">
-                                <span ng-click="addTechChoice(tech,tier)" class="btn-xs glyphicon glyphicon-plus-sign" ng-class="{'btn-success': doesStackContainTechOfSameTier(tech,tier)}"><span style="margin-left:2px;">{{tier}}</span></span>
-                                <span ng-if="tech.Tiers.indexOf(tier) != tech.Tiers.length - 1">, </span>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div ng-repeat="tier in allTiers">
-            <div ng-show="tier.show" class="panel panel-default" style="padding: 10px">
-                <h4>{{tier.title}} Technologies</h4>
-                <div ng-repeat="tech in currentStack.TechnologyChoices | filter:{Tier:tier.name}">
-                    <h5 style="display:inline-block">
-                        <div class="glyphicon glyphicon-minus btn-xs btn-danger" ng-click="removeTechChoice(tech)"></div> <a href="#/i/techs/{{tech.Id}}">{{tech.Name}}</a>
-                    </h5>
-                    
-                </div>
-            </div>
+        <div class="form-group">
+            <label for="technologiesUsed">Select Technologies</label>
+            <chosen-tech-select class="form-control" id="technologiesUsed" 
+                                data="searchResults" 
+                                selected-values="selectedTechs" 
+                                options="{no_results_text: 'oops, nothing found!'}"
+                                on-add="handleAddTech(item)"
+                                on-remove="handleRemoveTech(item)"></chosen-tech-select>
         </div>
         <button class="btn btn-primary" ng-click="updateAll()">Done</button>
         <div class="progress" ng-show="busy">

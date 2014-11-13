@@ -120,16 +120,6 @@ app.controller('editTechCtrl', [
             });
         };
 
-        $scope.$watch('techQuery', function() {
-            if ($scope.techQuery) {
-                techStackServices.searchTech($scope.techQuery).then(function(searchResults) {
-                    $scope.searchResults = searchResults;
-                });
-            } else {
-                $scope.searchResults = [];
-            }
-        });
-
         $scope.updateTech = function() {
             return techServices.updateTech($scope.tech);
         };
@@ -141,3 +131,47 @@ app.controller('editTechCtrl', [
         }
     }
 ]);
+
+app.directive('chosenTechSelect', ['$timeout',function ($timeout) {
+    return {
+        restrict: 'E',
+        template: '<select ng-show="data" multiple class="chosen"><option ng-repeat="item in data" value="{{item.Id}};{{item.Tier}}">{{item.Name}} - {{item.Tier}}</option></select>',
+        scope: {
+            data: '=',
+            options: '=',
+            selectedValues: '=',
+            onSelection: '&',
+            onAdd: '&',
+            onRemove: '&'
+        },
+        replace:true,
+        link: function (scope, element, attrs) {
+            //One off bind
+            var initWatch = scope.$watch('data', function(newVal, oldval) {
+                $timeout(function () {
+                    if (scope.data != null && scope.data.length > 0) {
+                        $(element).chosen(scope.options);
+                        $(element).chosen().change(function (event, item) {
+                            if (item.selected) {
+                                scope.onAdd({ item: item.selected });
+                            }
+                            if (item.deselected) {
+                                scope.onRemove({ item: item.deselected });
+                            }
+                        });
+                        initWatch();
+                    }
+                });
+            });
+
+            scope.$watch('selectedValues', function(newVal, oldVal) {
+                $timeout(function() {
+                    if (scope.selectedValues) {
+                        $(element).chosen().val(scope.selectedValues);
+                        $(element).chosen().trigger("chosen:updated");
+                    }
+                });
+            });
+        }
+    }
+}])

@@ -15,7 +15,8 @@
     "modernizr": "~2.8.3",
     "jquery": "~1.11.1",
     "angular-bootstrap": "~0.11.2",
-    "jquery-ui-bootstrap": "~0.2.5"
+    "jquery-ui-bootstrap": "~0.2.5",
+    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.1.0/chosen_v1.1.0.zip"
   },
   "ignore": [ 
     "**/.*",

@@ -37,12 +37,12 @@ namespace TechStacks.ServiceInterface
 
         public object Post(TechChoice request)
         {
-            var tech = request.ConvertTo<TechnologyChoice>();
+            var techChoice = request.ConvertTo<TechnologyChoice>();
             var session = SessionAs<AuthUserSession>();
-            tech.CreatedBy = session.UserName;
-            tech.LastModifiedBy = session.UserName;
-            tech.OwnerId = session.UserAuthId;
-            var id = Db.Insert(tech, selectIdentity: true);
+            techChoice.CreatedBy = session.UserName;
+            techChoice.LastModifiedBy = session.UserName;
+            techChoice.OwnerId = session.UserAuthId;
+            var id = Db.Insert(techChoice, selectIdentity: true);
             var createdTechStack = Db.SingleById<TechnologyChoice>(id);
             return new TechChoiceResponse
             {
