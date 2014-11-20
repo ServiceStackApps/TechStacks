@@ -146,8 +146,8 @@ app.directive('chosenTechSelect', ['$timeout','$q',function ($timeout,$q) {
         },
         replace:true,
         link: function (scope, element, attrs) {
-            var dataDeferred = $q.deferred();
-            var selectedDeferred = $q.deferred();
+            var dataDeferred = $q.defer();
+            var selectedDeferred = $q.defer();
             scope.promises = [];
             scope.promises.push(dataDeferred.promise);
             scope.promises.push(selectedDeferred.promise);

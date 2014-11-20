@@ -10,7 +10,7 @@ app.service('userService', [
                     $timeout(function () {
                         deferred.resolve($rootScope.currentUserSession);
                     });
-                } else {
+                } else if($rootScope.isAuthenticated == null) {
                     $http.get('/sessioninfo').success(function (response) {
                         $rootScope.currentUserSession = response;
                         $rootScope.isAuthenticated = true;

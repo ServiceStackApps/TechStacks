@@ -22,6 +22,6 @@
                 <td><a href="#/{{techStack.CreatedBy}}" ng-bind="techStack.CreatedBy"></a></td>
             </tr>
         </table>
-        <button class="btn btn-primary" ng-show="isAuthenticated && currentUserName === currentUserSession.UserName">Create a stack</button>
+        <a class="btn btn-primary" ng-show="isAuthenticated && currentUserName === currentUserSession.UserName" href="#/i/stacks/create">Create a stack</a>
     </div>
 </div>

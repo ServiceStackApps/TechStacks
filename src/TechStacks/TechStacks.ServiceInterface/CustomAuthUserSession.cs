@@ -24,6 +24,7 @@ namespace TechStacks.ServiceInterface
             var appSettings = authService.TryResolve<IAppSettings>();
             var userAuthRepo = authService.TryResolve<IAuthRepository>();
             var userAuth = userAuthRepo.GetUserAuth(session, tokens);
+            var dbConnectionFactory = authService.TryResolve<IDbConnectionFactory>();
             foreach (var authTokens in session.ProviderOAuthAccess)
             {
                 if (authTokens.Provider.ToLower() == "github")
@@ -38,12 +39,21 @@ namespace TechStacks.ServiceInterface
                         userAuthRepo.AssignRoles(userAuth, roles: new[] { RoleNames.Admin });
                     }
                 }
-            }
 
-            bool setProfileUrl = string.IsNullOrEmpty(DefaultProfileUrl);
-            if (setProfileUrl)
-            {
-                DefaultProfileUrl = GithubProfileUrl ?? TwitterProfileUrl;
+                bool setProfileUrl = string.IsNullOrEmpty(DefaultProfileUrl);
+                if (setProfileUrl)
+                {
+                    DefaultProfileUrl = GithubProfileUrl ?? TwitterProfileUrl;
+                    using (var db = dbConnectionFactory.OpenDbConnection())
+                    {
+                        var userAuthInstance = db.Single<CustomUserAuth>(x => x.Id == this.UserAuthId.ToInt());
+                        if (userAuthInstance != null)
+                        {
+                            userAuthInstance.DefaultProfileUrl = this.DefaultProfileUrl;
+                            db.Save(userAuthInstance);
+                        }
+                    }
+                }
             }
         }
     }
