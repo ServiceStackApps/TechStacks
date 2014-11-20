@@ -94,12 +94,14 @@ app.controller('editTechCtrl', [
             });
         };
 
-        $scope.addTechToTier = function(tier) {
-            $scope.tech.Tiers.push(tier.name);
+        $scope.addTechToTier = function (item) {
+            $scope.tech.Tiers.push(item);
+            $scope.updateTech();
         };
 
-        $scope.removeTierFromTech = function(tier) {
-            $scope.tech.Tiers.splice($scope.tech.Tiers.indexOf(tier), 1);
+        $scope.removeTierFromTech = function (item) {
+            $scope.tech.Tiers.splice($scope.tech.Tiers.indexOf(item), 1);
+            $scope.updateTech();
         }
 
         $scope.refreshTech();
@@ -120,24 +122,26 @@ app.controller('editTechCtrl', [
             });
         };
 
-        $scope.updateTech = function() {
-            return techServices.updateTech($scope.tech);
-        };
+        $scope.updateTech = function () {
+            techServices.updateTech($scope.tech);
+        }
 
-        $scope.done = function() {
-            techServices.updateTech($scope.tech).then(function() {
+        $scope.done = function () {
+            techServices.updateTech($scope.tech).then(function () {
                 $location.path('/i/techs/' + $scope.tech.Id);
             });
         }
     }
 ]);
 
-app.directive('chosenTechSelect', ['$timeout','$q',function ($timeout,$q) {
+app.directive('chosenSelect', ['$timeout','$q',function ($timeout,$q) {
     return {
         restrict: 'E',
-        template: '<select ng-show="data" multiple class="chosen"><option ng-repeat="item in data" value="{{item.Id}};{{item.Tier}}">{{item.Name}} - {{item.Tier}}</option></select>',
+        template: '<select ng-show="data" multiple class="chosen"><option ng-repeat="item in data" value="{{item[itemValue]}}">{{item[itemName]}}</option></select>',
         scope: {
             data: '=',
+            itemValue: '@',
+            itemName:'@',
             options: '=',
             selectedValues: '=',
             onSelection: '&',

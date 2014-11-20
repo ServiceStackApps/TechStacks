@@ -103,6 +103,10 @@ namespace TechStacks.ServiceInterface
                 .GroupBy(x => x.Id)
                 .Select(x => x.First())
                 .ToList();
+            if (latestStacks.Count == 0)
+            {
+                return new List<TechStackDetails>();
+            }
             var technologyChoices =
                 Db.LoadSelect<TechnologyChoice>(Db.From<TechnologyChoice>().SelectDistinct<TechnologyChoice>(x => x)
                     .Join<TechnologyChoice, Technology>((tst, t) => t.Id == tst.TechnologyId)

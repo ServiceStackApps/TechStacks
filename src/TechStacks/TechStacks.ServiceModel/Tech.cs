@@ -23,7 +23,7 @@ namespace TechStacks.ServiceModel
 
         public bool LogoApproved { get; set; }
 
-        public List<TechnologyTier> Tiers { get; set; }
+        public List<TechnologyTier?> Tiers { get; set; }
     }
 
     [Route("/searchtech")]

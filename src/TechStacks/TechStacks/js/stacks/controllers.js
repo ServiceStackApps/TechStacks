@@ -78,7 +78,8 @@ app.controller('editStackCtrl', [
             var result = [];
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
-                result.push(item.TechnologyId + ';' + item.Tier);
+                item.techKey = item.TechnologyId + ';' + item.Tier;
+                result.push(item.techKey);
             }
             return result;
         }
@@ -93,7 +94,9 @@ app.controller('editStackCtrl', [
                     var item = {};
                     var tier = searchResult.Tiers[j];
                     angular.extend(item, searchResult);
-                    angular.extend(item, {Tier: tier});
+                    angular.extend(item, { Tier: tier });
+                    item.techKey = item.Id + ';' + item.Tier;
+                    item.techName = item.Name + ' - ' + item.Tier;
                     expandedResults.push(item);
                 }
             }

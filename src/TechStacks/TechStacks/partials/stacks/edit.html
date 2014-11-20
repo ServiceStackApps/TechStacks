@@ -12,12 +12,14 @@
         </div>
         <div class="form-group">
             <label for="technologiesUsed">Select Technologies</label>
-            <chosen-tech-select class="form-control" id="technologiesUsed" 
-                                data="searchResults" 
-                                selected-values="selectedTechs" 
+            <chosen-select class="form-control" id="technologiesUsed"
+                                data="searchResults"
+                                item-value="techKey"
+                                item-name="techName"
+                                selected-values="selectedTechs"
                                 options="{no_results_text: 'oops, nothing found!'}"
                                 on-add="handleAddTech(item)"
-                                on-remove="handleRemoveTech(item)"></chosen-tech-select>
+                                on-remove="handleRemoveTech(item)"></chosen-select>
         </div>
         <button class="btn btn-primary" ng-click="updateAll()">Done</button>
         <div class="progress" ng-show="busy">
