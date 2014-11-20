@@ -10,17 +10,21 @@ app.service('userService', [
                     $timeout(function () {
                         deferred.resolve($rootScope.currentUserSession);
                     });
-                } else if($rootScope.isAuthenticated == null) {
-                    $http.get('/sessioninfo').success(function (response) {
-                        $rootScope.currentUserSession = response;
-                        $rootScope.isAuthenticated = true;
-                        deferred.resolve(response);
-                    })
-                        .error(function (error) {
+                } else if ($rootScope.isAuthenticated == null) {
+                    $http.get('/sessioninfo').success(function(response) {
+                            $rootScope.currentUserSession = response;
+                            $rootScope.isAuthenticated = true;
+                            deferred.resolve(response);
+                        })
+                        .error(function(error) {
                             $rootScope.currentUserSession = null;
                             $rootScope.isAuthenticated = false;
                             deferred.reject(error);
                         });
+                } else {
+                    $timeout(function () {
+                        deferred.reject();
+                    });
                 }
 
                 return deferred.promise;

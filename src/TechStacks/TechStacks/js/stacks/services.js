@@ -51,6 +51,9 @@ app.service('techStackServices', ['$http', '$q', 'techServices', function ($http
                 });
             return deferred.promise;
         },
+        deleteTechStack: function(techStack) {
+            return $http.delete('/stacks/' + techStack.Id);
+        },
         updateTechnologyChoice: function (technologyChoice) {
             var deferred = $q.defer();
             $http.put('/techchoices/' + technologyChoice.Id, technologyChoice)

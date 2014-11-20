@@ -1,7 +1,7 @@
 ﻿var app = angular.module('user.controllers', []);
 
 app.controller('userFeedCtrl', [
-    '$scope', '$routeParams', '$location', 'userService', function ($scope, $routeParams, $location, userService) {
+    '$scope', '$routeParams', '$location', 'userService', 'techStackServices', function ($scope, $routeParams, $location, userService, techStackServices) {
         $scope.currentUserName = $routeParams.userName;
         var sessionLogin = $routeParams.userName.indexOf('s=') != -1;
         if (sessionLogin) {
@@ -16,13 +16,16 @@ app.controller('userFeedCtrl', [
         }
         
 
-        $scope.getInterestedStacks = function() {
-            //Using users favorite techs, pull back latest stacks added
-        }
-
-        $scope.getSuggestedStacks = function() {
-            //Using users favorite stacks, pick 3 most common techs and return 5 stacks not already favorited
-            //Simple "you might also like" list
+        $scope.deleteStack = function(selectedStack) {
+            techStackServices.deleteTechStack(selectedStack).success(function () {
+                for (var i = 0; i < $scope.techStacks.length; i++) {
+                    var techStack = $scope.techStacks[i];
+                    if (techStack.Id == selectedStack.Id) {
+                        $scope.techStacks.splice(i, 1);
+                        break;
+                    }
+                }
+            });
         }
 
         if (!sessionLogin) {

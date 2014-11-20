@@ -8,6 +8,10 @@ app.controller('homeCtrl', [
             userService.getUserFeed().then(function(results) {
                 $scope.feedStacks = results;
             });
+        }, function (error) {
+            techStackServices.searchStacks('').then(function(results) {
+                $scope.techStacks = results;
+            });
         });
 
         $scope.isFavorite = function (techStack) {
