@@ -131,6 +131,10 @@ module.exports = function (grunt) {
                 return gulp.src('./bower_components/bootstrap/dist/fonts/*.*')
                     .pipe(gulp.dest(webRoot + 'lib/fonts/'));
             },
+            'wwwroot-copy-chosen-resources': function () {
+                return gulp.src('./bower_components/chosen/*.png')
+                    .pipe(gulp.dest(webRoot + 'lib/css/'));
+            },
             'wwwroot-copy-images': function () {
                 return gulp.src('./img/*.*')
                     .pipe(gulp.dest(webRoot + 'img/'));
@@ -180,6 +184,7 @@ module.exports = function (grunt) {
         'gulp:wwwroot-clean-client-assets',
         'gulp:wwwroot-copy-partials',
         'gulp:wwwroot-copy-fonts',
+        'gulp:wwwroot-copy-chosen-resources',
         'gulp:wwwroot-copy-images',
         'gulp:wwwroot-bundle'
     ]);
