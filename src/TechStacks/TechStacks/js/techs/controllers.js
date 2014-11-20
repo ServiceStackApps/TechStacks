@@ -132,7 +132,7 @@ app.controller('editTechCtrl', [
     }
 ]);
 
-app.directive('chosenTechSelect', ['$timeout',function ($timeout) {
+app.directive('chosenTechSelect', ['$timeout','$q',function ($timeout,$q) {
     return {
         restrict: 'E',
         template: '<select ng-show="data" multiple class="chosen"><option ng-repeat="item in data" value="{{item.Id}};{{item.Tier}}">{{item.Name}} - {{item.Tier}}</option></select>',
@@ -146,12 +146,25 @@ app.directive('chosenTechSelect', ['$timeout',function ($timeout) {
         },
         replace:true,
         link: function (scope, element, attrs) {
+            var dataDeferred = $q.deferred();
+            var selectedDeferred = $q.deferred();
+            scope.promises = [];
+            scope.promises.push(dataDeferred.promise);
+            scope.promises.push(selectedDeferred.promise);
+
+            $q.all(scope.promises).then(function() {
+                //Local state ready
+                $(element).chosen().val(scope.selectedValues);
+                $(element).chosen().trigger("chosen:updated");
+                scope.controlReady = true;
+            });
             //One off bind
             var initWatch = scope.$watch('data', function(newVal, oldval) {
                 $timeout(function () {
                     if (scope.data != null && scope.data.length > 0) {
                         $(element).chosen(scope.options);
                         $(element).chosen().change(function (event, item) {
+                            if (!scope.controlReady) return;
                             if (item.selected) {
                                 scope.onAdd({ item: item.selected });
                             }
@@ -160,6 +173,7 @@ app.directive('chosenTechSelect', ['$timeout',function ($timeout) {
                             }
                         });
                         initWatch();
+                        dataDeferred.resolve();
                     }
                 });
             });
@@ -167,8 +181,7 @@ app.directive('chosenTechSelect', ['$timeout',function ($timeout) {
             scope.$watch('selectedValues', function(newVal, oldVal) {
                 $timeout(function() {
                     if (scope.selectedValues) {
-                        $(element).chosen().val(scope.selectedValues);
-                        $(element).chosen().trigger("chosen:updated");
+                        selectedDeferred.resolve();
                     }
                 });
             });
