@@ -129,7 +129,7 @@
     <Content Include="img\twitter_normal.png" />
     <Content Include="index.html" />
     <Content Include="js\app.js" />
-    <Content Include="js\chosen\directives.js" />
+    <Content Include="js\components\chosen\directives.js" />
     <Content Include="js\hello\controllers.js" />
     <Content Include="js\home\controllers.js" />
     <Content Include="js\navigation\controllers.js" />
@@ -153,8 +153,6 @@
     <Content Include="partials\techs\tech.html" />
     <Content Include="partials\user\feed.html" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="partials\partial1.html" />
-    <Content Include="partials\partial2.html" />
     <Content Include="tests\karma.conf.js" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
