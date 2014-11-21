@@ -11,7 +11,8 @@ angular.module('techStackApp', [
   'stacks',
   'user',
   'navigation.controllers',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'chosen'
 ]).
 config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider.when('/', { templateUrl: 'partials/home.html', controller: 'homeCtrl' });

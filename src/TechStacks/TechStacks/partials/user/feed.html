@@ -14,14 +14,14 @@
                     <td><strong>Name</strong></td>
                     <td><strong>Description</strong></td>
                     <td><strong>Create by</strong></td>
-                    <td><strong>Delete</strong></td>
+                    <td ng-show="isAuthenticated && currentUserName === currentUserSession.UserName"><strong>Delete</strong></td>
                 </tr>
             </thead>
             <tr ng-repeat="techStack in techStacks">
                 <td><a href="#/i/stacks/{{techStack.Id}}" ng-bind="techStack.Name"></a></td>
                 <td ng-bind="techStack.Description"></td>
                 <td><a href="#/{{techStack.CreatedBy}}" ng-bind="techStack.CreatedBy"></a></td>
-                <td><button class="btn btn-sm btn-danger" ng-click="deleteStack(techStack)">Delete</button></td>
+                <td ng-show="isAuthenticated && currentUserName === currentUserSession.UserName"><button class="btn btn-sm btn-danger" ng-click="deleteStack(techStack)">Delete</button></td>
             </tr>
         </table>
         <a class="btn btn-primary" ng-show="isAuthenticated && currentUserName === currentUserSession.UserName" href="#/i/stacks/create">Create a stack</a>
