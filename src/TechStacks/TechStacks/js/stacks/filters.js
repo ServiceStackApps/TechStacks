@@ -1,11 +1,16 @@
-﻿var app = angular.module('stacks.filters', []);
+﻿/* global angular */
+(function () {
+    "use strict";
+    var app = angular.module('stacks.filters', []);
 
-app.filter('stack', function() {
-    return function (stack, tier) {
-        if (stack) {
-            var tiers = stack.Tiers;
-            return tiers.indexOf(tier) != -1;
-        }
-        return false;
-    }
-});
+    app.filter('stack', function() {
+        return function (stack, tier) {
+            if (stack) {
+                var tiers = stack.Tiers;
+                return tiers.indexOf(tier) !== -1;
+            }
+            return false;
+        };
+    });
+})();
+

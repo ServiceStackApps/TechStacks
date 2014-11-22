@@ -1,28 +1,35 @@
-﻿var app = angular.module('navigation.controllers', []);
+﻿/* global angular */
+(function () {
+    "use strict";
+    var app = angular.module('navigation.controllers', []);
 
-app.controller('navigationCtrl', [
-    '$scope', '$location', '$http', 'userService',
-    function ($scope, $location, $http, userService) {
-        $scope.IsRouteActive = function(routePath) {
-            return routePath == $location.path();
-        };
+    app.controller('navigationCtrl', [
+        '$scope', '$location', '$http', 'userService',
+        function ($scope, $location, $http, userService) {
+            /**
+             * @return {boolean}
+             */
+            $scope.IsRouteActive = function(routePath) {
+                return routePath === $location.path();
+            };
 
-        $scope.isFavoriteTechStack = function(techStack) {
-            var isFav = false;
-            for (var i = 0; i < $scope.favoriteTechStacks.length; i++) {
-                if ($scope.favoriteTechStacks[i].Id == techStack.Id) {
-                    isFav = true;
-                    break;
+            $scope.isFavoriteTechStack = function(techStack) {
+                var isFav = false;
+                for (var i = 0; i < $scope.favoriteTechStacks.length; i++) {
+                    if ($scope.favoriteTechStacks[i].Id == techStack.Id) {
+                        isFav = true;
+                        break;
+                    }
                 }
-            }
-            return isFav;
-        }
+                return isFav;
+            };
 
-        userService.isAuthenticated().then(function (session) {
-            userService.getFavoriteTechStacks();
-            userService.getFavoriteTechs();
-        }, function(error) {
-            
-        });
-    }
-]);
+            userService.isAuthenticated().then(function (session) {
+                userService.getFavoriteTechStacks();
+                userService.getFavoriteTechs();
+            }, function(error) {
+
+            });
+        }
+    ]);
+})();

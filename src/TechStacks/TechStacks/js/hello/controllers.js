@@ -1,18 +1,22 @@
-﻿var app = angular.module('helloApp.controllers', []);
+﻿/* global angular */
+(function() {
+    "use strict";
+    var app = angular.module('helloApp.controllers', []);
 
-app.controller('helloCtrl', ['$scope', '$http',
-        function ($scope, $http) {
-            $scope.$watch('name', function () {
-                if ($scope.name) {
-                    $http.get('/hello/' + $scope.name)
-                        .success(function (response) {
-                            $scope.helloResult = response.Result;
-                        });
-                }
-            });
+    app.controller('helloCtrl', ['$scope', '$http',
+            function ($scope, $http) {
+                $scope.$watch('name', function () {
+                    if ($scope.name) {
+                        $http.get('/hello/' + $scope.name)
+                            .success(function (response) {
+                                $scope.helloResult = response.Result;
+                            });
+                    }
+                });
 
-            $scope.testFunction = function() {
-                return true;
+                $scope.testFunction = function () {
+                    return true;
+                };
             }
-        }
-]);
+    ]);
+})();
