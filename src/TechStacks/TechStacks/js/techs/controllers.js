@@ -1,7 +1,7 @@
 ﻿/* global angular */
 (function () {
     "use strict";
-    var app = angular.module('techs.controllers', []);
+    var app = angular.module('techs.controllers', ['tech.services', 'user.services']);
 
     app.controller('latestTechsCtrl', [
         '$scope', 'techServices', function ($scope, techServices) {
