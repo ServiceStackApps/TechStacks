@@ -189,3 +189,4 @@ bower_components/
 App_Data/
 src/TechStacks/TechStacks/webdeploy.zip
 .idea/
+*.txt
