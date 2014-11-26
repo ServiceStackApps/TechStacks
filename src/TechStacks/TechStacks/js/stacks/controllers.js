@@ -64,7 +64,8 @@
     ]);
 
     app.controller('editStackCtrl', [
-        '$scope', 'techStackServices', '$routeParams', '$q', '$filter', 'userService', function ($scope, techStackServices, $routeParams, $q, $filter, userService) {
+        '$scope', 'techStackServices', '$routeParams', '$q', '$filter', 'userService', '$location',
+        function ($scope, techStackServices, $routeParams, $q, $filter, userService, $location) {
 
             $scope.allTiers = angular.copy(techStackServices.allTiers);
 
@@ -151,7 +152,7 @@
                 $scope.busy = true;
                 $q.all(updatePromises).then(function() {
                     $scope.busy = false;
-                    window.location.href = "/";
+                    $location.path("/");
                 });
             };
 

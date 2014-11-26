@@ -78,7 +78,7 @@ namespace TechStacks
             }
 
             this.RegisterTypedRequestFilter<TechChoice>(TechChoiceFilters.FilterTechChoiceRequest);
-            Plugins.Add(new AutoQueryFeature { MaxLimit = 100 });
+            Plugins.Add(new AutoQueryFeature { MaxLimit = 1000 });
             this.Plugins.Add(new ValidationFeature());
             container.RegisterValidators(typeof(AppHost).Assembly);
         }
