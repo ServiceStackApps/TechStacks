@@ -42,7 +42,7 @@ namespace TechStacks.ServiceInterface.Filters
                 {
                     var tech = db.SingleById<Technology>(dto.TechnologyId);
                     technologyFound = tech != null;
-                    tierExists = tech != null && dto.Tier != null && tech.Tiers.Contains((TechnologyTier)dto.Tier);
+                    tierExists = tech != null && tech.Tiers.Contains(dto.Tier);
                     stackFound = db.Exists<TechnologyStack>(x => x.Id == dto.TechnologyStackId);
                     techChoiceAlreadyExists = db.Exists<TechnologyChoice>(
                         x => x.TechnologyId == dto.TechnologyId && x.TechnologyStackId == dto.TechnologyStackId && x.Tier == dto.Tier);
