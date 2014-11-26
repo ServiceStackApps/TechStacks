@@ -2,6 +2,8 @@
 
 This is an example application starting from the AngularJS App template in ServiceStackVS. It allows users to add technologies, and construct their favorite technology stacks. Users can favorite technologies and have a 'feed' of other users techstacks that contain their favorite techs.
 
+
+
 #### Application features
 - Login with Twitter or Github
 - Create a 'TechStack' for your application, describe what/why you use your stack.
@@ -10,6 +12,14 @@ This is an example application starting from the AngularJS App template in Servi
 - Favorite technologies to watch for any stacks that use them.
 - User 'feeds' of stacks with favorite technologies.
 
+**User Feed**
+![](https://github.com/ServiceStack/Assets/raw/master/img/apps/TechStacks/user-feed.png)
+
+**Front Page**
+![](https://github.com/ServiceStack/Assets/raw/master/img/apps/TechStacks/front-page-logged-out.png)
+
+**View TechStack**
+![](https://github.com/ServiceStack/Assets/raw/master/img/apps/TechStacks/example-stack.png)
 #### Tech usages
 - AngularJS/Bootstrap client
 - Build release, package and deploy via Grunt tasks.
