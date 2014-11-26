@@ -50,6 +50,6 @@ namespace TechStacks.ServiceModel
 
         public string Justification { get; set; }
 
-        public TechnologyTier? Tier { get; set; }
+        public TechnologyTier Tier { get; set; }
     }
 }

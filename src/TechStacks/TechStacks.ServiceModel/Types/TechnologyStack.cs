@@ -45,7 +45,7 @@ namespace TechStacks.ServiceModel.Types
         public string LastModifiedBy { get; set; }
         public string OwnerId { get; set; }
 
-        public TechnologyTier? Tier { get; set; }
+        public TechnologyTier Tier { get; set; }
     }
 
     public class Technology
