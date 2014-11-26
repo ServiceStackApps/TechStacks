@@ -153,6 +153,9 @@
     <Content Include="partials\techs\tech.html" />
     <Content Include="partials\user\feed.html" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="tests\karma.conf.js" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
@@ -160,13 +163,11 @@
     <Content Include="package.json" />
     <Content Include="bower.json" />
     <Content Include="tests\unit\techControllerSpec.js" />
-
     <Content Include="wwwroot_build\README.txt" />
     <Content Include="wwwroot_build\01-run-tests.bat" />
     <Content Include="wwwroot_build\02-package-server.bat" />
     <Content Include="wwwroot_build\03-package-client.bat" />
     <Content Include="wwwroot_build\04-deploy-app.bat" />
-
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -240,4 +241,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>
