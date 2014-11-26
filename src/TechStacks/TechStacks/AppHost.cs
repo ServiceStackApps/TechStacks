@@ -22,7 +22,7 @@ namespace TechStacks
         /// Base constructor requires a name and assembly to locate web service classes. 
         /// </summary>
         public AppHost()
-            : base("TechStacks - Demo", typeof(MyServices).Assembly)
+            : base("TechStacks", typeof(MyServices).Assembly)
         {
             var customSettings = new FileInfo(@"~/appsettings.txt".MapHostAbsolutePath());
             AppSettings = customSettings.Exists
