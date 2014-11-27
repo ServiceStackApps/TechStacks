@@ -116,8 +116,6 @@ module.exports = function (grunt) {
                     '!./wwwroot/bin/**/*.*', //Don't delete dlls
                     '!./wwwroot/**/*.asax', //Don't delete asax
                     '!./wwwroot/**/*.config', //Don't delete config
-                    '!./wwwroot/appsettings.txt', //Don't delete deploy settings
-                    '!./wwwroot/licence.txt' //Don't delete licence file
                 ], { read: false })
                         .pipe(rimraf());
             },
@@ -150,13 +148,8 @@ module.exports = function (grunt) {
                     .pipe(useref())
                     .pipe(gulp.dest(webRoot));
             },
-            'wwwroot-copy-appsettings': function () {
-                return gulp.src('./wwwroot_build/publish/appsettings.txt')
-                    .pipe(newer(webRoot))
-                    .pipe(gulp.dest(webRoot));
-            },
-            'wwwroot-copy-licence': function() {
-                return gulp.src('./wwwroot_build/publish/licence.txt')
+            'wwwroot-copy-deploy-files': function () {
+                return gulp.src('./wwwroot_build/deploy/*.*')
                     .pipe(newer(webRoot))
                     .pipe(gulp.dest(webRoot));
             }
@@ -177,8 +170,7 @@ module.exports = function (grunt) {
         'gulp:wwwroot-copy-bin',
         'gulp:wwwroot-copy-webconfig',
         'gulp:wwwroot-copy-asax',
-        'gulp:wwwroot-copy-appsettings',
-        'gulp:wwwroot-copy-licence'
+        'gulp:wwwroot-copy-deploy-files'
     ]);
     grunt.registerTask('03-package-client', [
         'gulp:wwwroot-clean-client-assets',
@@ -186,6 +178,7 @@ module.exports = function (grunt) {
         'gulp:wwwroot-copy-fonts',
         'gulp:wwwroot-copy-chosen-resources',
         'gulp:wwwroot-copy-images',
+        'gulp:wwwroot-copy-deploy-files',
         'gulp:wwwroot-bundle'
     ]);
 
