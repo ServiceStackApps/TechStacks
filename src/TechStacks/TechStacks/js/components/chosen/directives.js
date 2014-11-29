@@ -57,9 +57,7 @@
 
                     scope.$watch('selectedValues', function() {
                         $timeout(function() {
-                            if (scope.selectedValues) {
-                                selectedDeferred.resolve();
-                            }
+                            selectedDeferred.resolve();
                         });
                     });
                 }

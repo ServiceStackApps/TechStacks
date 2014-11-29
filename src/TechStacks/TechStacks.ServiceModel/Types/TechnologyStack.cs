@@ -50,6 +50,10 @@ namespace TechStacks.ServiceModel.Types
 
     public class Technology
     {
+        public Technology()
+        {
+            Tiers = new List<TechnologyTier>();
+        }
         [AutoIncrement]
         public long Id { get; set; }
 
