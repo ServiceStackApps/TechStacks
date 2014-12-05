@@ -175,6 +175,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <Content Include="wwwroot_build\00-install-dependencies.bat" />
+    <Content Include="wwwroot_build\package-and-deploy.bat" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
