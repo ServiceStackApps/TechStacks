@@ -95,6 +95,9 @@
                 var expandedResults = [];
                 for (var i = 0; i < searchResults.length; i++) {
                     var searchResult = searchResults[i];
+                    if (searchResult.Tiers == null) {
+                        continue;
+                    }
                     for (var j = 0; j < searchResult.Tiers.length; j++) {
                         var item = {};
                         var tier = searchResult.Tiers[j];
