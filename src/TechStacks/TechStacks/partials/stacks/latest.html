@@ -10,7 +10,7 @@
         </thead>
         <tr ng-repeat="techStack in techStacks">
             <td><a href="#/i/stacks/{{techStack.Id}}">{{techStack.Name}}</a></td>
-            <td>{{techStack.Description | limitTo:25}}...</td>
+            <td title="{{techStack.Description}}">{{techStack.Description | limitTo:25}}...</td>
             <td><a href="#/{{techStack.CreatedBy}}" ng-bind="techStack.CreatedBy"></a></td>
         </tr>
     </table>

@@ -22,24 +22,15 @@
                 replace: true,
                 link: function(scope, element) {
                     var dataDeferred = $q.defer();
-                    var selectedDeferred = $q.defer();
-                    scope.promises = [];
-                    scope.promises.push(dataDeferred.promise);
-                    scope.promises.push(selectedDeferred.promise);
 
-                    $q.all(scope.promises).then(function() {
-                        //Local state ready
-                        $(element).chosen().val(scope.selectedValues);
-                        $(element).chosen().trigger("chosen:updated");
-                        scope.controlReady = true;
-                    });
                     //One off bind
                     var initWatch = scope.$watch('data', function() {
-                        $timeout(function() {
-                            if (scope.data != null && scope.data.length > 0) {
+                        if (scope.data != null) {
+                            $timeout(function() {
+
                                 $(element).chosen(scope.options);
                                 $(element).chosen().change(function(event, item) {
-                                    if (!scope.controlReady)  {
+                                    if (!scope.controlReady) {
                                         return;
                                     }
                                     if (item.selected) {
@@ -51,13 +42,23 @@
                                 });
                                 initWatch();
                                 dataDeferred.resolve();
-                            }
-                        });
+                            });
+                        }
+
+                    });
+
+                    dataDeferred.promise.then(function () {
+                        $(element).chosen().val(scope.selectedValues);
+                        $(element).chosen().trigger("chosen:updated");
+                        scope.controlReady = true;
                     });
 
                     scope.$watch('selectedValues', function() {
-                        $timeout(function() {
-                            selectedDeferred.resolve();
+                        $timeout(function () {
+                            if (scope.controlReady) {
+                                $(element).chosen().val(scope.selectedValues);
+                                $(element).chosen().trigger("chosen:updated");
+                            }
                         });
                     });
                 }

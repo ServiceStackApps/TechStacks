@@ -20,7 +20,7 @@
                 <div class="panel-footer" >
                     <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in feedStack.TechnologyChoices">
                         <a href="#/i/techs/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
-                            <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" width="20" height="20">
+                            <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" width="35" height="35">
                             <span ng-if="!tech.LogoApproved" class="glyphicon glyphicon-cog"></span>
                         </a>
                     </div>

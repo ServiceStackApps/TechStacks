@@ -80,6 +80,7 @@
             $scope.refreshTech = function() {
                 techServices.getTech($routeParams.techId).then(function (tech) {
                     $scope.tech = tech;
+                    $scope.tech.Tiers = $scope.tech.Tiers || [];
                 });
             };
 
