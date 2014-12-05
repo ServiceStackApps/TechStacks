@@ -25,17 +25,6 @@
             <label for="ProductUrl">Product Url</label>
             <input type="text" class="form-control" id="ProductUrl" placeholder="Enter url of the product" ng-model="tech.ProductUrl">
         </div>
-        <div class="input-group">
-            <label>Add to tier</label>
-            <span ng-repeat="tier in allTiers" style="font-style: italic">
-                <span ng-show="tech.Tiers.indexOf(tier) == -1" ng-click="addTechToTier(tier)" class="btn-xs btn-success glyphicon glyphicon-plus-sign"><span style="margin-left:2px;">{{tier.name}}</span></span>
-            </span>
-        </div>
-        <div>
-            <ul>
-                <li ng-repeat="tier in tech.Tiers"><div class="glyphicon glyphicon-minus btn-xs btn-danger" ng-click="removeTierFromTech(tier)"> </div> {{tier.name}}</li>
-            </ul>
-        </div>
         <button ng-show="isAuthenticated" class="btn btn-primary" ng-click="createNewTech()">Create</button>
     </form>
 </div>
