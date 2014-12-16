@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MarkdownSharp;
 using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.OrmLite;
@@ -120,6 +121,10 @@ namespace TechStacks.ServiceInterface
             var techStack = Db.SingleById<TechnologyStack>(request.Id);
 
             var result = techStack.ConvertTo<TechStackDetails>();
+            if (!string.IsNullOrEmpty(techStack.Details))
+            {
+                result.DetailsHtml = new Markdown().Transform(techStack.Details);
+            }
             
             result.PopulateTechTiers(technologyChoices);
 

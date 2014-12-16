@@ -44,9 +44,6 @@ a, a:hover, a:focus {
     border-bottom: 2px solid #ffff8d;
 }
 
-h1 {
-    text-align: center
-}
 .twitter { background: url(/img/twitter_normal.png) no-repeat; }
 .facebook { background: url(/img/facebook_normal.png) no-repeat; }
 .github { background: url(/img/github_normal.png) no-repeat; }
@@ -100,4 +97,33 @@ blockquote {
 }
 .fav:hover {
     color:#ffffd7;
+}
+
+#details {
+    clear: both;
+    padding: 100px 0 0 0;
+}
+#details .details-html {
+    padding: 10px 0 0 0;
+    border-top: 2px solid #eee; 
+}
+.details-html code {
+    white-space: pre;
+    display: block;
+    color: #444;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border-radius: 3px;
+}
+
+/* forms */
+
+form {
+    max-width: 800px;
+}
+textarea {
+    min-height: 100px;
 }

@@ -40,6 +40,8 @@ namespace TechStacks.ServiceModel
 
     public class TechStackDetails : TechnologyStack
     {
+        public string DetailsHtml { get; set; }
+
         public List<TechnologyInStack> TechnologyChoices { get; set; }
     }
 
