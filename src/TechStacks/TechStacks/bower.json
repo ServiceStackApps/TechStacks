@@ -16,7 +16,8 @@
     "jquery": "~1.11.1",
     "angular-bootstrap": "~0.11.2",
     "jquery-ui-bootstrap": "~0.2.5",
-    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.1.0/chosen_v1.1.0.zip"
+    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.1.0/chosen_v1.1.0.zip",
+    "roboto-fontface": "~0.2.7"
   },
   "ignore": [ 
     "**/.*",
