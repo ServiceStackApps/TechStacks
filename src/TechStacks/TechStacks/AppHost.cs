@@ -39,6 +39,7 @@ namespace TechStacks
         {
             SetConfig(new HostConfig
             {
+                HandlerFactoryPath = "api",
                 AllowFileExtensions = { "woff2" },
             });
 
