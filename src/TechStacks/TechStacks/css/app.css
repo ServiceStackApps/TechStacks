@@ -71,6 +71,19 @@ blockquote {
     padding: 0 30px 0 0;
 }
 
+.panel {
+    border-radius: 0px;
+    border: 0;
+    box-shadow: 0 1px 6px rgba(0,0,0,.12), 0 1px 6px rgba(0,0,0,.12);    
+}
+.panel-default .panel-heading, .panel-heading a {
+    color: rgba(255,255,255,.84);
+    background-color: #8BC34A;
+}
+.panel-footer {
+    border: none;
+}
+
 .btn,.btn:focus {
     text-transform: uppercase;
     border-radius: 2px;
@@ -88,7 +101,7 @@ blockquote {
 
 .fav {
     text-shadow: 0px -1px 0px #999;
-    color:#ccc;
+    color:#eee;
     margin: 0 0 0 5px;
 }
 .fav.selected {

@@ -15,17 +15,17 @@
         </div>
         <div class="col-md-8">
             <div class="panel panel-default" ng-repeat="feedStack in feedStacks">
-                <div class="panel-heading"><a href="#/i/stacks/{{feedStack.Id}}">{{feedStack.Name}}</a>
-                    <span ng-show="isFavorite(feedStack)" class="glyphicon glyphicon-star fav selected" 
-                          ng-click="removeFavorite(feedStack)"></span>
-                    <span ng-show="!isFavorite(feedStack)" class="glyphicon glyphicon-star fav"
-                          ng-click="addFavorite(feedStack)"></span>
-                <span class="pull-right">{{feedStack.LastModified | date: "yyyy-MM-dd"}}</span></div>
+                <div class="panel-heading">
+                    <a href="#/i/stacks/{{feedStack.Id}}" style="display:block">
+                        <span>{{feedStack.Name}}</span>
+                        <span class="pull-right">{{feedStack.LastModified | date: "yyyy/MM/dd"}}</span>
+                    </a>
+                </div>
                 <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="#/i/stacks/{{feedStack.Id}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
                 <div class="panel-footer" >
                     <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in feedStack.TechnologyChoices">
                         <a href="#/i/techs/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
-                            <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="35">
+                            <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="35" style="padding: 0 10px 0 0;" />
                             <span ng-if="!tech.LogoApproved" class="glyphicon glyphicon-cog"></span>
                         </a>
                     </div>
