@@ -37,7 +37,10 @@ namespace TechStacks
         /// <param name="container"></param>
         public override void Configure(Container container)
         {
-            SetConfig(new HostConfig());
+            SetConfig(new HostConfig
+            {
+                AllowFileExtensions = { "woff2" },
+            });
 
             JsConfig.DateHandler = DateHandler.ISO8601;
 
@@ -49,7 +52,7 @@ namespace TechStacks
             {
                 container.Register<IDbConnectionFactory>(new OrmLiteConnectionFactory("~/App_Data/db.sqlite".MapHostAbsolutePath(), SqliteDialect.Provider));
             }
-            
+
             var dbFactory = container.Resolve<IDbConnectionFactory>();
 
             this.Plugins.Add(new AuthFeature(() => new CustomUserSession(), new IAuthProvider[]
