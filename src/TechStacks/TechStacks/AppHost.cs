@@ -37,10 +37,7 @@ namespace TechStacks
         /// <param name="container"></param>
         public override void Configure(Container container)
         {
-            SetConfig(new HostConfig
-            {
-                HandlerFactoryPath = "api"
-            });
+            SetConfig(new HostConfig());
 
             JsConfig.DateHandler = DateHandler.ISO8601;
 
