@@ -125,9 +125,13 @@ module.exports = function (grunt) {
                     .pipe(newer(partialsDest))
                     .pipe(gulp.dest(partialsDest));
             },
-            'wwwroot-copy-fonts': function () {
+            'wwwroot-copy-bootstrap-fonts': function () {
                 return gulp.src('./bower_components/bootstrap/dist/fonts/*.*')
                     .pipe(gulp.dest(webRoot + 'lib/fonts/'));
+            },
+            'wwwroot-copy-roboto-fonts': function () {
+                return gulp.src('./bower_components/roboto-fontface/fonts/*.*')
+                    .pipe(gulp.dest(webRoot + 'lib/css/fonts/'));
             },
             'wwwroot-copy-chosen-resources': function () {
                 return gulp.src('./bower_components/chosen/*.png')
@@ -175,7 +179,8 @@ module.exports = function (grunt) {
     grunt.registerTask('03-package-client', [
         'gulp:wwwroot-clean-client-assets',
         'gulp:wwwroot-copy-partials',
-        'gulp:wwwroot-copy-fonts',
+        'gulp:wwwroot-copy-bootstrap-fonts',
+        'gulp:wwwroot-copy-roboto-fonts',
         'gulp:wwwroot-copy-chosen-resources',
         'gulp:wwwroot-copy-images',
         'gulp:wwwroot-copy-deploy-files',
