@@ -71,7 +71,10 @@ namespace TechStacks.ServiceInterface
             {
                 throw HttpError.Unauthorized("You are not the owner of this stack.");
             }
+
+            Db.Delete<TechnologyChoice>(q => q.TechnologyStackId == request.Id);
             Db.DeleteById<TechnologyStack>(request.Id);
+            
             return new TechStackResponse
             {
                 TechStack = new TechnologyStack { Id = (long)request.Id }.ConvertTo<TechStackDetails>()
