@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using MarkdownSharp;
@@ -112,6 +113,18 @@ namespace TechStacks.ServiceInterface
             return new TechStackResponse
             {
                 TechStacks = Db.Select(query).GroupBy(x => x.Id).Select(x => x.First()).ToList()
+            };
+        }
+
+        public object Get(RecentStackWithTechs request)
+        {
+            var stackQuery = Db.From<TechnologyStack>()
+                    .OrderByDescending(x => x.Id).Limit(20);
+
+            var results = TechStackQueries.GetTechstackDetails(Db, stackQuery);
+            return new RecentStackWithTechsResponse
+            {
+                TechStacks = results
             };
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,7 +53,7 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.NotFound("User not found");
             }
 
-            var techStacks = GetTechstackDetails(
+            var techStacks = TechStackQueries.GetTechstackDetails(Db,
                 Db.From<TechnologyStack>()
                     .Where(x => x.CreatedBy == request.UserName)
                     .OrderByDescending(x => x.Id));
@@ -91,36 +92,8 @@ namespace TechStacks.ServiceInterface
                         ts.Id == tsc.TechnologyStackId && Sql.In(tsc.TechnologyId, favoriteTechIds))
                     .OrderByDescending(x => x.Id).Limit(20);
             }
-            var results = GetTechstackDetails(stackQuery);
+            var results = TechStackQueries.GetTechstackDetails(Db, stackQuery);
 
-            return results;
-        }
-
-        private List<TechStackDetails> GetTechstackDetails(SqlExpression<TechnologyStack> stackQuery)
-        {
-            var latestStacks = Db.Select<TechnologyStack>(stackQuery).ToList()
-                //Distinct
-                .GroupBy(x => x.Id)
-                .Select(x => x.First())
-                .ToList();
-            if (latestStacks.Count == 0)
-            {
-                return new List<TechStackDetails>();
-            }
-            var technologyChoices =
-                Db.LoadSelect<TechnologyChoice>(Db.From<TechnologyChoice>().SelectDistinct<TechnologyChoice>(x => x)
-                    .Join<TechnologyChoice, Technology>((tst, t) => t.Id == tst.TechnologyId)
-                    .Join<TechnologyChoice, TechnologyStack>((tst, ts) => ts.Id == tst.TechnologyStackId)
-                    .Where(techChoice => Sql.In(techChoice.TechnologyStackId, latestStacks.Select(x => x.Id).ToList())));
-
-            var results = new List<TechStackDetails>();
-            latestStacks.ForEach(stack =>
-            {
-                var techStackDetails = stack.ConvertTo<TechStackDetails>();
-                techStackDetails.PopulateTechTiers(
-                    technologyChoices.Where(x => stack.Id == x.TechnologyStackId).ToList());
-                results.Add(techStackDetails);
-            });
             return results;
         }
     }

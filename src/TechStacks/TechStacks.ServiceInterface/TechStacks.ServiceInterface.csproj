@@ -83,6 +83,7 @@
     <Compile Include="TechExtensions.cs" />
     <Compile Include="TechnologyServices.cs" />
     <Compile Include="TechnologyStackServices.cs" />
+    <Compile Include="TechStackQueries.cs" />
     <Compile Include="UserFavoriteServices.cs" />
     <Compile Include="UserStackServices.cs" />
   </ItemGroup>

@@ -12,8 +12,8 @@
                     $scope.feedStacks = results;
                 });
             }, function () {
-                techStackServices.searchStacks('').then(function(results) {
-                    $scope.techStacks = results;
+                techStackServices.latestTechStacks().then(function (techstacks) {
+                    $scope.techStacks = techstacks;
                 });
             });
 

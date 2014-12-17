@@ -28,6 +28,14 @@
                     });
                 return deferred.promise;
             },
+            latestTechStacks: function () {
+                var deferred = $q.defer();
+                $http.get('/latestTechStacks')
+                    .success(function (response) {
+                        deferred.resolve(response.TechStacks);
+                    });
+                return deferred.promise;
+            },
             allTechs: function () {
                 var deferred = $q.defer();
                 $http.get('/searchtech')

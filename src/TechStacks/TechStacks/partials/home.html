@@ -47,20 +47,25 @@
     </div>
     <div ng-show="!isAuthenticated">
         <!-- Nav tabs -->
-        <h3>Recently added Tech Stacks</h3>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <td>Name</td>
-                    <td>Description</td>
-                    <td>Created By</td>
-                </tr>
-            </thead>
-            <tr ng-repeat="tech in techStacks">
-                <td><a href="#/i/stacks/{{tech.Id}}">{{tech.Name}}</a></td>
-                <td>{{tech.Description | limitTo:25}}...</td>
-                <td ng-bind="tech.CreatedBy"></td>
-            </tr>
-        </table>
+        <h3>Welcome to TechStacks!</h3>
+        <div class="col-md-12">
+            <div class="panel panel-default" ng-repeat="techStack in techStacks">
+                <div class="panel-heading">
+                    <a href="#/i/stacks/{{techStack.Id}}" style="display:block">
+                        <span>{{techStack.Name}}</span>
+                        <span class="pull-right">{{techStack.LastModified | date: "yyyy/MM/dd"}}</span>
+                    </a>
+                </div>
+                <div class="panel-body">{{techStack.Description | limitTo:140}} <a href="#/i/stacks/{{techStack.Id}}" ng-if="techStack.Description.length > 140">... Read More</a></div>
+                <div class="panel-footer">
+                    <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in techStack.TechnologyChoices">
+                        <a href="#/i/techs/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
+                            <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="35" style="padding: 0 10px 0 0;" />
+                            <span ng-if="!tech.LogoApproved" class="glyphicon glyphicon-cog"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

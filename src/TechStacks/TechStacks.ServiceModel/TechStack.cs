@@ -37,6 +37,17 @@ namespace TechStacks.ServiceModel
     [Route("/searchstacks")]
     public class FindTechStacks : QueryBase<TechnologyStack> {}
 
+    [Route("/latestTechStacks")]
+    public class RecentStackWithTechs
+    {
+        
+    }
+
+    public class RecentStackWithTechsResponse
+    {
+        public List<TechStackDetails> TechStacks { get; set; } 
+    }
+
     public class TechStackDetails : TechnologyStack
     {
         public string DetailsHtml { get; set; }
