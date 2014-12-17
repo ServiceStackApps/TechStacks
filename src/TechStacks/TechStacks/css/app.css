@@ -150,3 +150,19 @@ textarea#Details {
     float: right;
     width: 300px;
 }
+
+td.name, td.createdby {
+    white-space: nowrap;
+}
+
+/* uncomment for single-line with ellipsis
+td.description div {
+    max-width: 800px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+ }*/
+
+#disqus_thread {
+    margin: 100px 40px 40px 40px;
+}
