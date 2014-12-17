@@ -2,6 +2,7 @@
 using Funq;
 using ServiceStack;
 using ServiceStack.Auth;
+using ServiceStack.Caching;
 using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.FluentValidation;
@@ -66,6 +67,9 @@ namespace TechStacks
             var authRepo = new OrmLiteAuthRepository<CustomUserAuth, UserAuthDetails>(dbFactory);
             container.Register<IUserAuthRepository>(authRepo);
             authRepo.InitSchema();
+
+            container.RegisterAs<OrmLiteCacheClient, ICacheClient>();
+            container.Resolve<ICacheClient>().InitSchema(); 
 
             this.Plugins.Add(new CustomRegistrationFeature());
 
