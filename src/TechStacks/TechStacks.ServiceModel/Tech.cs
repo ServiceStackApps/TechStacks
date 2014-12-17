@@ -26,10 +26,10 @@ namespace TechStacks.ServiceModel
         public List<TechnologyTier> Tiers { get; set; }
     }
 
+    [Query(QueryTerm.Or)]
     [Route("/searchtech")]
     public class FindTechnologies : QueryBase<Technology>
     {
-
     }
 
     public class TechResponse
