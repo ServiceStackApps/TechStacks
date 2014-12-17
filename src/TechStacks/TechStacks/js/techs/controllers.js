@@ -34,11 +34,6 @@
                 });
             }
 
-            techServices.getTech($routeParams.techId).then(function (tech) {
-                $scope.tech = tech;
-                refreshFavorites();
-            });
-
             $scope.addFavorite = function () {
                 userService.addFavoriteTech($scope.tech).then(function (techStack) {
                     refreshFavorites();
@@ -54,6 +49,15 @@
             $scope.hasRole = function (role) {
                 return userService.hasRole(role);
             };
+
+            techServices.getTech($routeParams.techId).then(function (tech) {
+                $scope.tech = tech;
+                refreshFavorites();
+            });
+
+            techServices.getRelatedStacks($routeParams.techId).then(function(stacks) {
+                $scope.relatedStacks = stacks;
+            });
         }
     ]);
 

@@ -26,6 +26,14 @@
                 });
                 return deferred.promise;
             },
+            getRelatedStacks: function(techId) {
+                var deferred = $q.defer();
+                $http.get('/techs/' + techId + '/stacks').success(function (response) {
+                    deferred.resolve(response.TechStacks);
+                });
+                return deferred.promise;
+
+            },
             createTech: function (newTech) {
                 var deferred = $q.defer();
                 $http.post('/techs', newTech).success(function (response) {

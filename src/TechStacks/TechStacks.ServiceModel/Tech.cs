@@ -32,6 +32,17 @@ namespace TechStacks.ServiceModel
     {
     }
 
+    [Route("/techs/{Id}/stacks")]
+    public class GetStacksThatUseTech
+    {
+        public long Id { get; set; }
+    }
+
+    public class GetStacksThatUseTechResponse
+    {
+        public List<TechnologyStack> TechStacks { get; set; } 
+    }
+
     public class TechResponse
     {
         public List<Technology> Techs { get; set; }

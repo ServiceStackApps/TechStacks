@@ -137,4 +137,15 @@ namespace TechStacks
             });
         }
     }
+
+    public class StackByTechValidator : AbstractValidator<GetStacksThatUseTech>
+    {
+        public StackByTechValidator()
+        {
+            RuleSet(ApplyTo.Get, () =>
+            {
+                RuleFor(x => x.Id).NotNull();
+            });
+        }
+    }
 }

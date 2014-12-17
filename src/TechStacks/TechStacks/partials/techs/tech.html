@@ -22,6 +22,22 @@
     <p>
         <a href="{{tech.ProductUrl}}" target="_blank">{{tech.ProductUrl}}</a>
     </p>
-    
+
     <div>{{tech.Description}}</div>
+
+    <div>
+        <h3>Also used in these TechStacks</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td><strong>Description</strong></td>
+                </tr>
+            </thead>
+            <tr ng-repeat="techStack in relatedStacks">
+                <td><a href="#/i/stacks/{{techStack.Id}}">{{techStack.Name}}</a></td>
+                <td title="{{techStack.Description}}">{{techStack.Description | limitTo:100}}...</td>
+            </tr>
+        </table>
+    </div>
 </div>
