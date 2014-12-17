@@ -143,3 +143,10 @@ textarea {
 textarea#Details {
     min-height: 120px;
 }
+
+/* Search */
+
+.search {
+    float: right;
+    width: 300px;
+}

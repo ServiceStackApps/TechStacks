@@ -5,9 +5,12 @@
 
     app.controller('latestTechsCtrl', [
         '$scope', 'techServices', function ($scope, techServices) {
-            techServices.getAllTechs().then(function(techs) {
-                $scope.techs = techs;
-            });
+            $scope.refresh = function() {
+                techServices.searchTech($scope.Search || '').then(function(techs) {
+                    $scope.techs = techs;
+                });
+            };
+            $scope.refresh();
         }
     ]);
 

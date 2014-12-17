@@ -172,10 +172,13 @@
     ]);
 
     app.controller('latestStacksCtrl', ['$scope', 'techStackServices',
-        function ($scope,techStackServices) {
-            techStackServices.searchStacks('').then(function(results) {
-                $scope.techStacks = results.reverse();
-            });
+        function ($scope, techStackServices) {
+            $scope.refresh = function () {
+                techStackServices.searchStacks($scope.Search || '').then(function (results) {
+                    $scope.techStacks = results.reverse();
+                });
+            };
+            $scope.refresh();
         }
     ]);
 })();
