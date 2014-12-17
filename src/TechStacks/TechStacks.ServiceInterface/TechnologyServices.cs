@@ -21,10 +21,11 @@ namespace TechStacks.ServiceInterface
             tech.CreatedBy = session.UserName;
             tech.LastModifiedBy = session.UserName;
             tech.OwnerId = session.UserAuthId;
-            if (!session.HasRole(RoleNames.Admin))
-            {
-                request.LogoApproved = false;
-            }
+            request.LogoApproved = true; // disable explicit approval when we first have a problem
+            //if (!session.HasRole(RoleNames.Admin))
+            //{
+            //    request.LogoApproved = false;
+            //}
             var id = Db.Insert(tech, selectIdentity: true);
             var createdTechStack = Db.SingleById<Technology>(id);
             return new TechResponse
