@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using ServiceStack.DataAnnotations;
 
 namespace TechStacks.ServiceModel.Types
@@ -24,7 +20,6 @@ namespace TechStacks.ServiceModel.Types
 
         public string OwnerId { get; set; }
 
-        [IgnoreDataMember] //don't serialize full markdown details
         public string Details { get; set; }
     }
 

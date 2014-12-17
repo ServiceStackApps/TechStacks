@@ -50,6 +50,7 @@
                     .success(function (response) {
                         techStack.Name = response.TechStack.Name;
                         techStack.Description = response.TechStack.Description;
+                        techStack.Details = response.TechStack.Details;
                         deferred.resolve(techStack);
                     });
                 return deferred.promise;
