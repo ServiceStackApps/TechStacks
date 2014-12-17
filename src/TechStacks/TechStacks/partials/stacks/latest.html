@@ -6,13 +6,13 @@
             <tr>
                 <td><strong>Name</strong></td>
                 <td><strong>Description</strong></td>
-                <td><strong>Created By</strong></td>
+                <td style="white-space: nowrap"><strong>Created By</strong></td>
             </tr>
         </thead>
         <tr ng-repeat="techStack in techStacks">
-            <td><a href="#/i/stacks/{{techStack.Id}}">{{techStack.Name}}</a></td>
-            <td title="{{techStack.Description}}">{{techStack.Description}}</td>
-            <td><a href="#/{{techStack.CreatedBy}}" ng-bind="techStack.CreatedBy"></a></td>
+            <td class="name"><a href="#!/i/stacks/{{techStack.Id}}">{{techStack.Name}}</a></td>
+            <td class="description" title="{{techStack.Description}}"><div>{{techStack.Description}}</div></td>
+            <td class="createdby"><a href="#/{{techStack.CreatedBy}}" ng-bind="techStack.CreatedBy"></a></td>
         </tr>
     </table>
 </div>

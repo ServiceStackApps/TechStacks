@@ -17,11 +17,11 @@
                 </tr>
             </thead>
             <tr ng-repeat="techStack in techStacks">
-                <td><a href="#/i/stacks/{{techStack.Id}}" ng-bind="techStack.Name"></a></td>
+                <td><a href="#!/i/stacks/{{techStack.Id}}" ng-bind="techStack.Name"></a></td>
                 <td ng-bind="techStack.Description"></td>
                 <td ng-show="isAuthenticated && currentUserName === currentUserSession.UserName"><button class="btn btn-sm btn-danger" ng-click="deleteStack(techStack)">Delete</button></td>
             </tr>
         </table>
-        <a class="btn btn-primary" ng-show="isAuthenticated && currentUserName === currentUserSession.UserName" href="#/i/stacks/create">Create a stack</a>
+        <a class="btn btn-primary" ng-show="isAuthenticated && currentUserName === currentUserSession.UserName" href="#!/i/stacks/create">Create a stack</a>
     </div>
 </div>

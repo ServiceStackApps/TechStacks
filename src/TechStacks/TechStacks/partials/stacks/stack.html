@@ -5,7 +5,7 @@
         <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav" 
               ng-click="addFavorite()"></span>
     </h2>
-    <a href="#/i/stacks/{{currentStack.Id}}/edit" class="btn btn-primary pull-right" ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))" style="margin-bottom: 15px">Edit</a>
+    <a href="#!/i/stacks/{{currentStack.Id}}/edit" class="btn btn-primary pull-right" ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))" style="margin-bottom: 15px">Edit</a>
     <div class="small" style="margin-bottom: 25px">By <a href="#/{{currentStack.CreatedBy}}">{{currentStack.CreatedBy}}</a></div>
 
     <blockquote ng-bind="currentStack.Description"></blockquote>
@@ -14,7 +14,7 @@
         <div class="item" ng-show="tier.show">
             <h4>{{tier.title}} Technologies</h4>
             <div ng-repeat="tech in currentStack.TechnologyChoices | filter:{Tier:tier.name}">
-                <a href="#/i/techs/{{tech.TechnologyId}}" title="{{tech.Name}}">
+                <a href="#!/i/techs/{{tech.TechnologyId}}" title="{{tech.Name}}">
                     <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="75" />
                 </a>
             </div>
@@ -26,3 +26,5 @@
     </div>
     
 </div>
+
+<disqus />

@@ -1,24 +1,22 @@
 ﻿<div>
-    <a href="#/i/techs/{{tech.Id}}/edit" class="btn btn-primary" 
-       ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))" 
-       style="float:right">Edit</a>
+    <a href="#!/i/techs/{{tech.Id}}/edit" class="btn btn-primary"
+        ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))"
+        style="float: right">Edit</a>
 
-    <h2 ng-show="tech.ProductUrl == null" style="display: inline-block">
-        {{tech.Name}}
-        <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected" 
-              ng-click="removeFavorite()"></span>
-        <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav" 
-              ng-click="addFavorite()"></span>
+    <h2 ng-show="tech.ProductUrl == null" style="display: inline-block">{{tech.Name}}
+        <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected"
+            ng-click="removeFavorite()"></span>
+        <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav"
+            ng-click="addFavorite()"></span>
     </h2>
-    
-    <h2 ng-show="tech.ProductUrl != null">
-        {{tech.Name}}
-        <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected" 
-              ng-click="removeFavorite()"></span>
-        <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav" 
-              ng-click="addFavorite()"></span>
+
+    <h2 ng-show="tech.ProductUrl != null">{{tech.Name}}
+        <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected"
+            ng-click="removeFavorite()"></span>
+        <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav"
+            ng-click="addFavorite()"></span>
     </h2>
-    
+
     <p>
         <a href="{{tech.ProductUrl}}" target="_blank">{{tech.ProductUrl}}</a>
     </p>
@@ -26,7 +24,7 @@
     <div>{{tech.Description}}</div>
 
     <div>
-        <h3>Also used in these TechStacks</h3>
+        <h3>TechStacks using {{tech.Name}}</h3>
         <table class="table table-responsive table-striped">
             <thead>
                 <tr>
@@ -35,9 +33,14 @@
                 </tr>
             </thead>
             <tr ng-repeat="techStack in relatedStacks">
-                <td><a href="#/i/stacks/{{techStack.Id}}">{{techStack.Name}}</a></td>
-                <td title="{{techStack.Description}}">{{techStack.Description | limitTo:100}}...</td>
+                <td class="name"><a href="#!/i/stacks/{{techStack.Id}}">{{techStack.Name}}
+                </a></td>
+                <td class="description" title="{{techStack.Description}}">
+                    <div>{{techStack.Description}}</div>
+                </td>
             </tr>
         </table>
     </div>
 </div>
+
+<disqus />

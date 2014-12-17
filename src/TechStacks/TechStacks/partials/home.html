@@ -6,25 +6,25 @@
             </h5>
             <ul class="list-unstyled">
                 <li ng-repeat="tech in favoriteTechs" style="white-space:nowrap">
-                    <a href="#/i/techs/{{tech.Id}}">{{tech.Name}}</a> 
+                    <a href="#!/i/techs/{{tech.Id}}">{{tech.Name}}</a> 
                     <span class="glyphicon glyphicon-star fav selected"></span>
                 </li>
             </ul>
             <h6 style="margin-top:25px">Can't find your favorite tech?</h6>
-            <a href="#/i/techs/create" class="btn btn-primary">Add technology</a>
+            <a href="#!/i/techs/create" class="btn btn-primary">Add technology</a>
         </div>
         <div class="col-md-8">
             <div class="panel panel-default" ng-repeat="feedStack in feedStacks">
                 <div class="panel-heading">
-                    <a href="#/i/stacks/{{feedStack.Id}}" style="display:block">
+                    <a href="#!/i/stacks/{{feedStack.Id}}" style="display:block">
                         <span>{{feedStack.Name}}</span>
                         <span class="pull-right">{{feedStack.LastModified | date: "yyyy/MM/dd"}}</span>
                     </a>
                 </div>
-                <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="#/i/stacks/{{feedStack.Id}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
+                <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="#!/i/stacks/{{feedStack.Id}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
                 <div class="panel-footer" >
                     <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in feedStack.TechnologyChoices">
-                        <a href="#/i/techs/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
+                        <a href="#!/i/techs/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
                             <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="35" style="padding: 0 10px 0 0;" />
                             <span ng-if="!tech.LogoApproved" class="glyphicon glyphicon-cog"></span>
                         </a>
@@ -38,11 +38,11 @@
             </h5>
             <ul class="list-unstyled">
                 <li ng-repeat="techStack in favoriteTechStacks" style="white-space:nowrap">
-                    <a href="#/i/stacks/{{techStack.Id}}">{{techStack.Name}}</a> 
+                    <a href="#!/i/stacks/{{techStack.Id}}">{{techStack.Name}}</a> 
                     <span class="glyphicon glyphicon-star fav selected"></span>
                 </li>
             </ul>
-            <a style="margin-top: 25px" href="#/i/stacks/create" class="btn btn-primary">Create a TechStack</a>
+            <a style="margin-top: 25px" href="#!/i/stacks/create" class="btn btn-primary">Create a TechStack</a>
         </div>
     </div>
     <div ng-show="!isAuthenticated">
@@ -50,20 +50,20 @@
         <h3>Welcome to TechStacks!</h3>
         <section style="margin: 15px 0">
             TechStacks allows developers to describe the technology stacks used by applications! You can see what this site itself is powered by
-            <a href="#/i/stacks/1">here</a>! For more information on how this application was built, have a look at its <a href="https://github.com/ServiceStackApps/TechStacks">GitHub page</a>.
+            <a href="#!/i/stacks/1">here</a>! For more information on how this application was built, have a look at its <a href="https://github.com/ServiceStackApps/TechStacks">GitHub page</a>.
         </section>
         <div class="col-md-12">
             <div class="panel panel-default" ng-repeat="techStack in techStacks">
                 <div class="panel-heading">
-                    <a href="#/i/stacks/{{techStack.Id}}" style="display:block">
+                    <a href="#!/i/stacks/{{techStack.Id}}" style="display:block">
                         <span>{{techStack.Name}}</span>
                         <span class="pull-right">{{techStack.LastModified | date: "yyyy/MM/dd"}}</span>
                     </a>
                 </div>
-                <div class="panel-body">{{techStack.Description | limitTo:140}} <a href="#/i/stacks/{{techStack.Id}}" ng-if="techStack.Description.length > 140">... Read More</a></div>
+                <div class="panel-body">{{techStack.Description | limitTo:140}} <a href="#!/i/stacks/{{techStack.Id}}" ng-if="techStack.Description.length > 140">... Read More</a></div>
                 <div class="panel-footer">
                     <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in techStack.TechnologyChoices">
-                        <a href="#/i/techs/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
+                        <a href="#!/i/techs/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
                             <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="35" style="padding: 0 10px 0 0;" />
                             <span ng-if="!tech.LogoApproved" class="glyphicon glyphicon-cog"></span>
                         </a>
