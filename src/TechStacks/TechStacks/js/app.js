@@ -17,7 +17,7 @@
         'ui.bootstrap',
         'chosen'
     ]).
-        config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
+        config(['$routeProvider', '$httpProvider', '$locationProvider', function ($routeProvider, $httpProvider, $locationProvider) {
             $routeProvider.when('/', { templateUrl: 'partials/home.html', controller: 'homeCtrl' });
             $routeProvider.when('/i/techs', { templateUrl: 'partials/techs/latest.html', controller: 'latestTechsCtrl' });
             $routeProvider.when('/i/techs/create', { templateUrl: 'partials/techs/create.html', controller: 'createTechCtrl' });
@@ -29,6 +29,8 @@
             $routeProvider.when('/i/stacks/:stackId/edit', { templateUrl: 'partials/stacks/edit.html', controller: 'editStackCtrl' });
             $routeProvider.when('/:userName', { templateUrl: 'partials/user/feed.html', controller: 'userFeedCtrl' });
             $routeProvider.otherwise({ redirectTo: '/' });
+            
+            $locationProvider.html5Mode(false).hashPrefix("!");
 
             $httpProvider.defaults.transformResponse.push(function (responseData) {
                 convertDateStringsToDates(responseData);
@@ -63,5 +65,66 @@
                     }
                 }
             }
+        }])
+        .directive('disqus', ['$window', function ($window) {
+            return {
+                restrict: 'E',
+                scope: {
+                    disqus_shortname: '@disqusShortname',
+                    disqus_identifier: '@disqusIdentifier',
+                    disqus_title: '@disqusTitle',
+                    disqus_url: '@disqusUrl',
+                    disqus_category_id: '@disqusCategoryId',
+                    disqus_disable_mobile: '@disqusDisableMobile',
+                    readyToBind: "@"
+                },
+                template: '<div id="disqus_thread"></div><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>',
+                link: function (scope) {
+                    scope.$watch("readyToBind", function (isReady) {
+
+                        // If the directive has been called without the 'ready-to-bind' attribute, we
+                        // set the default to "true" so that Disqus will be loaded straight away.
+                        if (!angular.isDefined(isReady)) {
+                            isReady = "true";
+                        }
+                        if (scope.$eval(isReady)) {
+                            // put the config variables into separate global vars so that the Disqus script can see them
+                            var relativeUrl = (location.href.split('#!')[1] || '');
+                            var categoryId = relativeUrl && relativeUrl.replace('/i/', '').split('/')[0];
+                            $window.disqus_shortname = scope.disqus_shortname || "techstacks";
+                            $window.disqus_identifier = scope.disqus_identifier || relativeUrl;
+                            $window.disqus_title = scope.disqus_title;
+                            $window.disqus_url = scope.disqus_url || location.href;
+                            //$window.disqus_category_id = scope.disqus_category_id || categoryId; //category needs to exist
+                            $window.disqus_disable_mobile = scope.disqus_disable_mobile;
+
+                            console.log('reset disqus: ', {
+                                name: $window.disqus_shortname,
+                                id: $window.disqus_identifier,
+                                url: $window.disqus_url,
+                                cat: categoryId
+                            });
+
+                            // get the remote Disqus script and insert it into the DOM, but only if it not already loaded (as that will cause warnings)
+                            if (!$window.DISQUS) {
+                                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = '//' + $window.disqus_shortname + '.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                            } else {
+                                $window.DISQUS.reset({
+                                    reload: true,
+                                    config: function () {
+                                        this.page.identifier = $window.disqus_identifier;
+                                        this.page.url = $window.disqus_url;
+                                        this.page.title = $window.disqus_title;
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            };
         }]);
+
+
 })();
