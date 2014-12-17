@@ -105,11 +105,11 @@ blockquote {
     margin: 0 0 0 5px;
 }
 .fav.selected {
-    color:#ffffd7;
+    color:#FFEB3B;
     text-shadow: 0px 1px 0px #FF8F00;
 }
 .fav:hover {
-    color:#ffffd7;
+    color:#FFF176;
 }
 
 #details {
@@ -138,5 +138,8 @@ form {
     max-width: 800px;
 }
 textarea {
-    min-height: 100px;
+    min-height: 80px;
+}
+textarea#Details {
+    min-height: 120px;
 }
