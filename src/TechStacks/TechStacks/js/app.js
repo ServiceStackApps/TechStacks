@@ -1,6 +1,11 @@
 ﻿/*global angular*/
 (function () {
     "use strict";
+
+    //auto redirect urls without #! convention
+    if (location.href.indexOf('#') >= 0 & location.href.indexOf('#!') < 0)
+        location.href = location.href.replace('#', '#!');
+
     angular.module('stacks', ['stacks.controllers', 'stacks.services', 'stacks.filters']);
     angular.module('techs', ['techs.controllers','tech.services']);
     angular.module('home', ['home.controllers']);
