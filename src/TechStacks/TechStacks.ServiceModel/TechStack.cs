@@ -33,11 +33,9 @@ namespace TechStacks.ServiceModel
         public TechStackDetails TechStack { get; set; }
     }
 
+    [Query(QueryTerm.Or)]
     [Route("/searchstacks")]
-    public class FindTechStacks : QueryBase<TechnologyStack>
-    {
-
-    }
+    public class FindTechStacks : QueryBase<TechnologyStack> {}
 
     public class TechStackDetails : TechnologyStack
     {

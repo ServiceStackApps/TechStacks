@@ -22,7 +22,7 @@
             },
             searchTech: function (searchQuery) {
                 var deferred = $q.defer();
-                $http.get('/searchtech/?NameContains=' + searchQuery)
+                $http.get('/searchtech/?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
                     .success(function (response) {
                         deferred.resolve(response.Results);
                     });
@@ -38,7 +38,7 @@
             },
             searchStacks: function (searchQuery) {
                 var deferred = $q.defer();
-                $http.get('/searchstacks/?NameContains=' + searchQuery)
+                $http.get('/searchstacks/?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
                     .success(function (response) {
                         deferred.resolve(response.Results);
                     });

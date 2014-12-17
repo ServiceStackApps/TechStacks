@@ -11,7 +11,15 @@
                 });
                 return deferred.promise;
             },
-            getAllTechs: function() {
+            searchTech: function (searchQuery) {
+                var deferred = $q.defer();
+                $http.get('/searchtech/?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
+                    .success(function (response) {
+                        deferred.resolve(response.Results);
+                    });
+                return deferred.promise;
+            },
+            getAllTechs: function () {
                 var deferred = $q.defer();
                 $http.get('/techs').success(function (response) {
                     deferred.resolve(response.Techs);
