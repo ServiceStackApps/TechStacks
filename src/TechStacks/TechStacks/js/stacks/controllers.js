@@ -7,6 +7,29 @@
     app.controller('stackCtrl', [
         '$scope', '$routeParams', 'techStackServices', '$filter', 'userService', '$sce', function ($scope, $routeParams, techStackServices, $filter, userService, $sce) {
             $scope.allTiers = angular.copy(techStackServices.allTiers);
+
+            function isFavoriteTechStack(techStack) {
+                var isFav = false;
+                for (var i = 0; i < $scope.favoriteTechStacks.length > 0; i++) {
+                    var favStack = $scope.favoriteTechStacks[i];
+                    if (favStack.Id === techStack.Id) {
+                        isFav = true;
+                        break;
+                    }
+                }
+                return isFav;
+            }
+
+            function refreshFavorites() {
+                userService.getFavoriteTechStacks().then(function (techStacks) {
+                    $scope.isFavorite = isFavoriteTechStack($scope.currentStack);
+                });
+            }
+
+            function filterTechChoiceByTier(tier) {
+                return $filter('filter')($scope.currentStack.TechnologyChoices, { Tier: tier });
+            }
+
             techStackServices.getStack($routeParams.stackId).then(function (techStack) {
                 $scope.currentStack = techStack;
                 console.log('$sce', $sce);
@@ -29,27 +52,9 @@
                 });
             };
 
-            function refreshFavorites() {
-                userService.getFavoriteTechStacks().then(function (techStacks) {
-                    $scope.isFavorite = isFavoriteTechStack($scope.currentStack);
-                });
-            }
-
-            function isFavoriteTechStack(techStack) {
-                var isFav = false;
-                for (var i = 0; i < $scope.favoriteTechStacks.length > 0; i++) {
-                    var favStack = $scope.favoriteTechStacks[i];
-                    if (favStack.Id === techStack.Id) {
-                        isFav = true;
-                        break;
-                    }
-                }
-                return isFav;
-            }
-
-            function filterTechChoiceByTier(tier) {
-                return $filter('filter')($scope.currentStack.TechnologyChoices, { Tier: tier });
-            }
+            $scope.hasRole = function (role) {
+                return userService.hasRole(role);
+            };
         }
     ]);
 

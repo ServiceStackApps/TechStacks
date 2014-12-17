@@ -74,6 +74,7 @@ namespace TechStacks.ServiceModel.Types
         App,
         Client,
         OperatingSystem,
-        Hardware
+        Hardware,
+        ProgrammingLanguage
     }
 }

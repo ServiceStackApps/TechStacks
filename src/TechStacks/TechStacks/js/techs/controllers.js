@@ -13,7 +13,25 @@
 
     app.controller('techCtrl', [
         '$scope', 'techServices', '$routeParams', 'userService', function ($scope, techServices, $routeParams, userService) {
-            techServices.getTech($routeParams.techId).then(function(tech) {
+            function isFavoriteTech(tech) {
+                var isFav = false;
+                for (var i = 0; i < $scope.favoriteTechs.length > 0; i++) {
+                    var favTech = $scope.favoriteTechs[i];
+                    if (favTech.Id === tech.Id) {
+                        isFav = true;
+                        break;
+                    }
+                }
+                return isFav;
+            }
+
+            function refreshFavorites() {
+                userService.getFavoriteTechs().then(function (techs) {
+                    $scope.isFavorite = isFavoriteTech($scope.tech);
+                });
+            }
+
+            techServices.getTech($routeParams.techId).then(function (tech) {
                 $scope.tech = tech;
                 refreshFavorites();
             });
@@ -30,27 +48,9 @@
                 });
             };
 
-            function refreshFavorites() {
-                userService.getFavoriteTechs().then(function (techs) {
-                    $scope.isFavorite = isFavoriteTech($scope.tech);
-                });
-            }
-
             $scope.hasRole = function (role) {
                 return userService.hasRole(role);
             };
-
-            function isFavoriteTech(tech) {
-                var isFav = false;
-                for (var i = 0; i < $scope.favoriteTechs.length > 0; i++) {
-                    var favTech = $scope.favoriteTechs[i];
-                    if (favTech.Id === tech.Id) {
-                        isFav = true;
-                        break;
-                    }
-                }
-                return isFav;
-            }
         }
     ]);
 

@@ -5,7 +5,7 @@
         <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav" 
               ng-click="addFavorite()"></span>
     </h2>
-    <a href="#/i/stacks/{{currentStack.Id}}/edit" class="btn btn-primary" ng-show="isAuthenticated && currentUserSession.UserAuthId == currentStack.OwnerId" style="margin-bottom: 15px">Edit</a>
+    <a href="#/i/stacks/{{currentStack.Id}}/edit" class="btn btn-primary pull-right" ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))" style="margin-bottom: 15px">Edit</a>
     <div class="small" style="margin-bottom: 25px">By <a href="#/{{currentStack.CreatedBy}}">{{currentStack.CreatedBy}}</a></div>
 
     <blockquote ng-bind="currentStack.Description"></blockquote>
