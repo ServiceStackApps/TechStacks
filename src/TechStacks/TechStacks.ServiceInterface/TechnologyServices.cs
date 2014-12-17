@@ -104,8 +104,10 @@ namespace TechStacks.ServiceInterface
         public object Get(GetStacksThatUseTech request)
         {
             var stacksByTech = Db.Select<TechnologyStack>(Db.From<TechnologyStack>()
-                .Join<TechnologyChoice, TechnologyStack>((techChoice,techStack) => techChoice.TechnologyId == request.Id)
-                .Join<TechnologyChoice, Technology>((techChoice, tech) => tech.Id == techChoice.TechnologyId));
+                .Join<TechnologyChoice, TechnologyStack>(
+                    (techChoice, techStack) => techChoice.TechnologyId == request.Id)
+                .Join<TechnologyChoice, Technology>((techChoice, tech) => tech.Id == techChoice.TechnologyId)
+                .SelectDistinct(x => x.Id));
 
             return new GetStacksThatUseTechResponse
             {

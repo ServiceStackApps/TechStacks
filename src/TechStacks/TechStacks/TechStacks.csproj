@@ -166,6 +166,7 @@
     <Content Include="package.json" />
     <Content Include="bower.json" />
     <Content Include="tests\unit\techControllerSpec.js" />
+    <Content Include="tests\unit\testModules.js" />
     <Content Include="wwwroot_build\README.txt" />
     <Content Include="wwwroot_build\01-run-tests.bat" />
     <Content Include="wwwroot_build\02-package-server.bat" />

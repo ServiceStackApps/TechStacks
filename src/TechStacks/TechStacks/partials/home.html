@@ -48,6 +48,10 @@
     <div ng-show="!isAuthenticated">
         <!-- Nav tabs -->
         <h3>Welcome to TechStacks!</h3>
+        <section style="margin: 15px 0">
+            TechStacks allows developers to describe the technology stacks used by applications! You can see what this site itself is powered by
+            <a href="#/i/stacks/1">here</a>! For more information on how this application was built, have a look at its <a href="https://github.com/ServiceStackApps/TechStacks">GitHub page</a>.
+        </section>
         <div class="col-md-12">
             <div class="panel panel-default" ng-repeat="techStack in techStacks">
                 <div class="panel-heading">

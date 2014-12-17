@@ -116,6 +116,7 @@ module.exports = function (grunt) {
                     '!./wwwroot/bin/**/*.*', //Don't delete dlls
                     '!./wwwroot/**/*.asax', //Don't delete asax
                     '!./wwwroot/**/*.config', //Don't delete config
+                    '!./wwwroot/lib/**/*' //Don't delete existing 3rd party client libs
                 ], { read: false })
                         .pipe(rimraf());
             },
@@ -127,18 +128,22 @@ module.exports = function (grunt) {
             },
             'wwwroot-copy-bootstrap-fonts': function () {
                 return gulp.src('./bower_components/bootstrap/dist/fonts/*.*')
+                    .pipe(newer(webRoot + 'lib/fonts/'))
                     .pipe(gulp.dest(webRoot + 'lib/fonts/'));
             },
             'wwwroot-copy-roboto-fonts': function () {
                 return gulp.src('./bower_components/roboto-fontface/fonts/*.*')
+                    .pipe(newer(webRoot + 'lib/css/fonts/'))
                     .pipe(gulp.dest(webRoot + 'lib/css/fonts/'));
             },
             'wwwroot-copy-chosen-resources': function () {
                 return gulp.src('./bower_components/chosen/*.png')
+                    .pipe(newer(webRoot + 'lib/css/'))
                     .pipe(gulp.dest(webRoot + 'lib/css/'));
             },
             'wwwroot-copy-images': function () {
                 return gulp.src('./img/*.*')
+                    .pipe(newer(webRoot + 'img/'))
                     .pipe(gulp.dest(webRoot + 'img/'));
             },
             'wwwroot-bundle': function () {
