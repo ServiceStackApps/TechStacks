@@ -44,14 +44,6 @@
                     });
                 return deferred.promise;
             },
-            searchStacks: function (searchQuery) {
-                var deferred = $q.defer();
-                $http.get('/searchstacks/?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
-                    .success(function (response) {
-                        deferred.resolve(response.Results);
-                    });
-                return deferred.promise;
-            },
             updateStack: function (techStack) {
                 var deferred = $q.defer();
                 $http.put('/stacks/' + techStack.Id, techStack)
@@ -93,6 +85,7 @@
                     });
                 return deferred.promise;
             },
+            searchStacks: techServices.searchStacks,
             allTiers: techServices.allTiers
         };
     }]);

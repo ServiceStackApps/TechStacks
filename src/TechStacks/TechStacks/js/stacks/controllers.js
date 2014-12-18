@@ -32,7 +32,6 @@
 
             techStackServices.getStack($routeParams.stackId).then(function (techStack) {
                 $scope.currentStack = techStack;
-                console.log('$sce', $sce);
                 $scope.DetailsHtml = $sce.trustAsHtml(techStack.DetailsHtml);
                 angular.forEach($scope.allTiers, function (tier) {
                     tier.show = filterTechChoiceByTier(tier.name).length > 0;
