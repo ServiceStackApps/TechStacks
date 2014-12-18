@@ -59,7 +59,7 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.NotFound("Techstack technology not found");
             }
             var session = SessionAs<AuthUserSession>();
-            if (techChoice.OwnerId != session.UserAuthId)
+            if (techChoice.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
             {
                 throw HttpError.Unauthorized("You are not the owner of this stack.");
             }
@@ -83,7 +83,7 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.NotFound("Techstack technology not found");
             }
             var session = SessionAs<AuthUserSession>();
-            if (techChoice.OwnerId != session.UserAuthId)
+            if (techChoice.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
             {
                 throw HttpError.Unauthorized("You are not the owner of this stack.");
             }
