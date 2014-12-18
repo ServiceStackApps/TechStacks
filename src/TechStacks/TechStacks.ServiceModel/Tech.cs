@@ -27,7 +27,7 @@ namespace TechStacks.ServiceModel
     }
 
     [Query(QueryTerm.Or)]
-    [Route("/searchtech")]
+    [Route("/techs/search")]
     public class FindTechnologies : QueryBase<Technology>
     {
     }

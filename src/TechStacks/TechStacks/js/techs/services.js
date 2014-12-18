@@ -13,7 +13,7 @@
             },
             searchTech: function (searchQuery) {
                 var deferred = $q.defer();
-                $http.get('/searchtech/?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
+                $http.get('/techs/search?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
                     .success(function (response) {
                         deferred.resolve(response.Results);
                     });

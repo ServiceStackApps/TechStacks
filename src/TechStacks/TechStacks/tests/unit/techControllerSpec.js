@@ -25,8 +25,8 @@ describe('tech controllers unit tests', function () {
                 .respond(allTechsResponse);
             specificTechRequestHandler = $httpBackend.when('GET','/techs/1')
                 .respond(specificTechResponse);
-            latestTechStacksRequestHandler = $httpBackend.when('GET','/latestTechStacks').respond(latestTechStacks);
-            searchTechsRequestHandler = $httpBackend.when('GET', '/searchtech/?NameContains=&DescriptionContains=')
+            latestTechStacksRequestHandler = $httpBackend.when('GET', '/stacks/latest').respond(latestTechStacks);
+            searchTechsRequestHandler = $httpBackend.when('GET', '/techs/search?NameContains=&DescriptionContains=')
                 .respond(searchTechs);
             techStacksRequestHandler = $httpBackend.when('GET','/techs/1/stacks').respond(latestTechStacks);
             createLatestTechCtrl = function() {

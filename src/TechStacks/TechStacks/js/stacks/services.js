@@ -22,7 +22,7 @@
             },
             latestTechStacks: function () {
                 var deferred = $q.defer();
-                $http.get('/latestTechStacks')
+                $http.get('/stacks/latest')
                     .success(function (response) {
                         deferred.resolve(response.TechStacks);
                     });
@@ -30,7 +30,7 @@
             },
             allTechs: function () {
                 var deferred = $q.defer();
-                $http.get('/searchtech')
+                $http.get('/techs/search')
                     .success(function (response) {
                         deferred.resolve(response.Results);
                     });
@@ -79,7 +79,7 @@
             },
             searchStacks: function (searchQuery) {
                 var deferred = $q.defer();
-                $http.get('/searchstacks/?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
+                $http.get('/stacks/search/?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
                     .success(function (response) {
                         deferred.resolve(response.Results);
                     });

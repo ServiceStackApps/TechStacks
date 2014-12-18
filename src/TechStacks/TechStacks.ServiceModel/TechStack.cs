@@ -15,8 +15,8 @@ namespace TechStacks.ServiceModel
         public string Details { get; set; }
     }
 
-    [Route("/stacksbytier")]
-    [Route("/stacksbytier/{Tier}")]
+    [Route("/stacks/tiers")]
+    [Route("/stacks/tiers/{Tier}")]
     public class TechStackByTier
     {
         public string Tier { get; set; }
@@ -32,10 +32,10 @@ namespace TechStacks.ServiceModel
     }
 
     [Query(QueryTerm.Or)]
-    [Route("/searchstacks")]
+    [Route("/stacks/search")]
     public class FindTechStacks : QueryBase<TechnologyStack> {}
 
-    [Route("/latestTechStacks")]
+    [Route("/stacks/latest")]
     public class RecentStackWithTechs
     {
         
