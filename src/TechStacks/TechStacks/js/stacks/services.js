@@ -20,14 +20,6 @@
                     });
                 return deferred.promise;
             },
-            searchTech: function (searchQuery) {
-                var deferred = $q.defer();
-                $http.get('/searchtech/?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
-                    .success(function (response) {
-                        deferred.resolve(response.Results);
-                    });
-                return deferred.promise;
-            },
             latestTechStacks: function () {
                 var deferred = $q.defer();
                 $http.get('/latestTechStacks')
@@ -85,7 +77,15 @@
                     });
                 return deferred.promise;
             },
-            searchStacks: techServices.searchStacks,
+            searchStacks: function (searchQuery) {
+                var deferred = $q.defer();
+                $http.get('/searchstacks/?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
+                    .success(function (response) {
+                        deferred.resolve(response.Results);
+                    });
+                return deferred.promise;
+            },
+            searchTech: techServices.searchTech,
             allTiers: techServices.allTiers
         };
     }]);
