@@ -187,5 +187,6 @@ td.description div {
  }*/
 
 #disqus_thread {
-    margin: 100px 40px 40px 40px;
+    clear: both;
+    padding: 100px 50px 50px 50px;
 }
