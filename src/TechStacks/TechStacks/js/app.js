@@ -4,7 +4,11 @@
 
     //auto redirect urls without #! convention
     if (location.hash && location.hash.indexOf('#!') < 0) {
-        location.href = location.href.replace('#', '#!');
+        if (location.hash.substring(0, 3) == "#s=")
+            location.href = '/#!/';
+        else
+            location.href = location.href.replace('#', '#!');
+
         location.reload();
         return;
     }
