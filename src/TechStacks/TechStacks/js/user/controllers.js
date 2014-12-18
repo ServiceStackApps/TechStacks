@@ -6,18 +6,19 @@
     app.controller('userFeedCtrl', [
         '$scope', '$routeParams', '$location', 'userService', 'techStackServices', function ($scope, $routeParams, $location, userService, techStackServices) {
             $scope.currentUserName = $routeParams.userName;
-            var sessionLogin = $routeParams.userName.indexOf('s=') !==-1;
-            if (sessionLogin) {
-                $location.path('/');
-            }
-            if (!sessionLogin) {
-                userService.getUserAvatar($routeParams.userName).then(function (response) {
-                    $scope.avatarUrl = response.data.AvatarUrl || '/img/no-profile64.png';
-                }, function (response) {
-                    $scope.errorMessage = response.statusText;
-                });
-            }
 
+            userService.getUserAvatar($routeParams.userName).then(function (response) {
+                $scope.avatarUrl = response.data.AvatarUrl || '/img/no-profile64.png';
+            }, function (response) {
+                $scope.errorMessage = response.statusText;
+            });
+
+            userService.getUserStacks($routeParams.userName).then(function (response) {
+                $scope.techStacks = response.data.TechStacks;
+                $scope.favoriteTechStacks = response.data.FavoriteTechStacks;
+                $scope.favoriteTechnologies = response.data.FavoriteTechnologies;
+            });
+            
             $scope.deleteStack = function(selectedStack) {
                 techStackServices.deleteTechStack(selectedStack).success(function () {
                     for (var i = 0; i < $scope.techStacks.length; i++) {
@@ -29,14 +30,6 @@
                     }
                 });
             };
-
-            if (!sessionLogin) {
-                userService.getUserStacks($routeParams.userName).then(function (response) {
-                    $scope.techStacks = response.data.TechStacks;
-                    $scope.favoriteTechStacks = response.data.FavoriteTechStacks;
-                    $scope.favoriteTechnologies = response.data.FavoriteTechnologies;
-                });
-            }
         }
     ]);
 })();
