@@ -5,6 +5,7 @@
     //auto redirect urls without #! convention
     if (location.hash && location.hash.indexOf('#!') < 0) {
         location.href = location.href.replace('#', '#!');
+        location.reload();
         return;
     }
     else if (location.pathname.length > "/".length) {
