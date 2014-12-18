@@ -2,8 +2,10 @@
     <div class="alert-danger" ng-bind="errorMessage"></div>
 </div>
 <div style="display: block;min-height: 150px">
-    <div class="col-md-2">
-        <img ng-src="{{avatarUrl}}" width="50" height="50" />
+    <div class="col-md-2" style="text-align:center;">
+        <div class="avatarbox">
+            <img ng-src="{{avatarUrl}}" />
+        </div>
         <h4 ng-bind="currentUserName"></h4>
     </div>
     <div class="col-md-10">

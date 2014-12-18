@@ -135,6 +135,26 @@ blockquote {
     border-radius: 3px;
 }
 
+.avatarbox {
+    text-align: center;
+    display: inline-block;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 50%; /* Can also be 50px */
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+ }
+
+.avatarbox img {
+    margin: 4px;
+    -webkit-border-radius: 50%; /* Can also be 50px */
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+ }
+
 /* forms */
 
 form {
