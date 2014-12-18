@@ -75,7 +75,7 @@ namespace TechStacks.Tests
             var ssTech = client.Post(new Tech
             {
                 Name = "ServiceStack",
-                Tiers = new List<TechnologyTier>(new[] { TechnologyTier.App, TechnologyTier.Web, TechnologyTier.Client }),
+                Tiers = new List<TechnologyTier>(new[] { TechnologyTier.Server, TechnologyTier.Http, TechnologyTier.Client }),
                 Description =
                     "Obscenely fast! Built with only fast, clean, code-first and light-weight parts. Start using .NET's fastest serializers, ORMs, redis and caching libraries!",
                 VendorName = "ServiceStack",
@@ -84,7 +84,7 @@ namespace TechStacks.Tests
             var iisTech = client.Post(new Tech
             {
                 Name = "IIS",
-                Tiers = new List<TechnologyTier>(new[] { TechnologyTier.Web }),
+                Tiers = new List<TechnologyTier>(new[] { TechnologyTier.Http }),
                 Description = "Microsoft's web host",
                 VendorName = "Microsoft",
                 LogoUrl = "http://www.microsoft.com/web/media/gallery/apps-screenshots/Microsoft-App-Request-Routing.png"
@@ -119,7 +119,7 @@ namespace TechStacks.Tests
                 {
                     TechnologyId = ssTech.Tech.Id,
                     TechnologyStackId = initialStack.TechStack.Id,
-                    Tier = TechnologyTier.Web
+                    Tier = TechnologyTier.Http
                 });
                 client.Post<TechChoiceResponse>(techChoiceUrl.Fmt(DateTime.Now.Millisecond), new TechChoice
                 {
@@ -138,7 +138,7 @@ namespace TechStacks.Tests
                 {
                     TechnologyId = iisTech.Tech.Id,
                     TechnologyStackId = initialStack.TechStack.Id,
-                    Tier = TechnologyTier.Web
+                    Tier = TechnologyTier.Http
                 });
             }
             catch (Exception)

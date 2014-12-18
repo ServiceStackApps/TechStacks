@@ -83,13 +83,14 @@
                 return deferred.promise;
             },
             allTiers: [
-                { name: 'Client', title: 'Client' },
-                { name: 'Web', title: 'Web Server' },
-                { name: 'App', title: 'Application Server' },
-                { name: 'Data', title: 'Database' },
-                { name: 'OperatingSystem', title: 'Operating System' },
-                { name: 'Hardware', title: 'Server Hardware/Infastructure' },
-                { name:'ProgrammingLanguage',title: 'Programming Language'}
+                { name: 'ProgrammingLanguage', title: 'Programming Languages' },
+                { name: 'Client', title: 'Client Libraries' },
+                { name: 'Web', title: 'HTTP Server Technologies' },
+                { name: 'Server', title: 'Server Libraries' },
+                { name: 'Data', title: 'Databases and NoSQL Datastores' },
+                { name: 'SoftwareInfrastructure', title: 'Server Software' },
+                { name: 'OperatingSystem', title: 'Operating Systems' },
+                { name: 'HardwareInfrastructure', title: 'Hardware Infastructure' },
             ]
         };
     }]);

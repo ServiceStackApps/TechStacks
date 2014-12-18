@@ -69,12 +69,27 @@ namespace TechStacks.ServiceModel.Types
 
     public enum TechnologyTier
     {
-        Data,
-        Web,
-        App,
+        [Description("Programming Languages")]
+        ProgrammingLanguage,
+
+        [Description("Client Libraries")]
         Client,
+
+        [Description("HTTP Server Technologies")]
+        Http,
+        
+        [Description("Server Libraries")]
+        Server,
+        [Description("Databases and NoSQL Datastores")]
+        
+        Data,
+        [Description("Server Software")]
+        SoftwareInfrastructure,
+        
+        [Description("Operating Systems")]
         OperatingSystem,
-        Hardware,
-        ProgrammingLanguage
+        
+        [Description("Hardware Infastructure")]
+        HardwareInfrastructure,
     }
 }

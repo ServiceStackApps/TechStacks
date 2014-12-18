@@ -12,7 +12,7 @@
 
     <div class="tech-info" ng-repeat="tier in allTiers">
         <div class="item" ng-show="tier.show">
-            <h4>{{tier.title}} Technologies</h4>
+            <h4>{{tier.title}}</h4>
             <div ng-repeat="tech in currentStack.TechnologyChoices | filter:{Tier:tier.name}">
                 <a href="#!/techs/{{tech.TechnologyId}}" title="{{tech.Name}}">
                     <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="75" />
