@@ -5,6 +5,8 @@
     //auto redirect urls without #! convention
     if (location.hash && location.hash.indexOf('#!') < 0)
         location.href = location.href.replace('#', '#!');
+    else if (location.pathname.length > "/".length)
+        location.href = location.origin + location.search + "#!" + location.pathname;
 
     angular.module('stacks', ['stacks.controllers', 'stacks.services', 'stacks.filters']);
     angular.module('techs', ['techs.controllers','tech.services']);

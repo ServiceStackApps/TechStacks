@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Net;
 using Funq;
 using ServiceStack;
 using ServiceStack.Auth;
@@ -6,6 +7,7 @@ using ServiceStack.Caching;
 using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.FluentValidation;
+using ServiceStack.Host.Handlers;
 using ServiceStack.OrmLite;
 using ServiceStack.Text;
 using ServiceStack.Validation;
@@ -38,10 +40,14 @@ namespace TechStacks
         /// <param name="container"></param>
         public override void Configure(Container container)
         {
+            //Return index.html home page for all 404 requests so we can handle routing on the client
+            base.CustomErrorHttpHandlers[HttpStatusCode.NotFound] =
+                new CustomActionHandler((req, res) => res.WriteFile("~/index.html".MapHostAbsolutePath()));
+
             SetConfig(new HostConfig
             {
                 HandlerFactoryPath = "api",
-                AllowFileExtensions = { "woff2" },
+                AllowFileExtensions = { "woff2" },                
             });
 
             JsConfig.DateHandler = DateHandler.ISO8601;
