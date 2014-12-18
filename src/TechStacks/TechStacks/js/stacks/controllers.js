@@ -82,6 +82,7 @@
                         tier.show = filterTechChoiceByTier(tier.name).length > 0;
                     });
                     $scope.selectedTechs = extractToSelectedTechs($scope.currentStack.TechnologyChoices);
+                    console.log($scope.selectedTechs);
                 });
             };
 
@@ -101,22 +102,16 @@
                 var expandedResults = [];
                 for (var i = 0; i < searchResults.length; i++) {
                     var searchResult = searchResults[i];
-                    if (searchResult.Tiers == null) {
+                    if (searchResult.Tier == null) {
                         continue;
                     }
-                    for (var j = 0; j < searchResult.Tiers.length; j++) {
-                        var item = {};
-                        var tier = searchResult.Tiers[j];
-                        angular.extend(item, searchResult);
-                        angular.extend(item, { Tier: tier });
-                        item.techKey = item.Id + ';' + item.Tier;
-                        item.techName = item.Name + ' - ' + item.Tier;
-                        expandedResults.push(item);
-                    }
+                    var item = {};
+                    item.techKey = searchResult.Id + ';' + searchResult.Tier;
+                    item.techName = searchResult.Name + ' - ' + searchResult.Tier;
+                    expandedResults.push(item);
                 }
 
                 $scope.searchResults = expandedResults;
-
             });
 
             function getLocalTechChoice(id) {

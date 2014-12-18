@@ -32,15 +32,10 @@
         </div>
         <div class="form-group">
             <label>Add to tier</label>
-            <chosen-select class="form-control" id="technologiesUsed"
-                           data="allTiers"
-                           item-value="name"
-                           item-name="title"
-                           selected-values="tech.Tiers"
-                           options="{no_results_text: 'oops, nothing found!'}"
-                           on-add="addTechToTier(item)"
-                           on-remove="removeTierFromTech(item)"></chosen-select>
-
+            <select class="form-control" ng-model="tech.Tier">
+                <option value="" disabled selected>Select a Tier</option>
+                <option ng-repeat="tier in allTiers" value="{{tier.name}}">{{tier.title}}</option>
+            </select>
         </div>
         <button class="btn btn-primary" ng-click="done()">Update</button>
         <div class="progress" ng-show="busy">

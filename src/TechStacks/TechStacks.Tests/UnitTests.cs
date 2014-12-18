@@ -75,7 +75,7 @@ namespace TechStacks.Tests
             var ssTech = client.Post(new Tech
             {
                 Name = "ServiceStack",
-                Tiers = new List<TechnologyTier>(new[] { TechnologyTier.Server, TechnologyTier.Http, TechnologyTier.Client }),
+                Tier = TechnologyTier.Server,
                 Description =
                     "Obscenely fast! Built with only fast, clean, code-first and light-weight parts. Start using .NET's fastest serializers, ORMs, redis and caching libraries!",
                 VendorName = "ServiceStack",
@@ -84,7 +84,7 @@ namespace TechStacks.Tests
             var iisTech = client.Post(new Tech
             {
                 Name = "IIS",
-                Tiers = new List<TechnologyTier>(new[] { TechnologyTier.Http }),
+                Tier = TechnologyTier.Http,
                 Description = "Microsoft's web host",
                 VendorName = "Microsoft",
                 LogoUrl = "http://www.microsoft.com/web/media/gallery/apps-screenshots/Microsoft-App-Request-Routing.png"
@@ -92,7 +92,7 @@ namespace TechStacks.Tests
             var ravenDbTech = client.Post(new Tech
             {
                 Name = "RavenDB",
-                Tiers = new List<TechnologyTier>(new[] { TechnologyTier.Data }),
+                Tier = TechnologyTier.Data,
                 Description = "Open source 2nd generation document DB",
                 VendorName = "RavenDB",
                 LogoUrl = "http://static.ravendb.net/logo-for-nuget.png"
@@ -100,7 +100,7 @@ namespace TechStacks.Tests
             var postgresTech = client.Post(new Tech
             {
                 Name = "PostgreSQL",
-                Tiers = new List<TechnologyTier>(new[] { TechnologyTier.Data }),
+                Tier = TechnologyTier.Data,
                 Description = "The world's most advanced open source database.",
                 VendorName = "PostgreSQL",
                 LogoUrl = "http://www.myintervals.com/blog/wp-content/uploads/2011/12/postgresql-logo1.png"
@@ -119,7 +119,7 @@ namespace TechStacks.Tests
                 {
                     TechnologyId = ssTech.Tech.Id,
                     TechnologyStackId = initialStack.TechStack.Id,
-                    Tier = TechnologyTier.Http
+                    Tier = TechnologyTier.Server
                 });
                 client.Post<TechChoiceResponse>(techChoiceUrl.Fmt(DateTime.Now.Millisecond), new TechChoice
                 {

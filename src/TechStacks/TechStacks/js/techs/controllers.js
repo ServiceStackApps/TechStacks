@@ -81,7 +81,8 @@
     ]);
 
     app.controller('editTechCtrl', [
-        '$scope', 'techServices', '$routeParams', '$q', '$filter', '$location', 'userService', function ($scope, techServices, $routeParams, $q, $filter, $location, userService) {
+        '$scope', 'techServices', '$routeParams', '$q', '$filter', '$location', 'userService', '$timeout',
+            function ($scope, techServices, $routeParams, $q, $filter, $location, userService, $timeout) {
 
             $scope.allTiers = angular.copy(techServices.allTiers);
             $scope.refreshTech = function() {
@@ -89,16 +90,6 @@
                     $scope.tech = tech;
                     $scope.tech.Tiers = $scope.tech.Tiers || [];
                 });
-            };
-
-            $scope.addTechToTier = function (item) {
-                $scope.tech.Tiers.push(item);
-                $scope.updateTech();
-            };
-
-            $scope.removeTierFromTech = function (item) {
-                $scope.tech.Tiers.splice($scope.tech.Tiers.indexOf(item), 1);
-                $scope.updateTech();
             };
 
             $scope.refreshTech();
@@ -119,13 +110,12 @@
                 });
             };
 
-            $scope.updateTech = function () {
-                techServices.updateTech($scope.tech);
-            };
-
             $scope.done = function () {
-                techServices.updateTech($scope.tech).then(function () {
-                    $location.path('/techs/' + $scope.tech.Id);
+                //Wait for ng-model digest after change to make sure model is updated.
+                $timeout(function () {
+                    techServices.updateTech($scope.tech).then(function () {
+                        $location.path('/techs/' + $scope.tech.Id);
+                    });
                 });
             };
         }
