@@ -1,19 +1,6 @@
 ﻿<div>
     <div ng-show="isAuthenticated" style="display: block;min-height: 150px">
-        <div class="col-md-2">
-            <h5>
-                Favorite Technologies
-            </h5>
-            <ul class="list-unstyled">
-                <li ng-repeat="tech in favoriteTechs" style="white-space:nowrap">
-                    <a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a> 
-                    <span class="glyphicon glyphicon-star fav selected"></span>
-                </li>
-            </ul>
-            <h6 style="margin-top:25px">Can't find your favorite tech?</h6>
-            <a href="#!/techs/create" class="btn btn-primary">Add technology</a>
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="panel panel-default" ng-repeat="feedStack in feedStacks">
                 <div class="panel-heading">
                     <a href="#!/stacks/{{feedStack.Id}}" style="display:block">
@@ -32,17 +19,37 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
-            <h5>
+        <div class="col-md-3">
+            <h4 style="white-space: nowrap">
                 Favorite Stacks
-            </h5>
+            </h4>
             <ul class="list-unstyled">
                 <li ng-repeat="techStack in favoriteTechStacks" style="white-space:nowrap">
+                    <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected" 
+                          ng-click="addFavoriteTechStack(techStack)"></span>
+                    <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav" 
+                          ng-click="removeFavoriteTechStack(techStack)"></span>
+
                     <a href="#!/stacks/{{techStack.Id}}">{{techStack.Name}}</a> 
-                    <span class="glyphicon glyphicon-star fav selected"></span>
                 </li>
             </ul>
             <a style="margin-top: 25px" href="#!/stacks/create" class="btn btn-primary">Create a TechStack</a>
+
+            <h4 style="white-space: nowrap; margin-top: 40px;">
+                Favorite Technologies
+            </h4>
+            <ul class="list-unstyled">
+                <li ng-repeat="tech in favoriteTechs" style="white-space:nowrap">
+                    <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected" 
+                          ng-click="removeFavoriteTech(tech)"></span>
+                    <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav" 
+                          ng-click="addFavoriteTech(tech)"></span>
+
+                    <a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a> 
+                </li>
+            </ul>
+            <h6 style="margin-top:25px">Can't find your favorite tech?</h6>
+            <a href="#!/techs/create" class="btn btn-primary">Add technology</a>
         </div>
     </div>
     <div ng-show="!isAuthenticated">

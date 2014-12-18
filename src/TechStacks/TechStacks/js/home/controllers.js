@@ -34,12 +34,20 @@
                 return isFav;
             };
 
-            $scope.addFavorite = function (techStack) {
+            $scope.addFavoriteTechStack = function (techStack) {
                 userService.addFavoriteTechStack(techStack);
             };
 
-            $scope.removeFavorite = function (techStack) {
+            $scope.removeFavoriteTechStack = function (techStack) {
                 userService.removeFavoriteTechStack(techStack);
+            };
+
+            $scope.addFavoriteTech = function (tech) {
+                userService.addFavoriteTech(tech);
+            };
+
+            $scope.removeFavoriteTech = function (tech) {
+                userService.removeFavoriteTech(tech);
             };
         }
     ]);
