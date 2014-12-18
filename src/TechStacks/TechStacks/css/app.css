@@ -7,6 +7,9 @@ a, a:hover, a:focus {
     color: #03a9f4;
     text-decoration: none;
 }
+small {
+    color: #999;
+}
 .navbar-inverse, .nav li, 
 .navbar-nav > li > a, .navbar-nav > li > a:hover,
 .navbar-nav > .active > a, .navbar-nav > .active > a:hover {

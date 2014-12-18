@@ -17,6 +17,11 @@
                 });
             });
 
+            techStackServices.trendingStacks().then(function (trending) {
+                $scope.topTechnologies = trending.TopTechnologies;
+                $scope.topUsers = trending.TopUsers;
+            });
+
             $scope.isFavorite = function (techStack) {
                 var isFav = false;
                 for (var i = 0; i < $scope.favoriteTechStacks.length > 0; i++) {

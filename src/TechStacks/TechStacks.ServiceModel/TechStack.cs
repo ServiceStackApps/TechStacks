@@ -62,4 +62,29 @@ namespace TechStacks.ServiceModel
 
         public TechnologyTier Tier { get; set; }
     }
+
+    [Route("/stacks/trending")]
+    public class TrendingStacks : IReturn<TrendingStacksResponse> { }
+
+    public class TrendingStacksResponse
+    {
+        public List<UserInfo> TopUsers { get; set; }
+        public List<TechnologyInfo> TopTechnologies { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
+    }
+
+    public class UserInfo
+    {
+        public string UserName { get; set; }
+        public string AvatarUrl { get; set; }
+        public int StacksCount { get; set; }
+    }
+
+    public class TechnologyInfo
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public int StacksCount { get; set; }
+    }
 }

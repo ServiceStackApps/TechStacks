@@ -52,7 +52,7 @@
             TechStacks allows developers to describe the technology stacks used by applications! You can see what this site itself is powered by
             <a href="#!/stacks/1">here</a>! For more information on how this application was built, have a look at its <a href="https://github.com/ServiceStackApps/TechStacks">GitHub page</a>.
         </section>
-        <div class="col-md-12">
+        <div class="col-md-9">
             <div class="panel panel-default" ng-repeat="techStack in techStacks">
                 <div class="panel-heading">
                     <a href="#!/stacks/{{techStack.Id}}" style="display:block">
@@ -70,6 +70,29 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-3">
+            <h4>
+                Browse by Technology
+            </h4>
+            <ul class="list-unstyled">
+                <li ng-repeat="tech in topTechnologies" style="white-space:nowrap">
+                    <a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a> 
+                    <small>({{tech.StacksCount}})</small>
+                </li>
+            </ul>
+            <h4 style="margin-top: 40px">
+                Browse by Users
+            </h4>
+            <ul class="list-unstyled">
+                <li ng-repeat="user in topUsers" style="white-space:nowrap">
+                    <a href="#!/{{user.UserName}}">
+                        <img src="{{user.AvatarUrl}}" style="height: 20px;" />
+                        {{user.UserName}}
+                    </a> 
+                    <small>({{user.StacksCount}})</small>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

@@ -85,6 +85,14 @@
                     });
                 return deferred.promise;
             },
+            trendingStacks: function() {
+                var deferred = $q.defer();
+                $http.get('/stacks/trending')
+                    .success(function (response) {
+                        deferred.resolve(response);
+                    });
+                return deferred.promise;
+            },
             searchTech: techServices.searchTech,
             allTiers: techServices.allTiers
         };
