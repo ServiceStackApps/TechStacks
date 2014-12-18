@@ -10,10 +10,10 @@
             </tr>
         </thead>
         <tr ng-repeat="tech in techs">
-            <td class="name"><a href="#!/i/techs/{{tech.Id}}">{{tech.Name}}</a></td>
+            <td class="name"><a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a></td>
             <td><div>{{tech.Description}}</div></td>
             <td class="vendor">{{tech.VendorName}}</td>
         </tr>
     </table>
-    <a ng-show="isAuthenticated" href="#!/i/techs/create" class="btn btn-primary">Add technology</a>
+    <a ng-show="isAuthenticated" href="#!/techs/create" class="btn btn-primary">Add technology</a>
 </div>

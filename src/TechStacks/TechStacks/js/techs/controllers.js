@@ -66,7 +66,7 @@
             $scope.createNewTech = function() {
                 techServices.createTech($scope.tech).then(function (tech) {
                     $scope.tech.Id = tech.Id;
-                    $location.path("/i/techs/" + $scope.tech.Id + "/edit");
+                    $location.path("/techs/" + $scope.tech.Id + "/edit");
                 });
             };
 
@@ -125,7 +125,7 @@
 
             $scope.done = function () {
                 techServices.updateTech($scope.tech).then(function () {
-                    $location.path('/i/techs/' + $scope.tech.Id);
+                    $location.path('/techs/' + $scope.tech.Id);
                 });
             };
         }

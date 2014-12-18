@@ -41,21 +41,21 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a id="logo" ng-class="{ active: IsRouteActive('/')}" class="navbar-brand" href="#/">
+                    <a id="logo" ng-class="{ active: IsRouteActive('/')}" class="navbar-brand" href="#!/">
                         <img src="img/logo-280.png" width="22" height="22"/>
                         TechStacks
                     </a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li ng-class="{ active: IsRouteActive('/i/stacks')}"><a href="#!/i/stacks">Stacks</a></li>
-                        <li ng-class="{ active: IsRouteActive('/i/techs')}"><a href="#!/i/techs">Technologies</a></li>
+                        <li ng-class="{ active: IsRouteActive('/stacks')}"><a href="#!/stacks">Stacks</a></li>
+                        <li ng-class="{ active: IsRouteActive('/techs')}"><a href="#!/techs">Technologies</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li ng-hide="isAuthenticated"><a href="/auth/twitter"><img src="img/twitter_normal.png" alt="Sign in with Twitter" /></a></li>
                         <li ng-hide="isAuthenticated"><a href="/auth/github"><img src="img/github_normal.png" alt="Sign in with Github" /></a></li>
                         <li ng-show="isAuthenticated" style="padding: 12px 0 0 0"><a href="/auth/logout">Logout</a></li>
-                        <li ng-show="isAuthenticated"><span><a href="#/{{currentUserSession.UserName}}"><img style="margin-top:5px;border-radius:50%" ng-src="{{currentUserSession.DefaultProfileUrl}}" width="50" height="50" /></a></span></li>
+                        <li ng-show="isAuthenticated"><span><a href="#!/{{currentUserSession.UserName}}"><img style="margin-top:5px;border-radius:50%" ng-src="{{currentUserSession.DefaultProfileUrl}}" width="50" height="50" /></a></span></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

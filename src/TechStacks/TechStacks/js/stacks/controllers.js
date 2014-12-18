@@ -64,7 +64,7 @@
                 techStackServices.createStack($scope.newStack).then(function (techStack) {
                     $scope.newStack = $scope.newStack || {};
                     $scope.newStack.Id = techStack.Id;
-                    $location.path("/i/stacks/" + $scope.newStack.Id + "/edit");
+                    $location.path("/stacks/" + $scope.newStack.Id + "/edit");
                 });
             };
         }

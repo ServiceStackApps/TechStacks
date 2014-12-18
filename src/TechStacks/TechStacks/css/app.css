@@ -141,7 +141,7 @@ textarea {
     min-height: 80px;
 }
 textarea#Details {
-    min-height: 120px;
+    min-height: 200px;
 }
 
 /* Search */
