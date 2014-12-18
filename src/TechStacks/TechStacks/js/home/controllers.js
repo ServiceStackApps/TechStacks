@@ -22,11 +22,22 @@
                 $scope.topUsers = trending.TopUsers;
             });
 
-            $scope.isFavorite = function (techStack) {
+            $scope.isFavoriteTech = function (tech) {
                 var isFav = false;
-                for (var i = 0; i < $scope.favoriteTechStacks.length > 0; i++) {
-                    var favStack = $scope.favoriteTechStacks[i];
-                    if (favStack.Id === techStack.Id) {
+                for (var i = 0; i < $scope.favoriteTechs.length > 0; i++) {
+                    var favTech = $scope.favoriteTechs[i];
+                    if (favTech.Id === tech.Id) {
+                        isFav = true;
+                        break;
+                    }
+                }
+                return isFav;
+            };
+
+            $scope.isFavoriteTechStack = function (techStack) {
+                var isFav = false;
+                for (var i = 0; i < $scope.favoriteTechStacks.length; i++) {
+                    if ($scope.favoriteTechStacks[i].Id === techStack.Id) {
                         isFav = true;
                         break;
                     }
