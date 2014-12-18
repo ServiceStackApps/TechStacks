@@ -18,7 +18,6 @@
                 });
             }
 
-
             $scope.deleteStack = function(selectedStack) {
                 techStackServices.deleteTechStack(selectedStack).success(function () {
                     for (var i = 0; i < $scope.techStacks.length; i++) {
@@ -32,8 +31,10 @@
             };
 
             if (!sessionLogin) {
-                userService.getUserCreatedStacks($routeParams.userName).then(function (response) {
+                userService.getUserStacks($routeParams.userName).then(function (response) {
                     $scope.techStacks = response.data.TechStacks;
+                    $scope.favoriteTechStacks = response.data.FavoriteTechStacks;
+                    $scope.favoriteTechnologies = response.data.FavoriteTechnologies;
                 });
             }
         }

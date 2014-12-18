@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using ServiceStack.DataAnnotations;
 
 namespace TechStacks.ServiceModel.Types

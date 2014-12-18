@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ServiceStack;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
     [Route("/mystacks")]
-    public class AccountTechStacks : IReturn<AccountTechStacksResponse>
-    {
-        
-    }
+    public class AccountTechStacks : IReturn<AccountTechStacksResponse> {}
 
     public class AccountTechStacksResponse
     {
@@ -20,10 +13,7 @@ namespace TechStacks.ServiceModel
     }
 
     [Route("/myfeed")]
-    public class AccountTechStackFeed
-    {
-        
-    }
+    public class AccountTechStackFeed {}
 
     public class AccountTechStackFeedResponse
     {
@@ -38,7 +28,10 @@ namespace TechStacks.ServiceModel
 
     public class UserTechStackResponse
     {
-        public List<TechStackDetails> TechStacks { get; set; } 
+        public List<TechStackDetails> TechStacks { get; set; }
+
+        public List<TechnologyStack> FavoriteTechStacks { get; set; }
+        public List<Technology> FavoriteTechnologies { get; set; } 
     }
 
     [Route("/users/{UserName}/avatar")]

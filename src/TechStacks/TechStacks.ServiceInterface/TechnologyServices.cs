@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.OrmLite;
@@ -21,11 +17,14 @@ namespace TechStacks.ServiceInterface
             tech.CreatedBy = session.UserName;
             tech.LastModifiedBy = session.UserName;
             tech.OwnerId = session.UserAuthId;
-            request.LogoApproved = true; // disable explicit approval when we first have a problem
+
+            // disable explicit approval until we first have a problem
+            request.LogoApproved = true; 
             //if (!session.HasRole(RoleNames.Admin))
             //{
             //    request.LogoApproved = false;
             //}
+            
             var id = Db.Insert(tech, selectIdentity: true);
             var createdTechStack = Db.SingleById<Technology>(id);
             return new TechResponse
@@ -38,18 +37,18 @@ namespace TechStacks.ServiceInterface
         {
             var existingTech = Db.SingleById<Technology>(request.Id);
             if (existingTech == null)
-            {
                 throw HttpError.NotFound("Tech not found");
-            }
+
             var session = SessionAs<AuthUserSession>();
             if (existingTech.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
-            {
                 throw HttpError.Unauthorized("You are not the owner of this technology.");
-            }
-            if (request.LogoUrl != existingTech.LogoUrl && !session.HasRole(RoleNames.Admin))
-            {
-                request.LogoApproved = false;
-            }
+
+            // disable explicit approval until we first have a problem
+            //if (request.LogoUrl != existingTech.LogoUrl && !session.HasRole(RoleNames.Admin))
+            //{
+            //    request.LogoApproved = false;
+            //}
+
             var updated = request.ConvertTo<Technology>();
             updated.LastModifiedBy = session.UserName;
             updated.OwnerId = existingTech.OwnerId;
@@ -66,15 +65,14 @@ namespace TechStacks.ServiceInterface
         {
             var existingTech = Db.SingleById<Technology>(request.Id);
             if (existingTech == null)
-            {
                 throw HttpError.NotFound("Tech not found");
-            }
+
             var session = SessionAs<AuthUserSession>();
             if (existingTech.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
-            {
                 throw HttpError.Unauthorized("You are not the owner of this technology.");
-            }
+
             Db.DeleteById<Technology>(request.Id);
+
             return new TechResponse
             {
                 Tech = new Technology { Id = (long)request.Id }
@@ -90,11 +88,11 @@ namespace TechStacks.ServiceInterface
                     Techs = Db.Select(Db.From<Technology>().Take(100)).ToList()
                 };
             }
+
             var alreadyExists = Db.Exists<Technology>(x => x.Id == request.Id);
             if (!alreadyExists)
-            {
                 HttpError.NotFound("Tech stack not found");
-            }
+
             return new TechResponse
             {
                 Tech = Db.SingleById<Technology>(request.Id)
@@ -103,7 +101,7 @@ namespace TechStacks.ServiceInterface
 
         public object Get(GetStacksThatUseTech request)
         {
-            var stacksByTech = Db.Select<TechnologyStack>(Db.From<TechnologyStack>()
+            var stacksByTech = Db.Select(Db.From<TechnologyStack>()
                 .Join<TechnologyChoice, TechnologyStack>(
                     (techChoice, techStack) => techChoice.TechnologyId == request.Id && techChoice.TechnologyStackId == techStack.Id)
                 .SelectDistinct(x => x.Id));

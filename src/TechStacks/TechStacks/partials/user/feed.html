@@ -8,7 +8,7 @@
     </div>
     <div class="col-md-10">
         <h3>TechStacks</h3>
-        <table class="table table-responsive table-striped">
+        <table ng-show="techStacks.length > 0" class="table table-responsive table-striped">
             <thead>
                 <tr>
                     <td><strong>Name</strong></td>
@@ -22,6 +22,42 @@
                 <td ng-show="isAuthenticated && currentUserName === currentUserSession.UserName"><button class="btn btn-sm btn-danger" ng-click="deleteStack(techStack)">Delete</button></td>
             </tr>
         </table>
+        
+        <p ng-show="techStacks.length == 0">
+            <span ng-show="isAuthenticated && currentUserName === currentUserSession.UserName">You haven't</span>
+            <span ng-show="!isAuthenticated || currentUserName !== currentUserSession.UserName">{{currentUserName}} hasn't</span>
+            created any Tech Stacks yet.
+        </p>
+
         <a class="btn btn-primary" ng-show="isAuthenticated && currentUserName === currentUserSession.UserName" href="#!/stacks/create">Create a stack</a>
+        
+        <h3 ng-show="favoriteTechStacks.length > 0" style="margin-top: 40px">Favorite TechStacks</h3>
+        <table ng-show="favoriteTechStacks.length > 0" class="table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td><strong>Description</strong></td>
+                </tr>
+            </thead>
+            <tr ng-repeat="techStack in favoriteTechStacks">
+                <td class="name"><a href="#!/stacks/{{techStack.Id}}">{{techStack.Name}}</a></td>
+                <td class="description" title="{{techStack.Description}}"><div>{{techStack.Description}}</div></td>
+            </tr>
+        </table>
+        
+        <h3 ng-show="favoriteTechnologies.length > 0" style="margin-top: 40px">Favorite Technologies</h3>
+        <table ng-show="favoriteTechnologies.length > 0" class="table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td><strong>Description</strong></td>
+                </tr>
+            </thead>
+            <tr ng-repeat="tech in favoriteTechnologies">
+                <td class="name"><a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a></td>
+                <td class="description" title="{{tech.Description}}"><div>{{tech.Description}}</div></td>
+            </tr>
+        </table>
+
     </div>
 </div>

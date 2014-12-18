@@ -49,17 +49,30 @@ namespace TechStacks.ServiceInterface
         {
             var user = Db.Single<CustomUserAuth>(x => x.UserName == request.UserName);
             if (user == null)
-            {
                 throw HttpError.NotFound("User not found");
-            }
 
             var techStacks = TechStackQueries.GetTechstackDetails(Db,
                 Db.From<TechnologyStack>()
                     .Where(x => x.CreatedBy == request.UserName)
                     .OrderByDescending(x => x.Id));
+
+            var favStacks = Db.Select(
+                Db.From<TechnologyStack>()
+                  .Join<UserFavoriteTechnologyStack>()
+                  .Where<UserFavoriteTechnologyStack>(u => u.UserId == user.Id.ToString()));
+
+            favStacks.Each(x => x.Details = null); //lighten payload
+
+            var favTechs = Db.Select(
+                Db.From<Technology>()
+                  .Join<UserFavoriteTechnology>()
+                  .Where<UserFavoriteTechnology>(u => u.UserId == user.Id.ToString()));
+
             return new UserTechStackResponse
             {
-                TechStacks = techStacks
+                TechStacks = techStacks,
+                FavoriteTechStacks = favStacks,
+                FavoriteTechnologies = favTechs,
             };
         }
 

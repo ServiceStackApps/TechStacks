@@ -173,7 +173,7 @@
                     }
                     return deferred.promise;
                 },
-                getUserCreatedStacks: function (userName) {
+                getUserStacks: function (userName) {
                     return $http.get('/users/' + userName + '/stacks');
                 },
                 getUserAvatar: function (userName) {
