@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ServiceStack;
+﻿using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.OrmLite;
 using TechStacks.ServiceModel;
@@ -18,21 +13,17 @@ namespace TechStacks.ServiceInterface
         {
             if (request.Id == null)
             {
-                var technologyChoices = Db.Select<TechnologyChoice>(
-
-                    );
                 return new TechChoiceResponse
                 {
-                    TechnologyChoices =
-                        technologyChoices.ToList()
+                    TechnologyChoices = Db.Select<TechnologyChoice>()
                 };
             }
             return new TechChoiceResponse
             {
-                TechnologyChoice = Db.Single<TechnologyChoice>(Db.From<TechnologyChoice>()
-                        .Join<TechnologyChoice, Technology>((tst, t) => t.Id == tst.TechnologyId)
-                        .Join<TechnologyChoice, TechnologyStack>((tst, ts) => ts.Id == tst.TechnologyStackId)
-                        .Where(technologyChoice => technologyChoice.Id == request.Id))
+                TechnologyChoice = Db.Single(Db.From<TechnologyChoice>()
+                    .Join<TechnologyChoice, Technology>((tst, t) => t.Id == tst.TechnologyId)
+                    .Join<TechnologyChoice, TechnologyStack>((tst, ts) => ts.Id == tst.TechnologyStackId)
+                    .Where(technologyChoice => technologyChoice.Id == request.Id))
             };
         }
 
@@ -45,6 +36,7 @@ namespace TechStacks.ServiceInterface
             techChoice.OwnerId = session.UserAuthId;
             var id = Db.Insert(techChoice, selectIdentity: true);
             var createdTechStack = Db.SingleById<TechnologyChoice>(id);
+
             return new TechChoiceResponse
             {
                 TechnologyChoice = createdTechStack

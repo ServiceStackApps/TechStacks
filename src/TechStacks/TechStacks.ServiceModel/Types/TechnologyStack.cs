@@ -43,8 +43,6 @@ namespace TechStacks.ServiceModel.Types
         public string CreatedBy { get; set; }
         public string LastModifiedBy { get; set; }
         public string OwnerId { get; set; }
-
-        public TechnologyTier Tier { get; set; }
     }
 
     public class Technology
@@ -64,7 +62,7 @@ namespace TechStacks.ServiceModel.Types
         public string LastModifiedBy { get; set; }
         public string OwnerId { get; set; }
 
-        public List<TechnologyTier> Tiers { get; set; }
+        public TechnologyTier Tier { get; set; }
     }
 
     public enum TechnologyTier
@@ -80,9 +78,10 @@ namespace TechStacks.ServiceModel.Types
         
         [Description("Server Libraries")]
         Server,
+
         [Description("Databases and NoSQL Datastores")]
-        
         Data,
+        
         [Description("Server Software")]
         SoftwareInfrastructure,
         

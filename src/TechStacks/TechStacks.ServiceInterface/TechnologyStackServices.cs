@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using MarkdownSharp;
 using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.OrmLite;
-using ServiceStack.OrmLite.Dapper;
 using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
 
@@ -106,8 +101,7 @@ namespace TechStacks.ServiceInterface
             if (!string.IsNullOrEmpty(request.Tier))
             {
                 //Filter by tier
-                query.Join<TechnologyChoice>((stack, choice) => stack.Id == choice.TechnologyStackId)
-                    .Where<TechnologyChoice>(x => Sql.In(x.Tier, request.Tier));
+                query.Join<TechnologyChoice>((stack, choice) => stack.Id == choice.TechnologyStackId);
             }
 
             return new TechStackResponse

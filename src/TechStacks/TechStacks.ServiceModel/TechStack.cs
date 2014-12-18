@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ServiceStack;
 using TechStacks.ServiceModel.Types;
 
@@ -31,6 +27,8 @@ namespace TechStacks.ServiceModel
         public List<TechnologyStack> TechStacks { get; set; }
 
         public TechStackDetails TechStack { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
     }
 
     [Query(QueryTerm.Or)]
