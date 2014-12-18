@@ -2,43 +2,41 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Funq;
+using System.Text;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using ServiceStack;
 using ServiceStack.Auth;
-using ServiceStack.Caching;
-using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Testing;
-using ServiceStack.Validation;
-using ServiceStack.Web;
 using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
-using TechStacks.ServiceInterface.Filters;
-using TechStacks.ServiceInterface;
 
 namespace TechStacks.Tests
 {
     [TestFixture]
-    public class UnitTests
+    public class IntegrationTests
     {
 
         private ServiceStackHost appHost;
+        private const string testHostUrl = "http://localhost:21001/";
+        JsonServiceClient client = new JsonServiceClient(testHostUrl);
 
         [TestFixtureSetUp]
         public void Init()
         {
-            appHost = new UnitTestHost();
+            appHost = new IntegrationTestHost();
             var debugSettings = new FileInfo(@"~/../../../TechStacks/wwwroot_build/deploy/appsettings.license.txt".MapAbsolutePath());
             Licensing.RegisterLicenseFromFileIfExists(debugSettings.FullName);
             appHost.Init();
+            appHost.Start("http://*:21001/");
         }
 
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
-           appHost.Dispose();
+            appHost.Dispose();
         }
 
         [SetUp]
@@ -55,25 +53,30 @@ namespace TechStacks.Tests
             }
 
             SeedTestHost();
+            client = new JsonServiceClient(testHostUrl);
+            client.Post(new Authenticate { UserName = "TestUser", Password = "testuser", provider = "credentials" });
         }
 
         [Test]
-        public void Can_Get_Stacks()
+        public void Can_Create_TechStack()
         {
-            var service = appHost.Resolve<TechnologyStackServices>();
-            var response = (TechStackResponse)service.Get(new TechStack());
+            client.Post(new TechStack
+            {
+                Description = "Description1",
+                Details = "Some details",
+                Name = "My new stack"
+            });
             var dbFactory = appHost.Resolve<IDbConnectionFactory>();
             using (var db = dbFactory.OpenDbConnection())
             {
                 var allStacks = db.Select<TechnologyStack>().ToList();
-                Assert.That(allStacks.Count, Is.EqualTo(response.TechStacks.Count));
+                Assert.That(allStacks.Count, Is.EqualTo(2));
             }
         }
 
         private void SeedTestHost()
         {
-            Seeds.SeedApp(appHost.Resolve<IDbConnectionFactory>(),appHost.Resolve<IUserAuthRepository>());
+            Seeds.SeedApp(appHost.Resolve<IDbConnectionFactory>(), appHost.Resolve<IUserAuthRepository>());
         }
     }
-
 }
