@@ -5,6 +5,9 @@
     "main": "tests/karma.conf.js",
     "author": "",
     "license": "",
+    "scripts": {
+    "postinstall" : "node_modules/.bin/bower install"
+    },
     "devDependencies": {
         "bower":  "~1.3.12",
         "karma": "~0.12",
