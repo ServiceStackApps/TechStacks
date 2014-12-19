@@ -122,7 +122,7 @@ namespace TechStacks.Tests
         }
 
         [Test]
-        public void Cant_Lock_Tech_As_Normal_User()
+        public void Cant_Lock_TechStack_As_Normal_User()
         {
             var allStacks = client.Get(new TechStack());
             var first = allStacks.TechStacks.First();
@@ -135,14 +135,14 @@ namespace TechStacks.Tests
             {
                 //Do nothing
             }
-            
+
             var updatedStacks = client.Get(new TechStack());
             Assert.That(isLocked, Is.EqualTo(false));
-            Assert.That(updatedStacks.TechStacks.First().IsLocked,Is.EqualTo(false));
+            Assert.That(updatedStacks.TechStacks.First().IsLocked, Is.EqualTo(false));
         }
 
         [Test]
-        public void Can_Lock_Tech_As_AdminUser()
+        public void Can_Lock_TechStack_As_AdminUser()
         {
             var allStacks = client.Get(new TechStack());
             var first = allStacks.TechStacks.First();
@@ -159,6 +159,46 @@ namespace TechStacks.Tests
             var updatedStacks = client.Get(new TechStack());
             Assert.That(isLocked, Is.EqualTo(false));
             Assert.That(updatedStacks.TechStacks.First().IsLocked, Is.EqualTo(true));
+        }
+
+        [Test]
+        public void Cant_Lock_Tech_As_Normal_User()
+        {
+            var allStacks = client.Get(new Tech());
+            var first = allStacks.Techs.First();
+            bool isLocked = first.IsLocked;
+            try
+            {
+                client.Put(new LockTech { TechnologyId = first.Id, IsLocked = true });
+            }
+            catch (Exception)
+            {
+                //Do nothing
+            }
+            
+            var updatedStacks = client.Get(new Tech());
+            Assert.That(isLocked, Is.EqualTo(false));
+            Assert.That(updatedStacks.Techs.First().IsLocked,Is.EqualTo(false));
+        }
+
+        [Test]
+        public void Can_Lock_Tech_As_AdminUser()
+        {
+            var allStacks = client.Get(new Tech());
+            var first = allStacks.Techs.First();
+            bool isLocked = first.IsLocked;
+            try
+            {
+                adminClient.Put(new LockTech { TechnologyId = first.Id, IsLocked = true });
+            }
+            catch (Exception)
+            {
+                //Do nothing
+            }
+
+            var updatedStacks = client.Get(new Tech());
+            Assert.That(isLocked, Is.EqualTo(false));
+            Assert.That(updatedStacks.Techs.First().IsLocked, Is.EqualTo(true));
         }
 
         [Test]
