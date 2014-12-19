@@ -22,8 +22,13 @@
                   ng-click="addFavorite()"></span>
         </h2>
 
+
         <p>
             <a href="{{tech.ProductUrl}}" target="_blank">{{tech.ProductUrl}}</a>
+            <span style="color:#aaa;">
+                by 
+                {{tech.VendorName}}
+            </span>
         </p>
 
         <p>{{tech.Description}}</p>
