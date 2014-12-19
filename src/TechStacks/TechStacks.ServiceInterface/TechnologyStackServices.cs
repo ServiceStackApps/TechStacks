@@ -21,6 +21,7 @@ namespace TechStacks.ServiceInterface
             tech.OwnerId = session.UserAuthId;
             tech.Created = DateTime.UtcNow;
             tech.LastModified = DateTime.UtcNow;
+            tech.SlugTitle = tech.Name.GenerateSlug();
             var id = Db.Insert(tech, selectIdentity:true);
             var createdTechStack = Db.SingleById<TechnologyStack>(id);
 

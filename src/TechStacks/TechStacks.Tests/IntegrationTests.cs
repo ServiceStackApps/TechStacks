@@ -55,6 +55,8 @@ namespace TechStacks.Tests
                 db.DropAndCreateTable<TechnologyChoice>();
                 db.DropAndCreateTable<UserFavoriteTechnologyStack>();
                 db.DropAndCreateTable<UserFavoriteTechnology>();
+                db.DropAndCreateTable<TechnologyHistory>();
+                db.DropAndCreateTable<TechnologyStackHistory>();
             }
 
             SeedTestHost();
@@ -95,6 +97,75 @@ namespace TechStacks.Tests
                 var allTechs = db.Select<Technology>().ToList();
                 Assert.That(allTechs.Count, Is.EqualTo(5));
             }
+        }
+
+        [Test]
+        public void Cant_Create_Tech_With_Same_Name()
+        {
+            var allTechs = client.Get(new Tech());
+            var tech = allTechs.Techs.First();
+            bool created = true;
+            try
+            {
+                var response = client.Post(new Tech
+                {
+                    Description = "Description1",
+                    Name = tech.Name
+                });
+            }
+            catch (Exception e)
+            {
+                created = false;
+            }
+            Assert.That(created,Is.EqualTo(false));
+        }
+
+        [Test]
+        public void Cant_Create_TechStack_With_Same_Name()
+        {
+            var allStacks = client.Get(new TechStack());
+            var stack = allStacks.TechStacks.First();
+            bool created = true;
+            try
+            {
+                var response = client.Post(new TechStack
+                {
+                    Description = "Description1",
+                    Name = stack.Name
+                });
+            }
+            catch (Exception e)
+            {
+                created = false;
+            }
+            Assert.That(created, Is.EqualTo(false));
+        }
+
+        [Test]
+        public void Can_Create_Tech_With_Correct_Slug()
+        {
+            var response = client.Post(new Tech
+            {
+                Description = "Description1",
+                Name = "My new TeCh"
+            });
+
+            var tech = response.Tech;
+            Assert.That(tech.SlugTitle,Is.EqualTo("my-new-tech"));
+        }
+
+        [Test]
+        public void Can_Create_TechStack_With_Correct_Slug()
+        {
+            var response = client.Post(new TechStack
+            {
+                Description = "Description1",
+                Details = "Some details",
+                Name = "My new stack"
+            });
+
+            var techStack = response.TechStack;
+            Assert.That(techStack.SlugTitle, Is.EqualTo("my-new-stack"));
         }
 
         [Test]

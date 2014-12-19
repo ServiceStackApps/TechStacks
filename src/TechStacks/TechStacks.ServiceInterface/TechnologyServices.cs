@@ -24,8 +24,9 @@ namespace TechStacks.ServiceInterface
             //{
             //    tech.LogoApproved = false;
             //}
-            tech.LogoApproved = true; 
-            
+            tech.LogoApproved = true;
+
+            tech.SlugTitle = tech.Name.GenerateSlug();
             var id = Db.Insert(tech, selectIdentity: true);
             var createdTechStack = Db.SingleById<Technology>(id);
 
