@@ -7,15 +7,19 @@
         '$scope', '$http', 'techStackServices', 'userService', function ($scope, $http, techStackServices, userService) {
             $scope.allTiers = angular.copy(techStackServices.allTiers);
 
-            userService.isAuthenticated().then(function() {
-                userService.getUserFeed().then(function(results) {
-                    $scope.feedStacks = results;
+            function refreshFeed() {
+                userService.isAuthenticated().then(function () {
+                    userService.getUserFeed().then(function (results) {
+                        $scope.feedStacks = results;
+                    });
+                }, function () {
+                    techStackServices.latestTechStacks().then(function (techstacks) {
+                        $scope.techStacks = techstacks;
+                    });
                 });
-            }, function () {
-                techStackServices.latestTechStacks().then(function (techstacks) {
-                    $scope.techStacks = techstacks;
-                });
-            });
+            }
+
+            refreshFeed();
 
             techStackServices.trendingStacks().then(function (trending) {
                 $scope.topTechnologies = trending.TopTechnologies;
@@ -58,7 +62,8 @@
             };
 
             $scope.removeFavoriteTech = function (tech) {
-                userService.removeFavoriteTech(tech);
+                userService.removeFavoriteTech(tech)
+                .then(refreshFeed);
             };
         }
     ]);

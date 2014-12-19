@@ -117,6 +117,7 @@
                         })
                         .error(function() {
                             removeEntry($rootScope.favoriteTechStacks, techStack);
+                            deferred.reject('Error');
                         });
                     }
                     return deferred.promise;
@@ -134,6 +135,7 @@
                         })
                         .error(function() {
                             addEntry($rootScope.favoriteTechStacks, techStack);
+                            deferred.reject('Error');
                         });
                     }
                     return deferred.promise;
@@ -151,6 +153,7 @@
                         })
                         .error(function () {
                             removeEntry($rootScope.favoriteTechs, tech);
+                            deferred.reject('Error');
                         });
                     }
                     return deferred.promise;
@@ -168,6 +171,7 @@
                         })
                         .error(function () {
                             addEntry($rootScope.favoriteTechs, tech);
+                            deferred.reject('Error');
                         });
                     }
                     return deferred.promise;
