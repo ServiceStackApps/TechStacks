@@ -4,6 +4,7 @@ using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+using TechStacks.ServiceInterface;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.Tests
@@ -40,6 +41,20 @@ namespace TechStacks.Tests
             {
                 db.DropAndCreateTable<TechnologyHistory>();
                 db.DropAndCreateTable<TechnologyStackHistory>();
+            }
+        }
+
+        [Test]
+        public void UpdateSlugTitles()
+        {
+            using (var db = OpenDbConnection())
+            {
+                var allTechs = db.Select<Technology>();
+                allTechs.ForEach(x => x.SlugTitle = x.Name.GenerateSlug());
+                db.UpdateAll(allTechs);
+                var allStacks = db.Select<TechnologyStack>();
+                allStacks.ForEach(x => x.SlugTitle = x.Name.GenerateSlug());
+                db.UpdateAll(allStacks);
             }
         }
     }
