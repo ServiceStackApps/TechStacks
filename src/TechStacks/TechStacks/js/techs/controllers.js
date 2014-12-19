@@ -8,8 +8,30 @@
             $scope.allTiers = angular.copy(techServices.allTiers);
 
             $scope.refresh = function () {
-                techServices.searchTech($scope.Search || '').then(function(techs) {
-                    $scope.techs = techs;
+                techServices.searchTech($scope.Search || '').then(function (techs) {
+
+                    var categoryFilter = null;
+                    if ($scope.category && $scope.category.title) {
+                        for (var i = 0; i < $scope.allTiers.length; i++) {
+                            var tier = $scope.allTiers[i];
+                            if (tier.title === $scope.category.title) {
+                                categoryFilter = tier.name;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (categoryFilter != null) {
+                        var filteredTechs = [];
+                        for (var i =0; i<techs.length; i++) {
+                            if (techs[i].Tier == categoryFilter) {
+                                filteredTechs.push(techs[i]);
+                            }
+                        }
+                        $scope.techs = filteredTechs;
+                    } else {
+                        $scope.techs = techs;
+                    }
                 });
             };
             $scope.refresh();

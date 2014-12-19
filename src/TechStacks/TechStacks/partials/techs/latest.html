@@ -1,13 +1,14 @@
 ﻿<div>
-    
+
     <table class="table table-responsive table-striped">
         <caption>
             <input type="text" id="Search" class="search" placeholder="Search" ng-model="Search" ng-keyup="refresh()" auto-focus>
-            <div style="float:right; color: #444; margin: 0 10px 0 0;">
-                <select chosen style="width: 230px"
-                        data-placeholder="Show All"
-                        ng-model="category" 
-                        ng-options="x.title for x in allTiers">        
+            <div style="float: right; color: #444; margin: -2px 10px 0 0;">
+                <select style="width: 300px; padding: 5px; font-size: 16px;"
+                        ng-model="category"
+                        ng-options="x.title for x in allTiers"
+                        ng-change="refresh()">
+                    <option value="">[ Show All Categories ]</option>
                 </select>
             </div>
 
@@ -22,7 +23,9 @@
         </thead>
         <tr ng-repeat="tech in techs">
             <td class="name"><a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a></td>
-            <td><div>{{tech.Description}}</div></td>
+            <td>
+                <div>{{tech.Description}}</div>
+            </td>
             <td class="vendor">{{tech.VendorName}}</td>
         </tr>
     </table>

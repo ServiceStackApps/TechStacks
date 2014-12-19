@@ -99,7 +99,7 @@
             allTiers: [
                 { name: 'ProgrammingLanguage', title: 'Programming Languages' },
                 { name: 'Client', title: 'Client Libraries' },
-                { name: 'Web', title: 'HTTP Server Technologies' },
+                { name: 'Http', title: 'HTTP Server Technologies' },
                 { name: 'Server', title: 'Server Libraries' },
                 { name: 'Data', title: 'Databases and NoSQL Datastores' },
                 { name: 'SoftwareInfrastructure', title: 'Server Software' },
