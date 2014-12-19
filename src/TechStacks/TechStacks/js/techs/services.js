@@ -59,6 +59,20 @@
                     });
                 return deferred.promise;
             },
+            deleteTech: function (tech) {
+                return $http.delete('/techs/' + tech.Id);
+            },
+            updateLockStatus: function (techId, isLocked) {
+                var deferred = $q.defer();
+                $http.put('/admin/techs/' + techId + '/lock', { IsLocked: isLocked })
+                    .success(function (response) {
+                        deferred.resolve();
+                    })
+                    .error(function (error) {
+                        deferred.reject(error);
+                    });
+                return deferred.promise;
+            },
             removeTechChoice: function (techChoice) {
                 var deferred = $q.defer();
                 $http.delete('/techchoices/' + techChoice.Id)

@@ -61,6 +61,17 @@
                     });
                 return deferred.promise;
             },
+            updateLockStatus: function(techStackId, isLocked) {
+                var deferred = $q.defer();
+                $http.put('/admin/stacks/' + techStackId + '/lock', {IsLocked:isLocked})
+                    .success(function (response) {
+                        deferred.resolve();
+                    })
+                    .error(function (error) {
+                        deferred.reject(error);
+                    });
+                return deferred.promise;
+            },
             addTechChoice: function (techChoice) {
                 var deferred = $q.defer();
                 $http.post('/techchoices', techChoice)

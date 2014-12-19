@@ -2,19 +2,21 @@
 (function () {
     "use strict";
 
-    //auto redirect urls without #! convention
-    if (location.hash && location.hash.indexOf('#!') < 0) {
-        if (location.hash.substring(0, 3) == "#s=")
-            location.href = '/#!/';
-        else
-            location.href = location.href.replace('#', '#!');
+    //PhantomJS tests can skip check
+    if (location.origin !== 'http://localhost:9876') {
+        //auto redirect urls without #! convention
+        if (location.hash && location.hash.indexOf('#!') < 0) {
+            if (location.hash.substring(0, 3) == "#s=")
+                location.href = '/#!/';
+            else
+                location.href = location.href.replace('#', '#!');
 
-        location.reload();
-        return;
-    }
-    else if (location.pathname.length > "/".length) {
-        location.href = location.origin + location.search + "#!" + location.pathname;
-        return;
+            location.reload();
+            return;
+        } else if (location.pathname.length > "/".length) {
+            location.href = location.origin + location.search + "#!" + location.pathname;
+            return;
+        }
     }
 
     angular.module('stacks', ['stacks.controllers', 'stacks.services', 'stacks.filters']);
