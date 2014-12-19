@@ -58,14 +58,59 @@
     ]);
 
     app.controller('createStackCtrl', [
-        '$scope', '$location', 'techStackServices', function ($scope, $location, techStackServices) {
+        '$scope', '$location', 'techStackServices','$q', function ($scope, $location, techStackServices,$q) {
             $scope.createNewStack = function() {
                 techStackServices.createStack($scope.newStack).then(function (techStack) {
                     $scope.newStack = $scope.newStack || {};
                     $scope.newStack.Id = techStack.Id;
-                    $location.path("/stacks/" + $scope.newStack.Id + "/edit");
+                    var techChoicePromises = [];
+                    for (var i = 0; i < $scope.techChoices.length; i++) {
+                        var techChoice = $scope.techChoices[i];
+                        techChoice.TechnologyStackId = $scope.newStack.Id;
+                        techChoicePromises.push(techStackServices.addTechChoice(techChoice));
+                    }
+                    $q.all(techChoicePromises).then(function() {
+                        $location.path("/stacks/" + $scope.newStack.Id);
+                    });
                 });
             };
+            $scope.techChoices = [];
+
+            $scope.handleAddTech = function (item) {
+                var techId = item.split(';')[0];
+                var tier = item.split(';')[1];
+                var techChoice = { Tier: tier, TechnologyId: techId };
+                $scope.techChoices.push(techChoice);
+            };
+
+            $scope.handleRemoveTech = function (item) {
+                var techId = parseInt(item.split(';')[0]);
+                for (var i = 0; i < $scope.techChoices.length; i++) {
+                    if ($scope.techChoices[i].Id === techId) {
+                        $scope.techChoices.splice(i, 1);
+                    }
+                }
+            };
+
+            techStackServices.searchTech('').then(function (searchResults) {
+                var expandedResults = [];
+                for (var i = 0; i < searchResults.length; i++) {
+                    var searchResult = searchResults[i];
+                    if (searchResult.Tier == null) {
+                        continue;
+                    }
+                    var item = {};
+                    item.techKey = searchResult.Id + ';' + searchResult.Tier;
+                    item.techName = searchResult.Name + ' - ' + searchResult.Tier;
+                    expandedResults.push(item);
+                }
+
+                $scope.searchResults = expandedResults;
+            });
+
+            
+
+            
         }
     ]);
 
@@ -166,6 +211,12 @@
             $scope.hasRole = function (role) {
                 return userService.hasRole(role);
             };
+
+            $scope.deleteTechStack = function() {
+                techStackServices.deleteTechStack($scope.currentStack).success(function() {
+                    $location.path('/stacks');
+                });
+            }
         }
     ]);
 

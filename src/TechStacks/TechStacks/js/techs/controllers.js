@@ -63,19 +63,13 @@
 
     app.controller('createTechCtrl', [
         '$scope', '$http', '$routeParams', 'techServices', '$location', function ($scope, $http, $routeParams, techServices, $location) {
+            $scope.allTiers = angular.copy(techServices.allTiers);
+
             $scope.createNewTech = function() {
                 techServices.createTech($scope.tech).then(function (tech) {
                     $scope.tech.Id = tech.Id;
-                    $location.path("/techs/" + $scope.tech.Id + "/edit");
+                    $location.path("/techs/" + $scope.tech.Id);
                 });
-            };
-
-            $scope.addTechToTier = function (tier) {
-                $scope.tech.Tiers.push(tier);
-            };
-
-            $scope.removeTierFromTech = function (tier) {
-                $scope.tech.Tiers.splice($scope.tech.Tiers.indexOf(tier), 1);
             };
         }
     ]);

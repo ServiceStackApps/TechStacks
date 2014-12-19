@@ -37,6 +37,13 @@
                 <button class="btn btn-primary" ng-click="updateAll()" ng-disabled="!stackForm.$valid">
                     Update TechStack
                 </button>
+                <div class="form-group pull-right">
+                    <label style="font-weight: normal; margin: 0 10px 0 0">
+                        <input type="checkbox" ng-model="deleteIsEnabled" name="canDelete" value="" />
+                        confirm
+                    </label>
+                    <button class="btn btn-danger" ng-click="deleteTechStack()" ng-disabled="!deleteIsEnabled">Delete</button>
+                </div>
                 <div class="progress" ng-show="busy">
                     <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                         <span style="font-size: larger">Loading...</span>
