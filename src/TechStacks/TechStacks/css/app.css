@@ -136,6 +136,16 @@ blockquote {
     box-shadow: 0 2px 6px rgba(0,0,0,0.26);
     color: #fff;
 }
+.btn-danger {
+  color: #ffffff;
+  background-color: #d9534f;
+  border-color: #d9534f;
+}
+.btn-danger:focus,.btn-danger:hover {    
+  color: #ffffff;
+  background-color: #c9302c;
+  border-color: #c12e2a;
+}
 
 .fav {
     text-shadow: 0px -1px 0px #999;

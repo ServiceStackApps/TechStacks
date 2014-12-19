@@ -10,15 +10,15 @@
             <form role="form">
                 <div class="form-group">
                     <label for="TechName">Technology Name</label>
-                    <input type="text" class="form-control" id="TechName" placeholder="Enter name of the technology" ng-model="tech.Name">
+                    <input type="text" class="form-control" id="TechName" placeholder="Enter name of the technology" ng-model="tech.Name" required>
                 </div>
                 <div class="form-group">
                     <label for="VendorName">Vendor Name</label>
-                    <input type="text" class="form-control" id="VendorName" placeholder="Enter name of the vendor" ng-model="tech.VendorName">
+                    <input type="text" class="form-control" id="VendorName" placeholder="Enter name of the vendor" ng-model="tech.VendorName" required>
                 </div>
                 <div class="form-group">
                     <label for="Description">Description</label>
-                    <textarea class="form-control" id="Description" placeholder="Enter a description of the technology" ng-model="tech.Description"></textarea>
+                    <textarea class="form-control" id="Description" placeholder="Enter a description of the technology" ng-model="tech.Description" required></textarea>
                 </div>
                 <div class="form-group">
                     <label for="LogoUrl">
@@ -26,15 +26,15 @@
                         <span ng-if="isAuthenticated && hasRole('Admin') && !tech.LogoApproved" class="glyphicon glyphicon-unchecked" ng-click="approveLogo()"></span>
                         <span ng-if="isAuthenticated && hasRole('Admin') && tech.LogoApproved" class="glyphicon glyphicon-check" ng-click="unApproveLogo()"></span>
                     </label>
-                    <input type="text" class="form-control" id="LogoUrl" placeholder="Enter a url for the technology logo" ng-model="tech.LogoUrl">
+                    <input type="text" class="form-control" id="LogoUrl" placeholder="Enter a url for the technology logo" ng-model="tech.LogoUrl" required>
                 </div>
                 <div class="form-group">
                     <label for="ProductUrl">Product Url</label>
-                    <input type="text" class="form-control" id="ProductUrl" placeholder="Enter url of the product" ng-model="tech.ProductUrl">
+                    <input type="text" class="form-control" id="ProductUrl" placeholder="Enter url of the product" ng-model="tech.ProductUrl" required>
                 </div>
                 <div class="form-group">
                     <label for="VendorUrl">Vendor Url</label>
-                    <input type="text" class="form-control" id="VendorUrl" placeholder="Enter url of the vendor" ng-model="tech.VendorUrl">
+                    <input type="text" class="form-control" id="VendorUrl" placeholder="Enter url of the vendor" ng-model="tech.VendorUrl" required>
                 </div>
                 <div class="form-group">
                     <label>Add to tier</label>
@@ -43,9 +43,14 @@
                         <option ng-repeat="tier in allTiers" value="{{tier.name}}">{{tier.title}}</option>
                     </select>
                 </div>
-                <button class="btn btn-primary" ng-click="done()">Update</button>
+                <button class="btn btn-primary" ng-click="done()">
+                    Update Technology
+                </button>
                 <div class="form-group pull-right">
-                    <label>Enable delete <input type="checkbox" ng-model="deleteIsEnabled" name="canDelete" value="" /></label>
+                    <label style="font-weight: normal; margin: 0 10px 0 0">
+                        <input type="checkbox" ng-model="deleteIsEnabled" name="canDelete" value="" />
+                        confirm 
+                    </label>
                     <button class="btn btn-danger" ng-click="deleteTech()" ng-disabled="!deleteIsEnabled">Delete</button>
                 </div>
                 <div class="progress" ng-show="busy">

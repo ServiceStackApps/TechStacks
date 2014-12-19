@@ -34,7 +34,9 @@
                         on-add="handleAddTech(item)"
                         on-remove="handleRemoveTech(item)"></chosen-select>
                 </div>
-                <button class="btn btn-primary" ng-click="updateAll()">Update</button>
+                <button class="btn btn-primary" ng-click="updateAll()">
+                    Update TechStack
+                </button>
                 <div class="progress" ng-show="busy">
                     <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                         <span style="font-size: larger">Loading...</span>
