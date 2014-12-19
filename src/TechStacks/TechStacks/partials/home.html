@@ -6,10 +6,10 @@
                     <a href="#!/stacks/{{feedStack.Id}}" style="display:block">
                         <span>
                             {{feedStack.Name}}
-                            <b>
-                                ({{feedStack.VendorName}})
-                            </b>
                         </span>
+                        <i class="pull-right">
+                            {{feedStack.VendorName}}
+                        </i>
                     </a>
                 </div>
                 <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="#!/stacks/{{feedStack.Id}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
