@@ -1,8 +1,16 @@
 ﻿<div>
-
+    
     <table class="table table-responsive table-striped">
         <caption>
-            <input type="text" id="Search" class="search" placeholder="Search" ng-model="Search" ng-keyup="refresh()">
+            <input type="text" id="Search" class="search" placeholder="Search" ng-model="Search" ng-keyup="refresh()" auto-focus>
+            <div style="float:right; color: #444; margin: 0 10px 0 0;">
+                <select chosen style="width: 230px"
+                        data-placeholder="Show All"
+                        ng-model="category" 
+                        ng-options="x.title for x in allTiers">        
+                </select>
+            </div>
+
             Technologies
         </caption>
         <thead>

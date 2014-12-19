@@ -64,5 +64,20 @@
                 }
             };
         }
-    ]);
+    ])
+    .directive('chosen', function () {
+        return {
+            restrict: 'A',
+            scope: {
+                source: '='
+            },
+            link: function (scope, el) {
+                scope.$watch('source', function () {
+                    el.trigger('chosen:updated');
+                });
+                el.chosen();
+            }
+        };
+    });
+    
 })();
