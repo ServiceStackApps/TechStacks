@@ -24,8 +24,14 @@ namespace TechStacks.Tests
             authRepository.CreateUserAuth(new CustomUserAuth
             {
                 UserName = "TestUser",
-                Email = "test@user.com",
-                Roles = {RoleNames.Admin}
+                Email = "test@user.com"
+            }, "testuser");
+
+            authRepository.CreateUserAuth(new CustomUserAuth
+            {
+                UserName = "AdminTestUser",
+                Email = "admintest@user.com",
+                Roles = { RoleNames.Admin }
             }, "testuser");
             using (var db = dbFactory.OpenDbConnection())
             {

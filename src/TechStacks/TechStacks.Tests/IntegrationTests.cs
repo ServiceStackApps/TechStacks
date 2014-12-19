@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -22,6 +23,8 @@ namespace TechStacks.Tests
         private ServiceStackHost appHost;
         private const string testHostUrl = "http://localhost:21001/";
         JsonServiceClient client = new JsonServiceClient(testHostUrl);
+        JsonServiceClient adminClient = new JsonServiceClient(testHostUrl);
+
 
         [TestFixtureSetUp]
         public void Init()
@@ -55,6 +58,8 @@ namespace TechStacks.Tests
             SeedTestHost();
             client = new JsonServiceClient(testHostUrl);
             client.Post(new Authenticate { UserName = "TestUser", Password = "testuser", provider = "credentials" });
+            adminClient = new JsonServiceClient(testHostUrl);
+            adminClient.Post(new Authenticate { UserName = "AdminTestUser", Password = "testuser", provider = "credentials" });
         }
 
         [Test]
@@ -72,6 +77,56 @@ namespace TechStacks.Tests
                 var allStacks = db.Select<TechnologyStack>().ToList();
                 Assert.That(allStacks.Count, Is.EqualTo(2));
             }
+        }
+
+        [Test]
+        public void Can_Update_TechStack()
+        {
+            var allStacks = client.Get(new TechStack());
+            var first = allStacks.TechStacks.First();
+            client.Put(new TechStack {Id = first.Id, Name = "Foo", Description = first.Description});
+            var updatedAllStacks = client.Get(new TechStack());
+            Assert.That(updatedAllStacks.TechStacks.First().Name,Is.EqualTo("Foo"));
+        }
+
+        [Test]
+        public void Cant_Lock_Tech_As_Normal_User()
+        {
+            var allStacks = client.Get(new TechStack());
+            var first = allStacks.TechStacks.First();
+            bool isLocked = first.IsLocked;
+            try
+            {
+                client.Put(new LockTechStack { TechnologyStackId = first.Id, IsLocked = true });
+            }
+            catch (Exception)
+            {
+                //Do nothing
+            }
+            
+            var updatedStacks = client.Get(new TechStack());
+            Assert.That(isLocked, Is.EqualTo(false));
+            Assert.That(updatedStacks.TechStacks.First().IsLocked,Is.EqualTo(false));
+        }
+
+        [Test]
+        public void Can_Lock_Tech_As_AdminUser()
+        {
+            var allStacks = client.Get(new TechStack());
+            var first = allStacks.TechStacks.First();
+            bool isLocked = first.IsLocked;
+            try
+            {
+                adminClient.Put(new LockTechStack { TechnologyStackId = first.Id, IsLocked = true });
+            }
+            catch (Exception)
+            {
+                //Do nothing
+            }
+
+            var updatedStacks = client.Get(new TechStack());
+            Assert.That(isLocked, Is.EqualTo(false));
+            Assert.That(updatedStacks.TechStacks.First().IsLocked, Is.EqualTo(true));
         }
 
         private void SeedTestHost()
