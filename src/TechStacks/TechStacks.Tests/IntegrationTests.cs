@@ -82,6 +82,52 @@ namespace TechStacks.Tests
         }
 
         [Test]
+        public void Can_Create_Tech()
+        {
+            client.Post(new Tech
+            {
+                Description = "Description1",
+                Name = "My new tech"
+            });
+            var dbFactory = appHost.Resolve<IDbConnectionFactory>();
+            using (var db = dbFactory.OpenDbConnection())
+            {
+                var allTechs = db.Select<Technology>().ToList();
+                Assert.That(allTechs.Count, Is.EqualTo(5));
+            }
+        }
+
+        [Test]
+        public void Can_Update_Tech_That_User_Does_Own()
+        {
+            var response = client.Post(new Tech
+            {
+                Description = "Description1",
+                Name = "My new tech"
+            });
+            var tech = response.Tech;
+            tech.Name = "Another name";
+            client.Put(tech.ConvertTo<Tech>());
+            var updatedTech = client.Get(new Tech {Id = tech.Id});
+            Assert.That(tech.Name, Is.EqualTo(updatedTech.Tech.Name));
+        }
+
+        [Test]
+        public void Can_Update_Tech_That_User_Doesnt_Own()
+        {
+            var response = adminClient.Post(new Tech
+            {
+                Description = "Description1",
+                Name = "My new tech"
+            });
+            var tech = response.Tech;
+            tech.Name = "Another name";
+            client.Put(tech.ConvertTo<Tech>());
+            var updatedTech = client.Get(new Tech { Id = tech.Id });
+            Assert.That(tech.Name, Is.EqualTo(updatedTech.Tech.Name));
+        }
+
+        [Test]
         public void Cant_Update_TechStack_User_Doesnt_Own()
         {
             var allStacks = client.Get(new TechStack());
