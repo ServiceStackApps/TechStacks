@@ -3,6 +3,18 @@
     "use strict";
     var app = angular.module('user.services', []);
 
+    function addEntry(collection, item) {
+        collection.push(item);
+    }
+
+    function removeEntry(collection, item) {
+        for (var i = 0; i < collection.length; i++) {
+            if (collection[i].Id === item.Id) {
+                collection.splice(i, 1);
+            }
+        }
+    }
+
     app.service('userService', [
         '$rootScope', '$q', '$http', '$timeout',
         function ($rootScope, $q, $http, $timeout) {
@@ -99,9 +111,12 @@
                             deferred.reject('Not authenticated');
                         });
                     } else {
-                        $http.put('/favorites/techstacks', {TechnologyStackId: techStack.Id}).success(function (response) {
-                            $rootScope.favoriteTechStacks.push(techStack);
+                        addEntry($rootScope.favoriteTechStacks, techStack);
+                        $http.put('/favorites/techstacks', { TechnologyStackId: techStack.Id }).success(function (response) {
                             deferred.resolve(techStack);
+                        })
+                        .error(function() {
+                            removeEntry($rootScope.favoriteTechStacks, techStack);
                         });
                     }
                     return deferred.promise;
@@ -113,15 +128,12 @@
                             deferred.reject('Not authenticated');
                         });
                     } else {
+                        removeEntry($rootScope.favoriteTechStacks, techStack);
                         $http.delete('/favorites/techstacks/' + techStack.Id).success(function (response) {
-                            for (var i = 0; i < $rootScope.favoriteTechStacks.length; i++) {
-                                var favTechStack = $rootScope.favoriteTechStacks[i];
-                                if (favTechStack.Id === techStack.Id) {
-                                    $rootScope.favoriteTechStacks.splice(i, 1);
-                                    break;
-                                }
-                            }
                             deferred.resolve(techStack);
+                        })
+                        .error(function() {
+                            addEntry($rootScope.favoriteTechStacks, techStack);
                         });
                     }
                     return deferred.promise;
@@ -133,9 +145,12 @@
                             deferred.reject('Not authenticated');
                         });
                     } else {
-                        $http.put('/favorites/techs', {TechnologyId: tech.Id}).success(function (response) {
-                            $rootScope.favoriteTechs.push(tech);
+                        addEntry($rootScope.favoriteTechs, tech);
+                        $http.put('/favorites/techs', { TechnologyId: tech.Id }).success(function (response) {
                             deferred.resolve(tech);
+                        })
+                        .error(function () {
+                            removeEntry($rootScope.favoriteTechs, tech);
                         });
                     }
                     return deferred.promise;
@@ -147,15 +162,12 @@
                             deferred.reject('Not authenticated');
                         });
                     } else {
+                        removeEntry($rootScope.favoriteTechs, tech);
                         $http.delete('/favorites/techs/' + tech.Id).success(function (response) {
-                            for (var i = 0; i < $rootScope.favoriteTechs.length; i++) {
-                                var favTechStack = $rootScope.favoriteTechs[i];
-                                if (favTechStack.Id === tech.Id) {
-                                    $rootScope.favoriteTechs.splice(i, 1);
-                                    break;
-                                }
-                            }
                             deferred.resolve(tech);
+                        })
+                        .error(function () {
+                            addEntry($rootScope.favoriteTechs, tech);
                         });
                     }
                     return deferred.promise;
