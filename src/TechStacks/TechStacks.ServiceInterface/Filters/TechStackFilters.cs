@@ -31,6 +31,19 @@ namespace TechStacks.ServiceInterface.Filters
                     }
                 }
             }
+
+            if (req.Verb == "PUT")
+            {
+                using (var db = dbFactory.OpenDbConnection())
+                {
+                    //Check unqiue name
+                    var exists = db.Single<TechnologyStack>(x => x.Name.ToLower() == dto.Name.ToLower());
+                    if (exists != null && exists.Id != dto.Id)
+                    {
+                        throw HttpError.Conflict("A TechnologyStack with that name already exists");
+                    }
+                }
+            }
         }
     }
 }

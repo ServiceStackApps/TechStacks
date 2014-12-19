@@ -121,6 +121,34 @@ namespace TechStacks.Tests
         }
 
         [Test]
+        public void Cant_Update_Tech_With_Same_Name()
+        {
+            var allTechs = client.Get(new Tech());
+            var tech = allTechs.Techs.First();
+            var response = client.Post(new Tech
+            {
+                Description = "Description1",
+                Name = tech.Name + " TeSting"
+            });
+
+            try
+            {
+                client.Put(new Tech
+                {
+                    Id = tech.Id,
+                    Name = response.Tech.Name
+                });
+            }
+            catch (Exception)
+            {
+                //Ignore
+            }
+
+            var updatedTechs = client.Get(new Tech());
+            Assert.That(updatedTechs.Techs.First().Name, Is.EqualTo(tech.Name));
+        }
+
+        [Test]
         public void Cant_Create_TechStack_With_Same_Name()
         {
             var allStacks = client.Get(new TechStack());
@@ -139,6 +167,34 @@ namespace TechStacks.Tests
                 created = false;
             }
             Assert.That(created, Is.EqualTo(false));
+        }
+
+        [Test]
+        public void Cant_Update_TechStack_With_Same_Name()
+        {
+            var allStacks = client.Get(new TechStack());
+            var stack = allStacks.TechStacks.First();
+            var response = client.Post(new TechStack
+            {
+                Description = "Description1",
+                Name = stack.Name + " TeSting"
+            });
+
+            try
+            {
+                client.Put(new Tech
+                {
+                    Id = stack.Id,
+                    Name = response.TechStack.Name
+                });
+            }
+            catch (Exception)
+            {
+                //Ignore
+            }
+
+            var updatedStacks = client.Get(new TechStack());
+            Assert.That(updatedStacks.TechStacks.First().Name, Is.EqualTo(stack.Name));
         }
 
         [Test]

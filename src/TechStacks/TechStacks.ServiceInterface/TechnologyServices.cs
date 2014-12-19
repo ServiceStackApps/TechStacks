@@ -17,6 +17,8 @@ namespace TechStacks.ServiceInterface
             var session = SessionAs<AuthUserSession>();
             tech.CreatedBy = session.UserName;
             tech.LastModifiedBy = session.UserName;
+            tech.LastModified = DateTime.UtcNow;
+            tech.Created = DateTime.UtcNow;
             tech.OwnerId = session.UserAuthId;
 
             // disable explicit approval until we first have a problem
@@ -61,10 +63,13 @@ namespace TechStacks.ServiceInterface
             //Carry over current logo approved status and locked status
             updated.LogoApproved = existingTech.LogoApproved;
             updated.IsLocked = existingTech.IsLocked;
-
             updated.LastModifiedBy = session.UserName;
+            updated.LastModified = DateTime.UtcNow;
             updated.OwnerId = existingTech.OwnerId;
             updated.CreatedBy = existingTech.CreatedBy;
+
+            //Update SlugTitle
+            updated.SlugTitle = updated.Name.GenerateSlug();
             Db.Save(updated);
 
             var history = updated.ConvertTo<TechnologyHistory>();

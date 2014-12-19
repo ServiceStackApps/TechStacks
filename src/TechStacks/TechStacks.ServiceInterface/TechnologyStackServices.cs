@@ -14,15 +14,15 @@ namespace TechStacks.ServiceInterface
     {
         public object Post(TechStack request)
         {
-            var tech = request.ConvertTo<TechnologyStack>();
+            var techStack = request.ConvertTo<TechnologyStack>();
             var session = SessionAs<AuthUserSession>();
-            tech.CreatedBy = session.UserName;
-            tech.LastModifiedBy = session.UserName;
-            tech.OwnerId = session.UserAuthId;
-            tech.Created = DateTime.UtcNow;
-            tech.LastModified = DateTime.UtcNow;
-            tech.SlugTitle = tech.Name.GenerateSlug();
-            var id = Db.Insert(tech, selectIdentity:true);
+            techStack.CreatedBy = session.UserName;
+            techStack.LastModifiedBy = session.UserName;
+            techStack.OwnerId = session.UserAuthId;
+            techStack.Created = DateTime.UtcNow;
+            techStack.LastModified = DateTime.UtcNow;
+            techStack.SlugTitle = techStack.Name.GenerateSlug();
+            var id = Db.Insert(techStack, selectIdentity:true);
             var createdTechStack = Db.SingleById<TechnologyStack>(id);
 
             var history = createdTechStack.ConvertTo<TechnologyStackHistory>();
@@ -60,9 +60,11 @@ namespace TechStacks.ServiceInterface
             updated.IsLocked = existingStack.IsLocked;
             updated.OwnerId = existingStack.OwnerId;
             updated.CreatedBy = existingStack.CreatedBy;
-
             updated.LastModifiedBy = session.UserName;
             updated.LastModified = DateTime.UtcNow;
+
+            //Update SlugTitle
+            updated.SlugTitle = updated.Name.GenerateSlug();
             Db.Save(updated);
 
             var history = updated.ConvertTo<TechnologyStackHistory>();
