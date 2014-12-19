@@ -21,8 +21,14 @@ namespace TechStacks.ServiceInterface
             tech.OwnerId = session.UserAuthId;
             tech.Created = DateTime.UtcNow;
             tech.LastModified = DateTime.UtcNow;
-            var id = Db.Insert(tech,selectIdentity:true);
+            var id = Db.Insert(tech, selectIdentity:true);
             var createdTechStack = Db.SingleById<TechnologyStack>(id);
+
+            var history = createdTechStack.ConvertTo<TechnologyStackHistory>();
+            history.TechnologyStackId = id;
+            history.Operation = "INSERT";
+            Db.Insert(history);
+
             return new TechStackResponse
             {
                 TechStack = createdTechStack.ConvertTo<TechStackDetails>()
@@ -58,6 +64,11 @@ namespace TechStacks.ServiceInterface
             updated.LastModified = DateTime.UtcNow;
             Db.Save(updated);
 
+            var history = updated.ConvertTo<TechnologyStackHistory>();
+            history.TechnologyStackId = updated.Id;
+            history.Operation = "UPDATE";
+            Db.Insert(history);
+
             return new TechStackResponse
             {
                 TechStack = updated.ConvertTo<TechStackDetails>()
@@ -68,17 +79,21 @@ namespace TechStacks.ServiceInterface
         {
             var stack = Db.SingleById<TechnologyStack>(request.Id);
             if (stack == null)
-            {
                 throw HttpError.NotFound("Tech stack not found");
-            }
+
             var session = SessionAs<AuthUserSession>();
             if (stack.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
-            {
                 throw HttpError.Unauthorized("You are not the owner of this stack.");
-            }
 
             Db.Delete<TechnologyChoice>(q => q.TechnologyStackId == request.Id);
             Db.DeleteById<TechnologyStack>(request.Id);
+
+            var history = stack.ConvertTo<TechnologyStackHistory>();
+            history.TechnologyStackId = stack.Id;
+            history.LastModified = DateTime.UtcNow;
+            history.LastModifiedBy = session.UserName;
+            history.Operation = "DELETE";
+            Db.Insert(history);
             
             return new TechStackResponse
             {
@@ -95,11 +110,11 @@ namespace TechStacks.ServiceInterface
                     TechStacks = Db.Select(Db.From<TechnologyStack>().Take(100)).ToList()
                 };
             }
+
             var alreadyExists = Db.Exists<TechnologyStack>(x => x.Id == request.Id);
             if (!alreadyExists)
-            {
                 throw HttpError.NotFound("Tech stack not found");
-            }
+
             var response = GetTechnologyStackWithDetails(request);
             return response;
         }

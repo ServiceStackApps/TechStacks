@@ -12,17 +12,23 @@ namespace TechStacks.ServiceModel.Types
         public string VendorName { get; set; }
         public string Description { get; set; }
 
-        public string CreatedBy { get; set; }
-        public string LastModifiedBy { get; set; }
-
-        public DateTime LastModified { get; set; }
         public DateTime Created { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime LastModified { get; set; }
+        public string LastModifiedBy { get; set; }
 
         public bool IsLocked { get; set; }
 
         public string OwnerId { get; set; }
 
         public string Details { get; set; }
+    }
+
+    public class TechnologyStackHistory : TechnologyStack
+    {
+        public long TechnologyStackId { get; set; }
+
+        public string Operation { get; set; }
     }
 
     public class TechnologyChoice
@@ -59,7 +65,9 @@ namespace TechStacks.ServiceModel.Types
         public string LogoUrl { get; set; }
         public string Description { get; set; }
 
+        public DateTime Created { get; set; }
         public string CreatedBy { get; set; }
+        public DateTime LastModified { get; set; }
         public string LastModifiedBy { get; set; }
         public string OwnerId { get; set; }
 
@@ -67,6 +75,13 @@ namespace TechStacks.ServiceModel.Types
         public bool IsLocked { get; set; }
 
         public TechnologyTier Tier { get; set; }
+    }
+
+    public class TechnologyHistory : Technology
+    {
+        public long TechnologyId { get; set; }
+
+        public string Operation { get; set; }
     }
 
     public enum TechnologyTier

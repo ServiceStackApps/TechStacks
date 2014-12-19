@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.OrmLite;
@@ -27,6 +28,12 @@ namespace TechStacks.ServiceInterface
             
             var id = Db.Insert(tech, selectIdentity: true);
             var createdTechStack = Db.SingleById<Technology>(id);
+
+            var history = createdTechStack.ConvertTo<TechnologyHistory>();
+            history.TechnologyId = id;
+            history.Operation = "INSERT";
+            Db.Insert(history);
+
             return new TechResponse
             {
                 Tech = createdTechStack
@@ -59,6 +66,11 @@ namespace TechStacks.ServiceInterface
             updated.CreatedBy = existingTech.CreatedBy;
             Db.Save(updated);
 
+            var history = updated.ConvertTo<TechnologyHistory>();
+            history.TechnologyId = updated.Id;
+            history.Operation = "UPDATE";
+            Db.Insert(history);
+
             return new TechResponse
             {
                 Tech = updated
@@ -76,6 +88,13 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.Unauthorized("You are not the owner of this technology.");
 
             Db.DeleteById<Technology>(request.Id);
+
+            var history = existingTech.ConvertTo<TechnologyHistory>();
+            history.TechnologyId = existingTech.Id;
+            history.LastModified = DateTime.UtcNow;
+            history.LastModifiedBy = session.UserName;
+            history.Operation = "DELETE";
+            Db.Insert(history);
 
             return new TechResponse
             {
