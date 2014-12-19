@@ -66,8 +66,7 @@ namespace TechStacks
             this.Plugins.Add(new AuthFeature(() => new CustomUserSession(), new IAuthProvider[]
             {
                 new TwitterAuthProvider(AppSettings), 
-                new GithubAuthProvider(AppSettings),
-                new CredentialsAuthProvider(), 
+                new GithubAuthProvider(AppSettings)
             }));
 
             var authRepo = new OrmLiteAuthRepository<CustomUserAuth, UserAuthDetails>(dbFactory);

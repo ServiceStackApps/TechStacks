@@ -6,7 +6,7 @@
         </div>
         <div class="panel panel-body">
 
-            <form role="form">
+            <form role="form" name="techForm">
                 <div class="form-group">
                     <label for="TechName">Technology Name</label>
                     <input type="text" class="form-control" id="TechName" placeholder="Enter name of the technology" ng-model="tech.Name" required>
@@ -31,7 +31,7 @@
                     <label for="VendorUrl">Vendor Url</label>
                     <input type="text" class="form-control" id="VendorUrl" placeholder="Enter url of the vendor" ng-model="tech.VendorUrl">
                 </div>
-                <button ng-show="isAuthenticated" class="btn btn-primary" ng-click="createNewTech()">
+                <button ng-show="isAuthenticated" class="btn btn-primary" ng-click="createNewTech()" ng-disabled="!techForm.$valid">
                     Create Technology
                 </button>
             </form>

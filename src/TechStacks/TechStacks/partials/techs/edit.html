@@ -7,7 +7,7 @@
         </div>
         <div class="panel panel-body">
 
-            <form role="form">
+            <form role="form" name="techForm">
                 <div class="form-group">
                     <label for="TechName">Technology Name</label>
                     <input type="text" class="form-control" id="TechName" placeholder="Enter name of the technology" ng-model="tech.Name" required>
@@ -43,7 +43,7 @@
                         <option ng-repeat="tier in allTiers" value="{{tier.name}}">{{tier.title}}</option>
                     </select>
                 </div>
-                <button class="btn btn-primary" ng-click="done()">
+                <button class="btn btn-primary" ng-click="done()" ng-disabled="!techForm.$valid">
                     Update Technology
                 </button>
                 <div class="form-group pull-right">

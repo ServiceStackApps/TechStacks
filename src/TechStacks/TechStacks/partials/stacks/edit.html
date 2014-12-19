@@ -6,7 +6,7 @@
             TechStack
         </div>
         <div class="panel panel-body">
-            <form role="form">
+            <form role="form" name="stackForm">
                 <div class="form-group">
                     <label for="StackName">Stack Name</label>
                     <input type="text" class="form-control" id="StackName" placeholder="Enter name of the TechStack" ng-model="currentStack.Name">
@@ -34,7 +34,7 @@
                         on-add="handleAddTech(item)"
                         on-remove="handleRemoveTech(item)"></chosen-select>
                 </div>
-                <button class="btn btn-primary" ng-click="updateAll()">
+                <button class="btn btn-primary" ng-click="updateAll()" ng-disabled="!stackForm.$valid">
                     Update TechStack
                 </button>
                 <div class="progress" ng-show="busy">

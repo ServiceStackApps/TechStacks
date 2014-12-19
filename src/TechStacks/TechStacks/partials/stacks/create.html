@@ -6,7 +6,7 @@
         </div>
         <div class="panel panel-body">
 
-            <form role="form">
+            <form role="form" name="stackForm">
                 <div class="form-group">
                     <label for="Name">Name</label>
                     <input type="text" class="form-control" id="Name" placeholder="Enter name of the new TechStack" ng-model="newStack.Name" required>
@@ -19,7 +19,7 @@
                     <label for="Description">Summary</label>
                     <textarea class="form-control" id="Description" placeholder="Enter a short summary of your stack" ng-model="newStack.Description"></textarea>
                 </div>
-                <button class="btn btn-primary" ng-click="createNewStack()">
+                <button class="btn btn-primary" ng-click="createNewStack()" ng-disabled="!stackForm.$valid">
                     Create TechStack
                 </button>
             </form>
