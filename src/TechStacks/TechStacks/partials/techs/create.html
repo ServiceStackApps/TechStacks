@@ -1,30 +1,39 @@
-﻿<div>
-    <h2>Add a technology</h2>
-    <form role="form">
-        <div class="form-group">
-            <label for="TechName">Technology Name</label>
-            <input type="text" class="form-control" id="TechName" placeholder="Enter name of the technology" ng-model="tech.Name" required>
+﻿<div id="add-tech-page" class="col-md-11 create">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Add a new Technology
         </div>
-        <div class="form-group">
-            <label for="VendorName">Vendor Name</label>
-            <input type="text" class="form-control" id="VendorName" placeholder="Enter name of the vendor" ng-model="tech.VendorName" required>
+        <div class="panel panel-body">
+
+            <form role="form">
+                <div class="form-group">
+                    <label for="TechName">Technology Name</label>
+                    <input type="text" class="form-control" id="TechName" placeholder="Enter name of the technology" ng-model="tech.Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="VendorName">Vendor Name</label>
+                    <input type="text" class="form-control" id="VendorName" placeholder="Enter name of the vendor" ng-model="tech.VendorName" required>
+                </div>
+                <div class="form-group">
+                    <label for="Description">Description</label>
+                    <textarea class="form-control" id="Description" placeholder="Enter a description of the technology" ng-model="tech.Description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="LogoUrl">LogoUrl</label>
+                    <input type="text" class="form-control" id="LogoUrl" placeholder="Enter a url for the technology logo" ng-model="tech.LogoUrl" required>
+                </div>
+                <div class="form-group">
+                    <label for="ProductUrl">Product Url</label>
+                    <input type="text" class="form-control" id="ProductUrl" placeholder="Enter url of the product" ng-model="tech.ProductUrl">
+                </div>
+                <div class="form-group">
+                    <label for="VendorUrl">Vendor Url</label>
+                    <input type="text" class="form-control" id="VendorUrl" placeholder="Enter url of the vendor" ng-model="tech.VendorUrl">
+                </div>
+                <button ng-show="isAuthenticated" class="btn btn-primary" ng-click="createNewTech()">Create</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="Description">Description</label>
-            <textarea class="form-control" id="Description" placeholder="Enter a description of the technology" ng-model="tech.Description" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="LogoUrl">LogoUrl</label>
-            <input type="text" class="form-control" id="LogoUrl" placeholder="Enter a url for the technology logo" ng-model="tech.LogoUrl" required>
-        </div>
-        <div class="form-group">
-            <label for="ProductUrl">Product Url</label>
-            <input type="text" class="form-control" id="ProductUrl" placeholder="Enter url of the product" ng-model="tech.ProductUrl">
-        </div>
-        <div class="form-group">
-            <label for="VendorUrl">Vendor Url</label>
-            <input type="text" class="form-control" id="VendorUrl" placeholder="Enter url of the vendor" ng-model="tech.VendorUrl">
-        </div>
-        <button ng-show="isAuthenticated" class="btn btn-primary" ng-click="createNewTech()">Create</button>
-    </form>
+    </div>
+
 </div>

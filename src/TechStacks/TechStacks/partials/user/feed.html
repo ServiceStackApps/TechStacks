@@ -9,8 +9,10 @@
         <h4 ng-bind="currentUserName"></h4>
     </div>
     <div class="col-md-10">
-        <h3>TechStacks</h3>
-        <table ng-show="techStacks.length > 0" class="table table-responsive table-striped">
+        <table ng-show="techStacks.length > 0" class="table table-striped stack">
+            <caption>
+                TechStacks
+            </caption>
             <thead>
                 <tr>
                     <td><strong>Name</strong></td>
@@ -18,6 +20,18 @@
                     <td ng-show="isAuthenticated && currentUserName === currentUserSession.UserName"><strong>Delete</strong></td>
                 </tr>
             </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="2">
+                        <p ng-show="techStacks.length == 0">
+                            <span ng-show="isAuthenticated && currentUserName === currentUserSession.UserName">You haven't</span>
+                            <span ng-show="!isAuthenticated || currentUserName !== currentUserSession.UserName">{{currentUserName}} hasn't</span>
+                            created any TechStacks yet.
+                        </p>
+                        <a class="btn btn-primary" ng-show="isAuthenticated && currentUserName === currentUserSession.UserName" href="#!/stacks/create">Create a stack</a>
+                    </td>
+                </tr>
+            </tfoot>
             <tr ng-repeat="techStack in techStacks">
                 <td><a href="#!/stacks/{{techStack.Id}}" ng-bind="techStack.Name"></a></td>
                 <td ng-bind="techStack.Description"></td>
@@ -25,16 +39,10 @@
             </tr>
         </table>
         
-        <p ng-show="techStacks.length == 0">
-            <span ng-show="isAuthenticated && currentUserName === currentUserSession.UserName">You haven't</span>
-            <span ng-show="!isAuthenticated || currentUserName !== currentUserSession.UserName">{{currentUserName}} hasn't</span>
-            created any Tech Stacks yet.
-        </p>
-
-        <a class="btn btn-primary" ng-show="isAuthenticated && currentUserName === currentUserSession.UserName" href="#!/stacks/create">Create a stack</a>
-        
-        <h3 ng-show="favoriteTechStacks.length > 0" style="margin-top: 40px">Favorite TechStacks</h3>
-        <table ng-show="favoriteTechStacks.length > 0" class="table table-responsive table-striped">
+        <table ng-show="favoriteTechStacks.length > 0" class="table table-striped stack">
+            <caption>
+                Favorite TechStacks
+            </caption>
             <thead>
                 <tr>
                     <td><strong>Name</strong></td>
@@ -47,8 +55,10 @@
             </tr>
         </table>
         
-        <h3 ng-show="favoriteTechnologies.length > 0" style="margin-top: 40px">Favorite Technologies</h3>
-        <table ng-show="favoriteTechnologies.length > 0" class="table table-responsive table-striped">
+        <table ng-show="favoriteTechnologies.length > 0" class="table table-striped">
+            <caption>
+                Favorite Technologies
+            </caption>
             <thead>
                 <tr>
                     <td><strong>Name</strong></td>

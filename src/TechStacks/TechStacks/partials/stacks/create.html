@@ -1,14 +1,23 @@
-﻿<div>
-    <h2>Create your technology stack</h2>
-    <form role="form">
-        <div class="form-group">
-            <label for="Name">Name</label>
-            <input type="text" class="form-control" id="Name" placeholder="Enter name of your stack" ng-model="newStack.Name" required>
+﻿<div id="add-techstack-page" class="col-md-11 create">
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Add your Technology Stack
         </div>
-        <div class="form-group">
-            <label for="Description">Summary</label>
-            <textarea class="form-control" id="Description" placeholder="Enter a short summary of your stack" ng-model="newStack.Description"></textarea>
+        <div class="panel panel-body">
+
+            <form role="form">
+                <div class="form-group">
+                    <label for="Name">Name</label>
+                    <input type="text" class="form-control" id="Name" placeholder="Enter name of your stack" ng-model="newStack.Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="Description">Summary</label>
+                    <textarea class="form-control" id="Description" placeholder="Enter a short summary of your stack" ng-model="newStack.Description"></textarea>
+                </div>
+                <button class="btn btn-primary" ng-click="createNewStack()">Create</button>
+            </form>
         </div>
-        <button class="btn btn-primary" ng-click="createNewStack()">Create</button>
-    </form>
+    </div>
+
 </div>

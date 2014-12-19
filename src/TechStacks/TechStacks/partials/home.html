@@ -1,11 +1,10 @@
 ﻿<div>
     <div ng-show="isAuthenticated" style="display: block;min-height: 150px">
         <div class="col-md-9">
-            <div class="panel panel-default" ng-repeat="feedStack in feedStacks">
+            <div class="panel panel-default stack" ng-repeat="feedStack in feedStacks">
                 <div class="panel-heading">
                     <a href="#!/stacks/{{feedStack.Id}}" style="display:block">
                         <span>{{feedStack.Name}}</span>
-                        <span class="pull-right">{{feedStack.LastModified | date: "yyyy/MM/dd"}}</span>
                     </a>
                 </div>
                 <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="#!/stacks/{{feedStack.Id}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
@@ -20,51 +19,68 @@
             </div>
         </div>
         <div class="col-md-3">
-            <h4 style="white-space: nowrap">
-                Favorite Stacks
-            </h4>
-            <ul class="list-unstyled">
-                <li ng-repeat="techStack in favoriteTechStacks" style="white-space:nowrap">
-                    <span ng-show="isFavoriteTechStack(techStack) && isAuthenticated" class="glyphicon glyphicon-star fav selected" 
-                          ng-click="removeFavoriteTechStack(techStack)"></span>
-                    <span ng-show="!isFavoriteTechStack(techStack) && isAuthenticated" class="glyphicon glyphicon-star fav"
-                          ng-click="addFavoriteTechStack(techStack)"></span>
+            
+            <div class="panel panel-default browse">
+                <div class="panel-heading">
+                    Favorite Stacks
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="techStack in favoriteTechStacks" style="white-space:nowrap">
+                            <span ng-show="isFavoriteTechStack(techStack) && isAuthenticated" class="glyphicon glyphicon-star fav selected" 
+                                  ng-click="removeFavoriteTechStack(techStack)"></span>
+                            <span ng-show="!isFavoriteTechStack(techStack) && isAuthenticated" class="glyphicon glyphicon-star fav"
+                                  ng-click="addFavoriteTechStack(techStack)"></span>
 
-                    <a href="#!/stacks/{{techStack.Id}}">{{techStack.Name}}</a> 
-                </li>
-            </ul>
-            <a style="margin-top: 25px" href="#!/stacks/create" class="btn btn-primary">Create a TechStack</a>
+                            <a href="#!/stacks/{{techStack.Id}}">{{techStack.Name}}</a> 
+                        </li>
+                    </ul>
+                    <a style="margin-top: 25px" href="#!/stacks/create" class="btn btn-primary">Create a TechStack</a>
+                </div>
+            </div>
 
-            <h4 style="white-space: nowrap; margin-top: 40px;">
-                Favorite Technologies
-            </h4>
-            <ul class="list-unstyled">
-                <li ng-repeat="tech in favoriteTechs" style="white-space:nowrap">
-                    <span ng-show="isFavoriteTech(tech) && isAuthenticated" class="glyphicon glyphicon-star fav selected" 
-                          ng-click="removeFavoriteTech(tech)"></span>
-                    <span ng-show="!isFavoriteTech(tech) && isAuthenticated" class="glyphicon glyphicon-star fav" 
-                          ng-click="addFavoriteTech(tech)"></span>
+            <div class="panel panel-default browse">
+                <div class="panel-heading">
+                    Favorite Technologies
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="tech in favoriteTechs" style="white-space:nowrap">
+                            <span ng-show="isFavoriteTech(tech) && isAuthenticated" class="glyphicon glyphicon-star fav selected" 
+                                  ng-click="removeFavoriteTech(tech)"></span>
+                            <span ng-show="!isFavoriteTech(tech) && isAuthenticated" class="glyphicon glyphicon-star fav" 
+                                  ng-click="addFavoriteTech(tech)"></span>
 
-                    <a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a> 
-                </li>
-            </ul>
-            <h6 style="margin-top:25px">Can't find your favorite tech?</h6>
-            <a href="#!/techs/create" class="btn btn-primary">Add technology</a>
+                            <a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a> 
+                        </li>
+                    </ul>
+                    <h6 style="margin-top:25px">Can't find your favorite tech?</h6>
+                    <a href="#!/techs/create" class="btn btn-primary">Add technology</a>
+                </div>
+            </div>
+
         </div>
     </div>
+
     <div ng-show="!isAuthenticated">
-        <!-- Nav tabs -->
-        <h3>Welcome to TechStacks!</h3>
-        <section style="margin: 15px 0">
-            TechStacks allows developers to describe the technology stacks used by applications! You can see what this site itself is powered by
-            <a href="#!/stacks/1">here</a>! For more information on how this application was built, have a look at its <a href="https://github.com/ServiceStackApps/TechStacks">GitHub page</a>.
-        </section>
+        
+        <div class="col-md-12">
+            <div class="panel panel-default hero">
+                <div class="panel-heading">
+                    Welcome to TechStacks!
+                </div>
+                <div class="panel panel-body">
+                    TechStacks allows developers to describe the technology stacks used by applications! You can see what this site itself is powered by
+                    <a href="#!/stacks/1">here</a>! For more information on how this application was built, have a look at its <a href="https://github.com/ServiceStackApps/TechStacks">GitHub page</a>.
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-9">
-            <div class="panel panel-default" ng-repeat="techStack in techStacks">
+            <div class="panel panel-default stack" ng-repeat="techStack in techStacks">
                 <div class="panel-heading">
                     <a href="#!/stacks/{{techStack.Id}}" style="display:block">
                         <span>{{techStack.Name}}</span>
-                        <span class="pull-right">{{techStack.LastModified | date: "yyyy/MM/dd"}}</span>
                     </a>
                 </div>
                 <div class="panel-body">{{techStack.Description | limitTo:140}} <a href="#!/stacks/{{techStack.Id}}" ng-if="techStack.Description.length > 140">... Read More</a></div>
@@ -79,27 +95,38 @@
             </div>
         </div>
         <div class="col-md-3">
-            <h4>
-                Browse by Technology
-            </h4>
-            <ul class="list-unstyled">
-                <li ng-repeat="tech in topTechnologies" style="white-space:nowrap">
-                    <a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a> 
-                    <small>({{tech.StacksCount}})</small>
-                </li>
-            </ul>
-            <h4 style="margin-top: 40px">
-                Browse by Users
-            </h4>
-            <ul class="list-unstyled">
-                <li ng-repeat="user in topUsers" style="white-space:nowrap">
-                    <a href="#!/{{user.UserName}}">
-                        <img src="{{user.AvatarUrl}}" style="height: 20px;" />
-                        {{user.UserName}}
-                    </a> 
-                    <small>({{user.StacksCount}})</small>
-                </li>
-            </ul>
+            
+            <div class="panel panel-default browse">
+                <div class="panel-heading">
+                    Browse by Technology
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="tech in topTechnologies" style="white-space:nowrap">
+                            <a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a> 
+                            <small>({{tech.StacksCount}})</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel panel-default browse">
+                <div class="panel-heading">
+                    Browse by Users
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="user in topUsers" style="white-space:nowrap">
+                            <a href="#!/{{user.UserName}}">
+                                <img src="{{user.AvatarUrl}}" style="height: 20px;" />
+                                {{user.UserName}}
+                            </a> 
+                            <small>({{user.StacksCount}})</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

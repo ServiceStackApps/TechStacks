@@ -1,31 +1,38 @@
-﻿<div>
-    <a href="#!/techs/{{tech.Id}}/edit" class="btn btn-primary"
-        ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))"
-        style="float: right">Edit</a>
+﻿<div id="tech-page">
+    
+    <div id="tech-info">
+        <a href="#!/techs/{{tech.Id}}/edit" class="btn btn-primary"
+           ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">
+            Edit
+        </a>
 
-    <h2 ng-show="tech.ProductUrl == null" style="display: inline-block">{{tech.Name}}
-        <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected"
-            ng-click="removeFavorite()"></span>
-        <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav"
-            ng-click="addFavorite()"></span>
-    </h2>
+        <img src="{{tech.LogoUrl}}"/>
 
-    <h2 ng-show="tech.ProductUrl != null">{{tech.Name}}
-        <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected"
-            ng-click="removeFavorite()"></span>
-        <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav"
-            ng-click="addFavorite()"></span>
-    </h2>
+        <h2 ng-show="tech.ProductUrl == null" style="display: inline-block">{{tech.Name}}
+            <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected"
+                  ng-click="removeFavorite()"></span>
+            <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav"
+                  ng-click="addFavorite()"></span>
+        </h2>
 
-    <p>
-        <a href="{{tech.ProductUrl}}" target="_blank">{{tech.ProductUrl}}</a>
-    </p>
+        <h2 ng-show="tech.ProductUrl != null">{{tech.Name}}
+            <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected"
+                  ng-click="removeFavorite()"></span>
+            <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav"
+                  ng-click="addFavorite()"></span>
+        </h2>
 
-    <div>{{tech.Description}}</div>
+        <p>
+            <a href="{{tech.ProductUrl}}" target="_blank">{{tech.ProductUrl}}</a>
+        </p>
 
-    <div>
-        <h3>TechStacks using {{tech.Name}}</h3>
-        <table class="table table-responsive table-striped">
+        <p>{{tech.Description}}</p>
+        <div class="clearfix"></div>
+    </div>
+
+    <div ng-show="relatedStacks.length > 0">
+        <table class="table table-striped stack">
+            <caption>TechStacks using {{tech.Name}}</caption>
             <thead>
                 <tr>
                     <td><strong>Name</strong></td>
@@ -34,7 +41,7 @@
             </thead>
             <tr ng-repeat="techStack in relatedStacks">
                 <td class="name"><a href="#!/stacks/{{techStack.Id}}">{{techStack.Name}}
-                </a></td>
+                                 </a></td>
                 <td class="description" title="{{techStack.Description}}">
                     <div>{{techStack.Description}}</div>
                 </td>
