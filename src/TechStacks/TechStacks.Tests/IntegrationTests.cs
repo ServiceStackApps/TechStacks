@@ -82,13 +82,43 @@ namespace TechStacks.Tests
         }
 
         [Test]
-        public void Can_Update_TechStack()
+        public void Cant_Update_TechStack_User_Doesnt_Own()
         {
             var allStacks = client.Get(new TechStack());
             var first = allStacks.TechStacks.First();
-            client.Put(new TechStack {Id = first.Id, Name = "Foo", Description = first.Description});
+            try
+            {
+                client.Put(new TechStack { Id = first.Id, Name = "Foo", Description = first.Description });
+            }
+            catch (Exception)
+            {
+                //Ignore expected error
+            }
+            
             var updatedAllStacks = client.Get(new TechStack());
-            Assert.That(updatedAllStacks.TechStacks.First().Name,Is.EqualTo("Foo"));
+            //Name didn't change to "Foo"
+            Assert.That(updatedAllStacks.TechStacks.First().Name, Is.EqualTo("Initial Stack"));
+        }
+
+        [Test]
+        public void Can_Update_TechStack_User_Does_Own()
+        {
+            client.Post(new TechStack
+            {
+                Description = "Description1",
+                Details = "Some details",
+                Name = "My new stack"
+            });
+
+            var allStacks = client.Get(new TechStack());
+            var last = allStacks.TechStacks.Last();
+            Assert.That(last.Name, Is.EqualTo("My new stack"));
+
+            client.Put(new TechStack {Id = last.Id, Name = "New Name"});
+
+            var updatedStack = client.Get(new TechStack {Id = last.Id});
+
+            Assert.That(updatedStack.TechStack.Name, Is.EqualTo("New Name"));
         }
 
         [Test]

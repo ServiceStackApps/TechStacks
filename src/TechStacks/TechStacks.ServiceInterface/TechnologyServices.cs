@@ -40,6 +40,7 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.NotFound("Tech not found");
 
             var session = SessionAs<AuthUserSession>();
+            
             // disable explicit approval until we first have a problem
             //if (request.LogoUrl != existingTech.LogoUrl && !session.HasRole(RoleNames.Admin))
             //{
