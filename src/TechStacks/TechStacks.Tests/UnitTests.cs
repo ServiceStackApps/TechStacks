@@ -72,7 +72,7 @@ namespace TechStacks.Tests
 
         private void SeedTestHost()
         {
-            Seeds.SeedApp(appHost.Resolve<IDbConnectionFactory>(),appHost.Resolve<IUserAuthRepository>());
+            Seeds.SeedApp(appHost.Resolve<IDbConnectionFactory>());
         }
     }
 

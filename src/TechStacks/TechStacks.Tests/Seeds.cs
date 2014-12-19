@@ -19,20 +19,8 @@ namespace TechStacks.Tests
 {
     public static class Seeds
     {
-        public static void SeedApp(IDbConnectionFactory dbFactory, IUserAuthRepository authRepository)
+        public static void SeedApp(IDbConnectionFactory dbFactory)
         {
-            authRepository.CreateUserAuth(new CustomUserAuth
-            {
-                UserName = "TestUser",
-                Email = "test@user.com"
-            }, "testuser");
-
-            authRepository.CreateUserAuth(new CustomUserAuth
-            {
-                UserName = "AdminTestUser",
-                Email = "admintest@user.com",
-                Roles = { RoleNames.Admin }
-            }, "testuser");
             using (var db = dbFactory.OpenDbConnection())
             {
                 var ssTech = new Technology

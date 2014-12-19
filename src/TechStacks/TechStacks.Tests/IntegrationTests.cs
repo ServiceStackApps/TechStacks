@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using ServiceStack;
 using ServiceStack.Auth;
+using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Testing;
+using TechStacks.ServiceInterface;
 using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
 
@@ -129,9 +131,35 @@ namespace TechStacks.Tests
             Assert.That(updatedStacks.TechStacks.First().IsLocked, Is.EqualTo(true));
         }
 
+        [Test]
+        public void Stack_Logo_Approved_By_Default()
+        {
+            client.Post(new Tech { Description = "Some description", Name = "New Stack",LogoUrl = "http://example.com/logo.png"});
+            var response = client.Get(new Tech {Id = 5});
+            Assert.That(response.Tech.Name,Is.EqualTo("New Stack"));
+            Assert.That(response.Tech.LogoApproved,Is.EqualTo(true));
+        }
+
         private void SeedTestHost()
         {
-            Seeds.SeedApp(appHost.Resolve<IDbConnectionFactory>(), appHost.Resolve<IUserAuthRepository>());
+            var authRepo = appHost.Resolve<IUserAuthRepository>();
+            if (authRepo.GetUserAuthByUserName("TestUser") == null)
+            {
+                authRepo.CreateUserAuth(new CustomUserAuth
+                {
+                    UserName = "TestUser",
+                    Email = "test@user.com"
+                }, "testuser");
+
+                authRepo.CreateUserAuth(new CustomUserAuth
+                {
+                    UserName = "AdminTestUser",
+                    Email = "admintest@user.com",
+                    Roles = { RoleNames.Admin }
+                }, "testuser");
+            }
+            
+            Seeds.SeedApp(appHost.Resolve<IDbConnectionFactory>());
         }
     }
 }

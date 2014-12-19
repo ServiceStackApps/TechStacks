@@ -37,7 +37,7 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.NotFound("Tech stack not found");
             }
             var session = SessionAs<AuthUserSession>();
-            if (existingStack.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
+            if (existingStack.IsLocked && !session.HasRole(RoleNames.Admin))
             {
                 throw HttpError.Unauthorized("You are not the owner of this stack.");
             }
