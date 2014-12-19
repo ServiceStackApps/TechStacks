@@ -164,8 +164,8 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Lock_Tech_As_Normal_User()
         {
-            var allStacks = client.Get(new Tech());
-            var first = allStacks.Techs.First();
+            var allTechs = client.Get(new Tech());
+            var first = allTechs.Techs.First();
             bool isLocked = first.IsLocked;
             try
             {
@@ -176,16 +176,16 @@ namespace TechStacks.Tests
                 //Do nothing
             }
             
-            var updatedStacks = client.Get(new Tech());
+            var updatedTechs = client.Get(new Tech());
             Assert.That(isLocked, Is.EqualTo(false));
-            Assert.That(updatedStacks.Techs.First().IsLocked,Is.EqualTo(false));
+            Assert.That(updatedTechs.Techs.First().IsLocked,Is.EqualTo(false));
         }
 
         [Test]
         public void Can_Lock_Tech_As_AdminUser()
         {
-            var allStacks = client.Get(new Tech());
-            var first = allStacks.Techs.First();
+            var allTechs = client.Get(new Tech());
+            var first = allTechs.Techs.First();
             bool isLocked = first.IsLocked;
             try
             {
@@ -196,9 +196,21 @@ namespace TechStacks.Tests
                 //Do nothing
             }
 
-            var updatedStacks = client.Get(new Tech());
+            var updatedTechs = client.Get(new Tech());
             Assert.That(isLocked, Is.EqualTo(false));
-            Assert.That(updatedStacks.Techs.First().IsLocked, Is.EqualTo(true));
+            Assert.That(updatedTechs.Techs.First().IsLocked, Is.EqualTo(true));
+        }
+
+        public void Can_Cancel_Logo_Approval_As_Admin()
+        {
+            var allTechs = client.Get(new Tech());
+            var firstTech = allTechs.Techs.First();
+            var logoApporved = firstTech.LogoApproved;
+            adminClient.Put(new LogoUrlApproval {Approved = false, TechnologyId = firstTech.Id});
+            var updatedTechs = client.Get(new Tech());
+            var updatedTech = updatedTechs.Techs.First();
+            Assert.That(updatedTech.Id,Is.EqualTo(firstTech.Id));
+            Assert.That(updatedTech.LogoApproved, Is.EqualTo(false));
         }
 
         [Test]

@@ -11,7 +11,7 @@ namespace TechStacks.ServiceModel
     [Route("/admin/techs/{TechnologyId}/logo")]
     public class LogoUrlApproval : IReturn<LogoUrlApprovalResponse>
     {
-        public int TechnologyId { get; set; }
+        public long TechnologyId { get; set; }
         public bool Approved { get; set; }
     }
 
