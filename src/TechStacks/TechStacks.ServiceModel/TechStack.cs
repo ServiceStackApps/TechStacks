@@ -11,6 +11,7 @@ namespace TechStacks.ServiceModel
         public long? Id { get; set; }
 
         public string Name { get; set; }
+        public string VendorName { get; set; }
         public string Description { get; set; }
         public string Details { get; set; }
     }
@@ -36,9 +37,8 @@ namespace TechStacks.ServiceModel
     public class FindTechStacks : QueryBase<TechnologyStack> {}
 
     [Route("/stacks/latest")]
-    public class RecentStackWithTechs
-    {
-        
+    public class RecentStackWithTechs : IReturn<RecentStackWithTechsResponse>
+    {        
     }
 
     public class RecentStackWithTechsResponse

@@ -1,19 +1,23 @@
 ﻿<div id="stack-page">
     <div id="stack-info">
-        <h2 style="display: inline-block">{{currentStack.Name}}
-            <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected" 
-                  ng-click="removeFavorite()"></span>
-            <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav" 
-                  ng-click="addFavorite()"></span>
-        </h2>
-
-        <a href="#!/stacks/{{currentStack.Id}}/edit" class="btn btn-primary" 
-           ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">
-            Edit
+        <a href="#!/stacks/{{currentStack.Id}}/edit" class="btn btn-primary"
+            ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">Edit
         </a>
 
+        <h2 style="display: inline-block">
+            {{currentStack.Name}}
+            <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected"
+                  ng-click="removeFavorite()"></span>
+            <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav"
+                  ng-click="addFavorite()"></span>
+        </h2>
+        
+        <h2 style="padding: 0 0 10px 0; margin:0; color:#999; font-weight: normal; font-size: 20px;">
+            {{currentStack.VendorName}}
+        </h2>
+
         <div class="small" style="margin-bottom: 25px">
-            By <a href="#!/{{currentStack.CreatedBy}}">{{currentStack.CreatedBy}}</a>
+            by <a href="#!/{{currentStack.CreatedBy}}">{{currentStack.CreatedBy}}</a>
         </div>
 
         <blockquote ng-bind="currentStack.Description"></blockquote>
@@ -28,16 +32,24 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="clearfix"></div>
 
         <div class="last-updated">
             <p>last updated: {{currentStack.LastModified | date: "yyyy/MM/dd"}}</p>
         </div>
     </div>
+
     <div ng-show="DetailsHtml" id="stack-details">
-        <div class="details-html" ng-bind-html="DetailsHtml"></div>
+
+        <div class="panel panel-default">
+            <div class="panel panel-body">
+                <div class="details-html" ng-bind-html="DetailsHtml"></div>
+            </div>
+        </div>
+
     </div>
+
 </div>
 
 <disqus />

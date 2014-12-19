@@ -9,6 +9,7 @@ namespace TechStacks.ServiceModel.Types
         public long Id { get; set; }
 
         public string Name { get; set; }
+        public string VendorName { get; set; }
         public string Description { get; set; }
 
         public string CreatedBy { get; set; }

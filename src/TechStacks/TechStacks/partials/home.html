@@ -4,7 +4,12 @@
             <div class="panel panel-default stack" ng-repeat="feedStack in feedStacks">
                 <div class="panel-heading">
                     <a href="#!/stacks/{{feedStack.Id}}" style="display:block">
-                        <span>{{feedStack.Name}}</span>
+                        <span>
+                            {{feedStack.Name}}
+                            <b>
+                                ({{feedStack.VendorName}})
+                            </b>
+                        </span>
                     </a>
                 </div>
                 <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="#!/stacks/{{feedStack.Id}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
@@ -80,7 +85,12 @@
             <div class="panel panel-default stack" ng-repeat="techStack in techStacks">
                 <div class="panel-heading">
                     <a href="#!/stacks/{{techStack.Id}}" style="display:block">
-                        <span>{{techStack.Name}}</span>
+                        <span>
+                            {{techStack.Name}} 
+                        </span>
+                        <i class="pull-right">
+                            {{techStack.VendorName}}
+                        </i>
                     </a>
                 </div>
                 <div class="panel-body">{{techStack.Description | limitTo:140}} <a href="#!/stacks/{{techStack.Id}}" ng-if="techStack.Description.length > 140">... Read More</a></div>

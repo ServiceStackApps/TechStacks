@@ -102,6 +102,13 @@ blockquote {
     border: none;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);    
 }
+.panel-heading i {
+    font-style: normal;
+    font-size: 18px;
+    padding: 0 20px 0 0;
+    color: rgba(13,71,161,.80);
+    text-shadow: rgba(255,255,255,0.5) 0px 2px 2px;
+}
 .panel-footer {
     border: none;
 }
@@ -144,12 +151,10 @@ blockquote {
 }
 
 #stack-details {
-    clear: both;
-    padding: 100px 0 0 0;
+    padding: 20px 0 0 0;
 }
 #stack-details .details-html {
-    padding: 10px 0 0 0;
-    border-top: 2px solid #eee; 
+    padding: 20px;
 }
 .details-html code {
     white-space: pre;
