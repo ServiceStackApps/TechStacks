@@ -1,5 +1,7 @@
 ﻿<div id="add-techstack-page" class="col-md-11 create">
-    
+    <div ng-show="errorMessage">
+        <div class="alert-danger" ng-bind="errorMessage"></div>
+    </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             Add your Technology Stack

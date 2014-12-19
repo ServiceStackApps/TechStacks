@@ -9,6 +9,8 @@
                 var deferred = $q.defer();
                 $http.post('/stacks', newStack).success(function (response) {
                     deferred.resolve(response.TechStack);
+                }).error(function(error) {
+                    deferred.reject(error.ResponseStatus.Message);
                 });
                 return deferred.promise;
             },
@@ -44,7 +46,9 @@
                         techStack.Description = response.TechStack.Description;
                         techStack.Details = response.TechStack.Details;
                         deferred.resolve(techStack);
-                    });
+                    }).error(function(error) {
+                    deferred.reject(error.ResponseStatus.Message);
+                });
                 return deferred.promise;
             },
             deleteTechStack: function (techStack) {

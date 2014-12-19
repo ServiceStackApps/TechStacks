@@ -59,7 +59,11 @@
 
     app.controller('createStackCtrl', [
         '$scope', '$location', 'techStackServices','$q', function ($scope, $location, techStackServices,$q) {
-            $scope.createNewStack = function() {
+            $scope.createNewStack = function () {
+                if ($scope.createInProgress) {
+                    return;
+                }
+                $scope.createInProgress = true;
                 techStackServices.createStack($scope.newStack).then(function (techStack) {
                     $scope.newStack = $scope.newStack || {};
                     $scope.newStack.Id = techStack.Id;
@@ -69,9 +73,13 @@
                         techChoice.TechnologyStackId = $scope.newStack.Id;
                         techChoicePromises.push(techStackServices.addTechChoice(techChoice));
                     }
-                    $q.all(techChoicePromises).then(function() {
+                    $q.all(techChoicePromises).then(function () {
+                        $scope.createInProgress = false;
                         $location.path("/stacks/" + $scope.newStack.Id);
                     });
+                }, function (reason) {
+                    $scope.createInProgress = false;
+                    $scope.errorMessage = reason;
                 });
             };
             $scope.techChoices = [];
@@ -194,13 +202,20 @@
             }
 
 
-            $scope.updateAll = function() {
-                var updatePromises = [];
-                updatePromises.push(techStackServices.updateStack($scope.currentStack));
+            $scope.updateAll = function () {
+                if ($scope.updateInProgress) {
+                    return;
+                }
+                $scope.updateInProgress = true;
                 $scope.busy = true;
-                $q.all(updatePromises).then(function() {
+                techStackServices.updateStack($scope.currentStack).then(function () {
                     $scope.busy = false;
+                    $scope.updateInProgress = false;
                     $location.path("/stacks/" + $scope.currentStack.Id);
+                }, function (reason) {
+                    $scope.busy = false;
+                    $scope.updateInProgress = false;
+                    $scope.errorMessage = reason;
                 });
             };
 

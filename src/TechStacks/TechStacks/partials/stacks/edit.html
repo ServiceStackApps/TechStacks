@@ -1,8 +1,11 @@
 ﻿<div id="edit-techstack-page" class="col-md-11 edit">
+    <div ng-show="errorMessage">
+        <div class="alert-danger" ng-bind="errorMessage"></div>
+    </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             Update
-        <a href="#!/stacks/{{currentStack.Id}}">{{currentStack.Name}}</a>
+            <a href="#!/stacks/{{currentStack.Id}}">{{currentStack.Name}}</a>
             TechStack
         </div>
         <div class="panel panel-body">
@@ -26,20 +29,20 @@
                 <div class="form-group">
                     <label for="technologiesUsed">Select Technologies</label>
                     <chosen-select class="form-control" id="technologiesUsed"
-                        data="searchResults"
-                        item-value="techKey"
-                        item-name="techName"
-                        selected-values="selectedTechs"
-                        options="{no_results_text: 'oops, nothing found!'}"
-                        on-add="handleAddTech(item)"
-                        on-remove="handleRemoveTech(item)"></chosen-select>
+                                   data="searchResults"
+                                   item-value="techKey"
+                                   item-name="techName"
+                                   selected-values="selectedTechs"
+                                   options="{no_results_text: 'oops, nothing found!'}"
+                                   on-add="handleAddTech(item)"
+                                   on-remove="handleRemoveTech(item)"></chosen-select>
                 </div>
                 <button class="btn btn-primary" ng-click="updateAll()" ng-disabled="!stackForm.$valid">
                     Update TechStack
                 </button>
                 <div class="form-group pull-right">
                     <label style="font-weight: normal; margin: 0 10px 0 0">
-                        <input type="checkbox" ng-model="deleteIsEnabled" name="canDelete" value="" />
+                        <input type="checkbox" ng-model="deleteIsEnabled" name="canDelete" value=""/>
                         confirm
                     </label>
                     <button class="btn btn-danger" ng-click="deleteTechStack()" ng-disabled="!deleteIsEnabled">Delete</button>
