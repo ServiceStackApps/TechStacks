@@ -110,6 +110,12 @@
                 });
             };
 
+            $scope.deleteTech = function() {
+                techServices.deleteTech($scope.tech).success(function(response) {
+                    $location.path('/techs');
+                });
+            }
+
             $scope.done = function () {
                 //Wait for ng-model digest after change to make sure model is updated.
                 $timeout(function () {
