@@ -71,6 +71,36 @@
                 </div>
             </div>
 
+            <div class="panel panel-default browse">
+                <div class="panel-heading">
+                    Browse by Technology
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="tech in topTechnologies" style="white-space:nowrap">
+                            <a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a> 
+                            <small>({{tech.StacksCount}})</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel panel-default browse">
+                <div class="panel-heading">
+                    Browse by Users
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="user in topUsers" style="white-space:nowrap">
+                            <a href="#!/{{user.UserName}}">
+                                <img src="{{user.AvatarUrl}}" style="height: 20px;" />
+                                {{user.UserName}}
+                            </a> 
+                            <small>({{user.StacksCount}})</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
