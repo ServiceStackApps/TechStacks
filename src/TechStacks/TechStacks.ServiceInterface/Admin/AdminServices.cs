@@ -30,5 +30,31 @@ namespace TechStacks.ServiceInterface.Admin
                 Tech = tech
             };
         }
+
+        public object Put(LockTechStack request)
+        {
+            var techStack = Db.SingleById<TechnologyStack>(request.TechnologyStackId);
+            if (techStack == null)
+            {
+                throw HttpError.NotFound("TechnologyStack not found");
+            }
+
+            techStack.IsLocked = request.IsLocked;
+            Db.Save(techStack);
+            return new LockStackResponse();
+        }
+
+        public object Put(LockTech request)
+        {
+            var tech = Db.SingleById<Technology>(request.TechnologyId);
+            if (tech == null)
+            {
+                throw HttpError.NotFound("Technology not found");
+            }
+
+            tech.IsLocked = request.IsLocked;
+            Db.Save(tech);
+            return new LockTechResponse();
+        }
     }
 }

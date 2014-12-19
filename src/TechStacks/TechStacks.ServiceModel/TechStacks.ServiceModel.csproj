@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lock.cs" />
     <Compile Include="LogoUrlApproval.cs" />
     <Compile Include="SessionInfo.cs" />
     <Compile Include="Tech.cs" />

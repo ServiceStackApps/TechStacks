@@ -18,6 +18,8 @@ namespace TechStacks.ServiceModel.Types
         public DateTime LastModified { get; set; }
         public DateTime Created { get; set; }
 
+        public bool IsLocked { get; set; }
+
         public string OwnerId { get; set; }
 
         public string Details { get; set; }
@@ -56,11 +58,13 @@ namespace TechStacks.ServiceModel.Types
         public string ProductUrl { get; set; }
         public string LogoUrl { get; set; }
         public string Description { get; set; }
-        public bool LogoApproved { get; set; }
 
         public string CreatedBy { get; set; }
         public string LastModifiedBy { get; set; }
         public string OwnerId { get; set; }
+
+        public bool LogoApproved { get; set; }
+        public bool IsLocked { get; set; }
 
         public TechnologyTier Tier { get; set; }
     }

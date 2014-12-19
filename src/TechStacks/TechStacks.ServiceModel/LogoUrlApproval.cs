@@ -8,7 +8,7 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/admin/logoapproval/{TechnologyId}")]
+    [Route("/admin/techs/{TechnologyId}/logo")]
     public class LogoUrlApproval : IReturn<LogoUrlApprovalResponse>
     {
         public int TechnologyId { get; set; }

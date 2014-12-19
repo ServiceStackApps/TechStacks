@@ -19,11 +19,11 @@ namespace TechStacks.ServiceInterface
             tech.OwnerId = session.UserAuthId;
 
             // disable explicit approval until we first have a problem
-            request.LogoApproved = true; 
             //if (!session.HasRole(RoleNames.Admin))
             //{
-            //    request.LogoApproved = false;
+            //    tech.LogoApproved = false;
             //}
+            tech.LogoApproved = true; 
             
             var id = Db.Insert(tech, selectIdentity: true);
             var createdTechStack = Db.SingleById<Technology>(id);
@@ -40,16 +40,19 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.NotFound("Tech not found");
 
             var session = SessionAs<AuthUserSession>();
-            if (existingTech.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
-                throw HttpError.Unauthorized("You are not the owner of this technology.");
-
             // disable explicit approval until we first have a problem
             //if (request.LogoUrl != existingTech.LogoUrl && !session.HasRole(RoleNames.Admin))
             //{
-            //    request.LogoApproved = false;
+            //    existingTech.LogoApproved = false;
             //}
+            if (existingTech.IsLocked && !session.HasRole(RoleNames.Admin))
+                throw HttpError.Unauthorized("Technology changes are currently restricted to Administrators only.");
 
             var updated = request.ConvertTo<Technology>();
+            //Carry over current logo approved status and locked status
+            updated.LogoApproved = existingTech.LogoApproved;
+            updated.IsLocked = existingTech.IsLocked;
+
             updated.LastModifiedBy = session.UserName;
             updated.OwnerId = existingTech.OwnerId;
             updated.CreatedBy = existingTech.CreatedBy;

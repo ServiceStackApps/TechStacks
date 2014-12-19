@@ -77,7 +77,7 @@
             },
             approveLogo: function(tech,status) {
                 var deferred = $q.defer();
-                $http.put('/admin/logoapproval/' + tech.Id, { Approved: status }).success(function(response) {
+                $http.put('/admin/techs/' + tech.Id + '/logo', { Approved: status }).success(function (response) {
                     deferred.resolve(response.Tech);
                 });
                 return deferred.promise;

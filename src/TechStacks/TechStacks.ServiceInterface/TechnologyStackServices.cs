@@ -43,9 +43,12 @@ namespace TechStacks.ServiceInterface
             }
             var updated = request.ConvertTo<TechnologyStack>();
 
+            //Carry over audit/admin data
+            updated.IsLocked = existingStack.IsLocked;
             updated.OwnerId = existingStack.OwnerId;
-            updated.LastModifiedBy = session.UserName;
             updated.CreatedBy = existingStack.CreatedBy;
+
+            updated.LastModifiedBy = session.UserName;
             updated.LastModified = DateTime.UtcNow;
             Db.Save(updated);
 

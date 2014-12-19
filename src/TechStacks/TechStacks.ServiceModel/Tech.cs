@@ -21,8 +21,6 @@ namespace TechStacks.ServiceModel
         public string LogoUrl { get; set; }
         public string Description { get; set; }
 
-        public bool LogoApproved { get; set; }
-
         public TechnologyTier Tier { get; set; }
     }
 
