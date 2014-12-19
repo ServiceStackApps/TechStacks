@@ -82,7 +82,6 @@
                         tier.show = filterTechChoiceByTier(tier.name).length > 0;
                     });
                     $scope.selectedTechs = extractToSelectedTechs($scope.currentStack.TechnologyChoices);
-                    console.log($scope.selectedTechs);
                 });
             };
 
@@ -156,7 +155,7 @@
                 $scope.busy = true;
                 $q.all(updatePromises).then(function() {
                     $scope.busy = false;
-                    $location.path("/");
+                    $location.path("/stacks/" + $scope.currentStack.Id);
                 });
             };
 
