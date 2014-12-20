@@ -2,6 +2,14 @@
 (function () {
     "use strict";
 
+    if (location.origin !== 'http://localhost:9876') {
+        //auto redirect urls without #! convention
+        if (location.hash && location.hash.substring(0, 3) == "#s=") {
+            location.href = '/';
+            return;
+        }
+    }
+
     angular.module('stacks', ['stacks.controllers', 'stacks.services', 'stacks.filters']);
     angular.module('techs', ['techs.controllers','tech.services']);
     angular.module('home', ['home.controllers']);
@@ -28,6 +36,8 @@
             $routeProvider.when('/stacks/create', { templateUrl: '/partials/stacks/create.html', controller: 'createStackCtrl' });
             $routeProvider.when('/stacks/:stackId', { templateUrl: '/partials/stacks/stack.html', controller: 'stackCtrl' });
             $routeProvider.when('/stacks/:stackId/edit', { templateUrl: '/partials/stacks/edit.html', controller: 'editStackCtrl' });
+
+            $routeProvider.when('/auth/:any', { controller: function () { location.href = location.href; }, template: "<div></div>" });
 
             $routeProvider.when('/:userName', { templateUrl: '/partials/user/feed.html', controller: 'userFeedCtrl' });
             $routeProvider.otherwise({ redirectTo: '/' });
