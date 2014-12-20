@@ -44,11 +44,7 @@ namespace TechStacks
             base.CustomErrorHttpHandlers[HttpStatusCode.NotFound] =
                 new CustomActionHandler((req, res) => res.WriteFile("~/index.html".MapHostAbsolutePath()));
 
-            SetConfig(new HostConfig
-            {
-                HandlerFactoryPath = "api",
-                AllowFileExtensions = { "woff2" },                
-            });
+            SetConfig(new HostConfig());
 
             JsConfig.DateHandler = DateHandler.ISO8601;
 
