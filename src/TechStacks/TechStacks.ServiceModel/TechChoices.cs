@@ -4,7 +4,7 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/techstack/{TechnologyStackId}/technology", Verbs = "GET")]
+    [Route("/techstacks/{TechnologyStackId}/technology", Verbs = "GET")]
     [Route("/techchoices", Verbs = "POST")]
     [Route("/techchoices/{Id}", Verbs = "GET,PUT,DELETE")]
     public class TechChoices

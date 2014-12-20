@@ -2,7 +2,7 @@
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/admin/techstack/{TechnologyStackId}/lock")]
+    [Route("/admin/techstacks/{TechnologyStackId}/lock")]
     public class LockTechStack : IReturn<LockStackResponse>
     {
         public long TechnologyStackId { get; set; }
