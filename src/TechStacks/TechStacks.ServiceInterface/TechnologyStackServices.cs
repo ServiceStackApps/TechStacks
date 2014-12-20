@@ -112,22 +112,18 @@ namespace TechStacks.ServiceInterface
             };
         }
 
-        public object Get(ServiceModel.TechStacks request)
+        public object Get(ServiceModel.TechnologyStacks request)
         {
-            var alreadyExists = Db.Exists<TechnologyStack>(x => x.Id == request.Id);
-            if (!alreadyExists)
-                throw HttpError.NotFound("Tech stack not found");
+            int id;
+            var technologyStack = int.TryParse(request.Slug, out id)
+                ? Db.SingleById<TechnologyStack>(id)
+                : Db.Single<TechnologyStack>(x => x.SlugTitle == request.Slug.ToLower());
 
-            var response = GetTechnologyStackWithDetails(request);
+            if (technologyStack == null)
+                HttpError.NotFound("Tech stack not found");
+
+            var response = GetTechnologyStackWithDetails(technologyStack);
             return response;
-        }
-
-        public object Get(TechStackBySlugUrl request)
-        {
-            return new TechStackBySlugUrlResponse
-            {
-                TechStack = Db.Single<TechnologyStack>(x => x.SlugTitle.ToLower() == request.SlugTitle.ToLower())
-            };
         }
 
         public object Get(TechStackByTier request)
@@ -157,13 +153,13 @@ namespace TechStacks.ServiceInterface
             };
         }
 
-        private TechStacksResponse GetTechnologyStackWithDetails(ServiceModel.TechStacks request)
+        private TechStacksResponse GetTechnologyStackWithDetails(TechnologyStack existingTechStack)
         {
             var technologyChoices = Db.LoadSelect(Db.From<TechnologyChoice>()
                         .Join<TechnologyChoice, Technology>((tst, t) => t.Id == tst.TechnologyId)
                         .Join<TechnologyChoice, TechnologyStack>((tst, ts) => ts.Id == tst.TechnologyStackId)
-                        .Where(techChoice => techChoice.TechnologyStackId == request.Id));
-            var techStack = Db.SingleById<TechnologyStack>(request.Id);
+                        .Where(techChoice => techChoice.TechnologyStackId == existingTechStack.Id));
+            var techStack = Db.SingleById<TechnologyStack>(existingTechStack.Id);
 
             var result = techStack.ConvertTo<TechStackDetails>();
             if (!string.IsNullOrEmpty(techStack.Details))

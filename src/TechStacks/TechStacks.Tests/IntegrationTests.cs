@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using ServiceStack.Testing;
 using TechStacks.ServiceInterface;
 using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
@@ -23,9 +18,9 @@ namespace TechStacks.Tests
     {
 
         private ServiceStackHost appHost;
-        private const string testHostUrl = "http://localhost:21001/";
-        JsonServiceClient client = new JsonServiceClient(testHostUrl);
-        JsonServiceClient adminClient = new JsonServiceClient(testHostUrl);
+        private const string TestHostUrl = "http://localhost:21001/";
+        JsonServiceClient client = new JsonServiceClient(TestHostUrl);
+        JsonServiceClient adminClient = new JsonServiceClient(TestHostUrl);
 
 
         [TestFixtureSetUp]
@@ -60,9 +55,9 @@ namespace TechStacks.Tests
             }
 
             SeedTestHost();
-            client = new JsonServiceClient(testHostUrl);
+            client = new JsonServiceClient(TestHostUrl);
             client.Post(new Authenticate { UserName = "TestUser", Password = "testuser", provider = "credentials" });
-            adminClient = new JsonServiceClient(testHostUrl);
+            adminClient = new JsonServiceClient(TestHostUrl);
             adminClient.Post(new Authenticate { UserName = "AdminTestUser", Password = "testuser", provider = "credentials" });
         }
 
@@ -107,13 +102,13 @@ namespace TechStacks.Tests
             bool created = true;
             try
             {
-                var response = client.Post(new CreateTechnology
+                client.Post(new CreateTechnology
                 {
                     Description = "Description1",
                     Name = tech.Name
                 });
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 created = false;
             }
@@ -156,13 +151,13 @@ namespace TechStacks.Tests
             bool created = true;
             try
             {
-                var response = client.Post(new CreateTechnologyStack
+                client.Post(new CreateTechnologyStack
                 {
                     Description = "Description1",
                     Name = stack.Name
                 });
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 created = false;
             }
@@ -289,7 +284,7 @@ namespace TechStacks.Tests
 
             client.Put(new UpdateTechnologyStack {Id = last.Id, Name = "New Name"});
 
-            var updatedStack = client.Get(new ServiceModel.TechStacks {Id = last.Id});
+            var updatedStack = client.Get(new TechnologyStacks {Id = last.Id});
 
             Assert.That(updatedStack.TechStack.Name, Is.EqualTo("New Name"));
         }
@@ -378,7 +373,6 @@ namespace TechStacks.Tests
         {
             var allTechs = client.Get(new AllTechnologies());
             var firstTech = allTechs.Techs.First();
-            var logoApporved = firstTech.LogoApproved;
             adminClient.Put(new LogoUrlApproval {Approved = false, TechnologyId = firstTech.Id});
             var updatedTechs = client.Get(new AllTechnologies());
             var updatedTech = updatedTechs.Techs.First();

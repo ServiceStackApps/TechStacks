@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using Funq;
 using NUnit.Framework;
 using ServiceStack;
-using ServiceStack.Auth;
-using ServiceStack.Caching;
-using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using ServiceStack.Testing;
-using ServiceStack.Validation;
-using ServiceStack.Web;
+using TechStacks.ServiceInterface;
 using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
-using TechStacks.ServiceInterface.Filters;
-using TechStacks.ServiceInterface;
 
 namespace TechStacks.Tests
 {
@@ -74,7 +64,7 @@ namespace TechStacks.Tests
         public void Can_Get_Stack_By_Slug_Title()
         {
             var service = appHost.Resolve<TechnologyStackServices>();
-            var response = (TechStackBySlugUrlResponse)service.Get(new TechStackBySlugUrl { SlugTitle = "initial-stack" });
+            var response = (TechStacksResponse)service.Get(new TechnologyStacks { Slug = "initial-stack" });
             Assert.That(response.TechStack.Name,Is.EqualTo("Initial Stack"));
         }
 
