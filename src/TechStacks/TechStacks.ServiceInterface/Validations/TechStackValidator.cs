@@ -9,7 +9,7 @@ using TechStacks.ServiceModel;
 
 namespace TechStacks.ServiceInterface.Validations
 {
-    public class TechStackValidator : AbstractValidator<ServiceModel.TechStacks>
+    public class TechStackValidator : AbstractValidator<CreateTechnologyStack>
     {
         public TechStackValidator()
         {

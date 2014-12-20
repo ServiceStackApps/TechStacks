@@ -87,7 +87,8 @@ namespace TechStacks.Tests
             this.RegisterTypedRequestFilter<TechChoices>(TechChoiceFilters.FilterTechChoiceRequest);
             this.RegisterTypedRequestFilter<CreateTechnology>(TechFilters.FilterCreateTechRequest);
             this.RegisterTypedRequestFilter<UpdateTechnology>(TechFilters.FilterUpdateTechRequest);
-            this.RegisterTypedRequestFilter<ServiceModel.TechStacks>(TechStackFilters.FilterTechStackRequest);
+            this.RegisterTypedRequestFilter<CreateTechnologyStack>(TechStackFilters.FilterCreateTechStackRequest);
+            this.RegisterTypedRequestFilter<UpdateTechnologyStack>(TechStackFilters.FilterUpdateTechStackRequest);
         }
     }
 }

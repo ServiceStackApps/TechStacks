@@ -61,7 +61,7 @@ namespace TechStacks.Tests
         public void Can_Get_Stacks()
         {
             var service = appHost.Resolve<TechnologyStackServices>();
-            var response = (TechStacksResponse)service.Get(new ServiceModel.TechStacks());
+            var response = (AllTechnologyStacksResponse)service.Get(new AllTechnologyStacks());
             var dbFactory = appHost.Resolve<IDbConnectionFactory>();
             using (var db = dbFactory.OpenDbConnection())
             {
@@ -82,7 +82,7 @@ namespace TechStacks.Tests
         public void Can_Get_Tech_By_Slug_Title()
         {
             var service = appHost.Resolve<TechnologyServices>();
-            var response = (TechnologiesResponse)service.Get(new TechBySlugUrl { IdOrSlugTitle = "servicestack" });
+            var response = (TechnologiesResponse)service.Get(new Technologies { Slug = "servicestack" });
             Assert.That(response.Tech.Name, Is.EqualTo("ServiceStack"));
         }
 

@@ -100,13 +100,13 @@ namespace TechStacks.ServiceInterface
 
             return new DeleteTechnologyStackResponse
             {
-                TechStack = new TechnologyStack { Id = (long)request.Id }.ConvertTo<TechStackDetails>()
+                TechStack = new TechnologyStack { Id = request.Id }.ConvertTo<TechStackDetails>()
             }; 
         }
 
         public object Get(AllTechnologyStacks request)
         {
-            return new TechStacksResponse
+            return new AllTechnologyStacksResponse
             {
                 TechStacks = Db.Select(Db.From<TechnologyStack>().Take(100)).ToList()
             };
@@ -139,7 +139,7 @@ namespace TechStacks.ServiceInterface
                 query.Join<TechnologyChoice>((stack, choice) => stack.Id == choice.TechnologyStackId);
             }
 
-            return new TechStacksResponse
+            return new TechStackByTierResponse
             {
                 TechStacks = Db.Select(query).GroupBy(x => x.Id).Select(x => x.First()).ToList()
             };
@@ -159,7 +159,7 @@ namespace TechStacks.ServiceInterface
 
         private TechStacksResponse GetTechnologyStackWithDetails(ServiceModel.TechStacks request)
         {
-            var technologyChoices = Db.LoadSelect<TechnologyChoice>(Db.From<TechnologyChoice>()
+            var technologyChoices = Db.LoadSelect(Db.From<TechnologyChoice>()
                         .Join<TechnologyChoice, Technology>((tst, t) => t.Id == tst.TechnologyId)
                         .Join<TechnologyChoice, TechnologyStack>((tst, ts) => ts.Id == tst.TechnologyStackId)
                         .Where(techChoice => techChoice.TechnologyStackId == request.Id));

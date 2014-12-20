@@ -12,7 +12,7 @@ namespace TechStacks.ServiceModel
     }
 
     [Route("/techstacks", Verbs = "POST")]
-    public class CreateTechnologyStack
+    public class CreateTechnologyStack : IReturn<CreateTechnologyStackResponse>
     {
         public string Name { get; set; }
         public string VendorName { get; set; }
@@ -26,7 +26,7 @@ namespace TechStacks.ServiceModel
     }
 
     [Route("/techstacks/{Id}", Verbs = "PUT")]
-    public class UpdateTechnologyStack
+    public class UpdateTechnologyStack : IReturn<UpdateTechnologyStackResponse>
     {
         public long Id { get; set; }
 
@@ -42,7 +42,7 @@ namespace TechStacks.ServiceModel
     }
 
     [Route("/techstacks/{Id}", Verbs = "DELETE")]
-    public class DeleteTechnologyStack
+    public class DeleteTechnologyStack : IReturn<DeleteTechnologyStackResponse>
     {
         public long Id { get; set; }
     }
@@ -53,7 +53,7 @@ namespace TechStacks.ServiceModel
     }
 
     [Route("/techstacks", Verbs = "GET")]
-    public class AllTechnologyStacks
+    public class AllTechnologyStacks : IReturn<AllTechnologyStacksResponse>
     {
         
     }
@@ -70,10 +70,13 @@ namespace TechStacks.ServiceModel
         public string Tier { get; set; }
     }
 
+    public class TechStackByTierResponse
+    {
+        public List<TechnologyStack> TechStacks { get; set; }        
+    }
+
     public class TechStacksResponse
     {
-        public List<TechnologyStack> TechStacks { get; set; }
-
         public TechStackDetails TechStack { get; set; }
 
         public ResponseStatus ResponseStatus { get; set; }

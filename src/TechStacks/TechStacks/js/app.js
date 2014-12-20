@@ -19,17 +19,17 @@
             'chosen'
         ]).
         config(['$routeProvider', '$httpProvider', '$locationProvider', function ($routeProvider, $httpProvider, $locationProvider) {
-            $routeProvider.when('/', { templateUrl: 'partials/home.html', controller: 'homeCtrl' });
-            $routeProvider.when('/tech', { templateUrl: 'partials/tech/latest.html', controller: 'latestTechsCtrl' });
-            $routeProvider.when('/tech/create', { templateUrl: 'partials/tech/create.html', controller: 'createTechCtrl' });
-            $routeProvider.when('/tech/:techId', { templateUrl: 'partials/tech/tech.html', controller: 'techCtrl' });
-            $routeProvider.when('/tech/:techId/edit', { templateUrl: 'partials/tech/edit.html', controller: 'editTechCtrl' });
-            $routeProvider.when('/stacks', { templateUrl: 'partials/stacks/latest.html', controller: 'latestStacksCtrl' });
-            $routeProvider.when('/stacks/create', { templateUrl: 'partials/stacks/create.html', controller: 'createStackCtrl' });
-            $routeProvider.when('/stacks/:stackId', { templateUrl: 'partials/stacks/stack.html', controller: 'stackCtrl' });
-            $routeProvider.when('/stacks/:stackId/edit', { templateUrl: 'partials/stacks/edit.html', controller: 'editStackCtrl' });
+            $routeProvider.when('/', { templateUrl: '/partials/home.html', controller: 'homeCtrl' });
+            $routeProvider.when('/tech', { templateUrl: '/partials/tech/latest.html', controller: 'latestTechsCtrl' });
+            $routeProvider.when('/tech/create', { templateUrl: '/partials/tech/create.html', controller: 'createTechCtrl' });
+            $routeProvider.when('/tech/:techId', { templateUrl: '/partials/tech/tech.html', controller: 'techCtrl' });
+            $routeProvider.when('/tech/:techId/edit', { templateUrl: '/partials/tech/edit.html', controller: 'editTechCtrl' });
+            $routeProvider.when('/stacks', { templateUrl: '/partials/stacks/latest.html', controller: 'latestStacksCtrl' });
+            $routeProvider.when('/stacks/create', { templateUrl: '/partials/stacks/create.html', controller: 'createStackCtrl' });
+            $routeProvider.when('/stacks/:stackId', { templateUrl: '/partials/stacks/stack.html', controller: 'stackCtrl' });
+            $routeProvider.when('/stacks/:stackId/edit', { templateUrl: '/partials/stacks/edit.html', controller: 'editStackCtrl' });
 
-            $routeProvider.when('/:userName', { templateUrl: 'partials/user/feed.html', controller: 'userFeedCtrl' });
+            $routeProvider.when('/:userName', { templateUrl: '/partials/user/feed.html', controller: 'userFeedCtrl' });
             $routeProvider.otherwise({ redirectTo: '/' });
             
             $locationProvider.html5Mode(true);
