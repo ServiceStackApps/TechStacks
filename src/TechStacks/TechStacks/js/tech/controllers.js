@@ -5,7 +5,6 @@
 
     app.controller('latestTechsCtrl', [
         '$scope', 'techServices', function ($scope, techServices) {
-            $scope.allTiers = angular.copy(techServices.allTiers);
 
             $scope.refresh = function () {
                 techServices.searchTech($scope.Search || '').then(function (techs) {

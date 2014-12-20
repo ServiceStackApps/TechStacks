@@ -120,15 +120,27 @@
                 }
             };
         }])
-        .directive('autoFocus', function ($timeout) {
+        .directive('autoFocus', ['$timeout', function ($timeout) {
             return {
                 restrict: 'AC',
-                link: function (_scope, _element) {
+                link: function (scope, el) {
                     $timeout(function () {
-                        _element[0].focus();
+                        el[0].focus();
                     }, 0);
                 }
             };
-        });
+        }])
+        .directive('initData', ['$rootScope', 'techServices', function ($rootScope, techServices) {
+            return {
+                restrict: 'AC',
+                link: function (scope, el) {
+                    techServices.config()
+                        .then(function (response) {
+                            $rootScope.config = response;
+                            $rootScope.allTiers = response.AllTiers;
+                        });
+                }
+            };
+        }]);
 
 })();
