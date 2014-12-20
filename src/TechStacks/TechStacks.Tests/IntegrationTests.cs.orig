@@ -102,7 +102,11 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Create_Tech_With_Same_Name()
         {
+<<<<<<< HEAD
+            var allTechs = client.Get(new AllTechs());
+=======
             var allTechs = client.Get(new Technologies());
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
             var tech = allTechs.Techs.First();
             bool created = true;
             try
@@ -123,7 +127,11 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Update_Tech_With_Same_Name()
         {
+<<<<<<< HEAD
+            var allTechs = client.Get(new AllTechs());
+=======
             var allTechs = client.Get(new Technologies());
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
             var tech = allTechs.Techs.First();
             var response = client.Post(new Technologies
             {
@@ -144,7 +152,11 @@ namespace TechStacks.Tests
                 //Ignore
             }
 
+<<<<<<< HEAD
+            var updatedTechs = client.Get(new AllTechs());
+=======
             var updatedTechs = client.Get(new Technologies());
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
             Assert.That(updatedTechs.Techs.First().Name, Is.EqualTo(tech.Name));
         }
 
@@ -337,7 +349,11 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Lock_Tech_As_Normal_User()
         {
+<<<<<<< HEAD
+            var allTechs = client.Get(new AllTechs());
+=======
             var allTechs = client.Get(new Technologies());
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
             var first = allTechs.Techs.First();
             bool isLocked = first.IsLocked;
             try
@@ -348,8 +364,13 @@ namespace TechStacks.Tests
             {
                 //Do nothing
             }
+<<<<<<< HEAD
+
+            var updatedTechs = client.Get(new AllTechs());
+=======
             
             var updatedTechs = client.Get(new Technologies());
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
             Assert.That(isLocked, Is.EqualTo(false));
             Assert.That(updatedTechs.Techs.First().IsLocked,Is.EqualTo(false));
         }
@@ -357,7 +378,11 @@ namespace TechStacks.Tests
         [Test]
         public void Can_Lock_Tech_As_AdminUser()
         {
+<<<<<<< HEAD
+            var allTechs = client.Get(new AllTechs());
+=======
             var allTechs = client.Get(new Technologies());
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
             var first = allTechs.Techs.First();
             bool isLocked = first.IsLocked;
             try
@@ -369,18 +394,30 @@ namespace TechStacks.Tests
                 //Do nothing
             }
 
+<<<<<<< HEAD
+            var updatedTechs = client.Get(new AllTechs());
+=======
             var updatedTechs = client.Get(new Technologies());
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
             Assert.That(isLocked, Is.EqualTo(false));
             Assert.That(updatedTechs.Techs.First().IsLocked, Is.EqualTo(true));
         }
 
         public void Can_Cancel_Logo_Approval_As_Admin()
         {
+<<<<<<< HEAD
+            var allTechs = client.Get(new AllTechs());
+            var firstTech = allTechs.Techs.First();
+            var logoApporved = firstTech.LogoApproved;
+            adminClient.Put(new LogoUrlApproval {Approved = false, TechnologyId = firstTech.Id});
+            var updatedTechs = client.Get(new AllTechs());
+=======
             var allTechs = client.Get(new Technologies());
             var firstTech = allTechs.Techs.First();
             var logoApporved = firstTech.LogoApproved;
             adminClient.Put(new LogoUrlApproval {Approved = false, TechnologyId = firstTech.Id});
             var updatedTechs = client.Get(new Technologies());
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
             var updatedTech = updatedTechs.Techs.First();
             Assert.That(updatedTech.Id,Is.EqualTo(firstTech.Id));
             Assert.That(updatedTech.LogoApproved, Is.EqualTo(false));

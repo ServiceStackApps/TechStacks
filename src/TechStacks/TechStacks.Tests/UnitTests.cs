@@ -61,7 +61,7 @@ namespace TechStacks.Tests
         public void Can_Get_Stacks()
         {
             var service = appHost.Resolve<TechnologyStackServices>();
-            var response = (TechStackResponse)service.Get(new TechStack());
+            var response = (TechStacksResponse)service.Get(new ServiceModel.TechStacks());
             var dbFactory = appHost.Resolve<IDbConnectionFactory>();
             using (var db = dbFactory.OpenDbConnection())
             {

@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ServiceStack;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
+<<<<<<< HEAD:src/TechStacks/TechStacks.ServiceModel/Tech.cs
     //[Route("/techs/{Id}", Verbs = "GET")]
     public class Tech : IReturn<TechResponse>
+=======
+    [Route("/technology", Verbs = "GET, POST")]
+    [Route("/technology/{Id}")]
+    public class Technologies : IReturn<TechnologiesResponse>
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620:src/TechStacks/TechStacks.ServiceModel/Technologies.cs
     {
         public long? Id { get; set; }
 
@@ -73,12 +75,10 @@ namespace TechStacks.ServiceModel
     }
 
     [Query(QueryTerm.Or)]
-    [Route("/techs/search")]
-    public class FindTechnologies : QueryBase<Technology>
-    {
-    }
+    [Route("/technology/search")]
+    public class FindTechnologies : QueryBase<Technology> {}
 
-    [Route("/techs/{Id}/stacks")]
+    [Route("/technology/{Id}/techstacks")]
     public class GetStacksThatUseTech
     {
         public long Id { get; set; }
@@ -89,6 +89,7 @@ namespace TechStacks.ServiceModel
         public List<TechnologyStack> TechStacks { get; set; } 
     }
 
+<<<<<<< HEAD:src/TechStacks/TechStacks.ServiceModel/Tech.cs
     [Route("/techs/{IdOrSlugTitle}", Verbs = "GET")]
     public class TechBySlugUrl : IReturn<TechResponse>
     {
@@ -102,6 +103,9 @@ namespace TechStacks.ServiceModel
     }
     
     public class AllTechsResponse
+=======
+    public class TechnologiesResponse
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620:src/TechStacks/TechStacks.ServiceModel/Technologies.cs
     {
         public List<Technology> Techs { get; set; }
     }

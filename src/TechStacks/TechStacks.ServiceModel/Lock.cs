@@ -1,33 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ServiceStack;
+﻿using ServiceStack;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/admin/stacks/{TechnologyStackId}/lock")]
+    [Route("/admin/techstacks/{TechnologyStackId}/lock")]
     public class LockTechStack : IReturn<LockStackResponse>
     {
         public long TechnologyStackId { get; set; }
         public bool IsLocked { get; set; }
     }
 
-    public class LockStackResponse
-    {
-        
-    }
+    public class LockStackResponse {}
 
-    [Route("/admin/techs/{TechnologyId}/lock")]
+    [Route("/admin/technology/{TechnologyId}/lock")]
     public class LockTech : IReturn<LockStackResponse>
     {
         public long TechnologyId { get; set; }
         public bool IsLocked { get; set; }
     }
 
-    public class LockTechResponse
-    {
-        
-    }
+    public class LockTechResponse {}
 }

@@ -21,14 +21,14 @@ describe('tech controllers unit tests', function () {
             var $controller = $injector.get('$controller');
             $scope = $rootScope.$new();
             $httpBackend = $injector.get('$httpBackend');
-            allTechsRequestHandler = $httpBackend.when('GET','/techs')
+            allTechsRequestHandler = $httpBackend.when('GET', '/technology')
                 .respond(allTechsResponse);
-            specificTechRequestHandler = $httpBackend.when('GET','/techs/1')
+            specificTechRequestHandler = $httpBackend.when('GET', '/technology/1')
                 .respond(specificTechResponse);
-            latestTechStacksRequestHandler = $httpBackend.when('GET', '/stacks/latest').respond(latestTechStacks);
-            searchTechsRequestHandler = $httpBackend.when('GET', '/techs/search?NameContains=&DescriptionContains=')
+            latestTechStacksRequestHandler = $httpBackend.when('GET', '/techstacks/latest').respond(latestTechStacks);
+            searchTechsRequestHandler = $httpBackend.when('GET', '/technology/search?NameContains=&DescriptionContains=')
                 .respond(searchTechs);
-            techStacksRequestHandler = $httpBackend.when('GET','/techs/1/stacks').respond(latestTechStacks);
+            techStacksRequestHandler = $httpBackend.when('GET', '/technology/1/techstacks').respond(latestTechStacks);
             createLatestTechCtrl = function() {
                 return $controller('latestTechsCtrl', { $scope: $scope });
             };

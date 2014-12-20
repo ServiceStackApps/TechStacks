@@ -11,7 +11,11 @@ namespace TechStacks.ServiceInterface
     [Authenticate(ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechnologyServices : Service
     {
+<<<<<<< HEAD
+        public object Post(CreateTech request)
+=======
         public object Post(Technologies request)
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
         {
             var tech = request.ConvertTo<Technology>();
             var session = SessionAs<AuthUserSession>();
@@ -37,13 +41,21 @@ namespace TechStacks.ServiceInterface
             history.Operation = "INSERT";
             Db.Insert(history);
 
+<<<<<<< HEAD
+            return new CreateTechResponse
+=======
             return new TechnologiesResponse
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
             {
                 Tech = createdTechStack
             };
         }
 
+<<<<<<< HEAD
+        public object Put(UpdateTech request)
+=======
         public object Put(Technologies request)
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
         {
             var existingTech = Db.SingleById<Technology>(request.Id);
             if (existingTech == null)
@@ -77,13 +89,21 @@ namespace TechStacks.ServiceInterface
             history.Operation = "UPDATE";
             Db.Insert(history);
 
+<<<<<<< HEAD
+            return new UpdateTechResponse
+=======
             return new TechnologiesResponse
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
             {
                 Tech = updated
             };
         }
 
+<<<<<<< HEAD
+        public object Delete(DeleteTech request)
+=======
         public object Delete(Technologies request)
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
         {
             var existingTech = Db.SingleById<Technology>(request.Id);
             if (existingTech == null)
@@ -102,7 +122,11 @@ namespace TechStacks.ServiceInterface
             history.Operation = "DELETE";
             Db.Insert(history);
 
+<<<<<<< HEAD
+            return new DeleteTechResponse
+=======
             return new TechnologiesResponse
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
             {
                 Tech = new Technology { Id = (long)request.Id }
             };
@@ -110,6 +134,8 @@ namespace TechStacks.ServiceInterface
 
         public object Get(Technologies request)
         {
+<<<<<<< HEAD
+=======
             if (request.Id == null)
             {
                 return new TechnologiesResponse
@@ -118,6 +144,7 @@ namespace TechStacks.ServiceInterface
                 };
             }
 
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
             var alreadyExists = Db.Exists<Technology>(x => x.Id == request.Id);
             if (!alreadyExists)
                 HttpError.NotFound("Tech stack not found");

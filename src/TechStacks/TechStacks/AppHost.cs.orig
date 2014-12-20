@@ -109,6 +109,8 @@ namespace TechStacks
         }
     }
 
+<<<<<<< HEAD
+=======
     public class TechStackValidator : AbstractValidator<ServiceModel.TechStacks>
     {
         public TechStackValidator()
@@ -142,6 +144,7 @@ namespace TechStacks
         }
     }
 
+>>>>>>> ccef36cf8d101bc0a45d0df0762d7174408f6620
     public class StackByTechValidator : AbstractValidator<GetStacksThatUseTech>
     {
         public StackByTechValidator()

@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ServiceStack;
+﻿using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Web;
-using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceInterface.Filters
 {
     public class TechStackFilters
     {
-        public static void FilterTechStackRequest(IRequest req, IResponse res, TechStack dto)
+        public static void FilterTechStackRequest(IRequest req, IResponse res, ServiceModel.TechStacks dto)
         {
             var dbFactory = req.TryResolve<IDbConnectionFactory>();
 

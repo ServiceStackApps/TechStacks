@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ServiceStack;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/favorites/techstacks",Verbs = "GET,PUT")]
-    [Route("/favorites/techstacks/{TechnologyStackId}",Verbs = "DELETE,PUT")]
+    [Route("/favorites/techtacks", Verbs = "GET,PUT")]
+    [Route("/favorites/techtacks/{TechnologyStackId}", Verbs = "DELETE,PUT")]
     public class UserFavoriteTechStack : IReturn<UserFavoriteTechStackResponse>
     {
         public int TechnologyStackId { get; set; }
@@ -21,8 +17,8 @@ namespace TechStacks.ServiceModel
         public List<TechnologyStack> Favorites { get; set; }
     }
 
-    [Route("/favorites/techs", Verbs = "GET,PUT")]
-    [Route("/favorites/techs/{TechnologyId}", Verbs = "DELETE,PUT")]
+    [Route("/favorites/technology", Verbs = "GET,PUT")]
+    [Route("/favorites/technology/{TechnologyId}", Verbs = "DELETE,PUT")]
     public class UserFavoriteTech
     {
         public int TechnologyId { get; set; }

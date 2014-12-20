@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ServiceStack;
+﻿using ServiceStack;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/admin/techs/{TechnologyId}/logo")]
+    [Route("/admin/technology/{TechnologyId}/logo")]
     public class LogoUrlApproval : IReturn<LogoUrlApprovalResponse>
     {
         public long TechnologyId { get; set; }

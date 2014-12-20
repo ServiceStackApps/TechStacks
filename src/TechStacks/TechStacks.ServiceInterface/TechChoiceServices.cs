@@ -9,16 +9,16 @@ namespace TechStacks.ServiceInterface
     [Authenticate(ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechChoiceServices : Service
     {
-        public object Get(TechChoice request)
+        public object Get(TechChoices request)
         {
             if (request.Id == null)
             {
-                return new TechChoiceResponse
+                return new TechChoicesResponse
                 {
                     TechnologyChoices = Db.Select<TechnologyChoice>()
                 };
             }
-            return new TechChoiceResponse
+            return new TechChoicesResponse
             {
                 TechnologyChoice = Db.Single(Db.From<TechnologyChoice>()
                     .Join<TechnologyChoice, Technology>((tst, t) => t.Id == tst.TechnologyId)
@@ -27,7 +27,7 @@ namespace TechStacks.ServiceInterface
             };
         }
 
-        public object Post(TechChoice request)
+        public object Post(TechChoices request)
         {
             var techChoice = request.ConvertTo<TechnologyChoice>();
             var session = SessionAs<AuthUserSession>();
@@ -37,13 +37,13 @@ namespace TechStacks.ServiceInterface
             var id = Db.Insert(techChoice, selectIdentity: true);
             var createdTechStack = Db.SingleById<TechnologyChoice>(id);
 
-            return new TechChoiceResponse
+            return new TechChoicesResponse
             {
                 TechnologyChoice = createdTechStack
             };
         }
 
-        public object Put(TechChoice request)
+        public object Put(TechChoices request)
         {
             var techChoice = Db.SingleById<TechnologyChoice>(request.Id);
             if (techChoice == null)
@@ -61,13 +61,13 @@ namespace TechStacks.ServiceInterface
             updated.CreatedBy = techChoice.CreatedBy;
             Db.Save(updated);
 
-            return new TechChoiceResponse
+            return new TechChoicesResponse
             {
                 TechnologyChoice = updated
             };
         }
 
-        public object Delete(TechChoice request)
+        public object Delete(TechChoices request)
         {
             var techChoice = Db.SingleById<TechnologyChoice>(request.Id);
             if (techChoice == null)
@@ -80,7 +80,7 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.Unauthorized("You are not the owner of this stack.");
             }
             Db.DeleteById<TechnologyChoice>(request.Id);
-            return new TechChoiceResponse
+            return new TechChoicesResponse
             {
                 TechnologyChoice = new TechnologyChoice { Id = (long)request.Id }
             };

@@ -78,7 +78,6 @@
     <Compile Include="Filters\TechChoiceFilter.cs" />
     <Compile Include="Filters\TechFilters.cs" />
     <Compile Include="Filters\TechStackFilters.cs" />
-    <Compile Include="MyServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionInfoServices.cs" />
     <Compile Include="TechChoiceServices.cs" />
