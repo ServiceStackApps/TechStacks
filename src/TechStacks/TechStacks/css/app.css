@@ -28,7 +28,8 @@ small {
 .navbar-nav > li > a {
     color: #fff !important;
     border-radius: 0;
-    margin: 25px 0 0 0;
+    margin: 39px 0 0 0;
+    padding: 6px 12px 6px 12px;
 }
 .navbar-nav > li > a:hover {
     color: #ffff8d !important;
@@ -40,8 +41,8 @@ small {
     color: #fff;
     margin: 0;
     height: auto;
-    margin: 32px 0 0 0;
-    padding: 0 10px 7px 0;
+    margin: 40px 0 0 0;
+    padding: 0 20px 2px 0;
     font-size: 24px;
 }
 #logo:hover {

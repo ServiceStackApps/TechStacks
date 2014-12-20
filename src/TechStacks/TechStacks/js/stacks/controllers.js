@@ -5,7 +5,8 @@
     var app = angular.module('stacks.controllers', ['stacks.services']);
 
     app.controller('stackCtrl', [
-        '$scope', '$routeParams', 'techStackServices', '$filter', 'userService', '$sce', function ($scope, $routeParams, techStackServices, $filter, userService, $sce) {
+        '$rootScope', '$scope', '$routeParams', 'techStackServices', '$filter', 'userService', '$sce',
+        function ($rootScope, $scope, $routeParams, techStackServices, $filter, userService, $sce) {
 
             function isFavoriteTechStack(techStack) {
                 var isFav = false;
@@ -32,7 +33,7 @@
             techStackServices.getStack($routeParams.stackId).then(function (techStack) {
                 $scope.currentStack = techStack;
                 $scope.DetailsHtml = $sce.trustAsHtml(techStack.DetailsHtml);
-                angular.forEach($scope.allTiers, function (tier) {
+                angular.forEach($rootScope.allTiers, function (tier) {
                     tier.show = filterTechChoiceByTier(tier.name).length > 0;
                 });
                 refreshFavorites();
