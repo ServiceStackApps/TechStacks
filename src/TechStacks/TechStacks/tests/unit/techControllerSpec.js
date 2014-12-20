@@ -7,6 +7,7 @@ describe('tech controllers unit tests', function () {
     "use strict";
     var $scope,
         $httpBackend,
+        $timeout,
         allTechsRequestHandler,
         specificTechRequestHandler,
         createLatestTechCtrl,
@@ -19,6 +20,7 @@ describe('tech controllers unit tests', function () {
         module('testMod');
         inject(function($rootScope, $injector) {
             var $controller = $injector.get('$controller');
+            $timeout = $injector.get('$timeout');
             $scope = $rootScope.$new();
             $httpBackend = $injector.get('$httpBackend');
             allTechsRequestHandler = $httpBackend.when('GET', '/technology')
@@ -47,6 +49,7 @@ describe('tech controllers unit tests', function () {
 
     it('should have 4 techs on the scope at "techs"', function() {
         var myCtrl1 = createLatestTechCtrl();
+        $timeout.flush();
         $httpBackend.flush();
         expect(myCtrl1).toBeDefined();
         expect($scope.techs).toBeDefined();
