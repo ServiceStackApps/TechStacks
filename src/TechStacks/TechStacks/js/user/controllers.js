@@ -9,6 +9,8 @@
             //Handle user session logout/login without full reload
             if ($scope.currentUserName.indexOf('s=') === 0) {
                 $location.path('/');
+                //Fix history
+                $location.replace();
                 return;
             }
             userService.getUserAvatar($routeParams.userName).then(function (response) {
