@@ -122,6 +122,14 @@ namespace TechStacks.ServiceInterface
             return response;
         }
 
+        public object Get(TechStackBySlugUrl request)
+        {
+            return new TechStackBySlugUrlResponse
+            {
+                TechStack = Db.Single<TechnologyStack>(x => x.SlugTitle.ToLower() == request.SlugTitle.ToLower())
+            };
+        }
+
         public object Get(TechStackByTier request)
         {
             var query = Db.From<TechnologyStack>();

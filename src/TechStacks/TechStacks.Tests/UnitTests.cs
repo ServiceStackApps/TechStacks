@@ -70,6 +70,22 @@ namespace TechStacks.Tests
             }
         }
 
+        [Test]
+        public void Can_Get_Stack_By_Slug_Title()
+        {
+            var service = appHost.Resolve<TechnologyStackServices>();
+            var response = (TechStackBySlugUrlResponse)service.Get(new TechStackBySlugUrl { SlugTitle = "initial-stack" });
+            Assert.That(response.TechStack.Name,Is.EqualTo("Initial Stack"));
+        }
+
+        [Test]
+        public void Can_Get_Tech_By_Slug_Title()
+        {
+            var service = appHost.Resolve<TechnologyServices>();
+            var response = (TechBySlugUrlResponse)service.Get(new TechBySlugUrl { IdOrSlugTitle = "servicestack" });
+            Assert.That(response.Tech.Name, Is.EqualTo("ServiceStack"));
+        }
+
         private void SeedTestHost()
         {
             Seeds.SeedApp(appHost.Resolve<IDbConnectionFactory>());

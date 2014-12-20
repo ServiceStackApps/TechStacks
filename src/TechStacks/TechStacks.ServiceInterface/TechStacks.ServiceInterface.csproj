@@ -88,13 +88,14 @@
     <Compile Include="TechStackQueries.cs" />
     <Compile Include="UserFavoriteServices.cs" />
     <Compile Include="UserStackServices.cs" />
+    <Compile Include="Validations\TechChoiceValidator.cs" />
+    <Compile Include="Validations\TechStackValidator.cs" />
+    <Compile Include="Validations\TechValidators.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Validations\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\TechStacks.ServiceModel\TechStacks.ServiceModel.csproj">
       <Project>{35d650bd-8598-4abb-806e-79d6e57d228b}</Project>

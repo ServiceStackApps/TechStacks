@@ -11,6 +11,14 @@
                 });
                 return deferred.promise;
             },
+            getTechBySlugTitle: function(title) {
+                var deferred = $q.defer();
+                $http.get('/techs/' + title)
+                    .success(function (response) {
+                        deferred.resolve(response.Tech);
+                    });
+                return deferred.promise;
+            },
             searchTech: function (searchQuery) {
                 var deferred = $q.defer();
                 $http.get('/techs/search?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)

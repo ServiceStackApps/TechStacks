@@ -77,11 +77,12 @@
             techServices.getTech($routeParams.techId).then(function (tech) {
                 $scope.tech = tech;
                 refreshFavorites();
+                techServices.getRelatedStacks(tech.Id).then(function (stacks) {
+                    $scope.relatedStacks = stacks;
+                });
             });
 
-            techServices.getRelatedStacks($routeParams.techId).then(function(stacks) {
-                $scope.relatedStacks = stacks;
-            });
+            
         }
     ]);
 

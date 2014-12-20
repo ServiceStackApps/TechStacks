@@ -45,6 +45,7 @@
             $routeProvider.when('/stacks/create', { templateUrl: 'partials/stacks/create.html', controller: 'createStackCtrl' });
             $routeProvider.when('/stacks/:stackId', { templateUrl: 'partials/stacks/stack.html', controller: 'stackCtrl' });
             $routeProvider.when('/stacks/:stackId/edit', { templateUrl: 'partials/stacks/edit.html', controller: 'editStackCtrl' });
+
             $routeProvider.when('/:userName', { templateUrl: 'partials/user/feed.html', controller: 'userFeedCtrl' });
             $routeProvider.otherwise({ redirectTo: '/' });
             

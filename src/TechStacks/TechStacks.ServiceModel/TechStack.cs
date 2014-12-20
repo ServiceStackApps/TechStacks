@@ -32,6 +32,18 @@ namespace TechStacks.ServiceModel
         public ResponseStatus ResponseStatus { get; set; }
     }
 
+    [Route("/stacks/title/{SlugTitle}")]
+    public class TechStackBySlugUrl : IReturn<TechStackBySlugUrlResponse>
+    {
+        public string SlugTitle { get; set; }
+    }
+
+    
+    public class TechStackBySlugUrlResponse
+    {
+        public TechnologyStack TechStack { get; set; }
+    }
+
     [Query(QueryTerm.Or)]
     [Route("/stacks/search")]
     public class FindTechStacks : QueryBase<TechnologyStack> {}
@@ -59,8 +71,6 @@ namespace TechStacks.ServiceModel
         public long TechnologyStackId { get; set; }
 
         public string Justification { get; set; }
-
-        public TechnologyTier Tier { get; set; }
     }
 
     [Route("/stacks/trending")]

@@ -109,39 +109,6 @@ namespace TechStacks
         }
     }
 
-    public class TechStackValidator : AbstractValidator<TechStack>
-    {
-        public TechStackValidator()
-        {
-            RuleSet(ApplyTo.Post, () =>
-            {
-                RuleFor(x => x.Name).NotEmpty();
-            });
-        }
-    }
-
-    public class TechValidator : AbstractValidator<Tech>
-    {
-        public TechValidator()
-        {
-            RuleSet(ApplyTo.Post, () =>
-            {
-                RuleFor(x => x.Name).NotEmpty();
-            });
-        }
-    }
-
-    public class TechChoiceValidator : AbstractValidator<TechChoice>
-    {
-        public TechChoiceValidator()
-        {
-            RuleSet(ApplyTo.Post, () =>
-            {
-                RuleFor(x => x.Tier).NotNull();
-            });
-        }
-    }
-
     public class StackByTechValidator : AbstractValidator<GetStacksThatUseTech>
     {
         public StackByTechValidator()
