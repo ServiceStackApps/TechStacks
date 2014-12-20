@@ -2,13 +2,14 @@
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Web;
+using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceInterface.Filters
 {
     public class TechStackFilters
     {
-        public static void FilterTechStackRequest(IRequest req, IResponse res, ServiceModel.TechStacks dto)
+        public static void FilterCreateTechStackRequest(IRequest req, IResponse res, CreateTechnologyStack dto)
         {
             var dbFactory = req.TryResolve<IDbConnectionFactory>();
 
@@ -25,7 +26,11 @@ namespace TechStacks.ServiceInterface.Filters
                     }
                 }
             }
+        }
 
+        public static void FilterUpdateTechStackRequest(IRequest req, IResponse res, UpdateTechnologyStack dto)
+        {
+            var dbFactory = req.TryResolve<IDbConnectionFactory>();
             if (req.Verb == "PUT")
             {
                 using (var db = dbFactory.OpenDbConnection())

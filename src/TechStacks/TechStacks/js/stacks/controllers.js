@@ -6,7 +6,6 @@
 
     app.controller('stackCtrl', [
         '$scope', '$routeParams', 'techStackServices', '$filter', 'userService', '$sce', function ($scope, $routeParams, techStackServices, $filter, userService, $sce) {
-            $scope.allTiers = angular.copy(techStackServices.allTiers);
 
             function isFavoriteTechStack(techStack) {
                 var isFav = false;
@@ -125,8 +124,6 @@
     app.controller('editStackCtrl', [
         '$scope', 'techStackServices', '$routeParams', '$q', '$filter', 'userService', '$location',
         function ($scope, techStackServices, $routeParams, $q, $filter, userService, $location) {
-
-            $scope.allTiers = angular.copy(techStackServices.allTiers);
 
             $scope.refreshStack = function() {
                 techStackServices.getStack($routeParams.stackId).then(function(techStack) {

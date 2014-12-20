@@ -4,34 +4,41 @@
     var app = angular.module('techs.controllers', ['tech.services', 'user.services']);
 
     app.controller('latestTechsCtrl', [
-        '$scope', 'techServices', function ($scope, techServices) {
-
+        '$scope', 'techServices', '$timeout', function ($scope, techServices, $timeout) {
+            var lastSearch;
             $scope.refresh = function () {
-                techServices.searchTech($scope.Search || '').then(function (techs) {
+                $scope.isBusy = true;
+                if (lastSearch) {
+                    $timeout.cancel(lastSearch);
+                }
+                lastSearch = $timeout(function () {
+                    techServices.searchTech($scope.Search || '').then(function (techs) {
+                        var categoryFilter = null;
+                        if ($scope.category && $scope.category.title) {
+                            for (var i = 0; i < $scope.allTiers.length; i++) {
+                                var tier = $scope.allTiers[i];
+                                if (tier.title === $scope.category.title) {
+                                    categoryFilter = tier.name;
+                                    break;
+                                }
+                            }
+                        }
 
-                    var categoryFilter = null;
-                    if ($scope.category && $scope.category.title) {
-                        for (var i = 0; i < $scope.allTiers.length; i++) {
-                            var tier = $scope.allTiers[i];
-                            if (tier.title === $scope.category.title) {
-                                categoryFilter = tier.name;
-                                break;
+                        if (categoryFilter != null) {
+                            var filteredTechs = [];
+                            for (var i = 0; i < techs.length; i++) {
+                                if (techs[i].Tier == categoryFilter) {
+                                    filteredTechs.push(techs[i]);
+                                }
                             }
+                            $scope.techs = filteredTechs;
+                        } else {
+                            $scope.techs = techs;
                         }
-                    }
-                    
-                    if (categoryFilter != null) {
-                        var filteredTechs = [];
-                        for (var i =0; i<techs.length; i++) {
-                            if (techs[i].Tier == categoryFilter) {
-                                filteredTechs.push(techs[i]);
-                            }
-                        }
-                        $scope.techs = filteredTechs;
-                    } else {
-                        $scope.techs = techs;
-                    }
-                });
+                    });
+                    $scope.isBusy = false;
+                }, 200);
+                
             };
             $scope.refresh();
         }
@@ -87,8 +94,6 @@
 
     app.controller('createTechCtrl', [
         '$scope', '$http', '$routeParams', 'techServices', '$location', function ($scope, $http, $routeParams, techServices, $location) {
-            $scope.allTiers = angular.copy(techServices.allTiers);
-
             $scope.createNewTech = function() {
                 techServices.createTech($scope.tech).then(function (tech) {
                     $scope.tech.Id = tech.Id;
@@ -102,7 +107,6 @@
         '$scope', 'techServices', '$routeParams', '$q', '$filter', '$location', 'userService', '$timeout',
             function ($scope, techServices, $routeParams, $q, $filter, $location, userService, $timeout) {
 
-            $scope.allTiers = angular.copy(techServices.allTiers);
             $scope.refreshTech = function() {
                 techServices.getTech($routeParams.techId).then(function (tech) {
                     $scope.tech = tech;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using ServiceStack;
@@ -6,16 +6,68 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/techstacks", Verbs = "GET,POST")]
-    [Route("/techstacks/{Id}")]
-    public class TechStacks : IReturn<TechStacksResponse>
+    [Route("/techstacks/{Slug}", Verbs = "GET")]
+    public class TechnologyStacks : IReturn<TechStacksResponse>
     {
-        public long? Id { get; set; }
+        public string Slug { get; set; }
+
+        [IgnoreDataMember]
+        public long Id
+        {
+            set { this.Slug = value.ToString(); }
+        }
+    }
+
+    [Route("/techstacks", Verbs = "POST")]
+    public class CreateTechnologyStack : IReturn<CreateTechnologyStackResponse>
+    {
+        public string Name { get; set; }
+        public string VendorName { get; set; }
+        public string Description { get; set; }
+        public string Details { get; set; }
+    }
+
+    public class CreateTechnologyStackResponse
+    {
+        public TechStackDetails TechStack { get; set; }
+    }
+
+    [Route("/techstacks/{Id}", Verbs = "PUT")]
+    public class UpdateTechnologyStack : IReturn<UpdateTechnologyStackResponse>
+    {
+        public long Id { get; set; }
 
         public string Name { get; set; }
         public string VendorName { get; set; }
         public string Description { get; set; }
         public string Details { get; set; }
+    }
+
+    public class UpdateTechnologyStackResponse
+    {
+        public TechStackDetails TechStack { get; set; }
+    }
+
+    [Route("/techstacks/{Id}", Verbs = "DELETE")]
+    public class DeleteTechnologyStack : IReturn<DeleteTechnologyStackResponse>
+    {
+        public long Id { get; set; }
+    }
+
+    public class DeleteTechnologyStackResponse
+    {
+        public TechStackDetails TechStack { get; set; }
+    }
+
+    [Route("/techstacks", Verbs = "GET")]
+    public class AllTechnologyStacks : IReturn<AllTechnologyStacksResponse>
+    {
+        
+    }
+
+    public class AllTechnologyStacksResponse
+    {
+        public List<TechnologyStack> TechStacks { get; set; }
     }
 
     [Route("/techstacks/tiers")]
@@ -25,25 +77,16 @@ namespace TechStacks.ServiceModel
         public string Tier { get; set; }
     }
 
+    public class TechStackByTierResponse
+    {
+        public List<TechnologyStack> TechStacks { get; set; }        
+    }
+
     public class TechStacksResponse
     {
-        public List<TechnologyStack> TechStacks { get; set; }
-
         public TechStackDetails TechStack { get; set; }
 
         public ResponseStatus ResponseStatus { get; set; }
-    }
-
-    [Route("/stacks/title/{SlugTitle}")]
-    public class TechStackBySlugUrl : IReturn<TechStackBySlugUrlResponse>
-    {
-        public string SlugTitle { get; set; }
-    }
-
-    
-    public class TechStackBySlugUrlResponse
-    {
-        public TechnologyStack TechStack { get; set; }
     }
 
     [Query(QueryTerm.Or)]

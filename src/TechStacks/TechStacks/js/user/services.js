@@ -22,9 +22,7 @@
                 isAuthenticated: function () {
                     var deferred = $q.defer();
                     if ($rootScope.isAuthenticated) {
-                        $timeout(function () {
-                            deferred.resolve($rootScope.currentUserSession);
-                        });
+                        deferred.resolve($rootScope.currentUserSession);
                     } else if ($rootScope.isAuthenticated == null) {
                         $http.get('/my-session').success(function (response) {
                             $rootScope.currentUserSession = response;
@@ -37,9 +35,7 @@
                                 deferred.reject(error);
                             });
                     } else {
-                        $timeout(function () {
-                            deferred.reject();
-                        });
+                        deferred.reject();
                     }
 
                     return deferred.promise;
@@ -61,9 +57,7 @@
                 getFavoriteTechStacks: function (forceUpdate) {
                     var deferred = $q.defer();
                     if (!$rootScope.isAuthenticated) {
-                        $timeout(function () {
-                            deferred.reject('Not authenticated');
-                        });
+                        deferred.reject('Not authenticated');
                     } else {
                         if ($rootScope.favoriteTechStacks == null || forceUpdate) {
                             $http.get('/favorites/techtacks').success(function (response) {
@@ -74,9 +68,7 @@
                                 deferred.reject(error);
                             });
                         } else {
-                            $timeout(function () {
-                                deferred.resolve($rootScope.favoriteTechStacks);
-                            });
+                            deferred.resolve($rootScope.favoriteTechStacks);
                         }
                     }
                     return deferred.promise;
@@ -84,9 +76,7 @@
                 getFavoriteTechs: function (forceUpdate) {
                     var deferred = $q.defer();
                     if (!$rootScope.isAuthenticated) {
-                        $timeout(function () {
-                            deferred.reject('Not authenticated');
-                        });
+                        deferred.reject('Not authenticated');
                     } else {
                         if ($rootScope.favoriteTechs == null || forceUpdate) {
                             $http.get('/favorites/technology').success(function (response) {
@@ -97,9 +87,7 @@
                                 deferred.reject(error);
                             });
                         } else {
-                            $timeout(function () {
-                                deferred.resolve($rootScope.favoriteTechs);
-                            });
+                            deferred.resolve($rootScope.favoriteTechs);
                         }
                     }
                     return deferred.promise;
@@ -107,9 +95,7 @@
                 addFavoriteTechStack: function (techStack) {
                     var deferred = $q.defer();
                     if (!$rootScope.isAuthenticated) {
-                        $timeout(function () {
-                            deferred.reject('Not authenticated');
-                        });
+                        deferred.reject('Not authenticated');
                     } else {
                         addEntry($rootScope.favoriteTechStacks, techStack);
                         $http.put('/favorites/techtacks', { TechnologyStackId: techStack.Id }).success(function (response) {
@@ -125,9 +111,7 @@
                 removeFavoriteTechStack: function (techStack) {
                     var deferred = $q.defer();
                     if (!$rootScope.isAuthenticated) {
-                        $timeout(function () {
-                            deferred.reject('Not authenticated');
-                        });
+                        deferred.reject('Not authenticated');
                     } else {
                         removeEntry($rootScope.favoriteTechStacks, techStack);
                         $http.delete('/favorites/techtacks/' + techStack.Id).success(function (response) {
@@ -143,9 +127,7 @@
                 addFavoriteTech: function (tech) {
                     var deferred = $q.defer();
                     if (!$rootScope.isAuthenticated) {
-                        $timeout(function () {
-                            deferred.reject('Not authenticated');
-                        });
+                        deferred.reject('Not authenticated');
                     } else {
                         addEntry($rootScope.favoriteTechs, tech);
                         $http.put('/favorites/technology', { TechnologyId: tech.Id }).success(function (response) {
@@ -161,9 +143,7 @@
                 removeFavoriteTech: function (tech) {
                     var deferred = $q.defer();
                     if (!$rootScope.isAuthenticated) {
-                        $timeout(function () {
-                            deferred.reject('Not authenticated');
-                        });
+                        deferred.reject('Not authenticated');
                     } else {
                         removeEntry($rootScope.favoriteTechs, tech);
                         $http.delete('/favorites/technology/' + tech.Id).success(function (response) {
@@ -179,9 +159,7 @@
                 getUserFeed: function () {
                     var deferred = $q.defer();
                     if (!$rootScope.isAuthenticated) {
-                        $timeout(function () {
-                            deferred.reject('Not authenticated');
-                        });
+                        deferred.reject('Not authenticated');
                     } else {
                         $http.get('/my-feed').success(function (response) {
                             deferred.resolve(response.TechStacks);

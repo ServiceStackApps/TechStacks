@@ -101,8 +101,7 @@
                 return deferred.promise;
             },
             overview: techServices.overview,
-            searchTech: techServices.searchTech,
-            allTiers: techServices.allTiers
+            searchTech: techServices.searchTech
         };
     }]);
 })();
