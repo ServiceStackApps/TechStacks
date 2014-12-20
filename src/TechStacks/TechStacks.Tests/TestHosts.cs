@@ -44,7 +44,6 @@ namespace TechStacks.Tests
                 db.CreateTableIfNotExists<UserFavoriteTechnology>();
             }
 
-            this.RegisterTypedRequestFilter<TechChoices>(TechChoiceFilters.FilterTechChoiceRequest);
             this.Plugins.Add(new AutoQueryFeature { MaxLimit = 1000 });
         }
     }
@@ -81,10 +80,8 @@ namespace TechStacks.Tests
                 db.CreateTableIfNotExists<UserFavoriteTechnology>();
             }
 
-            this.RegisterTypedRequestFilter<TechChoices>(TechChoiceFilters.FilterTechChoiceRequest);
             this.Plugins.Add(new AutoQueryFeature { MaxLimit = 1000 });
 
-            this.RegisterTypedRequestFilter<TechChoices>(TechChoiceFilters.FilterTechChoiceRequest);
             this.RegisterTypedRequestFilter<CreateTechnology>(TechFilters.FilterCreateTechRequest);
             this.RegisterTypedRequestFilter<UpdateTechnology>(TechFilters.FilterUpdateTechRequest);
             this.RegisterTypedRequestFilter<CreateTechnologyStack>(TechStackFilters.FilterCreateTechStackRequest);
