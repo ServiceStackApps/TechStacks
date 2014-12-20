@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 using ServiceStack;
 using TechStacks.ServiceModel.Types;
 
@@ -71,14 +73,40 @@ namespace TechStacks.ServiceModel
         public string Justification { get; set; }
     }
 
-    [Route("/techstacks/trending")]
-    public class TrendingTechStacks : IReturn<TrendingStacksResponse> { }
+    [Route("/config")]
+    public class GetConfig : IReturn<GetConfigResponse> { }
 
-    public class TrendingStacksResponse
+    public class GetConfigResponse
     {
+        public List<Option> AllTiers { get; set; }
+    }
+
+    [Route("/overview")]
+    public class Overview : IReturn<OverviewResponse>
+    {
+        public bool Reload { get; set; }
+    }
+
+    [DataContract]
+    public class Option
+    {
+        [DataMember(Name = "name")]
+        public string Name { get; set; }
+
+        [DataMember(Name = "title")]
+        public string Title { get; set; }
+    }
+
+    public class OverviewResponse
+    {
+        public DateTime Created { get; set; }
+
         public List<UserInfo> TopUsers { get; set; }
+
         public List<TechnologyInfo> TopTechnologies { get; set; }
 
+        public List<TechStackDetails> LatestTechStacks { get; set; }
+        
         public ResponseStatus ResponseStatus { get; set; }
     }
 
