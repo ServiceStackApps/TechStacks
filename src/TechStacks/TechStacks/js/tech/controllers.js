@@ -92,7 +92,7 @@
             $scope.createNewTech = function() {
                 techServices.createTech($scope.tech).then(function (tech) {
                     $scope.tech.Id = tech.Id;
-                    $location.path("/techs/" + $scope.tech.Id);
+                    $location.path("/tech/" + $scope.tech.Id);
                 });
             };
         }
@@ -128,17 +128,17 @@
                 });
             };
 
-            $scope.deleteTech = function() {
-                techServices.deleteTech($scope.tech).success(function(response) {
-                    $location.path('/techs');
+            $scope.deleteTech = function () {
+                techServices.deleteTech($scope.tech).success(function (response) {
+                    $location.path('/tech');
                 });
-            }
+            };
 
             $scope.done = function () {
                 //Wait for ng-model digest after change to make sure model is updated.
                 $timeout(function () {
                     techServices.updateTech($scope.tech).then(function () {
-                        $location.path('/techs/' + $scope.tech.Id);
+                        $location.path('/tech/' + $scope.tech.Id);
                     });
                 });
             };

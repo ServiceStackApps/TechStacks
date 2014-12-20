@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ServiceStack;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/stacks/{TechnologyStackId}/techs", Verbs = "GET")]
+    [Route("/techstacks/{TechnologyStackId}/technology", Verbs = "GET")]
     [Route("/techchoices", Verbs = "POST")]
-    [Route("/techchoices/{Id}",Verbs = "GET,PUT,DELETE")]
-    public class TechChoice
+    [Route("/techchoices/{Id}", Verbs = "GET,PUT,DELETE")]
+    public class TechChoices
     {
         public long? Id { get; set; }
         public long? TechnologyStackId { get; set; }
@@ -19,7 +15,7 @@ namespace TechStacks.ServiceModel
         public TechnologyTier Tier { get; set; }
     }
 
-    public class TechChoiceResponse
+    public class TechChoicesResponse
     {
         public List<TechnologyChoice> TechnologyChoices { get; set; }
         public TechnologyChoice TechnologyChoice { get; set; } 

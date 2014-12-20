@@ -7,7 +7,7 @@
         return {
             createStack: function (newStack) {
                 var deferred = $q.defer();
-                $http.post('/stacks', newStack).success(function (response) {
+                $http.post('/techstacks', newStack).success(function (response) {
                     deferred.resolve(response.TechStack);
                 }).error(function(error) {
                     deferred.reject(error.ResponseStatus.Message);
@@ -16,7 +16,7 @@
             },
             getStack: function (id) {
                 var deferred = $q.defer();
-                $http.get('/stacks/' + id)
+                $http.get('/techstacks/' + id)
                     .success(function (response) {
                         deferred.resolve(response.TechStack);
                     });
@@ -24,7 +24,7 @@
             },
             latestTechStacks: function () {
                 var deferred = $q.defer();
-                $http.get('/stacks/latest')
+                $http.get('/techstacks/latest')
                     .success(function (response) {
                         deferred.resolve(response.TechStacks);
                     });
@@ -32,7 +32,7 @@
             },
             allTechs: function () {
                 var deferred = $q.defer();
-                $http.get('/techs/search')
+                $http.get('/technology/search')
                     .success(function (response) {
                         deferred.resolve(response.Results);
                     });
@@ -40,7 +40,7 @@
             },
             updateStack: function (techStack) {
                 var deferred = $q.defer();
-                $http.put('/stacks/' + techStack.Id, techStack)
+                $http.put('/techstacks/' + techStack.Id, techStack)
                     .success(function (response) {
                         techStack.Name = response.TechStack.Name;
                         techStack.Description = response.TechStack.Description;
@@ -52,7 +52,7 @@
                 return deferred.promise;
             },
             deleteTechStack: function (techStack) {
-                return $http.delete('/stacks/' + techStack.Id);
+                return $http.delete('/techstacks/' + techStack.Id);
             },
             updateTechnologyChoice: function (technologyChoice) {
                 var deferred = $q.defer();
@@ -67,7 +67,7 @@
             },
             updateLockStatus: function(techStackId, isLocked) {
                 var deferred = $q.defer();
-                $http.put('/admin/stacks/' + techStackId + '/lock', {IsLocked:isLocked})
+                $http.put('/admin/techstacks/' + techStackId + '/lock', { IsLocked: isLocked })
                     .success(function (response) {
                         deferred.resolve();
                     })
@@ -94,7 +94,7 @@
             },
             searchStacks: function (searchQuery) {
                 var deferred = $q.defer();
-                $http.get('/stacks/search/?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
+                $http.get('/techstacks/search/?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
                     .success(function (response) {
                         deferred.resolve(response.Results);
                     });
@@ -102,7 +102,7 @@
             },
             trendingStacks: function() {
                 var deferred = $q.defer();
-                $http.get('/stacks/trending')
+                $http.get('/techstacks/trending')
                     .success(function (response) {
                         deferred.resolve(response);
                     });

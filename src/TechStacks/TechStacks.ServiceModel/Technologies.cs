@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ServiceStack;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/techs", Verbs = "GET, POST")]
-    [Route("/techs/{Id}")]
-    public class Tech : IReturn<TechResponse>
+    [Route("/technology", Verbs = "GET, POST")]
+    [Route("/technology/{Id}")]
+    public class Technologies : IReturn<TechnologiesResponse>
     {
         public long? Id { get; set; }
 
@@ -25,12 +21,10 @@ namespace TechStacks.ServiceModel
     }
 
     [Query(QueryTerm.Or)]
-    [Route("/techs/search")]
-    public class FindTechnologies : QueryBase<Technology>
-    {
-    }
+    [Route("/technology/search")]
+    public class FindTechnologies : QueryBase<Technology> {}
 
-    [Route("/techs/{Id}/stacks")]
+    [Route("/technology/{Id}/techstacks")]
     public class GetStacksThatUseTech
     {
         public long Id { get; set; }
@@ -41,7 +35,7 @@ namespace TechStacks.ServiceModel
         public List<TechnologyStack> TechStacks { get; set; } 
     }
 
-    public class TechResponse
+    public class TechnologiesResponse
     {
         public List<Technology> Techs { get; set; }
         public Technology Tech { get; set; }

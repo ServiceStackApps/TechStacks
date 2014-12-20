@@ -26,7 +26,7 @@
                             deferred.resolve($rootScope.currentUserSession);
                         });
                     } else if ($rootScope.isAuthenticated == null) {
-                        $http.get('/sessioninfo').success(function (response) {
+                        $http.get('/my-session').success(function (response) {
                             $rootScope.currentUserSession = response;
                             $rootScope.isAuthenticated = true;
                             deferred.resolve(response);
@@ -66,7 +66,7 @@
                         });
                     } else {
                         if ($rootScope.favoriteTechStacks == null || forceUpdate) {
-                            $http.get('/favorites/techstacks').success(function (response) {
+                            $http.get('/favorites/techtacks').success(function (response) {
                                 $rootScope.favoriteTechStacks = response.Favorites || [];
                                 deferred.resolve(response.Favorites);
                             }).error(function (error) {
@@ -89,7 +89,7 @@
                         });
                     } else {
                         if ($rootScope.favoriteTechs == null || forceUpdate) {
-                            $http.get('/favorites/techs').success(function (response) {
+                            $http.get('/favorites/technology').success(function (response) {
                                 $rootScope.favoriteTechs = response.Favorites || [];
                                 deferred.resolve(response.Favorites);
                             }).error(function (error) {
@@ -112,7 +112,7 @@
                         });
                     } else {
                         addEntry($rootScope.favoriteTechStacks, techStack);
-                        $http.put('/favorites/techstacks', { TechnologyStackId: techStack.Id }).success(function (response) {
+                        $http.put('/favorites/techtacks', { TechnologyStackId: techStack.Id }).success(function (response) {
                             deferred.resolve(techStack);
                         })
                         .error(function() {
@@ -130,7 +130,7 @@
                         });
                     } else {
                         removeEntry($rootScope.favoriteTechStacks, techStack);
-                        $http.delete('/favorites/techstacks/' + techStack.Id).success(function (response) {
+                        $http.delete('/favorites/techtacks/' + techStack.Id).success(function (response) {
                             deferred.resolve(techStack);
                         })
                         .error(function() {
@@ -148,7 +148,7 @@
                         });
                     } else {
                         addEntry($rootScope.favoriteTechs, tech);
-                        $http.put('/favorites/techs', { TechnologyId: tech.Id }).success(function (response) {
+                        $http.put('/favorites/technology', { TechnologyId: tech.Id }).success(function (response) {
                             deferred.resolve(tech);
                         })
                         .error(function () {
@@ -166,7 +166,7 @@
                         });
                     } else {
                         removeEntry($rootScope.favoriteTechs, tech);
-                        $http.delete('/favorites/techs/' + tech.Id).success(function (response) {
+                        $http.delete('/favorites/technology/' + tech.Id).success(function (response) {
                             deferred.resolve(tech);
                         })
                         .error(function () {
@@ -183,14 +183,14 @@
                             deferred.reject('Not authenticated');
                         });
                     } else {
-                        $http.get('/myfeed').success(function (response) {
+                        $http.get('/my-feed').success(function (response) {
                             deferred.resolve(response.TechStacks);
                         });
                     }
                     return deferred.promise;
                 },
                 getUserStacks: function (userName) {
-                    return $http.get('/users/' + userName + '/stacks');
+                    return $http.get('/users/' + userName + '/techstacks');
                 },
                 getUserAvatar: function (userName) {
                     return $http.get('/users/' + userName + '/avatar');

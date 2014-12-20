@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Funq;
+﻿using Funq;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Caching;
@@ -20,23 +14,19 @@ namespace TechStacks.Tests
 {
     public class UnitTestHost : BasicAppHost
     {
-        public UnitTestHost()
-        : base(typeof(TechnologyServices).Assembly)
-        {
-            
-        }
-        
+        public UnitTestHost() : base(typeof(TechnologyServices).Assembly) {}
 
         public override void Configure(Container container)
         {
             container.Register<IDbConnectionFactory>(new OrmLiteConnectionFactory(":memory:", SqliteDialect.Provider));
             var dbFactory = container.Resolve<IDbConnectionFactory>();
-            this.Plugins.Add(new AuthFeature(() => new CustomUserSession(), new IAuthProvider[]
-                    {
-                        new TwitterAuthProvider(this.AppSettings),
-                        new GithubAuthProvider(this.AppSettings),
-                        new CredentialsAuthProvider(),
-                    }));
+            this.Plugins.Add(new AuthFeature(() => new CustomUserSession(), 
+                new IAuthProvider[]
+                {
+                    new TwitterAuthProvider(this.AppSettings),
+                    new GithubAuthProvider(this.AppSettings),
+                    new CredentialsAuthProvider(),
+                }));
 
             var authRepo = new OrmLiteAuthRepository<CustomUserAuth, UserAuthDetails>(dbFactory);
             container.Register<IUserAuthRepository>(authRepo);
@@ -54,7 +44,7 @@ namespace TechStacks.Tests
                 db.CreateTableIfNotExists<UserFavoriteTechnology>();
             }
 
-            this.RegisterTypedRequestFilter<TechChoice>(TechChoiceFilters.FilterTechChoiceRequest);
+            this.RegisterTypedRequestFilter<TechChoices>(TechChoiceFilters.FilterTechChoiceRequest);
             this.Plugins.Add(new AutoQueryFeature { MaxLimit = 1000 });
         }
     }
@@ -62,10 +52,7 @@ namespace TechStacks.Tests
     public class IntegrationTestHost : AppSelfHostBase
     {
         public IntegrationTestHost()
-            : base("IntegrationTestHost", typeof(TechnologyServices).Assembly)
-        {
-            
-        }
+            : base("IntegrationTestHost", typeof(TechnologyServices).Assembly) {}
 
         public override void Configure(Container container)
         {
@@ -94,12 +81,12 @@ namespace TechStacks.Tests
                 db.CreateTableIfNotExists<UserFavoriteTechnology>();
             }
 
-            this.RegisterTypedRequestFilter<TechChoice>(TechChoiceFilters.FilterTechChoiceRequest);
+            this.RegisterTypedRequestFilter<TechChoices>(TechChoiceFilters.FilterTechChoiceRequest);
             this.Plugins.Add(new AutoQueryFeature { MaxLimit = 1000 });
 
-            this.RegisterTypedRequestFilter<TechChoice>(TechChoiceFilters.FilterTechChoiceRequest);
-            this.RegisterTypedRequestFilter<Tech>(TechFilters.FilterTechRequest);
-            this.RegisterTypedRequestFilter<TechStack>(TechStackFilters.FilterTechStackRequest);
+            this.RegisterTypedRequestFilter<TechChoices>(TechChoiceFilters.FilterTechChoiceRequest);
+            this.RegisterTypedRequestFilter<Technologies>(TechFilters.FilterTechRequest);
+            this.RegisterTypedRequestFilter<ServiceModel.TechStacks>(TechStackFilters.FilterTechStackRequest);
         }
     }
 }

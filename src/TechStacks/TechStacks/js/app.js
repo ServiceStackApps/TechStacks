@@ -2,45 +2,28 @@
 (function () {
     "use strict";
 
-    //PhantomJS tests can skip check
-    if (location.origin !== 'http://localhost:9876') {
-        //auto redirect urls without #! convention
-        if (location.hash && location.hash.indexOf('#!') < 0) {
-            if (location.hash.substring(0, 3) == "#s=")
-                location.href = '/#!/';
-            else
-                location.href = location.href.replace('#', '#!');
-
-            location.reload();
-            return;
-        } else if (location.pathname.length > "/".length) {
-            location.href = location.origin + location.search + "#!" + location.pathname;
-            return;
-        }
-    }
-
     angular.module('stacks', ['stacks.controllers', 'stacks.services', 'stacks.filters']);
     angular.module('techs', ['techs.controllers','tech.services']);
     angular.module('home', ['home.controllers']);
     angular.module('user', ['user.controllers', 'user.services']);
 
-// Declare app level module which depends on filters, and services
+    // Declare app level module which depends on filters, and services
     angular.module('techStackApp', [
-        'ngRoute',
-        'home',
-        'techs',
-        'stacks',
-        'user',
-        'navigation.controllers',
-        'ui.bootstrap',
-        'chosen'
-    ]).
+            'ngRoute',
+            'home',
+            'techs',
+            'stacks',
+            'user',
+            'navigation.controllers',
+            'ui.bootstrap',
+            'chosen'
+        ]).
         config(['$routeProvider', '$httpProvider', '$locationProvider', function ($routeProvider, $httpProvider, $locationProvider) {
             $routeProvider.when('/', { templateUrl: 'partials/home.html', controller: 'homeCtrl' });
-            $routeProvider.when('/techs', { templateUrl: 'partials/techs/latest.html', controller: 'latestTechsCtrl' });
-            $routeProvider.when('/techs/create', { templateUrl: 'partials/techs/create.html', controller: 'createTechCtrl' });
-            $routeProvider.when('/techs/:techId', { templateUrl: 'partials/techs/tech.html', controller: 'techCtrl' });
-            $routeProvider.when('/techs/:techId/edit', { templateUrl: 'partials/techs/edit.html', controller: 'editTechCtrl' });
+            $routeProvider.when('/tech', { templateUrl: 'partials/tech/latest.html', controller: 'latestTechsCtrl' });
+            $routeProvider.when('/tech/create', { templateUrl: 'partials/tech/create.html', controller: 'createTechCtrl' });
+            $routeProvider.when('/tech/:techId', { templateUrl: 'partials/tech/tech.html', controller: 'techCtrl' });
+            $routeProvider.when('/tech/:techId/edit', { templateUrl: 'partials/tech/edit.html', controller: 'editTechCtrl' });
             $routeProvider.when('/stacks', { templateUrl: 'partials/stacks/latest.html', controller: 'latestStacksCtrl' });
             $routeProvider.when('/stacks/create', { templateUrl: 'partials/stacks/create.html', controller: 'createStackCtrl' });
             $routeProvider.when('/stacks/:stackId', { templateUrl: 'partials/stacks/stack.html', controller: 'stackCtrl' });
@@ -48,7 +31,7 @@
             $routeProvider.when('/:userName', { templateUrl: 'partials/user/feed.html', controller: 'userFeedCtrl' });
             $routeProvider.otherwise({ redirectTo: '/' });
             
-            $locationProvider.html5Mode(false).hashPrefix("!");
+            $locationProvider.html5Mode(true);
 
             $httpProvider.defaults.transformResponse.push(function (responseData) {
                 convertDateStringsToDates(responseData);

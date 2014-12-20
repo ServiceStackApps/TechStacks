@@ -4,9 +4,9 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/stacks",Verbs = "GET,POST")]
-    [Route("/stacks/{Id}")]
-    public class TechStack : IReturn<TechStackResponse>
+    [Route("/techstacks", Verbs = "GET,POST")]
+    [Route("/techstacks/{Id}")]
+    public class TechStacks : IReturn<TechStacksResponse>
     {
         public long? Id { get; set; }
 
@@ -16,14 +16,14 @@ namespace TechStacks.ServiceModel
         public string Details { get; set; }
     }
 
-    [Route("/stacks/tiers")]
-    [Route("/stacks/tiers/{Tier}")]
+    [Route("/techstacks/tiers")]
+    [Route("/techstacks/tiers/{Tier}")]
     public class TechStackByTier
     {
         public string Tier { get; set; }
     }
 
-    public class TechStackResponse
+    public class TechStacksResponse
     {
         public List<TechnologyStack> TechStacks { get; set; }
 
@@ -33,13 +33,11 @@ namespace TechStacks.ServiceModel
     }
 
     [Query(QueryTerm.Or)]
-    [Route("/stacks/search")]
+    [Route("/techstacks/search")]
     public class FindTechStacks : QueryBase<TechnologyStack> {}
 
-    [Route("/stacks/latest")]
-    public class RecentStackWithTechs : IReturn<RecentStackWithTechsResponse>
-    {        
-    }
+    [Route("/techstacks/latest")]
+    public class RecentStackWithTechs : IReturn<RecentStackWithTechsResponse> {}
 
     public class RecentStackWithTechsResponse
     {
@@ -63,8 +61,8 @@ namespace TechStacks.ServiceModel
         public TechnologyTier Tier { get; set; }
     }
 
-    [Route("/stacks/trending")]
-    public class TrendingStacks : IReturn<TrendingStacksResponse> { }
+    [Route("/techstacks/trending")]
+    public class TrendingTechStacks : IReturn<TrendingStacksResponse> { }
 
     public class TrendingStacksResponse
     {

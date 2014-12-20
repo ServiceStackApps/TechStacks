@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ServiceStack;
-using ServiceStack.Auth;
+﻿using ServiceStack;
 using TechStacks.ServiceModel;
 
 namespace TechStacks.ServiceInterface
@@ -20,8 +14,5 @@ namespace TechStacks.ServiceInterface
         }
     }
 
-    public class UserSessionInfo : CustomUserSession
-    {
-
-    }
+    public class UserSessionInfo : CustomUserSession {}
 }

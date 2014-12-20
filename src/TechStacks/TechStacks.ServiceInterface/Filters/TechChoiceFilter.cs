@@ -14,7 +14,7 @@ namespace TechStacks.ServiceInterface.Filters
 {
     public class TechChoiceFilters
     {
-        public static void FilterTechChoiceRequest(IRequest req, IResponse res, TechChoice dto)
+        public static void FilterTechChoiceRequest(IRequest req, IResponse res, TechChoices dto)
         {
             var dbFactory = req.TryResolve<IDbConnectionFactory>();
             if (req.Verb == "GET")

@@ -11,7 +11,7 @@ namespace TechStacks.ServiceInterface
     [Authenticate(ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechnologyServices : Service
     {
-        public object Post(Tech request)
+        public object Post(Technologies request)
         {
             var tech = request.ConvertTo<Technology>();
             var session = SessionAs<AuthUserSession>();
@@ -37,13 +37,13 @@ namespace TechStacks.ServiceInterface
             history.Operation = "INSERT";
             Db.Insert(history);
 
-            return new TechResponse
+            return new TechnologiesResponse
             {
                 Tech = createdTechStack
             };
         }
 
-        public object Put(Tech request)
+        public object Put(Technologies request)
         {
             var existingTech = Db.SingleById<Technology>(request.Id);
             if (existingTech == null)
@@ -77,13 +77,13 @@ namespace TechStacks.ServiceInterface
             history.Operation = "UPDATE";
             Db.Insert(history);
 
-            return new TechResponse
+            return new TechnologiesResponse
             {
                 Tech = updated
             };
         }
 
-        public object Delete(Tech request)
+        public object Delete(Technologies request)
         {
             var existingTech = Db.SingleById<Technology>(request.Id);
             if (existingTech == null)
@@ -102,17 +102,17 @@ namespace TechStacks.ServiceInterface
             history.Operation = "DELETE";
             Db.Insert(history);
 
-            return new TechResponse
+            return new TechnologiesResponse
             {
                 Tech = new Technology { Id = (long)request.Id }
             };
         }
 
-        public object Get(Tech request)
+        public object Get(Technologies request)
         {
             if (request.Id == null)
             {
-                return new TechResponse
+                return new TechnologiesResponse
                 {
                     Techs = Db.Select(Db.From<Technology>().Take(100)).ToList()
                 };
@@ -122,7 +122,7 @@ namespace TechStacks.ServiceInterface
             if (!alreadyExists)
                 HttpError.NotFound("Tech stack not found");
 
-            return new TechResponse
+            return new TechnologiesResponse
             {
                 Tech = Db.SingleById<Technology>(request.Id)
             };

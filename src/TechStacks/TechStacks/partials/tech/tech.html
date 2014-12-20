@@ -1,7 +1,7 @@
 ﻿<div id="tech-page">
     
     <div id="tech-info">
-        <a href="#!/techs/{{tech.Id}}/edit" class="btn btn-primary"
+        <a href="/tech/{{tech.Id}}/edit" class="btn btn-primary"
            ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">
             Edit
         </a>
@@ -45,7 +45,7 @@
                 </tr>
             </thead>
             <tr ng-repeat="techStack in relatedStacks">
-                <td class="name"><a href="#!/stacks/{{techStack.Id}}">{{techStack.Name}}
+                <td class="name"><a href="/stacks/{{techStack.Id}}">{{techStack.Name}}
                                  </a></td>
                 <td class="description" title="{{techStack.Description}}">
                     <div>{{techStack.Description}}</div>

@@ -26,7 +26,7 @@ namespace TechStacks
         /// Base constructor requires a name and assembly to locate web service classes. 
         /// </summary>
         public AppHost()
-            : base("TechStacks", typeof(MyServices).Assembly)
+            : base("TechStacks", typeof(TechnologyServices).Assembly)
         {
             var customSettings = new FileInfo(@"~/appsettings.txt".MapHostAbsolutePath());
             AppSettings = customSettings.Exists
@@ -83,7 +83,7 @@ namespace TechStacks
                 db.CreateTableIfNotExists<UserFavoriteTechnology>();
             }
 
-            this.RegisterTypedRequestFilter<TechChoice>(TechChoiceFilters.FilterTechChoiceRequest);
+            this.RegisterTypedRequestFilter<TechChoices>(TechChoiceFilters.FilterTechChoiceRequest);
             
             Plugins.Add(new RazorFormat());
             Plugins.Add(new AutoQueryFeature { MaxLimit = 1000 });
@@ -109,7 +109,7 @@ namespace TechStacks
         }
     }
 
-    public class TechStackValidator : AbstractValidator<TechStack>
+    public class TechStackValidator : AbstractValidator<ServiceModel.TechStacks>
     {
         public TechStackValidator()
         {
@@ -120,7 +120,7 @@ namespace TechStacks
         }
     }
 
-    public class TechValidator : AbstractValidator<Tech>
+    public class TechValidator : AbstractValidator<Technologies>
     {
         public TechValidator()
         {
@@ -131,7 +131,7 @@ namespace TechStacks
         }
     }
 
-    public class TechChoiceValidator : AbstractValidator<TechChoice>
+    public class TechChoiceValidator : AbstractValidator<TechChoices>
     {
         public TechChoiceValidator()
         {

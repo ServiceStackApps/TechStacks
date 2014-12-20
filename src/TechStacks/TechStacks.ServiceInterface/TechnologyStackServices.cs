@@ -12,7 +12,7 @@ namespace TechStacks.ServiceInterface
     [Authenticate( ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechnologyStackServices : Service
     {
-        public object Post(TechStack request)
+        public object Post(ServiceModel.TechStacks request)
         {
             var techStack = request.ConvertTo<TechnologyStack>();
             var session = SessionAs<AuthUserSession>();
@@ -30,13 +30,13 @@ namespace TechStacks.ServiceInterface
             history.Operation = "INSERT";
             Db.Insert(history);
 
-            return new TechStackResponse
+            return new TechStacksResponse
             {
                 TechStack = createdTechStack.ConvertTo<TechStackDetails>()
             };
         }
 
-        public object Put(TechStack request)
+        public object Put(ServiceModel.TechStacks request)
         {
             var existingStack = Db.SingleById<TechnologyStack>(request.Id);
             if (existingStack == null)
@@ -72,13 +72,13 @@ namespace TechStacks.ServiceInterface
             history.Operation = "UPDATE";
             Db.Insert(history);
 
-            return new TechStackResponse
+            return new TechStacksResponse
             {
                 TechStack = updated.ConvertTo<TechStackDetails>()
             };
         }
 
-        public object Delete(TechStack request)
+        public object Delete(ServiceModel.TechStacks request)
         {
             var stack = Db.SingleById<TechnologyStack>(request.Id);
             if (stack == null)
@@ -98,17 +98,17 @@ namespace TechStacks.ServiceInterface
             history.Operation = "DELETE";
             Db.Insert(history);
             
-            return new TechStackResponse
+            return new TechStacksResponse
             {
                 TechStack = new TechnologyStack { Id = (long)request.Id }.ConvertTo<TechStackDetails>()
             }; 
         }
 
-        public object Get(TechStack request)
+        public object Get(ServiceModel.TechStacks request)
         {
             if (request.Id == null)
             {
-                return new TechStackResponse
+                return new TechStacksResponse
                 {
                     TechStacks = Db.Select(Db.From<TechnologyStack>().Take(100)).ToList()
                 };
@@ -131,7 +131,7 @@ namespace TechStacks.ServiceInterface
                 query.Join<TechnologyChoice>((stack, choice) => stack.Id == choice.TechnologyStackId);
             }
 
-            return new TechStackResponse
+            return new TechStacksResponse
             {
                 TechStacks = Db.Select(query).GroupBy(x => x.Id).Select(x => x.First()).ToList()
             };
@@ -149,7 +149,7 @@ namespace TechStacks.ServiceInterface
             };
         }
 
-        private TechStackResponse GetTechnologyStackWithDetails(TechStack request)
+        private TechStacksResponse GetTechnologyStackWithDetails(ServiceModel.TechStacks request)
         {
             var technologyChoices = Db.LoadSelect<TechnologyChoice>(Db.From<TechnologyChoice>()
                         .Join<TechnologyChoice, Technology>((tst, t) => t.Id == tst.TechnologyId)
@@ -165,14 +165,14 @@ namespace TechStacks.ServiceInterface
             
             result.PopulateTechTiers(technologyChoices);
 
-            var response = new TechStackResponse
+            var response = new TechStacksResponse
             {
                 TechStack = result
             };
             return response;
         }
 
-        public object Any(TrendingStacks request)
+        public object Any(TrendingTechStacks request)
         {
             var response = new TrendingStacksResponse
             {

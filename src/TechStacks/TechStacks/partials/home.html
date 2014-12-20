@@ -8,7 +8,7 @@
         <div class="col-md-9">
             <div class="panel panel-default stack" ng-repeat="feedStack in feedStacks">
                 <div class="panel-heading">
-                    <a href="#!/stacks/{{feedStack.Id}}" style="display:block">
+                    <a href="/stacks/{{feedStack.Id}}" style="display:block">
                         <span>
                             {{feedStack.Name}}
                         </span>
@@ -17,10 +17,10 @@
                         </i>
                     </a>
                 </div>
-                <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="#!/stacks/{{feedStack.Id}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
+                <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="/stacks/{{feedStack.Id}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
                 <div class="panel-footer" >
                     <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in feedStack.TechnologyChoices">
-                        <a href="#!/techs/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
+                        <a href="/tech/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
                             <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="35" style="padding: 0 10px 0 0;" />
                             <span ng-if="!tech.LogoApproved" class="glyphicon glyphicon-cog"></span>
                         </a>
@@ -42,10 +42,10 @@
                             <span ng-show="!isFavoriteTechStack(techStack) && isAuthenticated" class="glyphicon glyphicon-star fav"
                                   ng-click="addFavoriteTechStack(techStack)"></span>
 
-                            <a href="#!/stacks/{{techStack.Id}}">{{techStack.Name}}</a> 
+                            <a href="/stacks/{{techStack.Id}}">{{techStack.Name}}</a> 
                         </li>
                     </ul>
-                    <a style="margin-top: 25px" href="#!/stacks/create" class="btn btn-primary">
+                    <a style="margin-top: 25px" href="/stacks/create" class="btn btn-primary">
                         Add TechStack
                     </a>
                 </div>
@@ -63,11 +63,11 @@
                             <span ng-show="!isFavoriteTech(tech) && isAuthenticated" class="glyphicon glyphicon-star fav" 
                                   ng-click="addFavoriteTech(tech)"></span>
 
-                            <a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a> 
+                            <a href="/tech/{{tech.Id}}">{{tech.Name}}</a> 
                         </li>
                     </ul>
                     <h6 style="margin-top:25px">Can't find your favorite tech?</h6>
-                    <a href="#!/techs/create" class="btn btn-primary">Add technology</a>
+                    <a href="/tech/create" class="btn btn-primary">Add technology</a>
                 </div>
             </div>
 
@@ -78,7 +78,7 @@
                 <div class="panel-body">
                     <ul class="list-unstyled">
                         <li ng-repeat="tech in topTechnologies" style="white-space:nowrap">
-                            <a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a> 
+                            <a href="/tech/{{tech.Id}}">{{tech.Name}}</a> 
                             <small>({{tech.StacksCount}})</small>
                         </li>
                     </ul>
@@ -92,7 +92,7 @@
                 <div class="panel-body">
                     <ul class="list-unstyled">
                         <li ng-repeat="user in topUsers" style="white-space:nowrap">
-                            <a href="#!/{{user.UserName}}">
+                            <a href="/{{user.UserName}}">
                                 <img src="{{user.AvatarUrl}}" style="height: 20px;" />
                                 {{user.UserName}}
                             </a> 
@@ -113,7 +113,7 @@
                 </div>
                 <div class="panel panel-body">
                     <p>
-                        Discover what technologies were used to create popular Websites and Apps, for example here's what <a href="#!/stacks/1">TechStacks was created with</a> :)
+                        Discover what technologies were used to create popular Websites and Apps, for example here's what <a href="/stacks/1">TechStacks was created with</a> :)
                     </p>
                     <p>
                         Missing your favorite Tech or TechStack? Sign-in and add it now!
@@ -126,7 +126,7 @@
         <div class="col-md-9">
             <div class="panel panel-default stack" ng-repeat="techStack in techStacks">
                 <div class="panel-heading">
-                    <a href="#!/stacks/{{techStack.Id}}" style="display:block">
+                    <a href="/stacks/{{techStack.Id}}" style="display:block">
                         <span>
                             {{techStack.Name}} 
                         </span>
@@ -135,10 +135,10 @@
                         </i>
                     </a>
                 </div>
-                <div class="panel-body">{{techStack.Description | limitTo:140}} <a href="#!/stacks/{{techStack.Id}}" ng-if="techStack.Description.length > 140">... Read More</a></div>
+                <div class="panel-body">{{techStack.Description | limitTo:140}} <a href="/stacks/{{techStack.Id}}" ng-if="techStack.Description.length > 140">... Read More</a></div>
                 <div class="panel-footer">
                     <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in techStack.TechnologyChoices">
-                        <a href="#!/techs/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
+                        <a href="/tech/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
                             <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="35" style="padding: 0 10px 0 0;" />
                             <span ng-if="!tech.LogoApproved" class="glyphicon glyphicon-cog"></span>
                         </a>
@@ -155,7 +155,7 @@
                 <div class="panel-body">
                     <ul class="list-unstyled">
                         <li ng-repeat="tech in topTechnologies" style="white-space:nowrap">
-                            <a href="#!/techs/{{tech.Id}}">{{tech.Name}}</a> 
+                            <a href="/tech/{{tech.Id}}">{{tech.Name}}</a> 
                             <small>({{tech.StacksCount}})</small>
                         </li>
                     </ul>
@@ -169,7 +169,7 @@
                 <div class="panel-body">
                     <ul class="list-unstyled">
                         <li ng-repeat="user in topUsers" style="white-space:nowrap">
-                            <a href="#!/{{user.UserName}}">
+                            <a href="/{{user.UserName}}">
                                 <img src="{{user.AvatarUrl}}" style="height: 20px;" />
                                 {{user.UserName}}
                             </a> 

@@ -4,7 +4,7 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/mystacks")]
+    [Route("/my-techstacks")]
     public class AccountTechStacks : IReturn<AccountTechStacksResponse> {}
 
     public class AccountTechStacksResponse
@@ -12,7 +12,7 @@ namespace TechStacks.ServiceModel
         public List<TechnologyStack> TechStacks { get; set; }
     }
 
-    [Route("/myfeed")]
+    [Route("/my-feed")]
     public class AccountTechStackFeed {}
 
     public class AccountTechStackFeedResponse
@@ -20,7 +20,7 @@ namespace TechStacks.ServiceModel
         public List<TechStackDetails> TechStacks { get; set; } 
     }
 
-    [Route("/users/{UserName}/stacks")]
+    [Route("/users/{UserName}/techstacks")]
     public class UserTechStack
     {
         public string UserName { get; set; }

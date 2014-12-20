@@ -6,14 +6,14 @@
         return {
             getTech: function(id) {
                 var deferred = $q.defer();
-                $http.get('/techs/' + id).success(function (response) {
+                $http.get('/technology/' + id).success(function (response) {
                     deferred.resolve(response.Tech);
                 });
                 return deferred.promise;
             },
             searchTech: function (searchQuery) {
                 var deferred = $q.defer();
-                $http.get('/techs/search?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
+                $http.get('/technology/search?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
                     .success(function (response) {
                         deferred.resolve(response.Results);
                     });
@@ -21,14 +21,14 @@
             },
             getAllTechs: function () {
                 var deferred = $q.defer();
-                $http.get('/techs').success(function (response) {
+                $http.get('/technology').success(function (response) {
                     deferred.resolve(response.Techs);
                 });
                 return deferred.promise;
             },
             getRelatedStacks: function(techId) {
                 var deferred = $q.defer();
-                $http.get('/techs/' + techId + '/stacks').success(function (response) {
+                $http.get('/technology/' + techId + '/techstacks').success(function (response) {
                     deferred.resolve(response.TechStacks);
                 });
                 return deferred.promise;
@@ -36,14 +36,14 @@
             },
             createTech: function (newTech) {
                 var deferred = $q.defer();
-                $http.post('/techs', newTech).success(function (response) {
+                $http.post('/technology', newTech).success(function (response) {
                     deferred.resolve(response.Tech);
                 });
                 return deferred.promise;
             },
             updateTech: function (tech) {
                 var deferred = $q.defer();
-                $http.put('/techs/' + tech.Id, tech).success(function (response) {
+                $http.put('/technology/' + tech.Id, tech).success(function (response) {
                     deferred.resolve(response.Tech);
                 });
                 return deferred.promise;
@@ -60,11 +60,11 @@
                 return deferred.promise;
             },
             deleteTech: function (tech) {
-                return $http.delete('/techs/' + tech.Id);
+                return $http.delete('/technology/' + tech.Id);
             },
             updateLockStatus: function (techId, isLocked) {
                 var deferred = $q.defer();
-                $http.put('/admin/techs/' + techId + '/lock', { IsLocked: isLocked })
+                $http.put('/admin/technology/' + techId + '/lock', { IsLocked: isLocked })
                     .success(function (response) {
                         deferred.resolve();
                     })
@@ -83,7 +83,7 @@
             },
             makeFavorite: function (tech) {
                 var deferred = $q.defer();
-                $http.put('/favorites/tech', { TechnologyId: tech.Id })
+                $http.put('/favorites/technology', { TechnologyId: tech.Id })
                     .success(function(response) {
                         deferred.resolve(response.Tech);
                     });
@@ -91,7 +91,7 @@
             },
             approveLogo: function(tech,status) {
                 var deferred = $q.defer();
-                $http.put('/admin/techs/' + tech.Id + '/logo', { Approved: status }).success(function (response) {
+                $http.put('/admin/technology/' + tech.Id + '/logo', { Approved: status }).success(function (response) {
                     deferred.resolve(response.Tech);
                 });
                 return deferred.promise;

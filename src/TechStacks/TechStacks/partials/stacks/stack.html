@@ -1,6 +1,6 @@
 ﻿<div id="stack-page">
     <div id="stack-info">
-        <a href="#!/stacks/{{currentStack.Id}}/edit" class="btn btn-primary"
+        <a href="/stacks/{{currentStack.Id}}/edit" class="btn btn-primary"
             ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">Edit
         </a>
 
@@ -17,7 +17,7 @@
         </h2>
 
         <div class="small" style="margin-bottom: 25px">
-            by <a href="#!/{{currentStack.CreatedBy}}">{{currentStack.CreatedBy}}</a>
+            by <a href="/{{currentStack.CreatedBy}}">{{currentStack.CreatedBy}}</a>
         </div>
 
         <blockquote ng-bind="currentStack.Description"></blockquote>
@@ -26,7 +26,7 @@
             <div class="item" ng-show="tier.show">
                 <h4>{{tier.title}}</h4>
                 <div ng-repeat="tech in currentStack.TechnologyChoices | filter:{Tier:tier.name}">
-                    <a href="#!/techs/{{tech.TechnologyId}}" title="{{tech.Name}}">
+                    <a href="/tech/{{tech.TechnologyId}}" title="{{tech.Name}}">
                         <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="75" />
                     </a>
                 </div>

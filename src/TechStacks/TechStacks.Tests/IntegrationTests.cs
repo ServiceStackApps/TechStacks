@@ -69,7 +69,7 @@ namespace TechStacks.Tests
         [Test]
         public void Can_Create_TechStack()
         {
-            client.Post(new TechStack
+            client.Post(new ServiceModel.TechStacks
             {
                 Description = "Description1",
                 Details = "Some details",
@@ -86,7 +86,7 @@ namespace TechStacks.Tests
         [Test]
         public void Can_Create_Tech()
         {
-            client.Post(new Tech
+            client.Post(new Technologies
             {
                 Description = "Description1",
                 Name = "My new tech"
@@ -102,12 +102,12 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Create_Tech_With_Same_Name()
         {
-            var allTechs = client.Get(new Tech());
+            var allTechs = client.Get(new Technologies());
             var tech = allTechs.Techs.First();
             bool created = true;
             try
             {
-                var response = client.Post(new Tech
+                var response = client.Post(new Technologies
                 {
                     Description = "Description1",
                     Name = tech.Name
@@ -123,9 +123,9 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Update_Tech_With_Same_Name()
         {
-            var allTechs = client.Get(new Tech());
+            var allTechs = client.Get(new Technologies());
             var tech = allTechs.Techs.First();
-            var response = client.Post(new Tech
+            var response = client.Post(new Technologies
             {
                 Description = "Description1",
                 Name = tech.Name + " TeSting"
@@ -133,7 +133,7 @@ namespace TechStacks.Tests
 
             try
             {
-                client.Put(new Tech
+                client.Put(new Technologies
                 {
                     Id = tech.Id,
                     Name = response.Tech.Name
@@ -144,19 +144,19 @@ namespace TechStacks.Tests
                 //Ignore
             }
 
-            var updatedTechs = client.Get(new Tech());
+            var updatedTechs = client.Get(new Technologies());
             Assert.That(updatedTechs.Techs.First().Name, Is.EqualTo(tech.Name));
         }
 
         [Test]
         public void Cant_Create_TechStack_With_Same_Name()
         {
-            var allStacks = client.Get(new TechStack());
+            var allStacks = client.Get(new ServiceModel.TechStacks());
             var stack = allStacks.TechStacks.First();
             bool created = true;
             try
             {
-                var response = client.Post(new TechStack
+                var response = client.Post(new ServiceModel.TechStacks
                 {
                     Description = "Description1",
                     Name = stack.Name
@@ -172,9 +172,9 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Update_TechStack_With_Same_Name()
         {
-            var allStacks = client.Get(new TechStack());
+            var allStacks = client.Get(new ServiceModel.TechStacks());
             var stack = allStacks.TechStacks.First();
-            var response = client.Post(new TechStack
+            var response = client.Post(new ServiceModel.TechStacks
             {
                 Description = "Description1",
                 Name = stack.Name + " TeSting"
@@ -182,7 +182,7 @@ namespace TechStacks.Tests
 
             try
             {
-                client.Put(new Tech
+                client.Put(new Technologies
                 {
                     Id = stack.Id,
                     Name = response.TechStack.Name
@@ -193,14 +193,14 @@ namespace TechStacks.Tests
                 //Ignore
             }
 
-            var updatedStacks = client.Get(new TechStack());
+            var updatedStacks = client.Get(new ServiceModel.TechStacks());
             Assert.That(updatedStacks.TechStacks.First().Name, Is.EqualTo(stack.Name));
         }
 
         [Test]
         public void Can_Create_Tech_With_Correct_Slug()
         {
-            var response = client.Post(new Tech
+            var response = client.Post(new Technologies
             {
                 Description = "Description1",
                 Name = "My new TeCh"
@@ -213,7 +213,7 @@ namespace TechStacks.Tests
         [Test]
         public void Can_Create_TechStack_With_Correct_Slug()
         {
-            var response = client.Post(new TechStack
+            var response = client.Post(new ServiceModel.TechStacks
             {
                 Description = "Description1",
                 Details = "Some details",
@@ -227,48 +227,48 @@ namespace TechStacks.Tests
         [Test]
         public void Can_Update_Tech_That_User_Does_Own()
         {
-            var response = client.Post(new Tech
+            var response = client.Post(new Technologies
             {
                 Description = "Description1",
                 Name = "My new tech"
             });
             var tech = response.Tech;
             tech.Name = "Another name";
-            client.Put(tech.ConvertTo<Tech>());
-            var updatedTech = client.Get(new Tech {Id = tech.Id});
+            client.Put(tech.ConvertTo<Technologies>());
+            var updatedTech = client.Get(new Technologies {Id = tech.Id});
             Assert.That(tech.Name, Is.EqualTo(updatedTech.Tech.Name));
         }
 
         [Test]
         public void Can_Update_Tech_That_User_Doesnt_Own()
         {
-            var response = adminClient.Post(new Tech
+            var response = adminClient.Post(new Technologies
             {
                 Description = "Description1",
                 Name = "My new tech"
             });
             var tech = response.Tech;
             tech.Name = "Another name";
-            client.Put(tech.ConvertTo<Tech>());
-            var updatedTech = client.Get(new Tech { Id = tech.Id });
+            client.Put(tech.ConvertTo<Technologies>());
+            var updatedTech = client.Get(new Technologies { Id = tech.Id });
             Assert.That(tech.Name, Is.EqualTo(updatedTech.Tech.Name));
         }
 
         [Test]
         public void Cant_Update_TechStack_User_Doesnt_Own()
         {
-            var allStacks = client.Get(new TechStack());
+            var allStacks = client.Get(new ServiceModel.TechStacks());
             var first = allStacks.TechStacks.First();
             try
             {
-                client.Put(new TechStack { Id = first.Id, Name = "Foo", Description = first.Description });
+                client.Put(new ServiceModel.TechStacks { Id = first.Id, Name = "Foo", Description = first.Description });
             }
             catch (Exception)
             {
                 //Ignore expected error
             }
             
-            var updatedAllStacks = client.Get(new TechStack());
+            var updatedAllStacks = client.Get(new ServiceModel.TechStacks());
             //Name didn't change to "Foo"
             Assert.That(updatedAllStacks.TechStacks.First().Name, Is.EqualTo("Initial Stack"));
         }
@@ -276,20 +276,20 @@ namespace TechStacks.Tests
         [Test]
         public void Can_Update_TechStack_User_Does_Own()
         {
-            client.Post(new TechStack
+            client.Post(new ServiceModel.TechStacks
             {
                 Description = "Description1",
                 Details = "Some details",
                 Name = "My new stack"
             });
 
-            var allStacks = client.Get(new TechStack());
+            var allStacks = client.Get(new ServiceModel.TechStacks());
             var last = allStacks.TechStacks.Last();
             Assert.That(last.Name, Is.EqualTo("My new stack"));
 
-            client.Put(new TechStack {Id = last.Id, Name = "New Name"});
+            client.Put(new ServiceModel.TechStacks {Id = last.Id, Name = "New Name"});
 
-            var updatedStack = client.Get(new TechStack {Id = last.Id});
+            var updatedStack = client.Get(new ServiceModel.TechStacks {Id = last.Id});
 
             Assert.That(updatedStack.TechStack.Name, Is.EqualTo("New Name"));
         }
@@ -297,7 +297,7 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Lock_TechStack_As_Normal_User()
         {
-            var allStacks = client.Get(new TechStack());
+            var allStacks = client.Get(new ServiceModel.TechStacks());
             var first = allStacks.TechStacks.First();
             bool isLocked = first.IsLocked;
             try
@@ -309,7 +309,7 @@ namespace TechStacks.Tests
                 //Do nothing
             }
 
-            var updatedStacks = client.Get(new TechStack());
+            var updatedStacks = client.Get(new ServiceModel.TechStacks());
             Assert.That(isLocked, Is.EqualTo(false));
             Assert.That(updatedStacks.TechStacks.First().IsLocked, Is.EqualTo(false));
         }
@@ -317,7 +317,7 @@ namespace TechStacks.Tests
         [Test]
         public void Can_Lock_TechStack_As_AdminUser()
         {
-            var allStacks = client.Get(new TechStack());
+            var allStacks = client.Get(new ServiceModel.TechStacks());
             var first = allStacks.TechStacks.First();
             bool isLocked = first.IsLocked;
             try
@@ -329,7 +329,7 @@ namespace TechStacks.Tests
                 //Do nothing
             }
 
-            var updatedStacks = client.Get(new TechStack());
+            var updatedStacks = client.Get(new ServiceModel.TechStacks());
             Assert.That(isLocked, Is.EqualTo(false));
             Assert.That(updatedStacks.TechStacks.First().IsLocked, Is.EqualTo(true));
         }
@@ -337,7 +337,7 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Lock_Tech_As_Normal_User()
         {
-            var allTechs = client.Get(new Tech());
+            var allTechs = client.Get(new Technologies());
             var first = allTechs.Techs.First();
             bool isLocked = first.IsLocked;
             try
@@ -349,7 +349,7 @@ namespace TechStacks.Tests
                 //Do nothing
             }
             
-            var updatedTechs = client.Get(new Tech());
+            var updatedTechs = client.Get(new Technologies());
             Assert.That(isLocked, Is.EqualTo(false));
             Assert.That(updatedTechs.Techs.First().IsLocked,Is.EqualTo(false));
         }
@@ -357,7 +357,7 @@ namespace TechStacks.Tests
         [Test]
         public void Can_Lock_Tech_As_AdminUser()
         {
-            var allTechs = client.Get(new Tech());
+            var allTechs = client.Get(new Technologies());
             var first = allTechs.Techs.First();
             bool isLocked = first.IsLocked;
             try
@@ -369,18 +369,18 @@ namespace TechStacks.Tests
                 //Do nothing
             }
 
-            var updatedTechs = client.Get(new Tech());
+            var updatedTechs = client.Get(new Technologies());
             Assert.That(isLocked, Is.EqualTo(false));
             Assert.That(updatedTechs.Techs.First().IsLocked, Is.EqualTo(true));
         }
 
         public void Can_Cancel_Logo_Approval_As_Admin()
         {
-            var allTechs = client.Get(new Tech());
+            var allTechs = client.Get(new Technologies());
             var firstTech = allTechs.Techs.First();
             var logoApporved = firstTech.LogoApproved;
             adminClient.Put(new LogoUrlApproval {Approved = false, TechnologyId = firstTech.Id});
-            var updatedTechs = client.Get(new Tech());
+            var updatedTechs = client.Get(new Technologies());
             var updatedTech = updatedTechs.Techs.First();
             Assert.That(updatedTech.Id,Is.EqualTo(firstTech.Id));
             Assert.That(updatedTech.LogoApproved, Is.EqualTo(false));
@@ -389,8 +389,8 @@ namespace TechStacks.Tests
         [Test]
         public void Stack_Logo_Approved_By_Default()
         {
-            client.Post(new Tech { Description = "Some description", Name = "New Stack",LogoUrl = "http://example.com/logo.png"});
-            var response = client.Get(new Tech {Id = 5});
+            client.Post(new Technologies { Description = "Some description", Name = "New Stack",LogoUrl = "http://example.com/logo.png"});
+            var response = client.Get(new Technologies {Id = 5});
             Assert.That(response.Tech.Name,Is.EqualTo("New Stack"));
             Assert.That(response.Tech.LogoApproved,Is.EqualTo(true));
         }
