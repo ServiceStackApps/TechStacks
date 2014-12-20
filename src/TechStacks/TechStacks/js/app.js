@@ -5,8 +5,10 @@
     if (location.origin !== 'http://localhost:9876') {
         //auto redirect urls without #! convention
         if (location.hash && location.hash.substring(0, 3) == "#s=") {
-            location.href = '/';
-            return;
+            if (history.pushState)
+                history.pushState({}, document.title, '/');
+            else
+                location.href = '/';
         }
     }
 
