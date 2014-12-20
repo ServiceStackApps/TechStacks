@@ -100,14 +100,7 @@
                     });
                 return deferred.promise;
             },
-            trendingStacks: function() {
-                var deferred = $q.defer();
-                $http.get('/techstacks/trending')
-                    .success(function (response) {
-                        deferred.resolve(response);
-                    });
-                return deferred.promise;
-            },
+            overview: techServices.overview,
             searchTech: techServices.searchTech,
             allTiers: techServices.allTiers
         };
