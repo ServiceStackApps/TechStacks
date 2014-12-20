@@ -2,6 +2,7 @@
 using System.Linq;
 using MarkdownSharp;
 using ServiceStack;
+using ServiceStack.Caching;
 using ServiceStack.Configuration;
 using ServiceStack.OrmLite;
 using TechStacks.ServiceModel;
@@ -9,9 +10,11 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceInterface
 {
-    [Authenticate( ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
+    [Authenticate(ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechnologyStackServices : Service
     {
+        public MemoryCacheClient MemoryCache { get; set; }
+
         public object Post(CreateTechnologyStack request)
         {
             var techStack = request.ConvertTo<TechnologyStack>();
@@ -22,13 +25,15 @@ namespace TechStacks.ServiceInterface
             techStack.Created = DateTime.UtcNow;
             techStack.LastModified = DateTime.UtcNow;
             techStack.SlugTitle = techStack.Name.GenerateSlug();
-            var id = Db.Insert(techStack, selectIdentity:true);
+            var id = Db.Insert(techStack, selectIdentity: true);
             var createdTechStack = Db.SingleById<TechnologyStack>(id);
 
             var history = createdTechStack.ConvertTo<TechnologyStackHistory>();
             history.TechnologyStackId = id;
             history.Operation = "INSERT";
             Db.Insert(history);
+
+            MemoryCache.FlushAll();
 
             return new CreateTechnologyStackResponse
             {
@@ -72,6 +77,8 @@ namespace TechStacks.ServiceInterface
             history.Operation = "UPDATE";
             Db.Insert(history);
 
+            MemoryCache.FlushAll();
+
             return new UpdateTechnologyStackResponse
             {
                 TechStack = updated.ConvertTo<TechStackDetails>()
@@ -97,6 +104,8 @@ namespace TechStacks.ServiceInterface
             history.LastModifiedBy = session.UserName;
             history.Operation = "DELETE";
             Db.Insert(history);
+
+            MemoryCache.FlushAll();
 
             return new DeleteTechnologyStackResponse
             {
@@ -166,7 +175,7 @@ namespace TechStacks.ServiceInterface
             {
                 result.DetailsHtml = new Markdown().Transform(techStack.Details);
             }
-            
+
             result.PopulateTechTiers(technologyChoices);
 
             var response = new TechStacksResponse
@@ -176,34 +185,60 @@ namespace TechStacks.ServiceInterface
             return response;
         }
 
-        public object Any(TrendingTechStacks request)
+        public object Any(GetConfig request)
         {
-            var response = new TrendingStacksResponse
+            var allTiers = Enum.GetValues(typeof(TechnologyTier)).Map(x =>
+                new Option
+                {
+                    Name = x.ToString(),
+                    Title = typeof(TechnologyTier).GetMember(x.ToString())[0].GetDescription(),
+                });
+
+            return new GetConfigResponse
             {
-                TopUsers = Db.Select<UserInfo>(
-                    @"select u.user_name as UserName, u.default_profile_url as AvatarUrl, COUNT(*) as StacksCount
-                      from technology_stack ts
-                           inner join
-                           user_favorite_technology_stack uf on (ts.id = uf.technology_stack_id)
-                           inner join
-                           custom_user_auth u on (uf.user_id::integer = u.id)
-                     group by u.user_name, u.default_profile_url
-                     having count(*) > 0
-                     order by StacksCount desc
-                     limit 20"),
-
-                TopTechnologies = Db.Select<TechnologyInfo>(
-                    @"select tc.technology_id as Id, t.name, COUNT(*) as StacksCount 
-                        from technology_choice tc
-                            inner join
-                            technology t on (tc.technology_id = t.id)
-                        group by tc.technology_id, t.name
-                        having COUNT(*) > 0
-                        order by StacksCount desc
-                        limit 20"),
+                AllTiers = allTiers,
             };
+        }
 
-            return response;
+        public object Any(Overview request)
+        {
+            if (request.Reload)
+                MemoryCache.FlushAll();
+
+            return base.Request.ToOptimizedResultUsingCache(MemoryCache, "overview", () =>
+            {
+                var response = new OverviewResponse
+                {
+                    Created = DateTime.UtcNow,
+
+                    LatestTechStacks = TechStackQueries.GetTechstackDetails(Db,
+                        Db.From<TechnologyStack>().OrderByDescending(x => x.Id).Limit(20)),
+
+                    TopUsers = Db.Select<UserInfo>(
+                        @"select u.user_name as UserName, u.default_profile_url as AvatarUrl, COUNT(*) as StacksCount
+                            from technology_stack ts
+                                 inner join
+                                 user_favorite_technology_stack uf on (ts.id = uf.technology_stack_id)
+                                 inner join
+                                 custom_user_auth u on (uf.user_id::integer = u.id)
+                            group by u.user_name, u.default_profile_url
+                            having count(*) > 0
+                            order by StacksCount desc
+                            limit 20"),
+
+                    TopTechnologies = Db.Select<TechnologyInfo>(
+                        @"select tc.technology_id as Id, t.name, COUNT(*) as StacksCount 
+                            from technology_choice tc
+                                 inner join
+                                 technology t on (tc.technology_id = t.id)
+                            group by tc.technology_id, t.name
+                            having COUNT(*) > 0
+                            order by StacksCount desc
+                            limit 20"),
+                };
+
+                return response;
+            });
         }
 
     }

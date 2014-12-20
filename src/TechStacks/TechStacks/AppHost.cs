@@ -7,7 +7,6 @@ using ServiceStack.Caching;
 using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.FluentValidation;
-using ServiceStack.Host.Handlers;
 using ServiceStack.OrmLite;
 using ServiceStack.Razor;
 using ServiceStack.Text;
@@ -70,7 +69,9 @@ namespace TechStacks
             authRepo.InitSchema();
 
             container.RegisterAs<OrmLiteCacheClient, ICacheClient>();
-            container.Resolve<ICacheClient>().InitSchema(); 
+            container.Resolve<ICacheClient>().InitSchema();
+
+            container.Register(c => new MemoryCacheClient());
 
             this.Plugins.Add(new CustomRegistrationFeature());
 

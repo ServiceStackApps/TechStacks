@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 using ServiceStack;
 using TechStacks.ServiceModel.Types;
 
@@ -10,7 +9,6 @@ namespace TechStacks.ServiceModel
     {
         public string Slug { get; set; }
 
-        [IgnoreDataMember]
         public long Id
         {
             set { this.Slug = value.ToString(); }

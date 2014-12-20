@@ -5,7 +5,6 @@
 
     app.controller('latestTechsCtrl', [
         '$scope', 'techServices', '$timeout', function ($scope, techServices, $timeout) {
-            $scope.allTiers = angular.copy(techServices.allTiers);
             var lastSearch;
             $scope.refresh = function () {
                 $scope.isBusy = true;
@@ -95,8 +94,6 @@
 
     app.controller('createTechCtrl', [
         '$scope', '$http', '$routeParams', 'techServices', '$location', function ($scope, $http, $routeParams, techServices, $location) {
-            $scope.allTiers = angular.copy(techServices.allTiers);
-
             $scope.createNewTech = function() {
                 techServices.createTech($scope.tech).then(function (tech) {
                     $scope.tech.Id = tech.Id;
@@ -110,7 +107,6 @@
         '$scope', 'techServices', '$routeParams', '$q', '$filter', '$location', 'userService', '$timeout',
             function ($scope, techServices, $routeParams, $q, $filter, $location, userService, $timeout) {
 
-            $scope.allTiers = angular.copy(techServices.allTiers);
             $scope.refreshTech = function() {
                 techServices.getTech($routeParams.techId).then(function (tech) {
                     $scope.tech = tech;

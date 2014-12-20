@@ -5,26 +5,22 @@
 
     app.controller('homeCtrl', [
         '$scope', '$http', 'techStackServices', 'userService', function ($scope, $http, techStackServices, userService) {
-            $scope.allTiers = angular.copy(techStackServices.allTiers);
 
             function refreshFeed() {
                 userService.isAuthenticated().then(function () {
                     userService.getUserFeed().then(function (results) {
                         $scope.feedStacks = results;
                     });
-                }, function () {
-                    techStackServices.latestTechStacks().then(function (techstacks) {
-                        $scope.techStacks = techstacks;
-                    });
+                });
+
+                techStackServices.overview().then(function (overview) {
+                    $scope.techStacks = overview.LatestTechStacks;
+                    $scope.topTechnologies = overview.TopTechnologies;
+                    $scope.topUsers = overview.TopUsers;
                 });
             }
 
             refreshFeed();
-
-            techStackServices.trendingStacks().then(function (trending) {
-                $scope.topTechnologies = trending.TopTechnologies;
-                $scope.topUsers = trending.TopUsers;
-            });
 
             $scope.isFavoriteTech = function (tech) {
                 var isFav = false;

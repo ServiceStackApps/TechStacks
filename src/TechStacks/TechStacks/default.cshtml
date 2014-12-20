@@ -31,7 +31,7 @@
         <script src="/bower_components/modernizr/modernizr.js"></script>
         <!-- endbuild -->
     </head>
-    <body>
+    <body init-data>
         <div class="navbar navbar-inverse" role="navigation" ng-controller="navigationCtrl">
             <div class="container">
                 <div class="navbar-header">
@@ -55,7 +55,13 @@
                         <li ng-hide="isAuthenticated"><a href="/auth/twitter"><img src="/img/twitter_normal.png" alt="Sign in with Twitter" /></a></li>
                         <li ng-hide="isAuthenticated"><a href="/auth/github"><img src="/img/github_normal.png" alt="Sign in with Github" /></a></li>
                         <li ng-show="isAuthenticated" style="padding: 12px 0 0 0"><a href="/auth/logout">Logout</a></li>
-                        <li ng-show="isAuthenticated"><span><a href="/{{currentUserSession.UserName}}"><img style="margin-top:5px;border-radius:50%" ng-src="{{currentUserSession.DefaultProfileUrl}}" height="50" /></a></span></li>
+                        <li ng-show="isAuthenticated">
+                            <span>
+                                <a href="/{{currentUserSession.UserName}}">
+                                    <img style="margin-top:5px;border-radius:50%" ng-src="{{currentUserSession.DefaultProfileUrl}}" height="50" />
+                                </a>
+                            </span>
+                        </li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

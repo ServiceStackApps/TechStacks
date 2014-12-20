@@ -96,16 +96,22 @@
                 });
                 return deferred.promise;
             },
-            allTiers: [
-                { name: 'ProgrammingLanguage', title: 'Programming Languages' },
-                { name: 'Client', title: 'Client Libraries' },
-                { name: 'Http', title: 'HTTP Server Technologies' },
-                { name: 'Server', title: 'Server Libraries' },
-                { name: 'Data', title: 'Databases and NoSQL Datastores' },
-                { name: 'SoftwareInfrastructure', title: 'Server Software' },
-                { name: 'OperatingSystem', title: 'Operating Systems' },
-                { name: 'HardwareInfrastructure', title: 'Hardware Infastructure' },
-            ]
+            overview: function () {
+                var deferred = $q.defer();
+                $http.get('/overview')
+                    .success(function (response) {
+                        deferred.resolve(response);
+                    });
+                return deferred.promise;
+            },
+            config: function () {
+                var deferred = $q.defer();
+                $http.get('/config')
+                    .success(function (response) {
+                        deferred.resolve(response);
+                    });
+                return deferred.promise;
+            }
         };
     }]);
 })();
