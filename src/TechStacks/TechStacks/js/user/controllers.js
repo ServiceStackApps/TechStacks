@@ -6,7 +6,11 @@
     app.controller('userFeedCtrl', [
         '$scope', '$routeParams', '$location', 'userService', 'techStackServices', function ($scope, $routeParams, $location, userService, techStackServices) {
             $scope.currentUserName = $routeParams.userName;
-
+            //Handle user session logout/login without full reload
+            if ($scope.currentUserName.indexOf('s=') === 0) {
+                $location.path('/');
+                return;
+            }
             userService.getUserAvatar($routeParams.userName).then(function (response) {
                 $scope.avatarUrl = response.data.AvatarUrl || '/img/no-profile64.png';
             }, function (response) {
