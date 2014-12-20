@@ -4,7 +4,7 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/technology/{Id}")]
+    [Route("/technology/{Id}", Verbs = "GET")]
     public class Technologies : IReturn<TechnologiesResponse>
     {
         public long Id { get; set; }

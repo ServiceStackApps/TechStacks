@@ -12,7 +12,7 @@ namespace TechStacks.ServiceInterface
     [Authenticate( ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechnologyStackServices : Service
     {
-        public object Post(ServiceModel.TechStacks request)
+        public object Post(CreateTechnologyStack request)
         {
             var techStack = request.ConvertTo<TechnologyStack>();
             var session = SessionAs<AuthUserSession>();
@@ -30,13 +30,13 @@ namespace TechStacks.ServiceInterface
             history.Operation = "INSERT";
             Db.Insert(history);
 
-            return new TechStacksResponse
+            return new CreateTechnologyStackResponse
             {
                 TechStack = createdTechStack.ConvertTo<TechStackDetails>()
             };
         }
 
-        public object Put(ServiceModel.TechStacks request)
+        public object Put(UpdateTechnologyStack request)
         {
             var existingStack = Db.SingleById<TechnologyStack>(request.Id);
             if (existingStack == null)
@@ -72,13 +72,13 @@ namespace TechStacks.ServiceInterface
             history.Operation = "UPDATE";
             Db.Insert(history);
 
-            return new TechStacksResponse
+            return new UpdateTechnologyStackResponse
             {
                 TechStack = updated.ConvertTo<TechStackDetails>()
             };
         }
 
-        public object Delete(ServiceModel.TechStacks request)
+        public object Delete(DeleteTechnologyStack request)
         {
             var stack = Db.SingleById<TechnologyStack>(request.Id);
             if (stack == null)
@@ -97,23 +97,23 @@ namespace TechStacks.ServiceInterface
             history.LastModifiedBy = session.UserName;
             history.Operation = "DELETE";
             Db.Insert(history);
-            
-            return new TechStacksResponse
+
+            return new DeleteTechnologyStackResponse
             {
                 TechStack = new TechnologyStack { Id = (long)request.Id }.ConvertTo<TechStackDetails>()
             }; 
         }
 
+        public object Get(AllTechnologyStacks request)
+        {
+            return new TechStacksResponse
+            {
+                TechStacks = Db.Select(Db.From<TechnologyStack>().Take(100)).ToList()
+            };
+        }
+
         public object Get(ServiceModel.TechStacks request)
         {
-            if (request.Id == null)
-            {
-                return new TechStacksResponse
-                {
-                    TechStacks = Db.Select(Db.From<TechnologyStack>().Take(100)).ToList()
-                };
-            }
-
             var alreadyExists = Db.Exists<TechnologyStack>(x => x.Id == request.Id);
             if (!alreadyExists)
                 throw HttpError.NotFound("Tech stack not found");

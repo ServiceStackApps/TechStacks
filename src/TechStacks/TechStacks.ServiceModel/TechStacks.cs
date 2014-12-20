@@ -4,16 +4,63 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/techstacks", Verbs = "GET,POST")]
-    [Route("/techstacks/{Id}")]
+    
+    [Route("/techstacks/{Id}", Verbs = "GET")]
     public class TechStacks : IReturn<TechStacksResponse>
     {
-        public long? Id { get; set; }
+        public long Id { get; set; }
+    }
+
+    [Route("/techstacks", Verbs = "POST")]
+    public class CreateTechnologyStack
+    {
+        public string Name { get; set; }
+        public string VendorName { get; set; }
+        public string Description { get; set; }
+        public string Details { get; set; }
+    }
+
+    public class CreateTechnologyStackResponse
+    {
+        public TechStackDetails TechStack { get; set; }
+    }
+
+    [Route("/techstacks/{Id}", Verbs = "PUT")]
+    public class UpdateTechnologyStack
+    {
+        public long Id { get; set; }
 
         public string Name { get; set; }
         public string VendorName { get; set; }
         public string Description { get; set; }
         public string Details { get; set; }
+    }
+
+    public class UpdateTechnologyStackResponse
+    {
+        public TechStackDetails TechStack { get; set; }
+    }
+
+    [Route("/techstacks/{Id}", Verbs = "DELETE")]
+    public class DeleteTechnologyStack
+    {
+        public long Id { get; set; }
+    }
+
+    public class DeleteTechnologyStackResponse
+    {
+        public TechStackDetails TechStack { get; set; }
+    }
+
+    [Route("/techstacks", Verbs = "GET")]
+    public class AllTechnologyStacks
+    {
+        
+    }
+
+    public class AllTechnologyStacksResponse
+    {
+        public List<TechnologyStack> TechStacks { get; set; }
     }
 
     [Route("/techstacks/tiers")]
