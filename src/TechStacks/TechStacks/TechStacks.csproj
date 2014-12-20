@@ -130,7 +130,7 @@
     <Content Include="img\no-profile64.png" />
     <Content Include="img\sign-in-with-twitter-gray.png" />
     <Content Include="img\twitter_normal.png" />
-    <Content Include="index.html" />
+    <None Include="default.cshtml" />
     <Content Include="js\app.js" />
     <Content Include="js\components\chosen\directives.js" />
     <Content Include="js\hello\controllers.js" />
@@ -184,7 +184,9 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="tests\unit\controllerSpec.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppHost.cs" />

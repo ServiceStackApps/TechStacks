@@ -9,6 +9,7 @@ using ServiceStack.Data;
 using ServiceStack.FluentValidation;
 using ServiceStack.Host.Handlers;
 using ServiceStack.OrmLite;
+using ServiceStack.Razor;
 using ServiceStack.Text;
 using ServiceStack.Validation;
 using TechStacks.ServiceInterface;
@@ -40,10 +41,9 @@ namespace TechStacks
         /// <param name="container"></param>
         public override void Configure(Container container)
         {
-            //Return index.html home page for all 404 requests so we can handle routing on the client
-            base.CustomErrorHttpHandlers[HttpStatusCode.NotFound] =
-                new CustomActionHandler((req, res) => res.WriteFile("~/index.html".MapHostAbsolutePath()));
-
+            //Return default.cshtml home page for all 404 requests so we can handle routing on the client
+            base.CustomErrorHttpHandlers[HttpStatusCode.NotFound] = new RazorHandler("/default.cshtml");
+ 
             SetConfig(new HostConfig());
 
             JsConfig.DateHandler = DateHandler.ISO8601;
@@ -84,8 +84,11 @@ namespace TechStacks
             }
 
             this.RegisterTypedRequestFilter<TechChoice>(TechChoiceFilters.FilterTechChoiceRequest);
+            
+            Plugins.Add(new RazorFormat());
             Plugins.Add(new AutoQueryFeature { MaxLimit = 1000 });
-            this.Plugins.Add(new ValidationFeature());
+            Plugins.Add(new ValidationFeature());
+            
             container.RegisterValidators(typeof(AppHost).Assembly);
         }
     }
