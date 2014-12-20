@@ -1,13 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using ServiceStack;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/technology/{Id}")]
+    [Route("/technology/{Slug}")]
     public class Technologies : IReturn<TechnologiesResponse>
     {
-        public long Id { get; set; }
+        public string Slug { get; set; }
+
+        [IgnoreDataMember]
+        public long Id
+        {
+            set { this.Slug = value.ToString(); }
+        }
     }
 
     [Route("/technology", Verbs = "POST")]
@@ -72,12 +79,6 @@ namespace TechStacks.ServiceModel
     public class GetStacksThatUseTechResponse
     {
         public List<TechnologyStack> TechStacks { get; set; } 
-    }
-
-    [Route("/technology/{IdOrSlugTitle}", Verbs = "GET")]
-    public class TechBySlugUrl : IReturn<TechnologiesResponse>
-    {
-        public string IdOrSlugTitle { get; set; }
     }
 
     [Route("/technology", Verbs = "GET")]

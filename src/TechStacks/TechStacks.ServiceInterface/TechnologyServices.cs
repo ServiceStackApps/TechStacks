@@ -110,13 +110,16 @@ namespace TechStacks.ServiceInterface
 
         public object Get(Technologies request)
         {
-            var alreadyExists = Db.Exists<Technology>(x => x.Id == request.Id);
-            if (!alreadyExists)
+            int id;
+            var tech = int.TryParse(request.Slug, out id)
+                ? Db.SingleById<Technology>(id)
+                : Db.Single<Technology>(x => x.SlugTitle == request.Slug.ToLower());
+
+            if (tech == null)
                 HttpError.NotFound("Tech stack not found");
 
-            return new TechnologiesResponse
-            {
-                Tech = Db.SingleById<Technology>(request.Id)
+            return new TechnologiesResponse {
+                Tech = tech
             };
         }
 
@@ -125,20 +128,6 @@ namespace TechStacks.ServiceInterface
             return new AllTechnologiesResponse
             {
                 Techs = Db.Select(Db.From<Technology>().Take(100)).ToList()
-            };
-        }
-
-        public object Get(TechBySlugUrl request)
-        {
-            int id;
-            if (int.TryParse(request.IdOrSlugTitle, out id))
-            {
-                return Get(new Technologies { Id = id });
-            }
-
-            return new TechnologiesResponse
-            {
-                Tech = Db.Single<Technology>(x => x.SlugTitle.ToLower() == request.IdOrSlugTitle.ToLower())
             };
         }
 
