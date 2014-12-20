@@ -7,7 +7,8 @@
         '$scope', '$routeParams', '$location', 'userService', 'techStackServices', function ($scope, $routeParams, $location, userService, techStackServices) {
             $scope.currentUserName = $routeParams.userName;
             //Handle user session logout/login without full reload
-            if ($scope.currentUserName.indexOf('s=') === 0) {
+            if ($scope.currentUserName.indexOf('s=') === 0
+                || $scope.currentUserName.indexOf('f=') === 0) {
                 $location.path('/');
                 //Fix history
                 $location.replace();
