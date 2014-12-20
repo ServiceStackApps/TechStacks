@@ -3,114 +3,61 @@
     var app = angular.module('tech.services', []);
 
     app.service('techServices', ['$http', '$q', function ($http, $q) {
+
+        function getResults(promise) {
+            var deferred = $q.defer();
+            promise
+                .success(function (response) {
+                    deferred.resolve(response.Result || response.Results || response);
+                })
+                .error(function (e) {
+                    deferred.reject((e && e.ResponseStatus && e.ResponseStatus.Message) || e);
+                });;
+            return deferred.promise;
+        }
+
         return {
             getTech: function(id) {
-                var deferred = $q.defer();
-                $http.get('/technology/' + id).success(function (response) {
-                    deferred.resolve(response.Tech);
-                });
-                return deferred.promise;
+                return getResults($http.get('/technology/' + id));
             },
             searchTech: function (searchQuery) {
-                var deferred = $q.defer();
-                $http.get('/technology/search?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery)
-                    .success(function (response) {
-                        deferred.resolve(response.Results);
-                    });
-                return deferred.promise;
+                return getResults($http.get('/technology/search?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery));
             },
             getAllTechs: function () {
-                var deferred = $q.defer();
-                $http.get('/technology').success(function (response) {
-                    deferred.resolve(response.Techs);
-                });
-                return deferred.promise;
+                return getResults($http.get('/technology'));
             },
             getRelatedStacks: function(techId) {
-                var deferred = $q.defer();
-                $http.get('/technology/' + techId + '/techstacks').success(function (response) {
-                    deferred.resolve(response.TechStacks);
-                });
-                return deferred.promise;
-
+                return getResults($http.get('/technology/' + techId + '/techstacks'));
             },
             createTech: function (newTech) {
-                var deferred = $q.defer();
-                $http.post('/technology', newTech).success(function (response) {
-                    deferred.resolve(response.Tech);
-                });
-                return deferred.promise;
+                return getResults($http.post('/technology', newTech));
             },
             updateTech: function (tech) {
-                var deferred = $q.defer();
-                $http.put('/technology/' + tech.Id, tech).success(function (response) {
-                    deferred.resolve(response.Tech);
-                });
-                return deferred.promise;
+                return getResults($http.put('/technology/' + tech.Id, tech));
             },
             updateTechnologyChoice: function (technologyChoice) {
-                var deferred = $q.defer();
-                $http.put('/techchoices/' + technologyChoice.Id, technologyChoice)
-                    .success(function (response) {
-                        deferred.resolve(response.TechnologyChoice);
-                    })
-                    .error(function (error) {
-                        deferred.reject(error);
-                    });
-                return deferred.promise;
+                return getResults($http.put('/techchoices/' + technologyChoice.Id, technologyChoice));
             },
             deleteTech: function (tech) {
-                return $http.delete('/technology/' + tech.Id);
+                return getResults($http.delete('/technology/' + tech.Id));
             },
             updateLockStatus: function (techId, isLocked) {
-                var deferred = $q.defer();
-                $http.put('/admin/technology/' + techId + '/lock', { IsLocked: isLocked })
-                    .success(function (response) {
-                        deferred.resolve();
-                    })
-                    .error(function (error) {
-                        deferred.reject(error);
-                    });
-                return deferred.promise;
+                return getResults($http.put('/admin/technology/' + techId + '/lock', { IsLocked: isLocked }));
             },
             removeTechChoice: function (techChoice) {
-                var deferred = $q.defer();
-                $http.delete('/techchoices/' + techChoice.Id)
-                    .success(function (response) {
-                        deferred.resolve(response.TechStack);
-                    });
-                return deferred.promise;
+                return getResults($http.delete('/techchoices/' + techChoice.Id));
             },
             makeFavorite: function (tech) {
-                var deferred = $q.defer();
-                $http.put('/favorites/technology', { TechnologyId: tech.Id })
-                    .success(function(response) {
-                        deferred.resolve(response.Tech);
-                    });
-                return deferred.promise;
+                return getResults($http.put('/favorites/technology', { TechnologyId: tech.Id }));
             },
             approveLogo: function(tech,status) {
-                var deferred = $q.defer();
-                $http.put('/admin/technology/' + tech.Id + '/logo', { Approved: status }).success(function (response) {
-                    deferred.resolve(response.Tech);
-                });
-                return deferred.promise;
+                return getResults($http.put('/admin/technology/' + tech.Id + '/logo', { Approved: status }));
             },
             overview: function () {
-                var deferred = $q.defer();
-                $http.get('/overview')
-                    .success(function (response) {
-                        deferred.resolve(response);
-                    });
-                return deferred.promise;
+                return getResults($http.get('/overview'));
             },
             config: function () {
-                var deferred = $q.defer();
-                $http.get('/config')
-                    .success(function (response) {
-                        deferred.resolve(response);
-                    });
-                return deferred.promise;
+                return getResults($http.get('/config'));
             }
         };
     }]);
