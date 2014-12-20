@@ -37,7 +37,7 @@ namespace TechStacks.ServiceInterface
 
             return new CreateTechnologyStackResponse
             {
-                TechStack = createdTechStack.ConvertTo<TechStackDetails>()
+                Result = createdTechStack.ConvertTo<TechStackDetails>()
             };
         }
 
@@ -81,7 +81,7 @@ namespace TechStacks.ServiceInterface
 
             return new UpdateTechnologyStackResponse
             {
-                TechStack = updated.ConvertTo<TechStackDetails>()
+                Result = updated.ConvertTo<TechStackDetails>()
             };
         }
 
@@ -109,7 +109,7 @@ namespace TechStacks.ServiceInterface
 
             return new DeleteTechnologyStackResponse
             {
-                TechStack = new TechnologyStack { Id = request.Id }.ConvertTo<TechStackDetails>()
+                Result = new TechnologyStack { Id = request.Id }.ConvertTo<TechStackDetails>()
             }; 
         }
 
@@ -117,22 +117,29 @@ namespace TechStacks.ServiceInterface
         {
             return new AllTechnologyStacksResponse
             {
-                TechStacks = Db.Select(Db.From<TechnologyStack>().Take(100)).ToList()
+                Results = Db.Select(Db.From<TechnologyStack>().Take(100)).ToList()
             };
         }
 
-        public object Get(ServiceModel.TechnologyStacks request)
+        public object Get(TechnologyStacks request)
         {
-            int id;
-            var technologyStack = int.TryParse(request.Slug, out id)
-                ? Db.SingleById<TechnologyStack>(id)
-                : Db.Single<TechnologyStack>(x => x.SlugTitle == request.Slug.ToLower());
+            var key = "{0}/{1}".Fmt(request.GetType().Name, request.Slug);
+            if (request.Reload)
+                MemoryCache.Remove(key);
 
-            if (technologyStack == null)
-                HttpError.NotFound("Tech stack not found");
+            return base.Request.ToOptimizedResultUsingCache(MemoryCache, key, () =>
+            {
+                int id;
+                var technologyStack = int.TryParse(request.Slug, out id)
+                    ? Db.SingleById<TechnologyStack>(id)
+                    : Db.Single<TechnologyStack>(x => x.SlugTitle == request.Slug.ToLower());
 
-            var response = GetTechnologyStackWithDetails(technologyStack);
-            return response;
+                if (technologyStack == null)
+                    HttpError.NotFound("Tech stack not found");
+
+                var response = GetTechnologyStackWithDetails(technologyStack);
+                return response;
+            });
         }
 
         public object Get(TechStackByTier request)
@@ -146,7 +153,7 @@ namespace TechStacks.ServiceInterface
 
             return new TechStackByTierResponse
             {
-                TechStacks = Db.Select(query).GroupBy(x => x.Id).Select(x => x.First()).ToList()
+                Results = Db.Select(query).GroupBy(x => x.Id).Select(x => x.First()).ToList()
             };
         }
 
@@ -158,16 +165,16 @@ namespace TechStacks.ServiceInterface
             var results = TechStackQueries.GetTechstackDetails(Db, stackQuery);
             return new RecentStackWithTechsResponse
             {
-                TechStacks = results
+                Results = results
             };
         }
 
-        private TechStacksResponse GetTechnologyStackWithDetails(TechnologyStack existingTechStack)
+        private TechStackResponse GetTechnologyStackWithDetails(TechnologyStack existingTechStack)
         {
             var technologyChoices = Db.LoadSelect(Db.From<TechnologyChoice>()
-                        .Join<TechnologyChoice, Technology>((tst, t) => t.Id == tst.TechnologyId)
-                        .Join<TechnologyChoice, TechnologyStack>((tst, ts) => ts.Id == tst.TechnologyStackId)
-                        .Where(techChoice => techChoice.TechnologyStackId == existingTechStack.Id));
+                .Join<TechnologyChoice, Technology>((tst, t) => t.Id == tst.TechnologyId)
+                .Join<TechnologyChoice, TechnologyStack>((tst, ts) => ts.Id == tst.TechnologyStackId)
+                .Where(techChoice => techChoice.TechnologyStackId == existingTechStack.Id));
             var techStack = Db.SingleById<TechnologyStack>(existingTechStack.Id);
 
             var result = techStack.ConvertTo<TechStackDetails>();
@@ -178,9 +185,10 @@ namespace TechStacks.ServiceInterface
 
             result.PopulateTechTiers(technologyChoices);
 
-            var response = new TechStacksResponse
+            var response = new TechStackResponse
             {
-                TechStack = result
+                Created = DateTime.UtcNow,
+                Result = result
             };
             return response;
         }
@@ -238,6 +246,20 @@ namespace TechStacks.ServiceInterface
                 };
 
                 return response;
+            });
+        }
+
+        public IAutoQuery AutoQuery { get; set; }
+
+        //Cached AutoQuery
+        public object Any(FindTechStacks request)
+        {
+            var key = "{0}/{1}".Fmt(request.GetType().Name, Request.QueryString.ToString());
+
+            return base.Request.ToOptimizedResultUsingCache(MemoryCache, key, () =>
+            {
+                var q = AutoQuery.CreateQuery(request, Request.GetRequestParams());
+                return AutoQuery.Execute(request, q);
             });
         }
 

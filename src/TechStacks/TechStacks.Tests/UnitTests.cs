@@ -56,7 +56,7 @@ namespace TechStacks.Tests
             using (var db = dbFactory.OpenDbConnection())
             {
                 var allStacks = db.Select<TechnologyStack>().ToList();
-                Assert.That(allStacks.Count, Is.EqualTo(response.TechStacks.Count));
+                Assert.That(allStacks.Count, Is.EqualTo(response.Results.Count));
             }
         }
 
@@ -64,16 +64,16 @@ namespace TechStacks.Tests
         public void Can_Get_Stack_By_Slug_Title()
         {
             var service = appHost.Resolve<TechnologyStackServices>();
-            var response = (TechStacksResponse)service.Get(new TechnologyStacks { Slug = "initial-stack" });
-            Assert.That(response.TechStack.Name,Is.EqualTo("Initial Stack"));
+            var response = (TechStackResponse)service.Get(new TechnologyStacks { Slug = "initial-stack" });
+            Assert.That(response.Result.Name,Is.EqualTo("Initial Stack"));
         }
 
         [Test]
         public void Can_Get_Tech_By_Slug_Title()
         {
             var service = appHost.Resolve<TechnologyServices>();
-            var response = (TechnologiesResponse)service.Get(new Technologies { Slug = "servicestack" });
-            Assert.That(response.Tech.Name, Is.EqualTo("ServiceStack"));
+            var response = (GetTechnologyResponse)service.Get(new GetTechnology { Slug = "servicestack" });
+            Assert.That(response.Result.Name, Is.EqualTo("ServiceStack"));
         }
 
         private void SeedTestHost()

@@ -27,7 +27,7 @@ namespace TechStacks.ServiceInterface.Admin
             Db.Save(tech);
             return new LogoUrlApprovalResponse
             {
-                Tech = tech
+                Result = tech
             };
         }
 

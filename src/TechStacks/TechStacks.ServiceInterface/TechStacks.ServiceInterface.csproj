@@ -75,7 +75,6 @@
   <ItemGroup>
     <Compile Include="Admin\AdminServices.cs" />
     <Compile Include="CustomAuthUserSession.cs" />
-    <Compile Include="Filters\TechChoiceFilter.cs" />
     <Compile Include="Filters\TechFilters.cs" />
     <Compile Include="Filters\TechStackFilters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

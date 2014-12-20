@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ServiceStack;
+using ServiceStack.Caching;
 using ServiceStack.Configuration;
 using ServiceStack.OrmLite;
 using TechStacks.ServiceModel;
@@ -11,6 +12,8 @@ namespace TechStacks.ServiceInterface
     [Authenticate(ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechnologyServices : Service
     {
+        public MemoryCacheClient MemoryCache { get; set; }
+
         public object Post(CreateTechnology request)
         {
             var tech = request.ConvertTo<Technology>();
@@ -37,9 +40,11 @@ namespace TechStacks.ServiceInterface
             history.Operation = "INSERT";
             Db.Insert(history);
 
+            MemoryCache.FlushAll();
+
             return new CreateTechnologyResponse
             {
-                Tech = createdTechStack
+                Result = createdTechStack
             };
         }
 
@@ -77,9 +82,11 @@ namespace TechStacks.ServiceInterface
             history.Operation = "UPDATE";
             Db.Insert(history);
 
+            MemoryCache.FlushAll();
+
             return new UpdateTechnologyResponse
             {
-                Tech = updated
+                Result = updated
             };
         }
 
@@ -102,32 +109,42 @@ namespace TechStacks.ServiceInterface
             history.Operation = "DELETE";
             Db.Insert(history);
 
+            MemoryCache.FlushAll();
+
             return new DeleteTechnologyResponse
             {
-                Tech = new Technology { Id = (long)request.Id }
+                Result = new Technology { Id = (long)request.Id }
             };
         }
 
-        public object Get(Technologies request)
+        public object Get(GetTechnology request)
         {
-            int id;
-            var tech = int.TryParse(request.Slug, out id)
-                ? Db.SingleById<Technology>(id)
-                : Db.Single<Technology>(x => x.SlugTitle == request.Slug.ToLower());
+            var key = "{0}/{1}".Fmt(request.GetType().Name, request.Slug);
+            if (request.Reload)
+                MemoryCache.Remove(key);
 
-            if (tech == null)
-                HttpError.NotFound("Tech stack not found");
+            return base.Request.ToOptimizedResultUsingCache(MemoryCache, key, () =>
+            {
+                int id;
+                var tech = int.TryParse(request.Slug, out id)
+                    ? Db.SingleById<Technology>(id)
+                    : Db.Single<Technology>(x => x.SlugTitle == request.Slug.ToLower());
 
-            return new TechnologiesResponse {
-                Tech = tech
-            };
+                if (tech == null)
+                    HttpError.NotFound("Tech stack not found");
+
+                return new GetTechnologyResponse
+                {
+                    Result = tech
+                };
+            });
         }
 
-        public object Get(AllTechnologies request)
+        public object Get(GetAllTechnologies request)
         {
             return new AllTechnologiesResponse
             {
-                Techs = Db.Select(Db.From<Technology>().Take(100)).ToList()
+                Results = Db.Select(Db.From<Technology>().Take(100)).ToList()
             };
         }
 
@@ -140,8 +157,22 @@ namespace TechStacks.ServiceInterface
 
             return new GetStacksThatUseTechResponse
             {
-                TechStacks = stacksByTech.ToList()
+                Results = stacksByTech.ToList()
             };
+        }
+
+        public IAutoQuery AutoQuery { get; set; }
+
+        //Cached AutoQuery
+        public object Any(FindTechnologies request)
+        {
+            var key = "{0}/{1}".Fmt(request.GetType().Name, Request.QueryString.ToString());
+
+            return base.Request.ToOptimizedResultUsingCache(MemoryCache, key, () =>
+            {
+                var q = AutoQuery.CreateQuery(request, Request.GetRequestParams());
+                return AutoQuery.Execute(request, q);
+            });
         }
     }
 }

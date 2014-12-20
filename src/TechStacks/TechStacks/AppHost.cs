@@ -12,7 +12,6 @@ using ServiceStack.Razor;
 using ServiceStack.Text;
 using ServiceStack.Validation;
 using TechStacks.ServiceInterface;
-using TechStacks.ServiceInterface.Filters;
 using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
 
@@ -84,10 +83,8 @@ namespace TechStacks
                 db.CreateTableIfNotExists<UserFavoriteTechnology>();
             }
 
-            this.RegisterTypedRequestFilter<TechChoices>(TechChoiceFilters.FilterTechChoiceRequest);
-            
             Plugins.Add(new RazorFormat());
-            Plugins.Add(new AutoQueryFeature { MaxLimit = 1000 });
+            Plugins.Add(new AutoQueryFeature { MaxLimit = 200 });
             Plugins.Add(new ValidationFeature());
 
             container.RegisterValidators(typeof(AppHost).Assembly);

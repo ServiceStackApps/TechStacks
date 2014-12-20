@@ -7,8 +7,10 @@ using TechStacks.ServiceModel.Types;
 namespace TechStacks.ServiceModel
 {
     [Route("/techstacks/{Slug}", Verbs = "GET")]
-    public class TechnologyStacks : IReturn<TechStacksResponse>
+    public class TechnologyStacks : IReturn<TechStackResponse>
     {
+        public bool Reload { get; set; }
+
         public string Slug { get; set; }
 
         [IgnoreDataMember]
@@ -29,7 +31,7 @@ namespace TechStacks.ServiceModel
 
     public class CreateTechnologyStackResponse
     {
-        public TechStackDetails TechStack { get; set; }
+        public TechStackDetails Result { get; set; }
     }
 
     [Route("/techstacks/{Id}", Verbs = "PUT")]
@@ -45,7 +47,7 @@ namespace TechStacks.ServiceModel
 
     public class UpdateTechnologyStackResponse
     {
-        public TechStackDetails TechStack { get; set; }
+        public TechStackDetails Result { get; set; }
     }
 
     [Route("/techstacks/{Id}", Verbs = "DELETE")]
@@ -56,18 +58,15 @@ namespace TechStacks.ServiceModel
 
     public class DeleteTechnologyStackResponse
     {
-        public TechStackDetails TechStack { get; set; }
+        public TechStackDetails Result { get; set; }
     }
 
     [Route("/techstacks", Verbs = "GET")]
-    public class AllTechnologyStacks : IReturn<AllTechnologyStacksResponse>
-    {
-        
-    }
+    public class AllTechnologyStacks : IReturn<AllTechnologyStacksResponse> {}
 
     public class AllTechnologyStacksResponse
     {
-        public List<TechnologyStack> TechStacks { get; set; }
+        public List<TechnologyStack> Results { get; set; }
     }
 
     [Route("/techstacks/tiers")]
@@ -79,12 +78,14 @@ namespace TechStacks.ServiceModel
 
     public class TechStackByTierResponse
     {
-        public List<TechnologyStack> TechStacks { get; set; }        
+        public List<TechnologyStack> Results { get; set; }        
     }
 
-    public class TechStacksResponse
+    public class TechStackResponse
     {
-        public TechStackDetails TechStack { get; set; }
+        public DateTime Created { get; set; }
+
+        public TechStackDetails Result { get; set; }
 
         public ResponseStatus ResponseStatus { get; set; }
     }
@@ -98,7 +99,7 @@ namespace TechStacks.ServiceModel
 
     public class RecentStackWithTechsResponse
     {
-        public List<TechStackDetails> TechStacks { get; set; } 
+        public List<TechStackDetails> Results { get; set; } 
     }
 
     public class TechStackDetails : TechnologyStack

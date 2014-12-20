@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ServiceStack;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
     [Route("/technology/{Slug}")]
-    public class Technologies : IReturn<TechnologiesResponse>
+    public class GetTechnology : IReturn<GetTechnologyResponse>
     {
+        public bool Reload { get; set; }
+
         public string Slug { get; set; }
 
         public long Id
@@ -30,7 +33,7 @@ namespace TechStacks.ServiceModel
 
     public class CreateTechnologyResponse
     {
-        public Technology Tech { get; set; }
+        public Technology Result { get; set; }
     }
 
     [Route("/technology/{Id}", Verbs = "PUT")]
@@ -50,7 +53,7 @@ namespace TechStacks.ServiceModel
 
     public class UpdateTechnologyResponse
     {
-        public Technology Tech { get; set; }
+        public Technology Result { get; set; }
     }
 
     [Route("/technology/{Id}", Verbs = "DELETE")]
@@ -61,7 +64,7 @@ namespace TechStacks.ServiceModel
 
     public class DeleteTechnologyResponse
     {
-        public Technology Tech { get; set; }
+        public Technology Result { get; set; }
     }
 
     [Query(QueryTerm.Or)]
@@ -76,22 +79,21 @@ namespace TechStacks.ServiceModel
 
     public class GetStacksThatUseTechResponse
     {
-        public List<TechnologyStack> TechStacks { get; set; } 
+        public List<TechnologyStack> Results { get; set; } 
     }
 
     [Route("/technology", Verbs = "GET")]
-    public class AllTechnologies : IReturn<AllTechnologiesResponse>
-    {
-        
-    }
+    public class GetAllTechnologies : IReturn<AllTechnologiesResponse> {}
 
     public class AllTechnologiesResponse
     {
-        public List<Technology> Techs { get; set; }
+        public List<Technology> Results { get; set; }
     }
 
-    public class TechnologiesResponse
+    public class GetTechnologyResponse
     {
-        public Technology Tech { get; set; }
+        public DateTime Created { get; set; }
+
+        public Technology Result { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace TechStacks.ServiceModel
 
     public class AccountTechStacksResponse
     {
-        public List<TechnologyStack> TechStacks { get; set; }
+        public List<TechnologyStack> Results { get; set; }
     }
 
     [Route("/my-feed")]
@@ -17,7 +17,7 @@ namespace TechStacks.ServiceModel
 
     public class AccountTechStackFeedResponse
     {
-        public List<TechStackDetails> TechStacks { get; set; } 
+        public List<TechStackDetails> Results { get; set; } 
     }
 
     [Route("/users/{UserName}/techstacks")]

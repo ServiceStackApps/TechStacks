@@ -22,7 +22,7 @@ namespace TechStacks.ServiceInterface
                 Db.Select<TechnologyStack>(Db.From<TechnologyStack>().Where(x => x.OwnerId == session.UserAuthId));
             return new AccountTechStacksResponse
             {
-                TechStacks = techStacks.ToList()
+                Results = techStacks.ToList()
             };
         }
 
@@ -36,12 +36,12 @@ namespace TechStacks.ServiceInterface
             {
                 return new AccountTechStackFeedResponse
                 {
-                    TechStacks = GetDefaultFeed()
+                    Results = GetDefaultFeed()
                 };
             }
             return new AccountTechStackFeedResponse
             {
-                TechStacks = GetDefaultFeed(favTechs.Select(x => x.TechnologyId).ToList())
+                Results = GetDefaultFeed(favTechs.Select(x => x.TechnologyId).ToList())
             };
         }
 

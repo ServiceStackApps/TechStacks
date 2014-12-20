@@ -12,6 +12,6 @@ namespace TechStacks.ServiceModel
 
     public class LogoUrlApprovalResponse
     {
-        public Technology Tech { get; set; }
+        public Technology Result { get; set; }
     }
 }
