@@ -4,24 +4,14 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/technology", Verbs = "GET, POST")]
     [Route("/technology/{Id}")]
     public class Technologies : IReturn<TechnologiesResponse>
     {
-        public long? Id { get; set; }
-
-        public string Name { get; set; }
-        public string VendorName { get; set; }
-        public string VendorUrl { get; set; }
-        public string ProductUrl { get; set; }
-        public string LogoUrl { get; set; }
-        public string Description { get; set; }
-
-        public TechnologyTier Tier { get; set; }
+        public long Id { get; set; }
     }
 
-    [Route("/techs", Verbs = "POST")]
-    public class CreateTech : IReturn<CreateTechResponse>
+    [Route("/technology", Verbs = "POST")]
+    public class CreateTechnology : IReturn<CreateTechnologyResponse>
     {
         public string Name { get; set; }
         public string VendorName { get; set; }
@@ -33,13 +23,13 @@ namespace TechStacks.ServiceModel
         public TechnologyTier Tier { get; set; }
     }
 
-    public class CreateTechResponse
+    public class CreateTechnologyResponse
     {
         public Technology Tech { get; set; }
     }
 
-    [Route("/techs/{Id}", Verbs = "PUT")]
-    public class UpdateTech : IReturn<UpdateTechResponse>
+    [Route("/technology/{Id}", Verbs = "PUT")]
+    public class UpdateTechnology : IReturn<UpdateTechnologyResponse>
     {
         public long Id { get; set; }
 
@@ -53,18 +43,18 @@ namespace TechStacks.ServiceModel
         public TechnologyTier Tier { get; set; }
     }
 
-    public class UpdateTechResponse
+    public class UpdateTechnologyResponse
     {
         public Technology Tech { get; set; }
     }
 
-    [Route("/techs/{Id}",Verbs = "DELETE")]
-    public class DeleteTech : IReturn<DeleteTechResponse>
+    [Route("/technology/{Id}", Verbs = "DELETE")]
+    public class DeleteTechnology : IReturn<DeleteTechnologyResponse>
     {
         public long Id { get; set; }
     }
 
-    public class DeleteTechResponse
+    public class DeleteTechnologyResponse
     {
         public Technology Tech { get; set; }
     }
@@ -84,19 +74,19 @@ namespace TechStacks.ServiceModel
         public List<TechnologyStack> TechStacks { get; set; } 
     }
 
-    [Route("/techs/{IdOrSlugTitle}", Verbs = "GET")]
-    public class TechBySlugUrl : IReturn<TechResponse>
+    [Route("/technology/{IdOrSlugTitle}", Verbs = "GET")]
+    public class TechBySlugUrl : IReturn<TechnologiesResponse>
     {
         public string IdOrSlugTitle { get; set; }
     }
 
-    [Route("/techs", Verbs = "GET")]
-    public class AllTechs : IReturn<AllTechsResponse>
+    [Route("/technology", Verbs = "GET")]
+    public class AllTechnologies : IReturn<AllTechnologiesResponse>
     {
         
     }
-    
-    public class AllTechsResponse
+
+    public class AllTechnologiesResponse
     {
         public List<Technology> Techs { get; set; }
     }

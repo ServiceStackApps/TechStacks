@@ -88,8 +88,9 @@ namespace TechStacks
             Plugins.Add(new RazorFormat());
             Plugins.Add(new AutoQueryFeature { MaxLimit = 1000 });
             Plugins.Add(new ValidationFeature());
-            
+
             container.RegisterValidators(typeof(AppHost).Assembly);
+            container.RegisterValidators(typeof(TechnologyServices).Assembly);
         }
     }
 
@@ -106,39 +107,6 @@ namespace TechStacks
         {
             appHost.RegisterService<RegisterService<CustomUserAuth>>(AtRestPath);
             appHost.RegisterAs<RegistrationValidator, IValidator<Register>>();
-        }
-    }
-
-    public class TechStackValidator : AbstractValidator<ServiceModel.TechStacks>
-    {
-        public TechStackValidator()
-        {
-            RuleSet(ApplyTo.Post, () =>
-            {
-                RuleFor(x => x.Name).NotEmpty();
-            });
-        }
-    }
-
-    public class TechValidator : AbstractValidator<Technologies>
-    {
-        public TechValidator()
-        {
-            RuleSet(ApplyTo.Post, () =>
-            {
-                RuleFor(x => x.Name).NotEmpty();
-            });
-        }
-    }
-
-    public class TechChoiceValidator : AbstractValidator<TechChoices>
-    {
-        public TechChoiceValidator()
-        {
-            RuleSet(ApplyTo.Post, () =>
-            {
-                RuleFor(x => x.Tier).NotNull();
-            });
         }
     }
 

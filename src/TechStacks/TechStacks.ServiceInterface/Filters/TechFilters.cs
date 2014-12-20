@@ -14,7 +14,7 @@ namespace TechStacks.ServiceInterface.Filters
 {
     public class TechFilters
     {
-        public static void FilterTechRequest(IRequest req, IResponse res, Technologies dto)
+        public static void FilterCreateTechRequest(IRequest req, IResponse res, CreateTechnology dto)
         {
             var dbFactory = req.TryResolve<IDbConnectionFactory>();
 
@@ -30,6 +30,11 @@ namespace TechStacks.ServiceInterface.Filters
                     }
                 }
             }
+        }
+
+        public static void FilterUpdateTechRequest(IRequest req, IResponse res, UpdateTechnology dto)
+        {
+            var dbFactory = req.TryResolve<IDbConnectionFactory>();
 
             if (req.Verb == "PUT")
             {

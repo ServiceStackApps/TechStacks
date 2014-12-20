@@ -11,7 +11,7 @@ namespace TechStacks.ServiceInterface
     [Authenticate(ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechnologyServices : Service
     {
-        public object Post(Technologies request)
+        public object Post(CreateTechnology request)
         {
             var tech = request.ConvertTo<Technology>();
             var session = SessionAs<AuthUserSession>();
@@ -37,13 +37,13 @@ namespace TechStacks.ServiceInterface
             history.Operation = "INSERT";
             Db.Insert(history);
 
-            return new TechnologiesResponse
+            return new CreateTechnologyResponse
             {
                 Tech = createdTechStack
             };
         }
 
-        public object Put(Technologies request)
+        public object Put(UpdateTechnology request)
         {
             var existingTech = Db.SingleById<Technology>(request.Id);
             if (existingTech == null)
@@ -77,13 +77,13 @@ namespace TechStacks.ServiceInterface
             history.Operation = "UPDATE";
             Db.Insert(history);
 
-            return new TechnologiesResponse
+            return new UpdateTechnologyResponse
             {
                 Tech = updated
             };
         }
 
-        public object Delete(Technologies request)
+        public object Delete(DeleteTechnology request)
         {
             var existingTech = Db.SingleById<Technology>(request.Id);
             if (existingTech == null)
@@ -102,7 +102,7 @@ namespace TechStacks.ServiceInterface
             history.Operation = "DELETE";
             Db.Insert(history);
 
-            return new TechnologiesResponse
+            return new DeleteTechnologyResponse
             {
                 Tech = new Technology { Id = (long)request.Id }
             };
@@ -110,14 +110,6 @@ namespace TechStacks.ServiceInterface
 
         public object Get(Technologies request)
         {
-            if (request.Id == null)
-            {
-                return new TechnologiesResponse
-                {
-                    Techs = Db.Select(Db.From<Technology>().Take(100)).ToList()
-                };
-            }
-
             var alreadyExists = Db.Exists<Technology>(x => x.Id == request.Id);
             if (!alreadyExists)
                 HttpError.NotFound("Tech stack not found");
@@ -128,9 +120,9 @@ namespace TechStacks.ServiceInterface
             };
         }
 
-        public object Get(AllTechs request)
+        public object Get(AllTechnologies request)
         {
-            return new AllTechsResponse
+            return new AllTechnologiesResponse
             {
                 Techs = Db.Select(Db.From<Technology>().Take(100)).ToList()
             };
@@ -141,10 +133,10 @@ namespace TechStacks.ServiceInterface
             int id;
             if (int.TryParse(request.IdOrSlugTitle, out id))
             {
-                return Get(new Tech {Id = id});
+                return Get(new Technologies { Id = id });
             }
 
-            return new TechResponse
+            return new TechnologiesResponse
             {
                 Tech = Db.Single<Technology>(x => x.SlugTitle.ToLower() == request.IdOrSlugTitle.ToLower())
             };

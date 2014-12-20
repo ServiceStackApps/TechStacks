@@ -85,7 +85,8 @@ namespace TechStacks.Tests
             this.Plugins.Add(new AutoQueryFeature { MaxLimit = 1000 });
 
             this.RegisterTypedRequestFilter<TechChoices>(TechChoiceFilters.FilterTechChoiceRequest);
-            this.RegisterTypedRequestFilter<Technologies>(TechFilters.FilterTechRequest);
+            this.RegisterTypedRequestFilter<CreateTechnology>(TechFilters.FilterCreateTechRequest);
+            this.RegisterTypedRequestFilter<UpdateTechnology>(TechFilters.FilterUpdateTechRequest);
             this.RegisterTypedRequestFilter<ServiceModel.TechStacks>(TechStackFilters.FilterTechStackRequest);
         }
     }

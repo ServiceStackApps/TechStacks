@@ -82,7 +82,7 @@ namespace TechStacks.Tests
         public void Can_Get_Tech_By_Slug_Title()
         {
             var service = appHost.Resolve<TechnologyServices>();
-            var response = (TechBySlugUrlResponse)service.Get(new TechBySlugUrl { IdOrSlugTitle = "servicestack" });
+            var response = (TechnologiesResponse)service.Get(new TechBySlugUrl { IdOrSlugTitle = "servicestack" });
             Assert.That(response.Tech.Name, Is.EqualTo("ServiceStack"));
         }
 

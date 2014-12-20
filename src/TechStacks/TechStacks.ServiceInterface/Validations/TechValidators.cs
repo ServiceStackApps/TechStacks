@@ -9,12 +9,26 @@ using TechStacks.ServiceModel;
 
 namespace TechStacks.ServiceInterface.Validations
 {
-    public class TechValidator : AbstractValidator<Tech>
+    public class CreateTechValidator : AbstractValidator<CreateTechnology>
     {
-        public TechValidator()
+        public CreateTechValidator()
         {
             RuleSet(ApplyTo.Post, () =>
             {
+                RuleFor(x => x.Name).NotEmpty();
+                //http://stackoverflow.com/a/3831442/670151
+                RuleFor(x => x.Name).Matches("(?!^\\d+$)^.+$");
+            });
+        }
+    }
+
+    public class UpdateTechValidator : AbstractValidator<UpdateTechnology>
+    {
+        public UpdateTechValidator()
+        {
+            RuleSet(ApplyTo.Put, () =>
+            {
+                RuleFor(x => x.Id).GreaterThan(0);
                 RuleFor(x => x.Name).NotEmpty();
                 //http://stackoverflow.com/a/3831442/670151
                 RuleFor(x => x.Name).Matches("(?!^\\d+$)^.+$");
