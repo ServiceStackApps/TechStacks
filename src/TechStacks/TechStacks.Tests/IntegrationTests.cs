@@ -290,6 +290,20 @@ namespace TechStacks.Tests
         }
 
         [Test]
+        public void Can_Get_Stack_By_Slug_Title()
+        {
+            var response = client.Get(new GetTechnologyStack { Slug = "initial-stack" });
+            Assert.That(response.Result.Name, Is.EqualTo("Initial Stack"));
+        }
+
+        [Test]
+        public void Can_Get_Tech_By_Slug_Title()
+        {
+            var response = client.Get(new GetTechnology { Slug = "servicestack" });
+            Assert.That(response.Technology.Name, Is.EqualTo("ServiceStack"));
+        }
+
+        [Test]
         public void Cant_Lock_TechStack_As_Normal_User()
         {
             var allStacks = client.Get(new AllTechnologyStacks());

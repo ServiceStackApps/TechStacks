@@ -4,6 +4,7 @@ using NUnit.Framework;
 using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+using ServiceStack.Testing;
 using TechStacks.ServiceInterface;
 using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
@@ -58,22 +59,6 @@ namespace TechStacks.Tests
                 var allStacks = db.Select<TechnologyStack>().ToList();
                 Assert.That(allStacks.Count, Is.EqualTo(response.Results.Count));
             }
-        }
-
-        [Test]
-        public void Can_Get_Stack_By_Slug_Title()
-        {
-            var service = appHost.Resolve<TechnologyStackServices>();
-            var response = (GetTechnologyStackResponse)service.Get(new GetTechnologyStack { Slug = "initial-stack" });
-            Assert.That(response.Result.Name,Is.EqualTo("Initial Stack"));
-        }
-
-        [Test]
-        public void Can_Get_Tech_By_Slug_Title()
-        {
-            var service = appHost.Resolve<TechnologyServices>();
-            var response = (GetTechnologyResponse)service.Get(new GetTechnology { Slug = "servicestack" });
-            Assert.That(response.Technology.Name, Is.EqualTo("ServiceStack"));
         }
 
         private void SeedTestHost()
