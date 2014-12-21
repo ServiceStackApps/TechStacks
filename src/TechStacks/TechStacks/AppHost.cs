@@ -70,9 +70,7 @@ namespace TechStacks
             container.RegisterAs<OrmLiteCacheClient, ICacheClient>();
             container.Resolve<ICacheClient>().InitSchema();
 
-            container.Register(c => new MemoryCacheClient());
-
-            this.Plugins.Add(new CustomRegistrationFeature());
+            container.Register(c => new MemoryCacheClient()); //content caching
 
             using (var db = dbFactory.OpenDbConnection())
             {
@@ -89,22 +87,6 @@ namespace TechStacks
 
             container.RegisterValidators(typeof(AppHost).Assembly);
             container.RegisterValidators(typeof(TechnologyServices).Assembly);
-        }
-    }
-
-    public class CustomRegistrationFeature : IPlugin
-    {
-        public string AtRestPath { get; set; }
-
-        public CustomRegistrationFeature()
-        {
-            this.AtRestPath = "/register";
-        }
-
-        public void Register(IAppHost appHost)
-        {
-            appHost.RegisterService<RegisterService<CustomUserAuth>>(AtRestPath);
-            appHost.RegisterAs<RegistrationValidator, IValidator<Register>>();
         }
     }
 
