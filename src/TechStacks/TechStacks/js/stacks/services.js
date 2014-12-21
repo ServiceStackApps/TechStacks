@@ -21,8 +21,10 @@
             createStack: function (newStack) {
                 return getResults($http.post('/techstacks', newStack));
             },
-            getStack: function (id) {
-                return getResults($http.get('/techstacks/' + id));
+            getStack: function (id, reload) {
+                var url = '/techstacks/' + id;
+                if (reload) url += '?Reload=true';
+                return getResults($http.get(url));
             },
             latestTechStacks: function () {
                 return getResults($http.get('/techstacks/latest'));

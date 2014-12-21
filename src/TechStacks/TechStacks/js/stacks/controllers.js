@@ -56,10 +56,10 @@
             };
 
             function filterCharactersFromHashTag(name) {
-                var dotsFind = new RegExp('.','g'),
+                var dotsFind = new RegExp('[.]','g'),
                     spaceFind = new RegExp(' ','g'),
-                    sharpFind =  new RegExp('#','g'),
-                    plusFind =  new RegExp('\+','g');
+                    sharpFind =  new RegExp('[#]','g'),
+                    plusFind =  new RegExp('[+]','g');
                 var result = name.replace(dotsFind, '').replace(spaceFind, '').replace(sharpFind, 'Sharp').replace(plusFind, 'Plus');
                 return result;
             }
@@ -188,7 +188,7 @@
         function ($scope, techStackServices, $routeParams, $q, $filter, userService, $location) {
 
             $scope.refreshStack = function() {
-                techStackServices.getStack($routeParams.stackId).then(function(techStack) {
+                techStackServices.getStack($routeParams.stackId, true).then(function(techStack) {
                     $scope.currentStack = techStack;
                     angular.forEach($scope.allTiers, function(tier) {
                         tier.show = filterTechChoiceByTier(tier.name).length > 0;

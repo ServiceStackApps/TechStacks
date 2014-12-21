@@ -1,4 +1,5 @@
 ﻿using ServiceStack;
+using ServiceStack.Caching;
 using ServiceStack.Configuration;
 using ServiceStack.OrmLite;
 using TechStacks.ServiceModel;
@@ -9,6 +10,8 @@ namespace TechStacks.ServiceInterface
     [Authenticate(ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechChoiceServices : Service
     {
+        public MemoryCacheClient MemoryCache { get; set; }
+
         public object Get(FindTechChoices request)
         {
             var q = Db.From<TechnologyChoice>()
@@ -66,6 +69,8 @@ namespace TechStacks.ServiceInterface
             var id = Db.Insert(techChoice, selectIdentity: true);
             var createdTechStack = Db.SingleById<TechnologyChoice>(id);
 
+            MemoryCache.FlushAll();
+
             return new TechChoiceResponse
             {
                 Result = createdTechStack
@@ -88,6 +93,8 @@ namespace TechStacks.ServiceInterface
             updated.CreatedBy = techChoice.CreatedBy;
             Db.Save(updated);
 
+            MemoryCache.FlushAll();
+
             return new TechChoiceResponse
             {
                 Result = updated
@@ -105,6 +112,8 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.Unauthorized("You are not the owner of this stack.");
             
             Db.DeleteById<TechnologyChoice>(request.Id);
+
+            MemoryCache.FlushAll();
 
             return new TechChoiceResponse
             {
