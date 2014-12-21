@@ -128,6 +128,17 @@
     <Content Include="img\github_normal.png" />
     <Content Include="img\logo-280.png" />
     <Content Include="img\no-profile64.png" />
+    <Content Include="img\share\Email.png" />
+    <Content Include="img\share\Facebook.png" />
+    <Content Include="img\share\Google.png" />
+    <Content Include="img\share\LinkedIn.png" />
+    <Content Include="img\share\Pinboard.png" />
+    <Content Include="img\share\Pinterest.png" />
+    <Content Include="img\share\Pocket.png" />
+    <Content Include="img\share\Reddit.png" />
+    <Content Include="img\share\Tumblr.png" />
+    <Content Include="img\share\Twitter.png" />
+    <Content Include="img\share\Wordpress.png" />
     <Content Include="img\sign-in-with-twitter-gray.png" />
     <Content Include="img\twitter_normal.png" />
     <None Include="default.cshtml" />

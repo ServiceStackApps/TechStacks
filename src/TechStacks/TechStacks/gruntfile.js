@@ -142,7 +142,7 @@ module.exports = function (grunt) {
                     .pipe(gulp.dest(webRoot + 'lib/css/'));
             },
             'wwwroot-copy-images': function () {
-                return gulp.src('./img/*.*')
+                return gulp.src('./img/**/*.*')
                     .pipe(newer(webRoot + 'img/'))
                     .pipe(gulp.dest(webRoot + 'img/'));
             },

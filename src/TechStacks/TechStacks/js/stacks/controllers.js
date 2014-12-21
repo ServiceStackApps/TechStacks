@@ -54,6 +54,67 @@
             $scope.hasRole = function (role) {
                 return userService.hasRole(role);
             };
+
+            function filterCharactersFromHashTag(name) {
+                var result = name.replace('.', '').replace(' ', '').replace('#', 'Sharp').replace('+', 'Plus');
+                return result;
+            }
+
+            function extractHasTags() {
+                var result = [];
+                for (var i = 0; i < $scope.currentStack.TechnologyChoices.length; i++) {
+                    var techChoice = $scope.currentStack.TechnologyChoices[i];
+                    result.push('#' + filterCharactersFromHashTag(techChoice.Name));
+                }
+                return result;
+            }
+
+            $scope.share = function (type) {
+                var url = encodeURIComponent(document.location.origin + '/stacks/' + $scope.currentStack.Slug);
+                var message = encodeURIComponent('Checkout ' + $scope.currentStack.Name + ' on Techstacks.io !');
+                var name = encodeURIComponent($scope.currentStack.Name);
+                var hashTags = extractHasTags();
+                var allHashTags = '';
+                for (var i = 0; i < hashTags.length; i++) {
+                    var hashTag = hashTags[i];
+                    if ((allHashTags.length + message.length + hashTag.length + 1) > 138) {
+                        break;
+                    }
+                    allHashTags += ' ' + hashTag;
+                }
+                allHashTags = encodeURIComponent(allHashTags);
+                var width = 575,
+                    height = 400,
+                    left = ($(window).width() - width) / 2,
+                    top = ($(window).height() - height) / 2,
+                    opts = 'status=1' +
+                        ',width=' + width +
+                        ',height=' + height +
+                        ',top=' + top +
+                        ',left=' + left;
+                switch (type) {
+                    case 'facebook':
+                        window.open('https://www.facebook.com/sharer/sharer.php?u=' + url + '&t=' + message + '%20' + url, '', opts);
+                        break;
+                    case 'twitter':
+                        window.open('https://twitter.com/intent/tweet?text=' + message + '%20' + url + '%20' + allHashTags, '', opts);
+                        break;
+                    case 'google':
+                        window.open('https://plus.google.com/share?url=' + url, '', opts);
+                        break;
+                    case 'reddit':
+                        window.open('http://www.reddit.com/submit?url=' + url + '&title=' + name, '', opts);
+                        break;
+                    case 'linkedin':
+                        window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + url + '&title=' + message, '', opts);
+                        break;
+                    case 'email':
+                        window.open('mailto:?subject=' + name + '&body=' + message + '%20' + url);
+                        break;
+                    default:
+                }
+                return false;
+            }
         }
     ]);
 
@@ -114,11 +175,7 @@
                 }
 
                 $scope.searchResults = expandedResults;
-            });
-
-            
-
-            
+            });            
         }
     ]);
 

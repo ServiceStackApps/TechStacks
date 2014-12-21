@@ -313,3 +313,11 @@ td.description div {
     bottom: -35px;
     right: -25px;
 }
+
+.share-buttons{
+	list-style: none;
+}
+
+.share-buttons li{
+	display: inline;
+}
