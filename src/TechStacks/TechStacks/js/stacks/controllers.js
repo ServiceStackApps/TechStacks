@@ -59,7 +59,7 @@
                 var dotsFind = new RegExp('.','g'),
                     spaceFind = new RegExp(' ','g'),
                     sharpFind =  new RegExp('#','g'),
-                    plusFind =  new RegExp('+','g');
+                    plusFind =  new RegExp('\+','g');
                 var result = name.replace(dotsFind, '').replace(spaceFind, '').replace(sharpFind, 'Sharp').replace(plusFind, 'Plus');
                 return result;
             }
