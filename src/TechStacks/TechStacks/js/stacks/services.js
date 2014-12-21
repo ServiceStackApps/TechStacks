@@ -36,9 +36,9 @@
                 var deferred = $q.defer();
                 $http.put('/techstacks/' + techStack.Id, techStack)
                     .success(function (response) {
-                        techStack.Name = response.TechStack.Name;
-                        techStack.Description = response.TechStack.Description;
-                        techStack.Details = response.TechStack.Details;
+                        techStack.Name = response.Result.Name;
+                        techStack.Description = response.Result.Description;
+                        techStack.Details = response.Result.Details;
                         deferred.resolve(techStack);
                     }).error(function(error) {
                         deferred.reject(error.ResponseStatus && error.ResponseStatus.Message);

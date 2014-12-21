@@ -284,7 +284,7 @@ namespace TechStacks.Tests
 
             client.Put(new UpdateTechnologyStack {Id = last.Id, Name = "New Name"});
 
-            var updatedStack = client.Get(new TechnologyStacks {Id = last.Id});
+            var updatedStack = client.Get(new GetTechnologyStack {Id = last.Id});
 
             Assert.That(updatedStack.Result.Name, Is.EqualTo("New Name"));
         }

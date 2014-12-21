@@ -121,7 +121,7 @@ namespace TechStacks.ServiceInterface
             };
         }
 
-        public object Get(TechnologyStacks request)
+        public object Get(GetTechnologyStack request)
         {
             var key = "{0}/{1}".Fmt(request.GetType().Name, request.Slug);
             if (request.Reload)
@@ -130,14 +130,31 @@ namespace TechStacks.ServiceInterface
             return base.Request.ToOptimizedResultUsingCache(MemoryCache, key, () =>
             {
                 int id;
-                var technologyStack = int.TryParse(request.Slug, out id)
+                var techStack = int.TryParse(request.Slug, out id)
                     ? Db.SingleById<TechnologyStack>(id)
                     : Db.Single<TechnologyStack>(x => x.Slug == request.Slug.ToLower());
 
-                if (technologyStack == null)
-                    HttpError.NotFound("Tech stack not found");
+                if (techStack == null)
+                    throw HttpError.NotFound("Tech stack not found");
 
-                var response = GetTechnologyStackWithDetails(technologyStack);
+                var techChoices = Db.LoadSelect(Db.From<TechnologyChoice>()
+                    .Join<Technology>()
+                    .Join<TechnologyStack>()
+                    .Where(x => x.TechnologyStackId == techStack.Id));
+
+                var result = techStack.ConvertTo<TechStackDetails>();
+                if (!string.IsNullOrEmpty(techStack.Details))
+                {
+                    result.DetailsHtml = new Markdown().Transform(techStack.Details);
+                }
+
+                result.TechnologyChoices = techChoices.Map(x => x.ToTechnologyInStack());
+
+                var response = new GetTechnologyStackResponse
+                {
+                    Created = DateTime.UtcNow,
+                    Result = result
+                };
                 return response;
             });
         }
@@ -167,30 +184,6 @@ namespace TechStacks.ServiceInterface
             {
                 Results = results
             };
-        }
-
-        private TechStackResponse GetTechnologyStackWithDetails(TechnologyStack existingTechStack)
-        {
-            var technologyChoices = Db.LoadSelect(Db.From<TechnologyChoice>()
-                .Join<TechnologyChoice, Technology>((tst, t) => t.Id == tst.TechnologyId)
-                .Join<TechnologyChoice, TechnologyStack>((tst, ts) => ts.Id == tst.TechnologyStackId)
-                .Where(techChoice => techChoice.TechnologyStackId == existingTechStack.Id));
-            var techStack = Db.SingleById<TechnologyStack>(existingTechStack.Id);
-
-            var result = techStack.ConvertTo<TechStackDetails>();
-            if (!string.IsNullOrEmpty(techStack.Details))
-            {
-                result.DetailsHtml = new Markdown().Transform(techStack.Details);
-            }
-
-            result.PopulateTechTiers(technologyChoices);
-
-            var response = new TechStackResponse
-            {
-                Created = DateTime.UtcNow,
-                Result = result
-            };
-            return response;
         }
 
         public object Any(GetConfig request)

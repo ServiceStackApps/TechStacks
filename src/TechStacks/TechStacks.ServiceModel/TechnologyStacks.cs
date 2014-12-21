@@ -7,7 +7,7 @@ using TechStacks.ServiceModel.Types;
 namespace TechStacks.ServiceModel
 {
     [Route("/techstacks/{Slug}", Verbs = "GET")]
-    public class TechnologyStacks : IReturn<TechStackResponse>
+    public class GetTechnologyStack : IReturn<GetTechnologyStackResponse>
     {
         public bool Reload { get; set; }
 
@@ -87,7 +87,7 @@ namespace TechStacks.ServiceModel
         public List<TechnologyStack> Results { get; set; }        
     }
 
-    public class TechStackResponse
+    public class GetTechnologyStackResponse
     {
         public DateTime Created { get; set; }
 

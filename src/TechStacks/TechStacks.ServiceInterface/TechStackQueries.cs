@@ -36,8 +36,11 @@ namespace TechStacks.ServiceInterface
             latestStacks.ForEach(stack =>
             {
                 var techStackDetails = stack.ConvertTo<TechStackDetails>();
-                techStackDetails.PopulateTechTiers(
-                    technologyChoices.Where(x => stack.Id == x.TechnologyStackId).ToList());
+                techStackDetails.TechnologyChoices = technologyChoices
+                    .Map(x => x.ToTechnologyInStack())
+                    .Where(x => stack.Id == x.TechnologyStackId)
+                    .ToList();
+
                 results.Add(techStackDetails);
             });
             return results;

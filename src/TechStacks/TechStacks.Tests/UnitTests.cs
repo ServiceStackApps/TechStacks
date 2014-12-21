@@ -64,7 +64,7 @@ namespace TechStacks.Tests
         public void Can_Get_Stack_By_Slug_Title()
         {
             var service = appHost.Resolve<TechnologyStackServices>();
-            var response = (TechStackResponse)service.Get(new TechnologyStacks { Slug = "initial-stack" });
+            var response = (GetTechnologyStackResponse)service.Get(new GetTechnologyStack { Slug = "initial-stack" });
             Assert.That(response.Result.Name,Is.EqualTo("Initial Stack"));
         }
 
