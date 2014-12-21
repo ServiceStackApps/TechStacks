@@ -81,7 +81,8 @@
                 var allHashTags = '';
                 for (var i = 0; i < hashTags.length; i++) {
                     var hashTag = hashTags[i];
-                    if ((allHashTags.length + message.length + hashTag.length + 1) > 138) {
+                    //116 for 2 spaces and encoded url on twitter (22).
+                    if ((allHashTags.length + message.length + hashTag.length + 1) > 116) {
                         break;
                     }
                     allHashTags += ' ' + hashTag;
@@ -187,15 +188,24 @@
         '$scope', 'techStackServices', '$routeParams', '$q', '$filter', 'userService', '$location',
         function ($scope, techStackServices, $routeParams, $q, $filter, userService, $location) {
 
-            $scope.refreshStack = function() {
-                techStackServices.getStack($routeParams.stackId, true).then(function(techStack) {
-                    $scope.currentStack = techStack;
-                    angular.forEach($scope.allTiers, function(tier) {
-                        tier.show = filterTechChoiceByTier(tier.name).length > 0;
-                    });
-                    $scope.selectedTechs = extractToSelectedTechs($scope.currentStack.TechnologyChoices);
-                });
-            };
+            function filterTechChoiceByTier(tier) {
+                return $filter('filter')($scope.currentStack.TechnologyChoices, { Tier: tier });
+            }
+
+            function getLocalTechChoice(id) {
+
+                var result;
+                var techId = parseInt(id.split(';')[0]);
+                var tier = id.split(';')[1];
+                for (var i = 0; i < $scope.currentStack.TechnologyChoices.length; i++) {
+                    var technologyChoice = $scope.currentStack.TechnologyChoices[i];
+                    if (technologyChoice.TechnologyId === techId && technologyChoice.Tier === tier) {
+                        result = technologyChoice;
+                        break;
+                    }
+                }
+                return result;
+            }
 
             function extractToSelectedTechs(items) {
                 var result = [];
@@ -206,6 +216,16 @@
                 }
                 return result;
             }
+
+            $scope.refreshStack = function() {
+                techStackServices.getStack($routeParams.stackId, true).then(function(techStack) {
+                    $scope.currentStack = techStack;
+                    angular.forEach($scope.allTiers, function(tier) {
+                        tier.show = filterTechChoiceByTier(tier.name).length > 0;
+                    });
+                    $scope.selectedTechs = extractToSelectedTechs($scope.currentStack.TechnologyChoices);
+                });
+            };
 
             $scope.refreshStack();
 
@@ -225,21 +245,6 @@
                 $scope.searchResults = expandedResults;
             });
 
-            function getLocalTechChoice(id) {
-
-                var result;
-                var techId = parseInt(id.split(';')[0]);
-                var tier = id.split(';')[1];
-                for (var i = 0; i < $scope.currentStack.TechnologyChoices.length; i++) {
-                    var technologyChoice = $scope.currentStack.TechnologyChoices[i];
-                    if (technologyChoice.TechnologyId === techId && technologyChoice.Tier === tier) {
-                        result = technologyChoice;
-                        break;
-                    }
-                }
-                return result;
-            }
-
             $scope.handleAddTech = function (item) {
                 var techId = item.split(';')[0];
                 var tier = item.split(';')[1];
@@ -255,10 +260,6 @@
                     $scope.refreshStack();
                 });
             };
-
-            function filterTechChoiceByTier(tier) {
-                return $filter('filter')($scope.currentStack.TechnologyChoices, { Tier: tier });
-            }
 
 
             $scope.updateAll = function () {
