@@ -1,6 +1,6 @@
 ﻿<div id="stack-page">
     <div id="stack-info">
-        <a href="/stacks/{{currentStack.Id}}/edit" class="btn btn-primary"
+        <a href="/stacks/{{currentStack.Slug}}/edit" class="btn btn-primary"
             ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">Edit
         </a>
 
@@ -15,12 +15,16 @@
         <h2 class="vendor">
             {{currentStack.VendorName}}
         </h2>
-
+       
+        <a ng-show="currentStack.ScreenshotUrl" href="{{currentStack.ScreenshotUrl}}">
+            <img ng-src="{{currentStack.ScreenshotUrl}}" style="float:right; width:400px;"/>
+        </a>
+ 
         <div class="small" style="margin-bottom: 25px">
             by <a href="/{{currentStack.CreatedBy}}">{{currentStack.CreatedBy}}</a>
         </div>
 
-        <blockquote ng-bind="currentStack.Description"></blockquote>
+        <p ng-bind="currentStack.Description" style="font-size: 20px"></p>
 
         <div class="tech-info" ng-repeat="tier in allTiers">
             <div class="item" ng-show="tier.show">

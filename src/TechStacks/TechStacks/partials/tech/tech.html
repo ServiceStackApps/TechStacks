@@ -1,7 +1,7 @@
 ﻿<div id="tech-page">
     
     <div id="tech-info">
-        <a href="/tech/{{tech.Id}}/edit" class="btn btn-primary"
+        <a href="/tech/{{tech.Slug}}/edit" class="btn btn-primary"
            ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">
             Edit
         </a>

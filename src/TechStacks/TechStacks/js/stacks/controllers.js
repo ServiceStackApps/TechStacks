@@ -268,10 +268,10 @@
                 }
                 $scope.updateInProgress = true;
                 $scope.busy = true;
-                techStackServices.updateStack($scope.currentStack).then(function () {
+                techStackServices.updateStack($scope.currentStack).then(function (updatedStack) {
                     $scope.busy = false;
                     $scope.updateInProgress = false;
-                    $location.path("/stacks/" + $scope.currentStack.Slug);
+                    $location.path("/stacks/" + updatedStack.Slug);
                 }, function (reason) {
                     $scope.busy = false;
                     $scope.updateInProgress = false;
