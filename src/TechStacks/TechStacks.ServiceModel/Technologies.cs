@@ -34,6 +34,8 @@ namespace TechStacks.ServiceModel
     public class CreateTechnologyResponse
     {
         public Technology Result { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
     }
 
     [Route("/technology/{Id}", Verbs = "PUT")]
@@ -54,6 +56,8 @@ namespace TechStacks.ServiceModel
     public class UpdateTechnologyResponse
     {
         public Technology Result { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
     }
 
     [Route("/technology/{Id}", Verbs = "DELETE")]
@@ -65,6 +69,8 @@ namespace TechStacks.ServiceModel
     public class DeleteTechnologyResponse
     {
         public Technology Result { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
     }
 
     [Query(QueryTerm.Or)]

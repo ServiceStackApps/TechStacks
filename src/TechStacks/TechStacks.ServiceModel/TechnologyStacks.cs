@@ -32,6 +32,8 @@ namespace TechStacks.ServiceModel
     public class CreateTechnologyStackResponse
     {
         public TechStackDetails Result { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
     }
 
     [Route("/techstacks/{Id}", Verbs = "PUT")]
@@ -48,6 +50,8 @@ namespace TechStacks.ServiceModel
     public class UpdateTechnologyStackResponse
     {
         public TechStackDetails Result { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
     }
 
     [Route("/techstacks/{Id}", Verbs = "DELETE")]
@@ -59,6 +63,8 @@ namespace TechStacks.ServiceModel
     public class DeleteTechnologyStackResponse
     {
         public TechStackDetails Result { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
     }
 
     [Route("/techstacks", Verbs = "GET")]
