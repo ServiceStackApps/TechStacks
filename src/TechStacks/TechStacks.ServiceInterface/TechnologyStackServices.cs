@@ -228,11 +228,11 @@ namespace TechStacks.ServiceInterface
                             limit 20"),
 
                     TopTechnologies = Db.Select<TechnologyInfo>(
-                        @"select tc.technology_id as Id, t.name, COUNT(*) as StacksCount 
+                        @"select t.slug as Slug, t.name, COUNT(*) as StacksCount 
                             from technology_choice tc
                                  inner join
                                  technology t on (tc.technology_id = t.id)
-                            group by tc.technology_id, t.name
+                            group by t.slug, t.name
                             having COUNT(*) > 0
                             order by StacksCount desc
                             limit 20"),

@@ -45,8 +45,11 @@
                 </tr>
             </thead>
             <tr ng-repeat="techStack in relatedStacks">
-                <td class="name"><a href="/stacks/{{techStack.Id}}">{{techStack.Name}}
-                                 </a></td>
+                <td class="name">
+                    <a href="/stacks/{{techStack.Slug}}">
+                        {{techStack.Name}}
+                    </a>
+                </td>
                 <td class="description" title="{{techStack.Description}}">
                     <div>{{techStack.Description}}</div>
                 </td>

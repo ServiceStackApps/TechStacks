@@ -102,7 +102,7 @@
             $scope.createNewTech = function() {
                 techServices.createTech($scope.tech).then(function (tech) {
                     $scope.tech.Id = tech.Id;
-                    $location.path("/tech/" + $scope.tech.Id);
+                    $location.path("/tech/" + $scope.tech.Slug);
                 });
             };
         }
@@ -147,7 +147,7 @@
                 //Wait for ng-model digest after change to make sure model is updated.
                 $timeout(function () {
                     techServices.updateTech($scope.tech).then(function () {
-                        $location.path('/tech/' + $scope.tech.Id);
+                        $location.path('/tech/' + $scope.tech.Slug);
                     });
                 });
             };

@@ -141,7 +141,7 @@
                     }
                     $q.all(techChoicePromises).then(function () {
                         $scope.createInProgress = false;
-                        $location.path("/stacks/" + $scope.newStack.Id);
+                        $location.path("/stacks/" + $scope.newStack.Slug);
                     });
                 }, function (reason) {
                     $scope.createInProgress = false;
@@ -271,7 +271,7 @@
                 techStackServices.updateStack($scope.currentStack).then(function () {
                     $scope.busy = false;
                     $scope.updateInProgress = false;
-                    $location.path("/stacks/" + $scope.currentStack.Id);
+                    $location.path("/stacks/" + $scope.currentStack.Slug);
                 }, function (reason) {
                     $scope.busy = false;
                     $scope.updateInProgress = false;

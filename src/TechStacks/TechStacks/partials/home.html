@@ -8,7 +8,7 @@
         <div class="col-md-9">
             <div class="panel panel-default stack" ng-repeat="feedStack in feedStacks">
                 <div class="panel-heading">
-                    <a href="/stacks/{{feedStack.Id}}" style="display:block">
+                    <a href="/stacks/{{feedStack.Slug}}" style="display:block">
                         <span>
                             {{feedStack.Name}}
                         </span>
@@ -17,10 +17,10 @@
                         </i>
                     </a>
                 </div>
-                <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="/stacks/{{feedStack.Id}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
+                <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="/stacks/{{feedStack.Slug}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
                 <div class="panel-footer" >
                     <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in feedStack.TechnologyChoices">
-                        <a href="/tech/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
+                        <a href="/tech/{{tech.Slug}}" class="ng-binding" title="{{tech.Name}}">
                             <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="35" style="padding: 0 10px 0 0;" />
                             <span ng-if="!tech.LogoApproved" class="glyphicon glyphicon-cog"></span>
                         </a>
@@ -42,7 +42,7 @@
                             <span ng-show="!isFavoriteTechStack(techStack) && isAuthenticated" class="glyphicon glyphicon-star fav"
                                   ng-click="addFavoriteTechStack(techStack)"></span>
 
-                            <a href="/stacks/{{techStack.Id}}">{{techStack.Name}}</a> 
+                            <a href="/stacks/{{techStack.Slug}}">{{techStack.Name}}</a> 
                         </li>
                     </ul>
                     <a style="margin-top: 25px" href="/stacks/create" class="btn btn-primary">
@@ -63,7 +63,7 @@
                             <span ng-show="!isFavoriteTech(tech) && isAuthenticated" class="glyphicon glyphicon-star fav" 
                                   ng-click="addFavoriteTech(tech)"></span>
 
-                            <a href="/tech/{{tech.Id}}">{{tech.Name}}</a> 
+                            <a href="/tech/{{tech.Slug}}">{{tech.Name}}</a> 
                         </li>
                     </ul>
                     <h6 style="margin-top:25px">Can't find your favorite tech?</h6>
@@ -78,7 +78,7 @@
                 <div class="panel-body">
                     <ul class="list-unstyled">
                         <li ng-repeat="tech in topTechnologies" style="white-space:nowrap">
-                            <a href="/tech/{{tech.Id}}">{{tech.Name}}</a> 
+                            <a href="/tech/{{tech.Slug}}">{{tech.Name}}</a> 
                             <small>({{tech.StacksCount}})</small>
                         </li>
                     </ul>
@@ -126,7 +126,7 @@
         <div class="col-md-9">
             <div class="panel panel-default stack" ng-repeat="techStack in techStacks">
                 <div class="panel-heading">
-                    <a href="/stacks/{{techStack.Id}}" style="display:block">
+                    <a href="/stacks/{{techStack.Slug}}" style="display:block">
                         <span>
                             {{techStack.Name}} 
                         </span>
@@ -135,10 +135,10 @@
                         </i>
                     </a>
                 </div>
-                <div class="panel-body">{{techStack.Description | limitTo:140}} <a href="/stacks/{{techStack.Id}}" ng-if="techStack.Description.length > 140">... Read More</a></div>
+                <div class="panel-body">{{techStack.Description | limitTo:140}} <a href="/stacks/{{techStack.Slug}}" ng-if="techStack.Description.length > 140">... Read More</a></div>
                 <div class="panel-footer">
                     <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in techStack.TechnologyChoices">
-                        <a href="/tech/{{tech.TechnologyId}}" class="ng-binding" title="{{tech.Name}}">
+                        <a href="/tech/{{tech.Slug}}" class="ng-binding" title="{{tech.Name}}">
                             <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="35" style="padding: 0 10px 0 0;" />
                             <span ng-if="!tech.LogoApproved" class="glyphicon glyphicon-cog"></span>
                         </a>
@@ -155,7 +155,7 @@
                 <div class="panel-body">
                     <ul class="list-unstyled">
                         <li ng-repeat="tech in topTechnologies" style="white-space:nowrap">
-                            <a href="/tech/{{tech.Id}}">{{tech.Name}}</a> 
+                            <a href="/tech/{{tech.Slug}}">{{tech.Name}}</a> 
                             <small>({{tech.StacksCount}})</small>
                         </li>
                     </ul>
