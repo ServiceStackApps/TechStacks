@@ -162,7 +162,7 @@
                         deferred.reject('Not authenticated');
                     } else {
                         $http.get('/my-feed').success(function (response) {
-                            deferred.resolve(response.TechStacks);
+                            deferred.resolve(response.Results);
                         });
                     }
                     return deferred.promise;

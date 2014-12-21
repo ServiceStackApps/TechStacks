@@ -39,7 +39,7 @@
                         techStack.Details = response.TechStack.Details;
                         deferred.resolve(techStack);
                     }).error(function(error) {
-                    deferred.reject(error.ResponseStatus.Message);
+                        deferred.reject(error.ResponseStatus && error.ResponseStatus.Message);
                 });
                 return deferred.promise;
             },

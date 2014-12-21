@@ -93,7 +93,7 @@
                     <ul class="list-unstyled">
                         <li ng-repeat="user in topUsers" style="white-space:nowrap">
                             <a href="/{{user.UserName}}">
-                                <img src="{{user.AvatarUrl}}" style="height: 20px;" />
+                                <img ng-show="user.AvatarUrl" src="{{user.AvatarUrl}}" style="height: 20px;" />
                                 {{user.UserName}}
                             </a> 
                             <small>({{user.StacksCount}})</small>
