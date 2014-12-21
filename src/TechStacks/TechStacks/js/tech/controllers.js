@@ -113,8 +113,8 @@
             function ($scope, techServices, $routeParams, $q, $filter, $location, userService, $timeout) {
 
             $scope.refreshTech = function() {
-                techServices.getTech($routeParams.techId).then(function (tech) {
-                    $scope.tech = tech;
+                techServices.getTech($routeParams.techId).then(function (r) {
+                    $scope.tech = r.Technology;
                     $scope.tech.Tiers = $scope.tech.Tiers || [];
                 });
             };
