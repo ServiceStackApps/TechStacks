@@ -34,7 +34,10 @@ namespace TechStacks.ServiceInterface
         /// <returns></returns>
         public static string GenerateSlug(this string phrase)
         {
-            string str = phrase.RemoveAccent().ToLower();
+            string str = phrase.RemoveAccent().ToLower()
+                .Replace("#", "sharp")  // c#, f# => csharp, fsharp
+                .Replace("+","p");      // c++ => cpp
+
             // invalid chars           
             str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
             // convert multiple spaces into one space   
