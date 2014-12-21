@@ -50,10 +50,10 @@ namespace TechStacks.Tests
             using (var db = OpenDbConnection())
             {
                 var allTechs = db.Select<Technology>();
-                allTechs.ForEach(x => x.SlugTitle = x.Name.GenerateSlug());
+                allTechs.ForEach(x => x.Slug = x.Name.GenerateSlug());
                 db.UpdateAll(allTechs);
                 var allStacks = db.Select<TechnologyStack>();
-                allStacks.ForEach(x => x.SlugTitle = x.Name.GenerateSlug());
+                allStacks.ForEach(x => x.Slug = x.Name.GenerateSlug());
                 db.UpdateAll(allStacks);
             }
         }

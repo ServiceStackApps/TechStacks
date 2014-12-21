@@ -22,7 +22,7 @@ namespace TechStacks.ServiceModel.Types
         public string OwnerId { get; set; }
 
         [Index(Unique = true)]
-        public string SlugTitle { get; set; }
+        public string Slug { get; set; }
 
         public string Details { get; set; }
     }
@@ -75,7 +75,7 @@ namespace TechStacks.ServiceModel.Types
         public string OwnerId { get; set; }
 
         [Index(Unique = true)]
-        public string SlugTitle { get; set; }
+        public string Slug { get; set; }
 
         public bool LogoApproved { get; set; }
         public bool IsLocked { get; set; }

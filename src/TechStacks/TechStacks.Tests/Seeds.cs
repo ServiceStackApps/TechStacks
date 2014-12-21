@@ -26,7 +26,7 @@ namespace TechStacks.Tests
                 var ssTech = new Technology
                 {
                     Name = "ServiceStack",
-                    SlugTitle = "ServiceStack".GenerateSlug(),
+                    Slug = "ServiceStack".GenerateSlug(),
                     Tier = TechnologyTier.Server,
                     Description =
                         "Obscenely fast! Built with only fast, clean, code-first and light-weight parts. Start using .NET's fastest serializers, ORMs, redis and caching libraries!",
@@ -37,7 +37,7 @@ namespace TechStacks.Tests
                 var iisTech = new Technology
                 {
                     Name = "IIS",
-                    SlugTitle = "IIS".GenerateSlug(),
+                    Slug = "IIS".GenerateSlug(),
                     Tier = TechnologyTier.Http,
                     Description = "Microsoft's web host",
                     VendorName = "Microsoft",
@@ -48,7 +48,7 @@ namespace TechStacks.Tests
                 var ravenDbTech = new Technology
                 {
                     Name = "RavenDB",
-                    SlugTitle = "RavenDB".GenerateSlug(),
+                    Slug = "RavenDB".GenerateSlug(),
                     Tier = TechnologyTier.Data,
                     Description = "Open source 2nd generation document DB",
                     VendorName = "RavenDB",
@@ -58,7 +58,7 @@ namespace TechStacks.Tests
                 var postgresTech = new Technology
                 {
                     Name = "PostgreSQL",
-                    SlugTitle = "PostgreSQL".GenerateSlug(),
+                    Slug = "PostgreSQL".GenerateSlug(),
                     Tier = TechnologyTier.Data,
                     Description = "The world's most advanced open source database.",
                     
@@ -74,7 +74,7 @@ namespace TechStacks.Tests
                 var initialStack = new TechnologyStack
                 {
                     Name = "Initial Stack",
-                    SlugTitle = "Initial Stack".GenerateSlug(),
+                    Slug = "Initial Stack".GenerateSlug(),
                     Description = "Example stack"
                 };
 

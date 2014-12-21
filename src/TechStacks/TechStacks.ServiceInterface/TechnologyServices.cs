@@ -31,7 +31,7 @@ namespace TechStacks.ServiceInterface
             //}
             tech.LogoApproved = true;
 
-            tech.SlugTitle = tech.Name.GenerateSlug();
+            tech.Slug = tech.Name.GenerateSlug();
             var id = Db.Insert(tech, selectIdentity: true);
             var createdTechStack = Db.SingleById<Technology>(id);
 
@@ -74,7 +74,7 @@ namespace TechStacks.ServiceInterface
             updated.CreatedBy = existingTech.CreatedBy;
 
             //Update SlugTitle
-            updated.SlugTitle = updated.Name.GenerateSlug();
+            updated.Slug = updated.Name.GenerateSlug();
             Db.Save(updated);
 
             var history = updated.ConvertTo<TechnologyHistory>();
@@ -128,7 +128,7 @@ namespace TechStacks.ServiceInterface
                 int id;
                 var tech = int.TryParse(request.Slug, out id)
                     ? Db.SingleById<Technology>(id)
-                    : Db.Single<Technology>(x => x.SlugTitle == request.Slug.ToLower());
+                    : Db.Single<Technology>(x => x.Slug == request.Slug.ToLower());
 
                 if (tech == null)
                     HttpError.NotFound("Tech stack not found");

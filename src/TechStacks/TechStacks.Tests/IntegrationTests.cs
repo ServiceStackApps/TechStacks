@@ -202,7 +202,7 @@ namespace TechStacks.Tests
             });
 
             var tech = response.Result;
-            Assert.That(tech.SlugTitle,Is.EqualTo("my-new-tech"));
+            Assert.That(tech.Slug,Is.EqualTo("my-new-tech"));
         }
 
         [Test]
@@ -216,7 +216,7 @@ namespace TechStacks.Tests
             });
 
             var techStack = response.Result;
-            Assert.That(techStack.SlugTitle, Is.EqualTo("my-new-stack"));
+            Assert.That(techStack.Slug, Is.EqualTo("my-new-stack"));
         }
 
         [Test]

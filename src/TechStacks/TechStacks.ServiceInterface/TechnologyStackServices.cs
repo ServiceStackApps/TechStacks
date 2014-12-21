@@ -24,7 +24,7 @@ namespace TechStacks.ServiceInterface
             techStack.OwnerId = session.UserAuthId;
             techStack.Created = DateTime.UtcNow;
             techStack.LastModified = DateTime.UtcNow;
-            techStack.SlugTitle = techStack.Name.GenerateSlug();
+            techStack.Slug = techStack.Name.GenerateSlug();
             var id = Db.Insert(techStack, selectIdentity: true);
             var createdTechStack = Db.SingleById<TechnologyStack>(id);
 
@@ -69,7 +69,7 @@ namespace TechStacks.ServiceInterface
             updated.LastModified = DateTime.UtcNow;
 
             //Update SlugTitle
-            updated.SlugTitle = updated.Name.GenerateSlug();
+            updated.Slug = updated.Name.GenerateSlug();
             Db.Save(updated);
 
             var history = updated.ConvertTo<TechnologyStackHistory>();
@@ -132,7 +132,7 @@ namespace TechStacks.ServiceInterface
                 int id;
                 var technologyStack = int.TryParse(request.Slug, out id)
                     ? Db.SingleById<TechnologyStack>(id)
-                    : Db.Single<TechnologyStack>(x => x.SlugTitle == request.Slug.ToLower());
+                    : Db.Single<TechnologyStack>(x => x.Slug == request.Slug.ToLower());
 
                 if (technologyStack == null)
                     HttpError.NotFound("Tech stack not found");
