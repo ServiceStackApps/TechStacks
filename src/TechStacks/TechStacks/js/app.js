@@ -70,7 +70,7 @@
                 }
             }
         }])
-        .directive('disqus', ['$window', function ($window) {
+        .directive('disqus', ['$window', '$timeout', function ($window, $timeout) {
             return {
                 restrict: 'E',
                 scope: {
@@ -108,14 +108,16 @@
                                 dsq.src = '//' + $window.disqus_shortname + '.disqus.com/embed.js';
                                 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
                             } else {
-                                $window.DISQUS.reset({
-                                    reload: true,
-                                    config: function () {
-                                        this.page.identifier = $window.disqus_identifier;
-                                        this.page.url = $window.disqus_url;
-                                        this.page.title = $window.disqus_title;
-                                    }
-                                });
+                                $timeout(function() {
+                                    $window.DISQUS.reset({
+                                        reload: true,
+                                        config: function () {
+                                            this.page.identifier = $window.disqus_identifier;
+                                            this.page.url = $window.disqus_url;
+                                            this.page.title = $window.disqus_title;
+                                        }
+                                    });
+                                }, 500); //delay loading disqus many resources so doesn't interfere with page load
                             }
                         }
                     });

@@ -4,13 +4,19 @@
     var app = angular.module('techs.controllers', ['tech.services', 'user.services']);
 
     app.controller('latestTechsCtrl', [
-        '$scope', 'techServices', '$timeout', function ($scope, techServices, $timeout) {
+        '$rootScope', '$scope', 'techServices', '$timeout', function ($rootScope, $scope, techServices, $timeout) {
             var lastSearch;
             $scope.refresh = function () {
                 $scope.isBusy = true;
                 if (lastSearch) {
                     $timeout.cancel(lastSearch);
                 }
+
+                //init page with old cache data then immediately load latest data in background
+                if ($rootScope.cachedTechs) {
+                    $scope.techs = $rootScope.cachedTechs;
+                }
+
                 lastSearch = $timeout(function () {
                     techServices.searchTech($scope.Search || '').then(function (techs) {
                         var categoryFilter = null;
@@ -35,9 +41,11 @@
                         } else {
                             $scope.techs = techs;
                         }
+                        $rootScope.cachedTechs = $scope.techs;
                     });
                     $scope.isBusy = false;
-                }, 200);
+                }
+                , 200); //why's this being delayed?
                 
             };
             $scope.refresh();

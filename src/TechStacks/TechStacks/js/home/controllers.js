@@ -4,12 +4,24 @@
     var app = angular.module('home.controllers', ['stacks.services']);
 
     app.controller('homeCtrl', [
-        '$scope', '$http', 'techStackServices', 'userService', function ($scope, $http, techStackServices, userService) {
+        '$rootScope', '$scope', '$http', 'techStackServices', 'userService',
+        function ($rootScope, $scope, $http, techStackServices, userService) {
+
+            if ($rootScope.cachedFeedStacks) {
+                $scope.feedStacks = $rootScope.cachedFeedStacks;
+            }
+            
+            if ($rootScope.cachedTechStacks) {
+                $scope.techStacks = $rootScope.cachedTechStacks;
+                $scope.topTechnologies = $rootScope.cachedTopTechnologies;
+                $scope.topUsers = $rootScope.cachedTopUsers;
+            }
 
             function refreshFeed() {
                 userService.isAuthenticated().then(function () {
                     userService.getUserFeed().then(function (results) {
                         $scope.feedStacks = results;
+                        $rootScope.cachedFeedStacks = $scope.feedStacks;
                     });
                 });
 
@@ -17,6 +29,10 @@
                     $scope.techStacks = overview.LatestTechStacks;
                     $scope.topTechnologies = overview.TopTechnologies;
                     $scope.topUsers = overview.TopUsers;
+                    
+                    $rootScope.cachedTechStacks = $scope.techStacks;
+                    $rootScope.cachedTopTechnologies = $scope.topTechnologies;
+                    $rootScope.cachedTopUsers = $scope.topUsers;
                 });
             }
 

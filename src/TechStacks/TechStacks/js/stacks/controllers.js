@@ -291,15 +291,22 @@
                 techStackServices.deleteTechStack($scope.currentStack).success(function() {
                     $location.path('/stacks');
                 });
-            }
+            };
         }
     ]);
 
-    app.controller('latestStacksCtrl', ['$scope', 'techStackServices',
-        function ($scope, techStackServices) {
+    app.controller('latestStacksCtrl', ['$rootScope', '$scope', 'techStackServices',
+        function ($rootScope, $scope, techStackServices) {
+            
+            //init page with old cache data then immediately load latest data in background
+            if ($rootScope.cachedTechStacks) {
+                $scope.techStacks = $rootScope.cachedTechStacks;
+            }
+
             $scope.refresh = function () {
                 techStackServices.searchStacks($scope.Search || '').then(function (results) {
                     $scope.techStacks = results.reverse();
+                    $rootScope.cachedTechStacks = $scope.techStacks;
                 });
             };
             $scope.refresh();
