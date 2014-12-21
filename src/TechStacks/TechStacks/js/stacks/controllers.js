@@ -305,7 +305,7 @@
 
             $scope.refresh = function () {
                 techStackServices.searchStacks($scope.Search || '').then(function (results) {
-                    $scope.techStacks = results.reverse();
+                    $scope.techStacks = results;
                     $rootScope.cachedTechStacks = $scope.techStacks;
                 });
             };

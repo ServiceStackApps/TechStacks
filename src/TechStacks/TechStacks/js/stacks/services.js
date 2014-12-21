@@ -37,6 +37,8 @@
                 $http.put('/techstacks/' + techStack.Id, techStack)
                     .success(function (response) {
                         techStack.Name = response.Result.Name;
+                        techStack.AppUrl = response.Result.AppUrl;
+                        techStack.ScreenshotUrl = response.Result.ScreenshotUrl;
                         techStack.Description = response.Result.Description;
                         techStack.Details = response.Result.Details;
                         deferred.resolve(techStack);

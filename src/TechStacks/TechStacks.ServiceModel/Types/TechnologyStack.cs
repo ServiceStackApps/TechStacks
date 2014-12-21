@@ -11,6 +11,8 @@ namespace TechStacks.ServiceModel.Types
         public string Name { get; set; }
         public string VendorName { get; set; }
         public string Description { get; set; }
+        public string AppUrl { get; set; }
+        public string ScreenshotUrl { get; set; }
 
         public DateTime Created { get; set; }
         public string CreatedBy { get; set; }

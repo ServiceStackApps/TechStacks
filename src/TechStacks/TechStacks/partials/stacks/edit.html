@@ -22,6 +22,18 @@
                     <input type="text" class="form-control" id="VendorName" placeholder="Enter name of the vendor" ng-model="currentStack.VendorName" required>
                 </div>
                 <div class="form-group">
+                    <label for="AppUrl">
+                        App Url
+                    </label>
+                    <input type="text" class="form-control" id="AppUrl" placeholder="Enter a url for this techstack" ng-model="currentStack.AppUrl">
+                </div>
+                <div class="form-group">
+                    <label for="ScreenshotUrl">
+                        Screenshot Url (minimum dimensions 400 x 400)
+                    </label>
+                    <input type="text" class="form-control" id="Text1" placeholder="Enter a url for the screenshot of the app" ng-model="currentStack.ScreenshotUrl">
+                </div>
+                <div class="form-group">
                     <label for="Description">Summary</label>
                     <textarea class="form-control" id="Description" placeholder="Enter a short summary of your stack" ng-model="currentStack.Description"></textarea>
                 </div>

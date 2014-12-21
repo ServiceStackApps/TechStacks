@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <label for="LogoUrl">
-                        LogoUrl
+                        LogoUrl (minimum dimensions 100 x 100)
                         <span ng-if="isAuthenticated && hasRole('Admin') && !tech.LogoApproved" class="glyphicon glyphicon-unchecked" ng-click="approveLogo()"></span>
                         <span ng-if="isAuthenticated && hasRole('Admin') && tech.LogoApproved" class="glyphicon glyphicon-check" ng-click="unApproveLogo()"></span>
                     </label>
