@@ -248,6 +248,8 @@ namespace TechStacks.ServiceInterface
         public object Any(FindTechStacks request)
         {
             var key = "{0}/{1}".Fmt(request.GetType().Name, Request.QueryString.ToString());
+            if (request.Reload)
+                MemoryCache.ClearCaches(key);
 
             return base.Request.ToOptimizedResultUsingCache(MemoryCache, key, () =>
             {

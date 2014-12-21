@@ -75,7 +75,10 @@ namespace TechStacks.ServiceModel
 
     [Query(QueryTerm.Or)]
     [Route("/technology/search")]
-    public class FindTechnologies : QueryBase<Technology> {}
+    public class FindTechnologies : QueryBase<Technology>
+    {
+        public bool Reload { get; set; }
+    }
 
     [Route("/technology", Verbs = "GET")]
     public class GetAllTechnologies : IReturn<AllTechnologiesResponse> {}

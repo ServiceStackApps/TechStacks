@@ -98,7 +98,10 @@ namespace TechStacks.ServiceModel
 
     [Query(QueryTerm.Or)]
     [Route("/techstacks/search")]
-    public class FindTechStacks : QueryBase<TechnologyStack> {}
+    public class FindTechStacks : QueryBase<TechnologyStack>
+    {
+        public bool Reload { get; set; }
+    }
 
     [Route("/techstacks/latest")]
     public class RecentStackWithTechs : IReturn<RecentStackWithTechsResponse> {}
