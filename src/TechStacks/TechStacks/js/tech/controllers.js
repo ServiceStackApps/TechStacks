@@ -5,50 +5,70 @@
 
     app.controller('latestTechsCtrl', [
         '$rootScope', '$scope', 'techServices', '$timeout', function ($rootScope, $scope, techServices, $timeout) {
+
+            function filterTechsByCategory(techs, category) {
+                var filteredTechs = [];
+                for (var i = 0; i < techs.length; i++) {
+                    if (techs[i].Tier == category) {
+                        filteredTechs.push(techs[i]);
+                    }
+                }
+                return filteredTechs;
+            }
+
+            function getCategoryFilter() {
+                var categoryFilter = null;
+                if ($scope.category && $scope.category.title) {
+                    for (var i = 0; i < $scope.allTiers.length; i++) {
+                        var tier = $scope.allTiers[i];
+                        if (tier.title === $scope.category.title) {
+                            categoryFilter = tier.name;
+                            break;
+                        }
+                    }
+                }
+                return categoryFilter;
+            }
+
             var lastSearch;
             $scope.refresh = function () {
                 $scope.isBusy = true;
+                techServices.searchTech($scope.Search || '').then(function (techs) {
+                    var categoryFilter = getCategoryFilter();
+                    if (categoryFilter != null) {
+                        $scope.techs = filterTechsByCategory(techs, categoryFilter);
+                    } else {
+                        $scope.techs = techs;
+                    }
+                    $rootScope.cachedTechs = $scope.techs;
+                    $scope.isBusy = false;
+                });
+            };
+
+            
+
+            $scope.search = function () {
+                //Another key pressed before search was fired, cancel search.
                 if (lastSearch) {
                     $timeout.cancel(lastSearch);
+                    
                 }
 
-                //init page with old cache data then immediately load latest data in background
-                if ($rootScope.cachedTechs) {
-                    $scope.techs = $rootScope.cachedTechs;
-                }
-
+                //Delay to wait for keypress, prevents searches from being received out of order and UI jumping
                 lastSearch = $timeout(function () {
-                    techServices.searchTech($scope.Search || '').then(function (techs) {
-                        var categoryFilter = null;
-                        if ($scope.category && $scope.category.title) {
-                            for (var i = 0; i < $scope.allTiers.length; i++) {
-                                var tier = $scope.allTiers[i];
-                                if (tier.title === $scope.category.title) {
-                                    categoryFilter = tier.name;
-                                    break;
-                                }
-                            }
-                        }
+                    $scope.refresh();
+                    lastSearch = null;
+                }, 150);
 
-                        if (categoryFilter != null) {
-                            var filteredTechs = [];
-                            for (var i = 0; i < techs.length; i++) {
-                                if (techs[i].Tier == categoryFilter) {
-                                    filteredTechs.push(techs[i]);
-                                }
-                            }
-                            $scope.techs = filteredTechs;
-                        } else {
-                            $scope.techs = techs;
-                        }
-                        $rootScope.cachedTechs = $scope.techs;
-                    });
-                    $scope.isBusy = false;
-                }
-                , 200); //why's this being delayed?
-                
-            };
-            $scope.refresh();
+            }
+            //init page with old cache data then immediately load latest data in background
+            if ($rootScope.cachedTechs) {
+                $scope.techs = $rootScope.cachedTechs;
+
+                $scope.refresh();
+            } else {
+                $scope.refresh();
+            }
         }
     ]);
 
