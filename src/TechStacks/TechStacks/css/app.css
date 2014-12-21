@@ -199,6 +199,7 @@ blockquote {
     width: 50px;
  }
 
+
 /* forms */
 
 textarea {
@@ -206,6 +207,10 @@ textarea {
 }
 textarea#Details {
     min-height: 240px;
+}
+
+.progress {
+    margin: 10px 0 0 0;
 }
 
 /* Search */

@@ -1,6 +1,9 @@
 ﻿<div id="add-techstack-page" class="col-md-11 create">
     <div ng-show="errorMessage">
-        <div class="alert-danger" ng-bind="errorMessage"></div>
+        <div class="alert alert-danger">
+            <span class="glyphicon glyphicon-exclamation-sign"></span>
+            <span ng-bind="errorMessage"></span>
+        </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">
