@@ -243,14 +243,29 @@ td.description div {
 
 #stack-page #stack-info {
     background: #fff;
-    padding: 20px 40px 40px 40px;
+    padding: 15px 15px 40px 40px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.26);
     min-height: 600px;
 }
 
+#stack-info a.screenshot {
+    display:block; 
+    float:right; 
+    padding: 0 0 0 15px;
+}
+#stack-info a.screenshot img {
+    width: 450px;
+}
+#stack-info a.screenshot div {
+    color:#aaa;
+    text-align: center;
+    font-size: 12px; 
+    padding: 5px
+}
+
 #stack-info .btn-primary {
     float: right;
-    margin: -10px -30px 0 0;
+    margin: 0 0 0 0;
 }
 
 #tech-info .btn-primary {
@@ -258,6 +273,27 @@ td.description div {
     margin: 0 -10px 0 10px;
 }
 
+.last-updated {
+    clear: both;
+    text-align: right;
+    font-size: 12px;
+    color: #aaa;
+    position: relative;
+}
+.last-updated p {
+    white-space: nowrap;
+    position: absolute;
+    bottom: -30px;
+    right: 0;
+}
+
+.share-buttons{
+	list-style: none;
+}
+
+.share-buttons li{
+	display: inline;
+}
 .table-striped {
     background: #fff;
     border: 0;
@@ -300,25 +336,4 @@ td.description div {
 }
 #tech-info p {
     max-width: 800px;
-}
-.last-updated {
-    clear: both;
-    text-align: right;
-    font-size: 12px;
-    color: #aaa;
-    position: relative;
-}
-.last-updated p {
-    white-space: nowrap;
-    position: absolute;
-    bottom: -35px;
-    right: -25px;
-}
-
-.share-buttons{
-	list-style: none;
-}
-
-.share-buttons li{
-	display: inline;
 }
