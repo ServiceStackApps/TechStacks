@@ -73,7 +73,7 @@ namespace TechStacks.Tests
         {
             var service = appHost.Resolve<TechnologyServices>();
             var response = (GetTechnologyResponse)service.Get(new GetTechnology { Slug = "servicestack" });
-            Assert.That(response.Result.Name, Is.EqualTo("ServiceStack"));
+            Assert.That(response.Technology.Name, Is.EqualTo("ServiceStack"));
         }
 
         private void SeedTestHost()

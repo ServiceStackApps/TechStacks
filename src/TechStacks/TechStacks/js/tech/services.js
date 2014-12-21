@@ -26,9 +26,6 @@
             getAllTechs: function () {
                 return getResults($http.get('/technology'));
             },
-            getRelatedStacks: function(techId) {
-                return getResults($http.get('/technology/' + techId + '/techstacks'));
-            },
             createTech: function (newTech) {
                 return getResults($http.post('/technology', newTech));
             },

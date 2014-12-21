@@ -80,14 +80,11 @@
                 return userService.hasRole(role);
             };
 
-            techServices.getTech($routeParams.techId).then(function (tech) {
-                $scope.tech = tech;
+            techServices.getTech($routeParams.techId).then(function (r) {
+                $scope.tech = r.Technology;
+                $scope.relatedStacks = r.TechnologyStacks;
                 refreshFavorites();
-                techServices.getRelatedStacks(tech.Id).then(function (stacks) {
-                    $scope.relatedStacks = stacks;
-                });
             });
-
             
         }
     ]);

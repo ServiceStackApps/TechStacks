@@ -133,9 +133,15 @@ namespace TechStacks.ServiceInterface
                 if (tech == null)
                     HttpError.NotFound("Tech stack not found");
 
+                var techStacks = Db.Select(Db.From<TechnologyStack>()
+                    .Join<TechnologyChoice>()
+                    .Join<TechnologyChoice, Technology>()
+                    .Where<TechnologyChoice>(x => x.TechnologyId == id));
+
                 return new GetTechnologyResponse
                 {
-                    Result = tech
+                    Technology = tech,
+                    TechnologyStacks = techStacks,
                 };
             });
         }
@@ -145,19 +151,6 @@ namespace TechStacks.ServiceInterface
             return new AllTechnologiesResponse
             {
                 Results = Db.Select(Db.From<Technology>().Take(100)).ToList()
-            };
-        }
-
-        public object Get(GetStacksThatUseTech request)
-        {
-            var stacksByTech = Db.Select(Db.From<TechnologyStack>()
-                .Join<TechnologyChoice, TechnologyStack>(
-                    (techChoice, techStack) => techChoice.TechnologyId == request.Id && techChoice.TechnologyStackId == techStack.Id)
-                .SelectDistinct(x => x.Id));
-
-            return new GetStacksThatUseTechResponse
-            {
-                Results = stacksByTech.ToList()
             };
         }
 

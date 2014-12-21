@@ -231,7 +231,7 @@ namespace TechStacks.Tests
             tech.Name = "Another name";
             client.Put(tech.ConvertTo<UpdateTechnology>());
             var updatedTech = client.Get(new GetTechnology {Id = tech.Id});
-            Assert.That(tech.Name, Is.EqualTo(updatedTech.Result.Name));
+            Assert.That(tech.Name, Is.EqualTo(updatedTech.Technology.Name));
         }
 
         [Test]
@@ -246,7 +246,7 @@ namespace TechStacks.Tests
             tech.Name = "Another name";
             client.Put(tech.ConvertTo<UpdateTechnology>());
             var updatedTech = client.Get(new GetTechnology { Id = tech.Id });
-            Assert.That(tech.Name, Is.EqualTo(updatedTech.Result.Name));
+            Assert.That(tech.Name, Is.EqualTo(updatedTech.Technology.Name));
         }
 
         [Test]
@@ -385,8 +385,8 @@ namespace TechStacks.Tests
         {
             client.Post(new CreateTechnology { Description = "Some description", Name = "New Stack",LogoUrl = "http://example.com/logo.png"});
             var response = client.Get(new GetTechnology {Id = 5});
-            Assert.That(response.Result.Name,Is.EqualTo("New Stack"));
-            Assert.That(response.Result.LogoApproved,Is.EqualTo(true));
+            Assert.That(response.Technology.Name,Is.EqualTo("New Stack"));
+            Assert.That(response.Technology.LogoApproved,Is.EqualTo(true));
         }
 
         private void SeedTestHost()

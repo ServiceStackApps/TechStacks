@@ -89,15 +89,4 @@ namespace TechStacks
             container.RegisterValidators(typeof(TechnologyServices).Assembly);
         }
     }
-
-    public class StackByTechValidator : AbstractValidator<GetStacksThatUseTech>
-    {
-        public StackByTechValidator()
-        {
-            RuleSet(ApplyTo.Get, () =>
-            {
-                RuleFor(x => x.Id).NotNull();
-            });
-        }
-    }
 }

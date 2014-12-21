@@ -77,17 +77,6 @@ namespace TechStacks.ServiceModel
     [Route("/technology/search")]
     public class FindTechnologies : QueryBase<Technology> {}
 
-    [Route("/technology/{Id}/techstacks")]
-    public class GetStacksThatUseTech
-    {
-        public long Id { get; set; }
-    }
-
-    public class GetStacksThatUseTechResponse
-    {
-        public List<TechnologyStack> Results { get; set; } 
-    }
-
     [Route("/technology", Verbs = "GET")]
     public class GetAllTechnologies : IReturn<AllTechnologiesResponse> {}
 
@@ -100,6 +89,10 @@ namespace TechStacks.ServiceModel
     {
         public DateTime Created { get; set; }
 
-        public Technology Result { get; set; }
+        public Technology Technology { get; set; }
+
+        public List<TechnologyStack> TechnologyStacks { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
     }
 }
