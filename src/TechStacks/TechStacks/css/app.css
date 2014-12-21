@@ -61,10 +61,6 @@ small {
     margin: 0;
 }
 
-blockquote {
-    border: 1px solid #f1f1ff;
-    border-left: 6px solid #b3e5fc;
-}
 .tech-info .item {
     clear: left;
 }

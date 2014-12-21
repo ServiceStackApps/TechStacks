@@ -12,38 +12,30 @@ namespace TechStacks.ServiceInterface
     {
         public static List<TechStackDetails> GetTechstackDetails(IDbConnection db, SqlExpression<TechnologyStack> stackQuery)
         {
-            var latestStacks = db.Select(stackQuery).ToList()
-                //Distinct
+            //distinct
+            var latestStacks = db.Select(stackQuery)
                 .GroupBy(x => x.Id)
                 .Select(x => x.First())
                 .ToList();
 
             if (latestStacks.Count == 0)
-            {
                 return new List<TechStackDetails>();
-            }
 
             var technologyChoices =
                 db.LoadSelect(db.From<TechnologyChoice>()
-                    .SelectDistinct<TechnologyChoice>(x => x)
-                        .Join<TechnologyChoice, Technology>((tst, t) => t.Id == tst.TechnologyId)
-                        .Join<TechnologyChoice, TechnologyStack>((tst, ts) => ts.Id == tst.TechnologyStackId)
-                        .Where(techChoice => 
-                            Sql.In(techChoice.TechnologyStackId, latestStacks.Select(x => x.Id).ToList())
-                        ));
+                    .Join<Technology>()
+                    .Join<TechnologyStack>()
+                    .Where(techChoice => 
+                        Sql.In(techChoice.TechnologyStackId, latestStacks.Select(x => x.Id))
+                    ));
 
-            var results = new List<TechStackDetails>();
-            latestStacks.ForEach(stack =>
-            {
-                var techStackDetails = stack.ConvertTo<TechStackDetails>();
-                techStackDetails.TechnologyChoices = technologyChoices
-                    .Map(x => x.ToTechnologyInStack())
-                    .Where(x => stack.Id == x.TechnologyStackId)
-                    .ToList();
+            var stackDetails = latestStacks.Map(x => x.ConvertTo<TechStackDetails>());
+            stackDetails.ForEach(stack => stack.TechnologyChoices = technologyChoices
+                .Map(x => x.ToTechnologyInStack())
+                .Where(x => stack.Id == x.TechnologyStackId)
+                .ToList());
 
-                results.Add(techStackDetails);
-            });
-            return results;
+            return stackDetails;
         }
     }
 }

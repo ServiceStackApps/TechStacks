@@ -201,6 +201,8 @@ namespace TechStacks.ServiceInterface
             };
         }
 
+        private const int TechStacksAppId = 1;
+
         public object Any(Overview request)
         {
             if (request.Reload)
@@ -213,7 +215,7 @@ namespace TechStacks.ServiceInterface
                     Created = DateTime.UtcNow,
 
                     LatestTechStacks = TechStackQueries.GetTechstackDetails(Db,
-                        Db.From<TechnologyStack>().OrderByDescending(x => x.Id).Limit(20)),
+                        Db.From<TechnologyStack>().OrderByDescending(x => x.LastModified).Limit(20)),
 
                     TopUsers = Db.Select<UserInfo>(
                         @"select u.user_name as UserName, u.default_profile_url as AvatarUrl, COUNT(*) as StacksCount
@@ -237,6 +239,14 @@ namespace TechStacks.ServiceInterface
                             order by StacksCount desc
                             limit 20"),
                 };
+
+                //Put TechStacks entry first to provide a first good experience
+                var techStacksApp = response.LatestTechStacks.FirstOrDefault(x => x.Id == TechStacksAppId);
+                if (techStacksApp != null)
+                {
+                    response.LatestTechStacks.RemoveAll(x => x.Id == TechStacksAppId);
+                    response.LatestTechStacks.Insert(0, techStacksApp);
+                }
 
                 return response;
             });

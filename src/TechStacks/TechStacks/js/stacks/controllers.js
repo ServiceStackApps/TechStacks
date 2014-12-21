@@ -268,10 +268,10 @@
                 }
                 $scope.updateInProgress = true;
                 $scope.busy = true;
-                techStackServices.updateStack($scope.currentStack).then(function () {
+                techStackServices.updateStack($scope.currentStack).then(function (updatedStack) {
                     $scope.busy = false;
                     $scope.updateInProgress = false;
-                    $location.path("/stacks/" + $scope.currentStack.Slug);
+                    $location.path("/stacks/" + updatedStack.Slug);
                 }, function (reason) {
                     $scope.busy = false;
                     $scope.updateInProgress = false;
@@ -305,7 +305,7 @@
 
             $scope.refresh = function () {
                 techStackServices.searchStacks($scope.Search || '').then(function (results) {
-                    $scope.techStacks = results.reverse();
+                    $scope.techStacks = results;
                     $rootScope.cachedTechStacks = $scope.techStacks;
                 });
             };

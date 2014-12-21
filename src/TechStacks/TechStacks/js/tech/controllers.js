@@ -166,8 +166,8 @@
             $scope.done = function () {
                 //Wait for ng-model digest after change to make sure model is updated.
                 $timeout(function () {
-                    techServices.updateTech($scope.tech).then(function () {
-                        $location.path('/tech/' + $scope.tech.Slug);
+                    techServices.updateTech($scope.tech).then(function (updatedTech) {
+                        $location.path('/tech/' + updatedTech.Slug);
                     });
                 });
             };
