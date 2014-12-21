@@ -125,7 +125,7 @@ namespace TechStacks.ServiceInterface
         {
             var key = "{0}/{1}".Fmt(request.GetType().Name, request.Slug);
             if (request.Reload)
-                MemoryCache.Remove(key);
+                MemoryCache.ClearCaches(key);
 
             return base.Request.ToOptimizedResultUsingCache(MemoryCache, key, () =>
             {
