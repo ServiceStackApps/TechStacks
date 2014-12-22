@@ -35,7 +35,7 @@ namespace TechStacks.Tests
             container.RegisterAs<OrmLiteCacheClient, ICacheClient>();
             container.Resolve<ICacheClient>().InitSchema();
 
-            container.Register(c => new MemoryCacheClient()); //content caching
+            container.Register(c => new ContentCache(new MemoryCacheClient()));
 
             using (var db = dbFactory.OpenDbConnection())
             {
@@ -73,7 +73,7 @@ namespace TechStacks.Tests
             container.RegisterAs<OrmLiteCacheClient, ICacheClient>();
             container.Resolve<ICacheClient>().InitSchema();
 
-            container.Register(c => new MemoryCacheClient()); //content caching
+            container.Register(c => new ContentCache(new MemoryCacheClient()));
 
             using (var db = dbFactory.OpenDbConnection())
             {
