@@ -70,7 +70,7 @@ namespace TechStacks
             container.RegisterAs<OrmLiteCacheClient, ICacheClient>();
             container.Resolve<ICacheClient>().InitSchema();
 
-            container.Register(c => new MemoryCacheClient()); //content caching
+            container.RegisterAutoWired<ContentCache>();
 
             using (var db = dbFactory.OpenDbConnection())
             {

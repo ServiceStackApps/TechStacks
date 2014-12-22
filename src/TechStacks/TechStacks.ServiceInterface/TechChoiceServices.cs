@@ -1,5 +1,4 @@
 ﻿using ServiceStack;
-using ServiceStack.Caching;
 using ServiceStack.Configuration;
 using ServiceStack.OrmLite;
 using TechStacks.ServiceModel;
@@ -10,7 +9,7 @@ namespace TechStacks.ServiceInterface
     [Authenticate(ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechChoiceServices : Service
     {
-        public MemoryCacheClient MemoryCache { get; set; }
+        public ContentCache ContentCache { get; set; }
 
         public object Get(FindTechChoices request)
         {
@@ -69,7 +68,7 @@ namespace TechStacks.ServiceInterface
             var id = Db.Insert(techChoice, selectIdentity: true);
             var createdTechStack = Db.SingleById<TechnologyChoice>(id);
 
-            MemoryCache.FlushAll();
+            ContentCache.ClearAll();
 
             return new TechChoiceResponse
             {
@@ -93,7 +92,7 @@ namespace TechStacks.ServiceInterface
             updated.CreatedBy = techChoice.CreatedBy;
             Db.Save(updated);
 
-            MemoryCache.FlushAll();
+            ContentCache.ClearAll();
 
             return new TechChoiceResponse
             {
@@ -113,7 +112,7 @@ namespace TechStacks.ServiceInterface
             
             Db.DeleteById<TechnologyChoice>(request.Id);
 
-            MemoryCache.FlushAll();
+            ContentCache.ClearAll();
 
             return new TechChoiceResponse
             {

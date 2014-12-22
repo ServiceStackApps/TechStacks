@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using ServiceStack;
-using ServiceStack.Caching;
 using ServiceStack.Configuration;
 using ServiceStack.OrmLite;
 using TechStacks.ServiceModel;
@@ -12,7 +11,7 @@ namespace TechStacks.ServiceInterface
     [Authenticate(ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechnologyServices : Service
     {
-        public MemoryCacheClient MemoryCache { get; set; }
+        public ContentCache ContentCache { get; set; }
 
         public object Post(CreateTechnology request)
         {
@@ -40,7 +39,7 @@ namespace TechStacks.ServiceInterface
             history.Operation = "INSERT";
             Db.Insert(history);
 
-            MemoryCache.FlushAll();
+            ContentCache.ClearAll();
 
             return new CreateTechnologyResponse
             {
@@ -82,7 +81,7 @@ namespace TechStacks.ServiceInterface
             history.Operation = "UPDATE";
             Db.Insert(history);
 
-            MemoryCache.FlushAll();
+            ContentCache.ClearAll();
 
             return new UpdateTechnologyResponse
             {
@@ -109,7 +108,7 @@ namespace TechStacks.ServiceInterface
             history.Operation = "DELETE";
             Db.Insert(history);
 
-            MemoryCache.FlushAll();
+            ContentCache.ClearAll();
 
             return new DeleteTechnologyResponse
             {
@@ -119,11 +118,8 @@ namespace TechStacks.ServiceInterface
 
         public object Get(GetTechnology request)
         {
-            var key = "{0}/{1}".Fmt(request.GetType().Name, request.Slug);
-            if (request.Reload)
-                MemoryCache.ClearCaches(key);
-
-            return base.Request.ToOptimizedResultUsingCache(MemoryCache, key, () =>
+            var key = ContentCache.TechnologyKey(request.Slug, clear:request.Reload);
+            return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
             {
                 int id;
                 var tech = int.TryParse(request.Slug, out id)
@@ -159,11 +155,8 @@ namespace TechStacks.ServiceInterface
         //Cached AutoQuery
         public object Any(FindTechnologies request)
         {
-            var key = "{0}/{1}".Fmt(request.GetType().Name, Request.QueryString.ToString());
-            if (request.Reload)
-                MemoryCache.ClearCaches(key);
-
-            return base.Request.ToOptimizedResultUsingCache(MemoryCache, key, () =>
+            var key = ContentCache.TechnologyKey(Request.QueryString.ToString(), clear: request.Reload);
+            return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
             {
                 var q = AutoQuery.CreateQuery(request, Request.GetRequestParams());
                 return AutoQuery.Execute(request, q);
