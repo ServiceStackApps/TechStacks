@@ -14,16 +14,13 @@
                 $location.replace();
                 return;
             }
-            userService.getUserAvatar($routeParams.userName).then(function (response) {
-                $scope.avatarUrl = response.data.AvatarUrl || '/img/no-profile64.png';
-            }, function (response) {
-                $scope.errorMessage = response.statusText;
-            });
-
-            userService.getUserStacks($routeParams.userName).then(function (response) {
-                $scope.techStacks = response.data.TechStacks;
-                $scope.favoriteTechStacks = response.data.FavoriteTechStacks;
-                $scope.favoriteTechnologies = response.data.FavoriteTechnologies;
+            
+            userService.getUserInfo($routeParams.userName).then(function (response) {
+                var r = response.data;
+                $scope.avatarUrl = r.AvatarUrl;
+                $scope.techStacks = r.TechStacks;
+                $scope.favoriteTechStacks = r.FavoriteTechStacks;
+                $scope.favoriteTechnologies = r.FavoriteTechnologies;
             });
             
             $scope.deleteStack = function(selectedStack) {

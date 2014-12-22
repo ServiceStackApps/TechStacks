@@ -10,7 +10,7 @@
 
             function isFavoriteTechStack(techStack) {
                 var isFav = false;
-                for (var i = 0; i < $scope.favoriteTechStacks.length > 0; i++) {
+                for (var i = 0; i < $scope.favoriteTechStacks.length; i++) {
                     var favStack = $scope.favoriteTechStacks[i];
                     if (favStack.Id === techStack.Id) {
                         isFav = true;
@@ -29,6 +29,13 @@
             function filterTechChoiceByTier(tier) {
                 return $filter('filter')($scope.currentStack.TechnologyChoices, { Tier: tier });
             }
+            
+            //load last page with opacity to increase perceived responsiveness
+            if ($rootScope.cachedStack) {
+                $scope.loading = true;
+                $scope.currentStack = $rootScope.cachedStack;
+                $scope.DetailsHtml = $rootScope.cachedDetailsHtml;
+            }
 
             techStackServices.getStack($routeParams.stackId).then(function (techStack) {
                 $scope.currentStack = techStack;
@@ -36,6 +43,11 @@
                 angular.forEach($rootScope.allTiers, function (tier) {
                     tier.show = filterTechChoiceByTier(tier.name).length > 0;
                 });
+
+                $rootScope.cachedStack = $scope.currentStack;
+                $rootScope.cachedDetailsHtml = $scope.DetailsHtml;
+                $scope.loading = false;
+
                 refreshFavorites();
             });
 

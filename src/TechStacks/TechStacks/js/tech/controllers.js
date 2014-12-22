@@ -73,7 +73,8 @@
     ]);
 
     app.controller('techCtrl', [
-        '$scope', 'techServices', '$routeParams', 'userService', function ($scope, techServices, $routeParams, userService) {
+        '$rootScope', '$scope', 'techServices', '$routeParams', 'userService',
+        function ($rootScope, $scope, techServices, $routeParams, userService) {
             function isFavoriteTech(tech) {
                 var isFav = false;
                 for (var i = 0; i < $scope.favoriteTechs.length > 0; i++) {
@@ -107,13 +108,22 @@
             $scope.hasRole = function (role) {
                 return userService.hasRole(role);
             };
+            
+            if ($rootScope.cachedTech) {
+                $scope.loading = true;
+                $scope.tech = $rootScope.cachedTech;
+                $scope.relatedStacks = $rootScope.cachedRelatedStacks;
+            }
 
             techServices.getTech($routeParams.techId).then(function (r) {
                 $scope.tech = r.Technology;
                 $scope.relatedStacks = r.TechnologyStacks;
                 refreshFavorites();
+
+                $rootScope.cachedTech = $scope.tech;
+                $rootScope.cachedRelatedStacks = $scope.relatedStacks;
+                $scope.loading = false;
             });
-            
         }
     ]);
 

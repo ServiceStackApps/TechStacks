@@ -61,20 +61,6 @@ small {
     margin: 0;
 }
 
-.tech-info .item {
-    clear: left;
-}
-.tech-info .item h4 {
-    padding: 40px 0 15px 0;
-    color: #9E9E9E;
-    font-size: 18px;
-}
-.tech-info .item a {
-    display: block;
-    float: left;
-    padding: 0 30px 0 0;
-}
-
 .panel {
     border-radius: 2px;
     border: 0;
@@ -241,6 +227,10 @@ td.description div {
     padding: 100px 50px 50px 50px;
 }
 
+.loading-page {
+    opacity: .3;
+}
+
 #stack-page #stack-info {
     background: #fff;
     padding: 15px 15px 40px 40px;
@@ -251,16 +241,22 @@ td.description div {
 #stack-info a.screenshot {
     display:block; 
     float:right; 
-    padding: 0 0 0 15px;
+    padding: 0 0 0 20px;
 }
 #stack-info a.screenshot img {
     width: 450px;
 }
+#stack-info a.screenshot:hover img {
+    opacity: .9;
+}
 #stack-info a.screenshot div {
-    color:#aaa;
+    color: #aaa;
     text-align: center;
     font-size: 12px; 
     padding: 5px
+}
+#stack-info a.screenshot:hover div {
+    color: #03A9F4;
 }
 
 #stack-info .btn-primary {
@@ -268,9 +264,30 @@ td.description div {
     margin: 0 0 0 0;
 }
 
+#stack-info .description {
+    font-size: 20px;
+    color: #999;
+    min-height: 200px;
+}
+
+.tech-info .item {
+    clear: left;
+}
+.tech-info .item h4 {
+    padding: 40px 0 15px 0;
+    color: #999;
+    font-size: 20px;
+    font-weight: normal;
+}
+.tech-info .item a {
+    display: block;
+    float: left;
+    padding: 0 30px 0 0;
+}
+
 #tech-info .btn-primary {
     float: right;
-    margin: 0 -10px 0 10px;
+    margin: 0 0 0 10px;
 }
 
 .last-updated {

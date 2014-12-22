@@ -1,4 +1,4 @@
-﻿<div id="stack-page">
+﻿<div id="stack-page" ng-class="{'loading-page': loading}">
     <div id="stack-info">
        
         <a class="screenshot" ng-show="currentStack.ScreenshotUrl" href="{{currentStack.AppUrl}}">
@@ -27,7 +27,7 @@
             by <a href="/{{currentStack.CreatedBy}}">{{currentStack.CreatedBy}}</a>
         </div>
 
-        <p ng-bind="currentStack.Description" style="font-size:20px; color:#999"></p>
+        <p class="description" ng-bind="currentStack.Description"></p>
 
         <div class="tech-info" ng-repeat="tier in allTiers">
             <div class="item" ng-show="tier.show">
