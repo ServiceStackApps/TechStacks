@@ -165,7 +165,7 @@
             };
 
             $scope.deleteTech = function () {
-                techServices.deleteTech($scope.tech).success(function (response) {
+                techServices.deleteTech($scope.tech).then(function (response) {
                     $location.path('/tech');
                 });
             };
