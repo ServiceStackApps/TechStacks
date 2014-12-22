@@ -44,27 +44,23 @@
                     $scope.isBusy = false;
                 });
             };
-
             
-
-            $scope.search = function () {
+            $scope.search = function() {
                 //Another key pressed before search was fired, cancel search.
                 if (lastSearch) {
                     $timeout.cancel(lastSearch);
-                    
                 }
 
                 //Delay to wait for keypress, prevents searches from being received out of order and UI jumping
-                lastSearch = $timeout(function () {
+                lastSearch = $timeout(function() {
                     $scope.refresh();
                     lastSearch = null;
                 }, 150);
-
-            }
+            };
+            
             //init page with old cache data then immediately load latest data in background
             if ($rootScope.cachedTechs) {
                 $scope.techs = $rootScope.cachedTechs;
-
                 $scope.refresh();
             } else {
                 $scope.refresh();
@@ -108,7 +104,8 @@
             $scope.hasRole = function (role) {
                 return userService.hasRole(role);
             };
-            
+
+            //load last page with opacity to increase perceived perf
             if ($rootScope.cachedTech) {
                 $scope.loading = true;
                 $scope.tech = $rootScope.cachedTech;
