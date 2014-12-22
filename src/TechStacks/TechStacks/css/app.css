@@ -378,6 +378,9 @@ td.description div {
     .navbar .navbar-nav>li>a {
         margin: 39px 0 0 0;
     }
+    .navbar .navbar-right > li > a {
+        margin: 0;
+    }
     .tech-info .item img {
         height: 35px;
     }
