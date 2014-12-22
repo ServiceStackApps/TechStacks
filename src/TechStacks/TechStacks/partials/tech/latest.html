@@ -4,7 +4,7 @@
         <caption>
             <input type="text" id="Search" class="search" placeholder="Search" ng-model="Search" ng-keyup="search()" auto-focus>
             <div style="float: right; color: #444; margin: -2px 10px 0 0;">
-                <select style="width: 300px; padding: 5px; font-size: 16px;"
+                <select class="search-tiers" style="padding: 5px; font-size: 16px;"
                         ng-model="category"
                         ng-options="x.title for x in allTiers"
                         ng-change="refresh()">
