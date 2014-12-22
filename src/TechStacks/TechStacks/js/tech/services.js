@@ -2,21 +2,33 @@
     "use strict";
     var app = angular.module('tech.services', []);
 
-    app.service('techServices', ['$http', '$q', function ($http, $q) {
+    app.service('techServices', ['$rootScope', '$http', '$q', function ($rootScope, $http, $q) {
 
-        function getResults(promise) {
+        var errorStatusMessages = {
+            401: 'Not Authenticated',
+            500: 'Internal Server Error'
+        };
+
+        var getResults = function (promise) {
             var deferred = $q.defer();
+            $rootScope.errorMessage = null;
             promise
                 .success(function (response) {
                     deferred.resolve(response.Result || response.Results || response);
                 })
-                .error(function (e) {
-                    deferred.reject((e && e.ResponseStatus && e.ResponseStatus.Message) || e);
+                .error(function (e, status) {
+                    $rootScope.errorMessage =
+                        (e && e.ResponseStatus && e.ResponseStatus.Message) //DTO Error
+                         || e //Raw Error
+                         || errorStatusMessages[status]; //HTTP Status Error
+
+                    deferred.reject($rootScope.errorMessage);
                 });;
             return deferred.promise;
-        }
+        };
 
         return {
+            getResults: getResults,
             getTech: function(id) {
                 return getResults($http.get('/technology/' + id));
             },

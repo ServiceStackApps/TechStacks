@@ -3,19 +3,10 @@
     "use strict";
     var app = angular.module('stacks.services', ['tech.services']);
 
-    app.service('techStackServices', ['$http', '$q', 'techServices', function ($http, $q, techServices) {
+    app.service('techStackServices', ['$http', '$q', 'techServices',
+        function ($http, $q, techServices) {
 
-        function getResults(promise) {
-            var deferred = $q.defer();
-            promise
-                .success(function (response) {
-                    deferred.resolve(response.Result || response.Results || response);
-                })
-                .error(function (e) {
-                    deferred.reject((e && e.ResponseStatus && e.ResponseStatus.Message) || e);
-                });;
-            return deferred.promise;
-        }
+        var getResults = techServices.getResults;
 
         return {
             createStack: function (newStack) {
@@ -33,19 +24,7 @@
                 return getResults($http.get('/technology/search'));
             },
             updateStack: function (techStack) {
-                var deferred = $q.defer();
-                $http.put('/techstacks/' + techStack.Id, techStack)
-                    .success(function (response) {
-                        techStack.Name = response.Result.Name;
-                        techStack.AppUrl = response.Result.AppUrl;
-                        techStack.ScreenshotUrl = response.Result.ScreenshotUrl;
-                        techStack.Description = response.Result.Description;
-                        techStack.Details = response.Result.Details;
-                        deferred.resolve(techStack);
-                    }).error(function(error) {
-                        deferred.reject(error.ResponseStatus && error.ResponseStatus.Message);
-                });
-                return deferred.promise;
+                return getResults($http.put('/techstacks/' + techStack.Id, techStack));
             },
             deleteTechStack: function (techStack) {
                 return getResults($http.delete('/techstacks/' + techStack.Id));

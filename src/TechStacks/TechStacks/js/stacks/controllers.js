@@ -30,7 +30,7 @@
                 return $filter('filter')($scope.currentStack.TechnologyChoices, { Tier: tier });
             }
             
-            //load last page with opacity to increase perceived responsiveness
+            //load last page with opacity to increase perceived perf
             if ($rootScope.cachedStack) {
                 $scope.loading = true;
                 $scope.currentStack = $rootScope.cachedStack;
@@ -155,9 +155,8 @@
                         $scope.createInProgress = false;
                         $location.path("/stacks/" + $scope.newStack.Slug);
                     });
-                }, function (reason) {
+                }, function () {
                     $scope.createInProgress = false;
-                    $scope.errorMessage = reason;
                 });
             };
             $scope.techChoices = [];
@@ -280,14 +279,14 @@
                 }
                 $scope.updateInProgress = true;
                 $scope.busy = true;
-                techStackServices.updateStack($scope.currentStack).then(function (updatedStack) {
+                techStackServices.updateStack($scope.currentStack).then(function(updatedStack) {
                     $scope.busy = false;
                     $scope.updateInProgress = false;
+                    $scope.currentStack = updatedStack;
                     $location.path("/stacks/" + updatedStack.Slug);
-                }, function (reason) {
+                }, function () {
                     $scope.busy = false;
                     $scope.updateInProgress = false;
-                    $scope.errorMessage = reason;
                 });
             };
 
