@@ -50,14 +50,11 @@ namespace TechStacks.ServiceInterface
 
             var session = SessionAs<AuthUserSession>();
             if (existingStack.IsLocked && !session.HasRole(RoleNames.Admin))
-            {
                 throw HttpError.Unauthorized("TechnologyStack changes are currently restricted to Administrators only.");
-            }
 
             if (existingStack.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
-            {
                 throw HttpError.Unauthorized("You are not the owner of this stack.");
-            }
+
             var updated = request.ConvertTo<TechnologyStack>();
 
             //Carry over audit/admin data

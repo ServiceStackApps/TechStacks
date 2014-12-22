@@ -61,7 +61,9 @@ namespace TechStacks
             {
                 new TwitterAuthProvider(AppSettings), 
                 new GithubAuthProvider(AppSettings)
-            }));
+            }) {
+                AddParamsToQueryString = true
+            });
 
             var authRepo = new OrmLiteAuthRepository<CustomUserAuth, UserAuthDetails>(dbFactory);
             container.Register<IUserAuthRepository>(authRepo);
