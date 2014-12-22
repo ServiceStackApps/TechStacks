@@ -157,7 +157,8 @@
                     }
                     $q.all(techChoicePromises).then(function () {
                         $scope.createInProgress = false;
-                        $location.path("/stacks/" + $scope.newStack.Slug);
+                        console.log(techStack);
+                        $location.path("/stacks/" + techStack.Slug);
                     });
                 }, function () {
                     $scope.createInProgress = false;

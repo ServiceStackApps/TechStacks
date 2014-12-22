@@ -12,10 +12,8 @@
             createStack: function (newStack) {
                 return getResults($http.post('/techstacks', newStack));
             },
-            getStack: function (id, reload) {
-                var url = '/techstacks/' + id;
-                if (reload) url += '?Reload=true';
-                return getResults($http.get(url));
+            getStack: function (id) {
+                return getResults($http.get('/techstacks/' + id));
             },
             getTechStackFavorites: function(id) {
                 return getResults($http.get('/techstacks/' + id + '/favorites'));

@@ -165,6 +165,9 @@ namespace TechStacks.ServiceInterface
                     ? Db.SingleById<TechnologyStack>(id)
                     : Db.Single<TechnologyStack>(x => x.Slug == request.Slug.ToLower());
 
+                if (tech == null)
+                    throw HttpError.NotFound("TechStack not found");
+
                 var favoriteCount =
                     Db.Count<UserFavoriteTechnologyStack>(x => x.TechnologyStackId == tech.Id);
 

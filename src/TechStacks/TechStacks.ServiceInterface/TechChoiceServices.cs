@@ -51,8 +51,8 @@ namespace TechStacks.ServiceInterface
             if (!tierExists)
                 throw HttpError.NotFound("Invalid Tier with technology choice");
 
-            var stackFound = Db.Exists<TechnologyStack>(x => x.Id == request.TechnologyStackId);
-            if (!stackFound)
+            var stack = Db.Single<TechnologyStack>(x => x.Id == request.TechnologyStackId);
+            if (stack == null)
                 throw HttpError.NotFound("Techstack not found");
 
             var techChoiceAlreadyExists = Db.Exists<TechnologyChoice>(
@@ -68,7 +68,7 @@ namespace TechStacks.ServiceInterface
             var id = Db.Insert(techChoice, selectIdentity: true);
             var createdTechStack = Db.SingleById<TechnologyChoice>(id);
 
-            ContentCache.ClearAll();
+            ContentCache.TechnologyStackKey(stack.Slug,clear:true);
 
             return new TechChoiceResponse
             {
@@ -79,8 +79,13 @@ namespace TechStacks.ServiceInterface
         public object Put(UpdateTechChoice request)
         {
             var techChoice = Db.SingleById<TechnologyChoice>(request.Id);
+            
             if (techChoice == null)
                 throw HttpError.NotFound("Techstack technology not found");
+
+            var techStack = Db.SingleById<TechnologyStack>(techChoice.TechnologyStackId);
+            if (techStack == null)
+                throw HttpError.Conflict("TechStack does not exist");
 
             var session = SessionAs<AuthUserSession>();
             if (techChoice.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
@@ -92,7 +97,7 @@ namespace TechStacks.ServiceInterface
             updated.CreatedBy = techChoice.CreatedBy;
             Db.Save(updated);
 
-            ContentCache.ClearAll();
+            ContentCache.TechnologyStackKey(techStack.Slug,clear:true);
 
             return new TechChoiceResponse
             {
@@ -106,13 +111,17 @@ namespace TechStacks.ServiceInterface
             if (techChoice == null)
                 throw HttpError.NotFound("Techstack technology not found");
 
+            var techStack = Db.SingleById<TechnologyStack>(techChoice.TechnologyStackId);
+            if (techStack == null)
+                throw HttpError.Conflict("TechStack does not exist");
+
             var session = SessionAs<AuthUserSession>();
             if (techChoice.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
                 throw HttpError.Unauthorized("You are not the owner of this stack.");
             
             Db.DeleteById<TechnologyChoice>(request.Id);
 
-            ContentCache.ClearAll();
+            ContentCache.TechnologyStackKey(techStack.Slug, clear: true);
 
             return new TechChoiceResponse
             {
