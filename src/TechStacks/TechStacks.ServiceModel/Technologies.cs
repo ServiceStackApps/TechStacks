@@ -88,6 +88,20 @@ namespace TechStacks.ServiceModel
         public List<Technology> Results { get; set; }
     }
 
+    [Route("/technology/{Slug}/favorites")]
+    public class GetTechnologyFavoriteDetails : IReturn<GetTechnologyFavoriteDetailsResponse>
+    {
+        public string Slug { get; set; }
+
+        public bool Reload { get; set; }
+    }
+
+    public class GetTechnologyFavoriteDetailsResponse
+    {
+        public List<string> Users { get; set; }
+        public int FavoriteCount { get; set; }
+    }
+
     public class GetTechnologyResponse
     {
         public DateTime Created { get; set; }

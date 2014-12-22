@@ -51,6 +51,10 @@
                 refreshFavorites();
             });
 
+            techStackServices.getTechStackFavorites($routeParams.stackId).then(function (r) {
+                $scope.favoriteCount = r.FavoriteCount;
+            });
+
             $scope.addFavorite = function () {
                 userService.addFavoriteTechStack($scope.currentStack).then(function (techStack) {
                     refreshFavorites();

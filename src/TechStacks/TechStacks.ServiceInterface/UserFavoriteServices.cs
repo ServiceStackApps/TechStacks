@@ -46,6 +46,7 @@ namespace TechStacks.ServiceInterface
                 });
 
                 ContentCache.UserInfoKey(session.UserName, clear: true);
+                ContentCache.TechnologyStackFavoriteKey(techStack.Slug, clear: true);
             }
 
             return new FavoriteTechStackResponse
@@ -71,6 +72,7 @@ namespace TechStacks.ServiceInterface
             Db.DeleteById<UserFavoriteTechnologyStack>(existingFavorite.Id);
 
             ContentCache.UserInfoKey(session.UserName, clear: true);
+            ContentCache.TechnologyStackFavoriteKey(techStack.Slug, clear: true);
 
             return new FavoriteTechStackResponse
             {
@@ -112,6 +114,7 @@ namespace TechStacks.ServiceInterface
                 });
 
                 ContentCache.UserInfoKey(session.UserName, clear: true);
+                ContentCache.TechnologyFavoriteKey(technology.Slug, clear: true);
             }
 
             return new FavoriteTechnologyResponse
@@ -135,7 +138,9 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.NotFound("Favorite not found");
 
             Db.DeleteById<UserFavoriteTechnology>(existingFavorite.Id);
+
             ContentCache.UserInfoKey(session.UserName, clear: true);
+            ContentCache.TechnologyFavoriteKey(technology.Slug, clear: true);
 
             return new FavoriteTechnologyResponse
             {

@@ -137,7 +137,27 @@ namespace TechStacks.ServiceInterface
                 return new GetTechnologyResponse
                 {
                     Technology = tech,
-                    TechnologyStacks = techStacks,
+                    TechnologyStacks = techStacks
+                };
+            });
+        }
+
+        public object Get(GetTechnologyFavoriteDetails request)
+        {
+            var key = ContentCache.TechnologyFavoriteKey(request.Slug, clear: request.Reload);
+            return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
+            {
+                int id;
+                var tech = int.TryParse(request.Slug, out id)
+                    ? Db.SingleById<Technology>(id)
+                    : Db.Single<Technology>(x => x.Slug == request.Slug.ToLower());
+
+                var favoriteCount =
+                    Db.Count<UserFavoriteTechnology>(x => x.TechnologyId == tech.Id);
+
+                return new GetTechnologyFavoriteDetailsResponse
+                {
+                    FavoriteCount = (int)favoriteCount
                 };
             });
         }

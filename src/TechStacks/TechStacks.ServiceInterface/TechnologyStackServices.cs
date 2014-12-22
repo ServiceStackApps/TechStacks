@@ -155,6 +155,26 @@ namespace TechStacks.ServiceInterface
             });
         }
 
+        public object Get(GetTechnologyStackFavoriteDetails request)
+        {
+            var key = ContentCache.TechnologyStackFavoriteKey(request.Slug, clear: request.Reload);
+            return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
+            {
+                int id;
+                var tech = int.TryParse(request.Slug, out id)
+                    ? Db.SingleById<TechnologyStack>(id)
+                    : Db.Single<TechnologyStack>(x => x.Slug == request.Slug.ToLower());
+
+                var favoriteCount =
+                    Db.Count<UserFavoriteTechnologyStack>(x => x.TechnologyStackId == tech.Id);
+
+                return new GetTechnologyStackFavoriteDetailsResponse
+                {
+                    FavoriteCount = (int)favoriteCount
+                };
+            });
+        }
+
         public object Get(TechStackByTier request)
         {
             var query = Db.From<TechnologyStack>();

@@ -302,6 +302,10 @@ td.description div {
     margin: 0 0 20px 20px;
 }
 
+.favorite-count {
+    font-size: small;
+    color: #8899a6;
+}
 
 .last-updated {
     clear: both;

@@ -92,12 +92,14 @@
             $scope.addFavorite = function () {
                 userService.addFavoriteTech($scope.tech).then(function (techStack) {
                     refreshFavorites();
+                    $scope.favoriteCount++;
                 });
             };
 
             $scope.removeFavorite = function () {
                 userService.removeFavoriteTech($scope.tech).then(function (techStack) {
                     refreshFavorites();
+                    $scope.favoriteCount--;
                 });
             };
 
@@ -120,6 +122,10 @@
                 $rootScope.cachedTech = $scope.tech;
                 $rootScope.cachedRelatedStacks = $scope.relatedStacks;
                 $scope.loading = false;
+            });
+
+            techServices.getTechFavorites($routeParams.techId).then(function(r) {
+                $scope.favoriteCount = r.FavoriteCount;
             });
         }
     ]);

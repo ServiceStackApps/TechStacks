@@ -14,9 +14,9 @@
         <h2 style="display: inline-block">
             {{currentStack.Name}}
             <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected"
-                  ng-click="removeFavorite()"></span>
+                  ng-click="removeFavorite()"><span class="favorite-count" ng-bind="favoriteCount"></span></span>
             <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav"
-                  ng-click="addFavorite()"></span>
+                  ng-click="addFavorite()"><span class="favorite-count" ng-show="favoriteCount > 0" ng-bind="favoriteCount"></span></span>
         </h2>
         
         <h2 class="vendor">

@@ -77,6 +77,19 @@ namespace TechStacks.ServiceModel
         public List<TechnologyStack> Results { get; set; }
     }
 
+    [Route("/techstacks/{Slug}/favorites")]
+    public class GetTechnologyStackFavoriteDetails : IReturn<GetTechnologyStackFavoriteDetailsResponse>
+    {
+        public string Slug { get; set; }
+        public bool Reload { get; set; }
+    }
+
+    public class GetTechnologyStackFavoriteDetailsResponse
+    {
+        public List<string> Users { get; set; }
+        public int FavoriteCount { get; set; }
+    }
+
     [Route("/techstacks/tiers")]
     [Route("/techstacks/tiers/{Tier}")]
     public class TechStackByTier

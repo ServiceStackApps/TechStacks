@@ -17,6 +17,9 @@
                 if (reload) url += '?Reload=true';
                 return getResults($http.get(url));
             },
+            getTechStackFavorites: function(id) {
+                return getResults($http.get('/techstacks/' + id + '/favorites'));
+            },
             latestTechStacks: function () {
                 return getResults($http.get('/techstacks/latest'));
             },

@@ -46,6 +46,16 @@ namespace TechStacks.ServiceInterface
             return ClearKey("{0}/{1}".Fmt(typeof(FindTechStacks), search), clear);
         }
 
+        public string TechnologyFavoriteKey(string slug, bool clear = false)
+        {
+            return ClearKey("{0}/{1}".Fmt(typeof(GetTechnologyFavoriteDetails), slug), clear);
+        }
+
+        public string TechnologyStackFavoriteKey(string slug, bool clear = false)
+        {
+            return ClearKey("{0}/{1}".Fmt(typeof(GetTechnologyStackFavoriteDetails), slug), clear);
+        }
+
         public string OverviewKey(bool clear = false)
         {
             var key = typeof(Overview).Name;
