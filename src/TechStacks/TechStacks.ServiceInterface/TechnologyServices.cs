@@ -127,7 +127,7 @@ namespace TechStacks.ServiceInterface
                     : Db.Single<Technology>(x => x.Slug == request.Slug.ToLower());
 
                 if (tech == null)
-                    HttpError.NotFound("Tech stack not found");
+                    throw HttpError.NotFound("Tech stack not found");
 
                 var techStacks = Db.Select(Db.From<TechnologyStack>()
                     .Join<TechnologyChoice>()
