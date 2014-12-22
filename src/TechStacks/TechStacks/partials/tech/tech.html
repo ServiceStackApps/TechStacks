@@ -8,7 +8,7 @@
             Edit
         </a>
 
-        <h2 ng-show="tech.ProductUrl == null" style="display: inline-block">{{tech.Name}}
+        <h2 ng-show="tech.ProductUrl == null">{{tech.Name}}
             <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected"
                   ng-click="removeFavorite()"><span class="favorite-count" ng-bind="favoriteCount"></span></span>
             <span ng-show="!isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav"
