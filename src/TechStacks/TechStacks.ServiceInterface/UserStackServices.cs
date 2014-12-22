@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.OrmLite;
 using TechStacks.ServiceModel;
@@ -14,12 +10,14 @@ namespace TechStacks.ServiceInterface
     
     public class UserStackServices : Service
     {
+        public ContentCache ContentCache { get; set; }
+
         [Authenticate]
         public object Any(AccountTechStacks request)
         {
             var session = SessionAs<CustomUserSession>();
             var techStacks =
-                Db.Select<TechnologyStack>(Db.From<TechnologyStack>().Where(x => x.OwnerId == session.UserAuthId));
+                Db.Select(Db.From<TechnologyStack>().Where(x => x.OwnerId == session.UserAuthId));
             return new AccountTechStacksResponse
             {
                 Results = techStacks.ToList()
@@ -45,35 +43,40 @@ namespace TechStacks.ServiceInterface
             };
         }
 
-        public object Any(UserTechStack request)
+        public object Any(GetUserInfo request)
         {
-            var user = Db.Single<CustomUserAuth>(x => x.UserName == request.UserName);
-            if (user == null)
-                throw HttpError.NotFound("User not found");
-
-            var techStacks = TechStackQueries.GetTechstackDetails(Db,
-                Db.From<TechnologyStack>()
-                    .Where(x => x.CreatedBy == request.UserName)
-                    .OrderByDescending(x => x.Id));
-
-            var favStacks = Db.Select(
-                Db.From<TechnologyStack>()
-                  .Join<UserFavoriteTechnologyStack>()
-                  .Where<UserFavoriteTechnologyStack>(u => u.UserId == user.Id.ToString()));
-
-            favStacks.Each(x => x.Details = null); //lighten payload
-
-            var favTechs = Db.Select(
-                Db.From<Technology>()
-                  .Join<UserFavoriteTechnology>()
-                  .Where<UserFavoriteTechnology>(u => u.UserId == user.Id.ToString()));
-
-            return new UserTechStackResponse
+            var key = ContentCache.UserInfoKey(request.UserName, clear:request.Reload);
+            return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
             {
-                TechStacks = techStacks,
-                FavoriteTechStacks = favStacks,
-                FavoriteTechnologies = favTechs,
-            };
+                var user = Db.Single<CustomUserAuth>(x => x.UserName == request.UserName);
+                if (user == null)
+                    throw HttpError.NotFound("User not found");
+
+                var techStacks = TechStackQueries.GetTechstackDetails(Db,
+                    Db.From<TechnologyStack>()
+                        .Where(x => x.CreatedBy == request.UserName)
+                        .OrderByDescending(x => x.Id));
+
+                var favStacks = Db.Select(
+                    Db.From<TechnologyStack>()
+                        .Join<UserFavoriteTechnologyStack>()
+                        .Where<UserFavoriteTechnologyStack>(u => u.UserId == user.Id.ToString()));
+
+                favStacks.Each(x => x.Details = null); //lighten payload
+
+                var favTechs = Db.Select(
+                    Db.From<Technology>()
+                        .Join<UserFavoriteTechnology>()
+                        .Where<UserFavoriteTechnology>(u => u.UserId == user.Id.ToString()));
+
+                return new GetUserInfoResponse
+                {
+                    AvatarUrl = user.DefaultProfileUrl ?? "/img/no-profile64.png",
+                    TechStacks = techStacks,
+                    FavoriteTechStacks = favStacks,
+                    FavoriteTechnologies = favTechs,
+                };
+            });
         }
 
         public object Any(UserAvatar request)

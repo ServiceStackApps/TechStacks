@@ -4,29 +4,57 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/favorites/techtacks", Verbs = "GET,PUT")]
-    [Route("/favorites/techtacks/{TechnologyStackId}", Verbs = "DELETE,PUT")]
-    public class UserFavoriteTechStack : IReturn<UserFavoriteTechStackResponse>
+    [Route("/favorites/techtacks", Verbs = "GET")]
+    public class GetFavoriteTechStack : IReturn<GetFavoriteTechStackResponse>
+    {
+        public int TechnologyStackId { get; set; }
+    }
+    public class GetFavoriteTechStackResponse
+    {
+        public List<TechnologyStack> Results { get; set; }
+    }
+
+    [Route("/favorites/techtacks/{TechnologyStackId}", Verbs = "PUT")]
+    public class AddFavoriteTechStack : IReturn<FavoriteTechStackResponse>
     {
         public int TechnologyStackId { get; set; }
     }
 
-    public class UserFavoriteTechStackResponse
+    [Route("/favorites/techtacks/{TechnologyStackId}", Verbs = "DELETE")]
+    public class RemoveFavoriteTechStack : IReturn<FavoriteTechStackResponse>
     {
-        public TechnologyStack TechStack { get; set; }
-        public List<TechnologyStack> Favorites { get; set; }
+        public int TechnologyStackId { get; set; }
     }
 
-    [Route("/favorites/technology", Verbs = "GET,PUT")]
-    [Route("/favorites/technology/{TechnologyId}", Verbs = "DELETE,PUT")]
-    public class UserFavoriteTech
+    public class FavoriteTechStackResponse
+    {
+        public TechnologyStack Result { get; set; }
+    }
+
+
+    [Route("/favorites/technology", Verbs = "GET")]
+    public class GetFavoriteTechnologies : IReturn<GetFavoriteTechnologiesResponse>
+    {
+        public int TechnologyId { get; set; }
+    }
+    public class GetFavoriteTechnologiesResponse
+    {
+        public List<Technology> Results { get; set; }
+    }
+
+    [Route("/favorites/technology/{TechnologyId}", Verbs = "PUT")]
+    public class AddFavoriteTechnology : IReturn<FavoriteTechnologyResponse>
+    {
+        public int TechnologyId { get; set; }
+    }
+    [Route("/favorites/technology/{TechnologyId}", Verbs = "DELETE")]
+    public class RemoveFavoriteTechnology : IReturn<FavoriteTechnologyResponse>
     {
         public int TechnologyId { get; set; }
     }
 
-    public class UserFavoriteTechResponse
+    public class FavoriteTechnologyResponse
     {
-        public Technology Tech { get; set; }
-        public List<Technology> Favorites { get; set; }
+        public Technology Result { get; set; }
     }
 }

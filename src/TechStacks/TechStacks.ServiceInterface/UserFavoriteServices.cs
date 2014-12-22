@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.OrmLite;
 using TechStacks.ServiceModel;
@@ -13,31 +10,33 @@ namespace TechStacks.ServiceInterface
     [Authenticate]
     public class UserFavoriteServices : Service
     {
-        public object Get(UserFavoriteTechStack request)
+        public ContentCache ContentCache { get; set; }
+
+        public object Get(GetFavoriteTechStack request)
         {
             var session = SessionAs<CustomUserSession>();
-            var favorites = Db.Select<UserFavoriteTechnologyStack>(x => x.UserId == session.UserAuthId).ToList();
-            List<TechnologyStack> results = favorites.Count == 0
+            var favorites = Db.Select<UserFavoriteTechnologyStack>(x => x.UserId == session.UserAuthId);
+            var results = favorites.Count == 0
                 ? new List<TechnologyStack>()
                 : Db.Select(Db.From<TechnologyStack>()
-                    .Where(x => Sql.In(x.Id, favorites.Select(y => y.TechnologyStackId)))).ToList();
-            return new UserFavoriteTechStackResponse
+                    .Where(x => Sql.In(x.Id, favorites.Select(y => y.TechnologyStackId))));
+
+            return new GetFavoriteTechStackResponse
             {
-                Favorites = results
+                Results = results
             };
         }
 
-        public object Put(UserFavoriteTechStack request)
+        public object Put(AddFavoriteTechStack request)
         {
             var session = SessionAs<CustomUserSession>();
-            var technologyStack = Db.SingleById<TechnologyStack>(request.TechnologyStackId);
-            if (technologyStack == null)
-            {
+            var techStack = Db.SingleById<TechnologyStack>(request.TechnologyStackId);
+            if (techStack == null)
                 throw HttpError.NotFound("TechnologyStack not found");
-            }
-            var existingFavorite = 
-            Db.Single<UserFavoriteTechnologyStack>(
+
+            var existingFavorite =  Db.Single<UserFavoriteTechnologyStack>(
                 x => x.TechnologyStackId == request.TechnologyStackId && x.UserId == session.UserAuthId);
+ 
             if (existingFavorite == null)
             {
                 Db.Insert(new UserFavoriteTechnologyStack
@@ -45,65 +44,65 @@ namespace TechStacks.ServiceInterface
                     TechnologyStackId = request.TechnologyStackId,
                     UserId = session.UserAuthId
                 });
+
+                ContentCache.UserInfoKey(session.UserName, clear: true);
             }
-            return new UserFavoriteTechStackResponse
+
+            return new FavoriteTechStackResponse
             {
-                TechStack = technologyStack
+                Result = techStack
             };
         }
 
-        public object Delete(UserFavoriteTechStack request)
+        public object Delete(RemoveFavoriteTechStack request)
         {
             var session = SessionAs<CustomUserSession>();
-            var technologyStack = Db.SingleById<TechnologyStack>(request.TechnologyStackId);
-            if (technologyStack == null)
-            {
+            var techStack = Db.SingleById<TechnologyStack>(request.TechnologyStackId);
+            if (techStack == null)
                 throw HttpError.NotFound("TechnologyStack not found");
-            }
+
             var existingFavorite =
             Db.Single<UserFavoriteTechnologyStack>(
                 x => x.TechnologyStackId == request.TechnologyStackId && x.UserId == session.UserAuthId);
 
             if (existingFavorite == null)
-            {
                 throw HttpError.NotFound("Favorite not found");
-            }
 
             Db.DeleteById<UserFavoriteTechnologyStack>(existingFavorite.Id);
 
-            return new UserFavoriteTechStackResponse
+            ContentCache.UserInfoKey(session.UserName, clear: true);
+
+            return new FavoriteTechStackResponse
             {
-                
+                Result = techStack,
             };
         }
 
-        public object Get(UserFavoriteTech request)
+        public object Get(GetFavoriteTechnologies request)
         {
             var session = SessionAs<CustomUserSession>();
             var favorites = Db.Select<UserFavoriteTechnology>(x => x.UserId == session.UserAuthId).ToList();
-            List<Technology> result =
-                favorites.Count == 0
-                    ? new List<Technology>()
-                    : Db.Select(Db.From<Technology>().Where(x => Sql.In(x.Id, favorites.Select(y => y.TechnologyId))))
-                        .ToList();
-            
-            return new UserFavoriteTechResponse
-            {
-                Favorites = result
+            var results = favorites.Count == 0
+                ? new List<Technology>()
+                : Db.Select(Db.From<Technology>()
+                    .Where(x => Sql.In(x.Id, favorites.Select(y => y.TechnologyId))));
+
+            return new GetFavoriteTechnologiesResponse {
+                Results = results
             };
         }
 
-        public object Put(UserFavoriteTech request)
+        public object Put(AddFavoriteTechnology request)
         {
             var session = SessionAs<CustomUserSession>();
             var technology = Db.SingleById<Technology>(request.TechnologyId);
             if (technology == null)
-            {
                 throw HttpError.NotFound("Technology not found");
-            }
+
             var existingFavorite =
             Db.Single<UserFavoriteTechnology>(
                 x => x.TechnologyId == request.TechnologyId && x.UserId == session.UserAuthId);
+
             if (existingFavorite == null)
             {
                 Db.Insert(new UserFavoriteTechnology
@@ -111,35 +110,36 @@ namespace TechStacks.ServiceInterface
                     TechnologyId = request.TechnologyId,
                     UserId = session.UserAuthId
                 });
+
+                ContentCache.UserInfoKey(session.UserName, clear: true);
             }
-            return new UserFavoriteTechResponse
+
+            return new FavoriteTechnologyResponse
             {
-                Tech = technology
+                Result = technology
             };
         }
 
-        public object Delete(UserFavoriteTech request)
+        public object Delete(RemoveFavoriteTechnology request)
         {
             var session = SessionAs<CustomUserSession>();
-            var technologyStack = Db.SingleById<Technology>(request.TechnologyId);
-            if (technologyStack == null)
-            {
+            var technology = Db.SingleById<Technology>(request.TechnologyId);
+            if (technology == null)
                 throw HttpError.NotFound("Technology not found");
-            }
+
             var existingFavorite =
             Db.Single<UserFavoriteTechnology>(
                 x => x.TechnologyId == request.TechnologyId && x.UserId == session.UserAuthId);
 
             if (existingFavorite == null)
-            {
                 throw HttpError.NotFound("Favorite not found");
-            }
 
             Db.DeleteById<UserFavoriteTechnology>(existingFavorite.Id);
+            ContentCache.UserInfoKey(session.UserName, clear: true);
 
-            return new UserFavoriteTechStackResponse
+            return new FavoriteTechnologyResponse
             {
-
+                Result = technology
             };
         }
     }
