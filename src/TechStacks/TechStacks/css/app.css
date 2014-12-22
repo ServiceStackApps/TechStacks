@@ -285,6 +285,9 @@ td.description div {
     float: left;
     padding: 0 30px 0 0;
 }
+.tech-info .item img {
+    height: 75px;
+}
 
 #tech-info .btn-primary {
     float: right;
@@ -357,3 +360,45 @@ td.description div {
     padding: 10px 15px !important;
 }
 
+/* media queries */
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width: 768px) { 
+    .panel-heading, .panel-heading a {
+        text-indent: 10px;
+        font-size: 18px;
+    }
+    #stack-info a.screenshot img {
+        width: 250px;
+    }
+    .navbar .navbar-nav>li>a {
+        margin: 39px 0 0 0;
+    }
+    .tech-info .item img {
+        height: 35px;
+    }
+    #tech-info .logo {
+        height: 50px;
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    #stack-info a.screenshot img {
+        width: 350px;
+    }
+    .tech-info .item img {
+        height: 50px;
+    }
+    #tech-info .logo {
+        height: 75px;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width:1200px) {
+    .panel-heading, .panel-heading a {
+        text-indent: 10px;
+        font-size: 18px;
+    }
+}

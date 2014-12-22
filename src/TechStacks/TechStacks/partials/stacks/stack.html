@@ -34,7 +34,7 @@
                 <h4>{{tier.title}}</h4>
                 <div ng-repeat="tech in currentStack.TechnologyChoices | filter:{Tier:tier.name}">
                     <a href="/tech/{{tech.Slug}}" title="{{tech.Name}}">
-                        <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="75" />
+                        <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" />
                     </a>
                 </div>
             </div>
