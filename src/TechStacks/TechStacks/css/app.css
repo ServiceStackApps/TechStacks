@@ -261,13 +261,14 @@ td.description div {
 
 #stack-info .btn-primary {
     float: right;
-    margin: 0 0 0 0;
+    margin: 0 -10px 0 0;
 }
 
-#stack-info .description {
+#stack-info .description, #tech-info .description {
     font-size: 20px;
     color: #999;
     min-height: 200px;
+    max-width: 800px;
 }
 
 .tech-info .item {
@@ -289,6 +290,18 @@ td.description div {
     float: right;
     margin: 0 0 0 10px;
 }
+#tech-info {
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.26);
+    padding: 15px 15px 40px 40px;
+    margin: 0 0 20px 0;
+}
+#tech-info .logo {
+    height: 100px;
+    float: right;
+    margin: 0 0 20px 20px;
+}
+
 
 .last-updated {
     clear: both;
@@ -340,17 +353,3 @@ td.description div {
     padding: 10px 15px !important;
 }
 
-#tech-info {
-    background: #fff;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.26);
-    padding: 10px 20px 30px 30px;
-    margin: 0 0 20px 0;
-}
-#tech-info img {
-    height: 100px;
-    float: right;
-    margin: 10px 10px 10px 30px;
-}
-#tech-info p {
-    max-width: 800px;
-}

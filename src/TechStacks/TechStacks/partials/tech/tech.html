@@ -1,12 +1,12 @@
 ﻿<div id="tech-page" ng-class="{'loading-page': loading}">
     
     <div id="tech-info">
+        <img class="logo" src="{{tech.LogoUrl}}"/>
+
         <a href="/tech/{{tech.Slug}}/edit" class="btn btn-primary"
            ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">
             Edit
         </a>
-
-        <img src="{{tech.LogoUrl}}"/>
 
         <h2 ng-show="tech.ProductUrl == null" style="display: inline-block">{{tech.Name}}
             <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected"
@@ -31,7 +31,7 @@
             </span>
         </p>
 
-        <p>{{tech.Description}}</p>
+        <p class="description">{{tech.Description}}</p>
         <div class="clearfix"></div>
     </div>
 

@@ -1,5 +1,10 @@
 ﻿<div id="edit-tech-page" class="col-md-11 edit">
-    
+    <div ng-show="errorMessage">
+        <div class="alert alert-danger">
+            <span class="glyphicon glyphicon-exclamation-sign"></span>
+            <span ng-bind="errorMessage"></span>
+        </div>
+    </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             Update
