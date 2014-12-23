@@ -248,7 +248,7 @@ td.description div {
     width: 450px;
 }
 #stack-info a.screenshot:hover img {
-    opacity: .9;
+    opacity: .7;
 }
 #stack-info a.screenshot div {
     color: #aaa;

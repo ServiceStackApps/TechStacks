@@ -6,13 +6,11 @@ using ServiceStack.Auth;
 using ServiceStack.Caching;
 using ServiceStack.Configuration;
 using ServiceStack.Data;
-using ServiceStack.FluentValidation;
 using ServiceStack.OrmLite;
 using ServiceStack.Razor;
 using ServiceStack.Text;
 using ServiceStack.Validation;
 using TechStacks.ServiceInterface;
-using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks
@@ -42,7 +40,9 @@ namespace TechStacks
             //Return default.cshtml home page for all 404 requests so we can handle routing on the client
             base.CustomErrorHttpHandlers[HttpStatusCode.NotFound] = new RazorHandler("/default.cshtml");
  
-            SetConfig(new HostConfig());
+            SetConfig(new HostConfig {
+                AddRedirectParamsToQueryString = true,
+            });
 
             JsConfig.DateHandler = DateHandler.ISO8601;
 
@@ -61,9 +61,7 @@ namespace TechStacks
             {
                 new TwitterAuthProvider(AppSettings), 
                 new GithubAuthProvider(AppSettings)
-            }) {
-                AddParamsToQueryString = true
-            });
+            }));
 
             var authRepo = new OrmLiteAuthRepository<CustomUserAuth, UserAuthDetails>(dbFactory);
             container.Register<IUserAuthRepository>(authRepo);
