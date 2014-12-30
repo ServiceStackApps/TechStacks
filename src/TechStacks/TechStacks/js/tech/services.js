@@ -47,17 +47,11 @@
             updateTech: function (tech) {
                 return getResults($http.put('/technology/' + tech.Id, tech));
             },
-            updateTechnologyChoice: function (technologyChoice) {
-                return getResults($http.put('/techchoices/' + technologyChoice.Id, technologyChoice));
-            },
             deleteTech: function (tech) {
                 return getResults($http.delete('/technology/' + tech.Id));
             },
             updateLockStatus: function (techId, isLocked) {
                 return getResults($http.put('/admin/technology/' + techId + '/lock', { IsLocked: isLocked }));
-            },
-            removeTechChoice: function (techChoice) {
-                return getResults($http.delete('/techchoices/' + techChoice.Id));
             },
             makeFavorite: function (tech) {
                 return getResults($http.put('/favorites/technology', { TechnologyId: tech.Id }));

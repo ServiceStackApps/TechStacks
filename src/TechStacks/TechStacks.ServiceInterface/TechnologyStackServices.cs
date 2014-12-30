@@ -24,9 +24,30 @@ namespace TechStacks.ServiceInterface
             techStack.Created = DateTime.UtcNow;
             techStack.LastModified = DateTime.UtcNow;
             techStack.Slug = techStack.Name.GenerateSlug();
-            var id = Db.Insert(techStack, selectIdentity: true);
-            var createdTechStack = Db.SingleById<TechnologyStack>(id);
 
+            long id;
+            using (var trans = Db.OpenTransaction())
+            {
+                id = Db.Insert(techStack, selectIdentity: true);
+
+                if (request.TechnologyIds != null)
+                {
+                    var techChoices = request.TechnologyIds.Map(x => new TechnologyChoice
+                    {
+                        TechnologyId = x,
+                        TechnologyStackId = id,
+                        CreatedBy = techStack.CreatedBy,
+                        LastModifiedBy = techStack.LastModifiedBy,
+                        OwnerId = techStack.OwnerId,
+                    });
+
+                    Db.InsertAll(techChoices);
+                }
+
+                trans.Commit();
+            }
+
+            var createdTechStack = Db.SingleById<TechnologyStack>(id);
             var history = createdTechStack.ConvertTo<TechnologyStackHistory>();
             history.TechnologyStackId = id;
             history.Operation = "INSERT";
@@ -44,9 +65,7 @@ namespace TechStacks.ServiceInterface
         {
             var existingStack = Db.SingleById<TechnologyStack>(request.Id);
             if (existingStack == null)
-            {
                 throw HttpError.NotFound("Tech stack not found");
-            }
 
             var session = SessionAs<AuthUserSession>();
             if (existingStack.IsLocked && !session.HasRole(RoleNames.Admin))
@@ -66,7 +85,31 @@ namespace TechStacks.ServiceInterface
 
             //Update SlugTitle
             updated.Slug = updated.Name.GenerateSlug();
-            Db.Save(updated);
+
+            using (var trans = Db.OpenTransaction())
+            {
+                Db.Save(updated);
+
+                if (request.TechnologyIds != null)
+                {
+                    var techIds = request.TechnologyIds.ToHashSet();
+                    var existingTechChoices = Db.Select<TechnologyChoice>(q => q.TechnologyStackId == request.Id);
+                    var techIdsToAdd = techIds.Except(existingTechChoices.Select(x => x.TechnologyId)).ToHashSet();
+                    var techChoices = techIdsToAdd.Map(x => new TechnologyChoice
+                    {
+                        TechnologyId = x,
+                        TechnologyStackId = request.Id,
+                        CreatedBy = updated.CreatedBy,
+                        LastModifiedBy = updated.LastModifiedBy,
+                        OwnerId = updated.OwnerId,
+                    });
+
+                    Db.Delete<TechnologyChoice>(x => x.TechnologyStackId == request.Id && !techIds.Contains(x.TechnologyId));
+                    Db.InsertAll(techChoices);
+                }
+
+                trans.Commit();
+            }
 
             var history = updated.ConvertTo<TechnologyStackHistory>();
             history.TechnologyStackId = updated.Id;
@@ -105,8 +148,8 @@ namespace TechStacks.ServiceInterface
 
             return new DeleteTechnologyStackResponse
             {
-                Result = new TechnologyStack { Id = request.Id }.ConvertTo<TechStackDetails>()
-            }; 
+                Result = stack.ConvertTo<TechStackDetails>()
+            };
         }
 
         public object Get(AllTechnologyStacks request)
@@ -119,7 +162,7 @@ namespace TechStacks.ServiceInterface
 
         public object Get(GetTechnologyStack request)
         {
-            var key = ContentCache.TechnologyStackKey(request.Slug, clear:request.Reload);
+            var key = ContentCache.TechnologyStackKey(request.Slug, clear: request.Reload);
             return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
             {
                 int id;

@@ -36,12 +36,10 @@
                     <label for="technologiesUsed">Select Technologies</label>
                     <chosen-select class="form-control" id="technologiesUsed"
                                    data="searchResults"
-                                   item-value="techKey"
-                                   item-name="techName"
-                                   selected-values="selectedTechs"
-                                   options="{no_results_text: 'oops, nothing found!'}"
-                                   on-add="handleAddTech(item)"
-                                   on-remove="handleRemoveTech(item)"></chosen-select>
+                                   item-value="value"
+                                   item-name="name"
+                                   selected-values="newStack.TechnologyIds"
+                                   options="{no_results_text: 'oops, nothing found!'}"></chosen-select>
                 </div>
                 <div class="form-group">
                     <label for="Description">Summary</label>

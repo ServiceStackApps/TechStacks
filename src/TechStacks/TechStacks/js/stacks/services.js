@@ -30,17 +30,8 @@
             deleteTechStack: function (techStack) {
                 return getResults($http.delete('/techstacks/' + techStack.Id));
             },
-            updateTechnologyChoice: function (technologyChoice) {
-                return getResults($http.put('/techchoices/' + technologyChoice.Id, technologyChoice));
-            },
             updateLockStatus: function(techStackId, isLocked) {
                 return getResults($http.put('/admin/techstacks/' + techStackId + '/lock', { IsLocked: isLocked }));
-            },
-            addTechChoice: function (techChoice) {
-                return getResults($http.post('/techchoices', techChoice));
-            },
-            removeTechChoice: function (techChoice) {
-                return getResults($http.delete('/techchoices/' + techChoice.Id));
             },
             searchStacks: function (searchQuery) {
                 return getResults($http.get('/techstacks/search?NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery));

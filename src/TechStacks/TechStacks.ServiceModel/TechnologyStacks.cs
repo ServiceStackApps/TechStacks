@@ -29,6 +29,8 @@ namespace TechStacks.ServiceModel
         public string ScreenshotUrl { get; set; }
         public string Description { get; set; }
         public string Details { get; set; }
+
+        public List<long> TechnologyIds { get; set; }
     }
 
     public class CreateTechnologyStackResponse
@@ -49,6 +51,8 @@ namespace TechStacks.ServiceModel
         public string ScreenshotUrl { get; set; }
         public string Description { get; set; }
         public string Details { get; set; }
+
+        public List<long> TechnologyIds { get; set; } 
     }
 
     public class UpdateTechnologyStackResponse
