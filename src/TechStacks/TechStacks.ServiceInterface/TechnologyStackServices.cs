@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MarkdownSharp;
 using ServiceStack;
@@ -90,23 +91,25 @@ namespace TechStacks.ServiceInterface
             {
                 Db.Save(updated);
 
-                if (request.TechnologyIds != null)
+                var techIds = (request.TechnologyIds ?? new List<long>()).ToHashSet();
+                var existingTechChoices = Db.Select<TechnologyChoice>(q => q.TechnologyStackId == request.Id);
+                var techIdsToAdd = techIds.Except(existingTechChoices.Select(x => x.TechnologyId)).ToHashSet();
+                var techChoices = techIdsToAdd.Map(x => new TechnologyChoice
                 {
-                    var techIds = request.TechnologyIds.ToHashSet();
-                    var existingTechChoices = Db.Select<TechnologyChoice>(q => q.TechnologyStackId == request.Id);
-                    var techIdsToAdd = techIds.Except(existingTechChoices.Select(x => x.TechnologyId)).ToHashSet();
-                    var techChoices = techIdsToAdd.Map(x => new TechnologyChoice
-                    {
-                        TechnologyId = x,
-                        TechnologyStackId = request.Id,
-                        CreatedBy = updated.CreatedBy,
-                        LastModifiedBy = updated.LastModifiedBy,
-                        OwnerId = updated.OwnerId,
-                    });
+                    TechnologyId = x,
+                    TechnologyStackId = request.Id,
+                    CreatedBy = updated.CreatedBy,
+                    LastModifiedBy = updated.LastModifiedBy,
+                    OwnerId = updated.OwnerId,
+                });
 
-                    Db.Delete<TechnologyChoice>(x => x.TechnologyStackId == request.Id && !techIds.Contains(x.TechnologyId));
-                    Db.InsertAll(techChoices);
-                }
+                var unusedTechChoices = Db.From<TechnologyChoice>().Where(x => x.TechnologyStackId == request.Id);
+                if (techIds.Count > 0)
+                    unusedTechChoices.And(x => !techIds.Contains(x.TechnologyId));
+
+                Db.Delete(unusedTechChoices);
+
+                Db.InsertAll(techChoices);
 
                 trans.Commit();
             }

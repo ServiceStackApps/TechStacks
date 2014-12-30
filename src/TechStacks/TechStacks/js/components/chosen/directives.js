@@ -31,7 +31,7 @@
                                     if (!scope.controlReady) {
                                         return;
                                     }
-                                    console.log(scope.selectedValues);
+
                                     if (item.selected) {
                                         scope.selectedValues.push(parseInt(item.selected));
                                     }
