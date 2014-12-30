@@ -16,27 +16,12 @@
                 return filteredTechs;
             }
 
-            function getCategoryFilter() {
-                var categoryFilter = null;
-                if ($scope.category && $scope.category.title) {
-                    for (var i = 0; i < $scope.allTiers.length; i++) {
-                        var tier = $scope.allTiers[i];
-                        if (tier.title === $scope.category.title) {
-                            categoryFilter = tier.name;
-                            break;
-                        }
-                    }
-                }
-                return categoryFilter;
-            }
-
             var lastSearch;
             $scope.refresh = function () {
                 $scope.isBusy = true;
                 techServices.searchTech($scope.Search || '').then(function (techs) {
-                    var categoryFilter = getCategoryFilter();
-                    if (categoryFilter != null) {
-                        $scope.techs = filterTechsByCategory(techs, categoryFilter);
+                    if ($scope.category != null) {
+                        $scope.techs = filterTechsByCategory(techs, $scope.category);
                     } else {
                         $scope.techs = techs;
                     }
@@ -134,10 +119,15 @@
         '$scope', '$http', '$routeParams', 'techServices', '$location', function ($scope, $http, $routeParams, techServices, $location) {
             $scope.createNewTech = function() {
                 techServices.createTech($scope.tech).then(function (tech) {
-                    $scope.tech.Id = tech.Id;
+                    $scope.tech = tech;
                     $location.path("/tech/" + $scope.tech.Slug);
                 });
             };
+
+            if (!$scope.tech)
+                $scope.tech = {};
+
+            $scope.tech.Tier = $location.search().category;
         }
     ]);
 
