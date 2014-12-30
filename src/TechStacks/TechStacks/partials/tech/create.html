@@ -32,11 +32,8 @@
                     <input type="text" class="form-control" id="VendorUrl" placeholder="Enter url of the vendor" ng-model="tech.VendorUrl">
                 </div>
                 <div class="form-group">
-                    <label>Add to tier</label>
-                    <select class="form-control" ng-model="tech.Tier">
-                        <option value="" disabled selected>Select a Tier</option>
-                        <option ng-repeat="tier in allTiers" value="{{tier.name}}">{{tier.title}}</option>
-                    </select>
+                    <label>Add to Category</label>
+                    <select class="form-control" ng-model="tech.Tier" ng-options="tier.name as tier.title for tier in allTiers"></select>
                 </div>
                 <button ng-show="isAuthenticated" class="btn btn-primary" ng-click="createNewTech()" ng-disabled="!techForm.$valid">
                     Create Technology

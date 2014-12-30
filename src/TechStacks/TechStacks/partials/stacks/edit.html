@@ -22,6 +22,17 @@
                     <input type="text" class="form-control" id="VendorName" placeholder="Enter name of the vendor" ng-model="currentStack.VendorName" required>
                 </div>
                 <div class="form-group">
+                    <label for="technologiesUsed">Select Technologies</label>
+                    <chosen-select class="form-control" id="technologiesUsed"
+                                   data="searchResults"
+                                   item-value="techKey"
+                                   item-name="techName"
+                                   selected-values="selectedTechs"
+                                   options="{no_results_text: 'oops, nothing found!'}"
+                                   on-add="handleAddTech(item)"
+                                   on-remove="handleRemoveTech(item)"></chosen-select>
+                </div>
+                <div class="form-group">
                     <label for="AppUrl">
                         App Url
                     </label>
@@ -40,17 +51,6 @@
                 <div class="form-group">
                     <label for="Details">Detailed Description (Optional)</label>
                     <textarea class="form-control" id="Details" placeholder="Enter a longer detailed description of your stack. (Markdown supported)" ng-model="currentStack.Details"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="technologiesUsed">Select Technologies</label>
-                    <chosen-select class="form-control" id="technologiesUsed"
-                                   data="searchResults"
-                                   item-value="techKey"
-                                   item-name="techName"
-                                   selected-values="selectedTechs"
-                                   options="{no_results_text: 'oops, nothing found!'}"
-                                   on-add="handleAddTech(item)"
-                                   on-remove="handleRemoveTech(item)"></chosen-select>
                 </div>
                 <button class="btn btn-primary" ng-click="updateAll()" ng-disabled="!stackForm.$valid">
                     Update TechStack

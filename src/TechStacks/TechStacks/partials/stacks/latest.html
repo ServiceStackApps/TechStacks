@@ -18,4 +18,6 @@
             <td class="createdby"><a href="/{{techStack.CreatedBy}}" ng-bind="techStack.CreatedBy"></a></td>
         </tr>
     </table>
+
+    <a ng-show="isAuthenticated" href="/stacks/create" class="btn btn-primary">Add TechStack</a>
 </div>

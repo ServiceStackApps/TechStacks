@@ -6,7 +6,7 @@
             <div style="float: right; color: #444; margin: -2px 10px 0 0;">
                 <select class="search-tiers" style="padding: 5px; font-size: 16px;"
                         ng-model="category"
-                        ng-options="x.title for x in allTiers"
+                        ng-options="tier.name as tier.title for tier in allTiers"
                         ng-change="refresh()">
                     <option value="">[ Show All Categories ]</option>
                 </select>
@@ -29,5 +29,5 @@
             <td class="vendor">{{tech.VendorName}}</td>
         </tr>
     </table>
-    <a ng-show="isAuthenticated" href="/tech/create" class="btn btn-primary">Add technology</a>
+    <a ng-show="isAuthenticated" href="/tech/create?category={{category}}" class="btn btn-primary">Add technology</a>
 </div>

@@ -22,6 +22,13 @@
                     <input type="text" class="form-control" id="VendorName" placeholder="Enter name of the vendor" ng-model="tech.VendorName" required>
                 </div>
                 <div class="form-group">
+                    <label>Category</label>
+                    <select class="form-control" ng-model="tech.Tier">
+                        <option value="" disabled selected>Select a Category</option>
+                        <option ng-repeat="tier in allTiers" value="{{tier.name}}">{{tier.title}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="Description">Description</label>
                     <textarea class="form-control" id="Description" placeholder="Enter a description of the technology" ng-model="tech.Description" required></textarea>
                 </div>
@@ -40,13 +47,6 @@
                 <div class="form-group">
                     <label for="VendorUrl">Vendor Url</label>
                     <input type="text" class="form-control" id="VendorUrl" placeholder="Enter url of the vendor" ng-model="tech.VendorUrl" required>
-                </div>
-                <div class="form-group">
-                    <label>Add to tier</label>
-                    <select class="form-control" ng-model="tech.Tier">
-                        <option value="" disabled selected>Select a Tier</option>
-                        <option ng-repeat="tier in allTiers" value="{{tier.name}}">{{tier.title}}</option>
-                    </select>
                 </div>
                 <button class="btn btn-primary" ng-click="done()" ng-disabled="!techForm.$valid">
                     Update Technology
