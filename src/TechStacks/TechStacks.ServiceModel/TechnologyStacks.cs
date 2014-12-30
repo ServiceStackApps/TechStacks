@@ -25,6 +25,8 @@ namespace TechStacks.ServiceModel
     {
         public string Name { get; set; }
         public string VendorName { get; set; }
+        public string AppUrl { get; set; }
+        public string ScreenshotUrl { get; set; }
         public string Description { get; set; }
         public string Details { get; set; }
     }
