@@ -13,33 +13,19 @@ namespace TechStacks.ServiceInterface
         public ContentCache ContentCache { get; set; }
 
         [Authenticate]
-        public object Any(AccountTechStacks request)
+        public object Any(GetUserFeed request)
         {
             var session = SessionAs<CustomUserSession>();
-            var techStacks =
-                Db.Select(Db.From<TechnologyStack>().Where(x => x.OwnerId == session.UserAuthId));
-            return new AccountTechStacksResponse
-            {
-                Results = techStacks.ToList()
-            };
-        }
 
-        [Authenticate]
-        public object Any(AccountTechStackFeed request)
-        {
-            var session = SessionAs<CustomUserSession>();
-            //Check for any favorite techs
             var favTechs = Db.Select<UserFavoriteTechnology>(x => x.UserId == session.UserAuthId);
-            if (favTechs.Count == 0)
+
+            var userFeed = favTechs.Count == 0
+                ? GetDefaultFeed()
+                : GetDefaultFeed(favTechs.Select(x => x.TechnologyId).ToList());
+            
+            return new GetUserFeedResponse
             {
-                return new AccountTechStackFeedResponse
-                {
-                    Results = GetDefaultFeed()
-                };
-            }
-            return new AccountTechStackFeedResponse
-            {
-                Results = GetDefaultFeed(favTechs.Select(x => x.TechnologyId).ToList())
+                Results = userFeed
             };
         }
 
@@ -52,10 +38,9 @@ namespace TechStacks.ServiceInterface
                 if (user == null)
                     throw HttpError.NotFound("User not found");
 
-                var techStacks = TechStackQueries.GetTechstackDetails(Db,
-                    Db.From<TechnologyStack>()
-                        .Where(x => x.CreatedBy == request.UserName)
-                        .OrderByDescending(x => x.Id));
+                var techStacks = Db.GetTechstackDetails(Db.From<TechnologyStack>()
+                    .Where(x => x.CreatedBy == request.UserName)
+                    .OrderByDescending(x => x.Id));
 
                 var favStacks = Db.Select(
                     Db.From<TechnologyStack>()
@@ -79,38 +64,17 @@ namespace TechStacks.ServiceInterface
             });
         }
 
-        public object Any(UserAvatar request)
+        private List<TechStackDetails> GetDefaultFeed(List<int> favTechIds = null)
         {
-            var user = Db.Single<CustomUserAuth>(x => x.UserName == request.UserName);
-            if (user == null)
+            var q = Db.From<TechnologyStack>().OrderByDescending(x => x.Id).Limit(20);
+
+            if (favTechIds != null)
             {
-                throw HttpError.NotFound("User not found");
+                q.Join<TechnologyStack, TechnologyChoice>((ts, tsc) =>
+                    ts.Id == tsc.TechnologyStackId && Sql.In(tsc.TechnologyId, favTechIds));
             }
 
-            return new UserAvatarResponse
-            {
-                AvatarUrl = user.DefaultProfileUrl
-            };
-        }
-
-        private List<TechStackDetails> GetDefaultFeed(List<int> favoriteTechIds = null)
-        {
-            SqlExpression<TechnologyStack> stackQuery;
-            if (favoriteTechIds == null)
-            {
-                stackQuery = Db.From<TechnologyStack>()
-                    .OrderByDescending(x => x.Id).Limit(20);
-            }
-            else
-            {
-                stackQuery = Db.From<TechnologyStack>()
-                    .Join<TechnologyStack, TechnologyChoice>((ts, tsc) => 
-                        ts.Id == tsc.TechnologyStackId && Sql.In(tsc.TechnologyId, favoriteTechIds))
-                    .OrderByDescending(x => x.Id).Limit(20);
-            }
-            var results = TechStackQueries.GetTechstackDetails(Db, stackQuery);
-
-            return results;
+            return Db.GetTechstackDetails(q);
         }
     }
 }
