@@ -8,9 +8,9 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceInterface
 {
-    public class TechStackQueries
+    public static class TechStackQueries
     {
-        public static List<TechStackDetails> GetTechstackDetails(IDbConnection db, SqlExpression<TechnologyStack> stackQuery)
+        public static List<TechStackDetails> GetTechstackDetails(this IDbConnection db, SqlExpression<TechnologyStack> stackQuery)
         {
             //distinct
             var latestStacks = db.Select(stackQuery)

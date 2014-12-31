@@ -241,7 +241,7 @@ namespace TechStacks.ServiceInterface
             var stackQuery = Db.From<TechnologyStack>()
                     .OrderByDescending(x => x.Id).Limit(20);
 
-            var results = TechStackQueries.GetTechstackDetails(Db, stackQuery);
+            var results = Db.GetTechstackDetails(stackQuery);
             return new RecentStackWithTechsResponse
             {
                 Results = results
@@ -274,8 +274,7 @@ namespace TechStacks.ServiceInterface
                 {
                     Created = DateTime.UtcNow,
 
-                    LatestTechStacks = TechStackQueries.GetTechstackDetails(Db,
-                        Db.From<TechnologyStack>().OrderByDescending(x => x.LastModified).Limit(20)),
+                    LatestTechStacks = Db.GetTechstackDetails(Db.From<TechnologyStack>().OrderByDescending(x => x.LastModified).Limit(20)),
 
                     TopUsers = Db.Select<UserInfo>(
                         @"select u.user_name as UserName, u.default_profile_url as AvatarUrl, COUNT(*) as StacksCount
