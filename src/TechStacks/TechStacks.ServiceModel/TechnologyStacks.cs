@@ -25,8 +25,12 @@ namespace TechStacks.ServiceModel
     {
         public string Name { get; set; }
         public string VendorName { get; set; }
+        public string AppUrl { get; set; }
+        public string ScreenshotUrl { get; set; }
         public string Description { get; set; }
         public string Details { get; set; }
+
+        public List<long> TechnologyIds { get; set; }
     }
 
     public class CreateTechnologyStackResponse
@@ -47,6 +51,8 @@ namespace TechStacks.ServiceModel
         public string ScreenshotUrl { get; set; }
         public string Description { get; set; }
         public string Details { get; set; }
+
+        public List<long> TechnologyIds { get; set; } 
     }
 
     public class UpdateTechnologyStackResponse
@@ -70,9 +76,9 @@ namespace TechStacks.ServiceModel
     }
 
     [Route("/techstacks", Verbs = "GET")]
-    public class AllTechnologyStacks : IReturn<AllTechnologyStacksResponse> {}
+    public class GetAllTechnologyStacks : IReturn<GetAllTechnologyStacksResponse> {}
 
-    public class AllTechnologyStacksResponse
+    public class GetAllTechnologyStacksResponse
     {
         public List<TechnologyStack> Results { get; set; }
     }
@@ -90,18 +96,6 @@ namespace TechStacks.ServiceModel
         public int FavoriteCount { get; set; }
     }
 
-    [Route("/techstacks/tiers")]
-    [Route("/techstacks/tiers/{Tier}")]
-    public class TechStackByTier
-    {
-        public string Tier { get; set; }
-    }
-
-    public class TechStackByTierResponse
-    {
-        public List<TechnologyStack> Results { get; set; }        
-    }
-
     public class GetTechnologyStackResponse
     {
         public DateTime Created { get; set; }
@@ -116,14 +110,6 @@ namespace TechStacks.ServiceModel
     public class FindTechStacks : QueryBase<TechnologyStack>
     {
         public bool Reload { get; set; }
-    }
-
-    [Route("/techstacks/latest")]
-    public class RecentStackWithTechs : IReturn<RecentStackWithTechsResponse> {}
-
-    public class RecentStackWithTechsResponse
-    {
-        public List<TechStackDetails> Results { get; set; } 
     }
 
     public class TechStackDetails : TechnologyStack

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MarkdownSharp;
 using ServiceStack;
@@ -24,9 +25,30 @@ namespace TechStacks.ServiceInterface
             techStack.Created = DateTime.UtcNow;
             techStack.LastModified = DateTime.UtcNow;
             techStack.Slug = techStack.Name.GenerateSlug();
-            var id = Db.Insert(techStack, selectIdentity: true);
-            var createdTechStack = Db.SingleById<TechnologyStack>(id);
 
+            long id;
+            using (var trans = Db.OpenTransaction())
+            {
+                id = Db.Insert(techStack, selectIdentity: true);
+
+                if (request.TechnologyIds != null)
+                {
+                    var techChoices = request.TechnologyIds.Map(x => new TechnologyChoice
+                    {
+                        TechnologyId = x,
+                        TechnologyStackId = id,
+                        CreatedBy = techStack.CreatedBy,
+                        LastModifiedBy = techStack.LastModifiedBy,
+                        OwnerId = techStack.OwnerId,
+                    });
+
+                    Db.InsertAll(techChoices);
+                }
+
+                trans.Commit();
+            }
+
+            var createdTechStack = Db.SingleById<TechnologyStack>(id);
             var history = createdTechStack.ConvertTo<TechnologyStackHistory>();
             history.TechnologyStackId = id;
             history.Operation = "INSERT";
@@ -44,9 +66,7 @@ namespace TechStacks.ServiceInterface
         {
             var existingStack = Db.SingleById<TechnologyStack>(request.Id);
             if (existingStack == null)
-            {
                 throw HttpError.NotFound("Tech stack not found");
-            }
 
             var session = SessionAs<AuthUserSession>();
             if (existingStack.IsLocked && !session.HasRole(RoleNames.Admin))
@@ -66,7 +86,33 @@ namespace TechStacks.ServiceInterface
 
             //Update SlugTitle
             updated.Slug = updated.Name.GenerateSlug();
-            Db.Save(updated);
+
+            using (var trans = Db.OpenTransaction())
+            {
+                Db.Save(updated);
+
+                var techIds = (request.TechnologyIds ?? new List<long>()).ToHashSet();
+                var existingTechChoices = Db.Select<TechnologyChoice>(q => q.TechnologyStackId == request.Id);
+                var techIdsToAdd = techIds.Except(existingTechChoices.Select(x => x.TechnologyId)).ToHashSet();
+                var techChoices = techIdsToAdd.Map(x => new TechnologyChoice
+                {
+                    TechnologyId = x,
+                    TechnologyStackId = request.Id,
+                    CreatedBy = updated.CreatedBy,
+                    LastModifiedBy = updated.LastModifiedBy,
+                    OwnerId = updated.OwnerId,
+                });
+
+                var unusedTechChoices = Db.From<TechnologyChoice>().Where(x => x.TechnologyStackId == request.Id);
+                if (techIds.Count > 0)
+                    unusedTechChoices.And(x => !techIds.Contains(x.TechnologyId));
+
+                Db.Delete(unusedTechChoices);
+
+                Db.InsertAll(techChoices);
+
+                trans.Commit();
+            }
 
             var history = updated.ConvertTo<TechnologyStackHistory>();
             history.TechnologyStackId = updated.Id;
@@ -105,13 +151,13 @@ namespace TechStacks.ServiceInterface
 
             return new DeleteTechnologyStackResponse
             {
-                Result = new TechnologyStack { Id = request.Id }.ConvertTo<TechStackDetails>()
-            }; 
+                Result = stack.ConvertTo<TechStackDetails>()
+            };
         }
 
-        public object Get(AllTechnologyStacks request)
+        public object Get(GetAllTechnologyStacks request)
         {
-            return new AllTechnologyStacksResponse
+            return new GetAllTechnologyStacksResponse
             {
                 Results = Db.Select(Db.From<TechnologyStack>().Take(100)).ToList()
             };
@@ -119,7 +165,7 @@ namespace TechStacks.ServiceInterface
 
         public object Get(GetTechnologyStack request)
         {
-            var key = ContentCache.TechnologyStackKey(request.Slug, clear:request.Reload);
+            var key = ContentCache.TechnologyStackKey(request.Slug, clear: request.Reload);
             return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
             {
                 int id;
@@ -165,41 +211,12 @@ namespace TechStacks.ServiceInterface
                 if (tech == null)
                     throw HttpError.NotFound("TechStack not found");
 
-                var favoriteCount =
-                    Db.Count<UserFavoriteTechnologyStack>(x => x.TechnologyStackId == tech.Id);
+                var favoriteCount = Db.Count<UserFavoriteTechnologyStack>(x => x.TechnologyStackId == tech.Id);
 
-                return new GetTechnologyStackFavoriteDetailsResponse
-                {
+                return new GetTechnologyStackFavoriteDetailsResponse {
                     FavoriteCount = (int)favoriteCount
                 };
             });
-        }
-
-        public object Get(TechStackByTier request)
-        {
-            var query = Db.From<TechnologyStack>();
-            if (!string.IsNullOrEmpty(request.Tier))
-            {
-                //Filter by tier
-                query.Join<TechnologyChoice>((stack, choice) => stack.Id == choice.TechnologyStackId);
-            }
-
-            return new TechStackByTierResponse
-            {
-                Results = Db.Select(query).GroupBy(x => x.Id).Select(x => x.First()).ToList()
-            };
-        }
-
-        public object Get(RecentStackWithTechs request)
-        {
-            var stackQuery = Db.From<TechnologyStack>()
-                    .OrderByDescending(x => x.Id).Limit(20);
-
-            var results = TechStackQueries.GetTechstackDetails(Db, stackQuery);
-            return new RecentStackWithTechsResponse
-            {
-                Results = results
-            };
         }
 
         public object Any(GetConfig request)
@@ -211,8 +228,7 @@ namespace TechStacks.ServiceInterface
                     Title = typeof(TechnologyTier).GetMember(x.ToString())[0].GetDescription(),
                 });
 
-            return new GetConfigResponse
-            {
+            return new GetConfigResponse {
                 AllTiers = allTiers,
             };
         }
@@ -228,20 +244,19 @@ namespace TechStacks.ServiceInterface
                 {
                     Created = DateTime.UtcNow,
 
-                    LatestTechStacks = TechStackQueries.GetTechstackDetails(Db,
-                        Db.From<TechnologyStack>().OrderByDescending(x => x.LastModified).Limit(20)),
+                    LatestTechStacks = Db.GetTechstackDetails(Db.From<TechnologyStack>().OrderByDescending(x => x.LastModified).Limit(20)),
 
                     TopUsers = Db.Select<UserInfo>(
                         @"select u.user_name as UserName, u.default_profile_url as AvatarUrl, COUNT(*) as StacksCount
-                            from technology_stack ts
-                                 inner join
-                                 user_favorite_technology_stack uf on (ts.id = uf.technology_stack_id)
-                                 inner join
-                                 custom_user_auth u on (uf.user_id::integer = u.id)
-                            group by u.user_name, u.default_profile_url
-                            having count(*) > 0
-                            order by StacksCount desc
-                            limit 20"),
+                          from technology_stack ts
+	                          left join
+	                          user_favorite_technology_stack uf on (ts.id = uf.technology_stack_id)
+	                          left join
+	                          custom_user_auth u on (u.id = ts.owner_id::integer)
+                          group by u.user_name, u.default_profile_url
+                          having count(*) > 0
+                          order by StacksCount desc
+                          limit 20"),
 
                     TopTechnologies = Db.Select<TechnologyInfo>(
                         @"select t.slug as Slug, t.name, COUNT(*) as StacksCount 
@@ -271,8 +286,8 @@ namespace TechStacks.ServiceInterface
         //Cached AutoQuery
         public object Any(FindTechStacks request)
         {
-            var key = ContentCache.TechnologyStackSearchKey(
-                Request.QueryString.ToString(), clear: request.Reload);
+            var key = ContentCache.TechnologyStackSearchKey(Request.QueryString.ToString(), clear: request.Reload);
+
             return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
             {
                 var q = AutoQuery.CreateQuery(request, Request.GetRequestParams());

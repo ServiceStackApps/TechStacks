@@ -80,14 +80,12 @@
     <Compile Include="Filters\TechStackFilters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionInfoServices.cs" />
-    <Compile Include="TechChoiceServices.cs" />
     <Compile Include="TechExtensions.cs" />
     <Compile Include="TechnologyServices.cs" />
     <Compile Include="TechnologyStackServices.cs" />
     <Compile Include="TechStackQueries.cs" />
     <Compile Include="UserFavoriteServices.cs" />
     <Compile Include="UserStackServices.cs" />
-    <Compile Include="Validations\TechChoiceValidator.cs" />
     <Compile Include="Validations\TechStackValidator.cs" />
     <Compile Include="Validations\TechValidators.cs" />
   </ItemGroup>

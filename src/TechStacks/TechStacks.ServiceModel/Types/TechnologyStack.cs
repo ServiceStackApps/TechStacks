@@ -114,8 +114,11 @@ namespace TechStacks.ServiceModel.Types
         
         [Description("Operating Systems")]
         OperatingSystem,
+
+        [Description("3rd Party APIs/Services")]
+        ThirdPartyServices,
         
-        [Description("Hardware Infastructure")]
+        [Description("Cloud/Hardware Infastructure")]
         HardwareInfrastructure,
     }
 }

@@ -5,18 +5,10 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Route("/my-techstacks")]
-    public class AccountTechStacks : IReturn<AccountTechStacksResponse> {}
-
-    public class AccountTechStacksResponse
-    {
-        public List<TechnologyStack> Results { get; set; }
-    }
-
     [Route("/my-feed")]
-    public class AccountTechStackFeed {}
+    public class GetUserFeed {}
 
-    public class AccountTechStackFeedResponse
+    public class GetUserFeedResponse
     {
         public List<TechStackDetails> Results { get; set; } 
     }
@@ -32,19 +24,8 @@ namespace TechStacks.ServiceModel
     {
         public DateTime Created { get; set; }
         public string AvatarUrl { get; set; }
-        public List<TechStackDetails> TechStacks { get; set; }
+        public List<TechnologyStack> TechStacks { get; set; }
         public List<TechnologyStack> FavoriteTechStacks { get; set; }
         public List<Technology> FavoriteTechnologies { get; set; } 
-    }
-
-    [Obsolete]
-    [Route("/users/{UserName}/avatar")]
-    public class UserAvatar
-    {
-        public string UserName { get; set; }
-    }
-    public class UserAvatarResponse
-    {
-        public string AvatarUrl { get; set; }
     }
 }

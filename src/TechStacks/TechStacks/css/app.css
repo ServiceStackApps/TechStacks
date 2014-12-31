@@ -60,6 +60,12 @@ small {
     padding: 5px 5px;
     margin: 0;
 }
+#footer {
+    font-size: 11px;
+    color: #999;
+    text-align: center;
+    margin: 20px 0 0 0;
+}
 
 .panel {
     border-radius: 2px;
@@ -146,8 +152,9 @@ small {
 #stack-details {
     padding: 20px 0 0 0;
 }
-#stack-details .details-html {
+.details-html {
     padding: 20px;
+    font-size: 18px;
 }
 .details-html code {
     white-space: pre;
@@ -159,6 +166,15 @@ small {
     line-height: 1.45;
     background-color: #f7f7f7;
     border-radius: 3px;
+}
+.details-html em {
+    color: #999;
+    font-style: normal;    
+}
+.details-html h2 {
+    color: #999;
+    font-weight: normal;
+    margin: 0 0 25px 0;
 }
 
 .avatarbox {
@@ -248,7 +264,7 @@ td.description div {
     width: 450px;
 }
 #stack-info a.screenshot:hover img {
-    opacity: .9;
+    opacity: .7;
 }
 #stack-info a.screenshot div {
     color: #aaa;
@@ -270,6 +286,7 @@ td.description div {
     color: #999;
     min-height: 200px;
     max-width: 800px;
+    white-space: pre-wrap;
 }
 
 .tech-info .item {
@@ -288,6 +305,7 @@ td.description div {
 }
 .tech-info .item img {
     height: 75px;
+    margin: 10px 0;
 }
 
 #tech-info .btn-primary {
@@ -325,8 +343,9 @@ td.description div {
     right: 0;
 }
 
-.share-buttons{
+.share-buttons {
 	list-style: none;
+    margin: 40px 0 0 0;
 }
 
 .share-buttons li{
