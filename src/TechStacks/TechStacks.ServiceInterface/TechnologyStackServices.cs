@@ -279,15 +279,15 @@ namespace TechStacks.ServiceInterface
 
                     TopUsers = Db.Select<UserInfo>(
                         @"select u.user_name as UserName, u.default_profile_url as AvatarUrl, COUNT(*) as StacksCount
-                            from technology_stack ts
-                                 inner join
-                                 user_favorite_technology_stack uf on (ts.id = uf.technology_stack_id)
-                                 inner join
-                                 custom_user_auth u on (uf.user_id::integer = u.id)
-                            group by u.user_name, u.default_profile_url
-                            having count(*) > 0
-                            order by StacksCount desc
-                            limit 20"),
+                          from technology_stack ts
+	                          left join
+	                          user_favorite_technology_stack uf on (ts.id = uf.technology_stack_id)
+	                          left join
+	                          custom_user_auth u on (u.id = ts.owner_id::integer)
+                          group by u.user_name, u.default_profile_url
+                          having count(*) > 0
+                          order by StacksCount desc
+                          limit 20"),
 
                     TopTechnologies = Db.Select<TechnologyInfo>(
                         @"select t.slug as Slug, t.name, COUNT(*) as StacksCount 

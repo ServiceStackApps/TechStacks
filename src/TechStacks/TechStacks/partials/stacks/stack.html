@@ -19,7 +19,7 @@
                   ng-click="addFavorite()"><span class="favorite-count" ng-show="favoriteCount > 0" ng-bind="favoriteCount"></span></span>
         </h2>
         
-        <h2 class="vendor">
+        <h2 ng-hide="currentStack.VendorName == currentStack.Name" class="vendor">
             {{currentStack.VendorName}}
         </h2>
  

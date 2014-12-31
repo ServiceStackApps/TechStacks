@@ -171,6 +171,11 @@ small {
     color: #999;
     font-style: normal;    
 }
+.details-html h2 {
+    color: #999;
+    font-weight: normal;
+    margin: 0 0 25px 0;
+}
 
 .avatarbox {
     text-align: center;
@@ -300,6 +305,7 @@ td.description div {
 }
 .tech-info .item img {
     height: 75px;
+    margin: 10px 0;
 }
 
 #tech-info .btn-primary {
@@ -337,8 +343,9 @@ td.description div {
     right: 0;
 }
 
-.share-buttons{
+.share-buttons {
 	list-style: none;
+    margin: 40px 0 0 0;
 }
 
 .share-buttons li{
