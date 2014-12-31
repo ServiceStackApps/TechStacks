@@ -38,7 +38,7 @@ namespace TechStacks.ServiceInterface
                 if (user == null)
                     throw HttpError.NotFound("User not found");
 
-                var techStacks = Db.GetTechstackDetails(Db.From<TechnologyStack>()
+                var techStacks = Db.Select(Db.From<TechnologyStack>()
                     .Where(x => x.CreatedBy == request.UserName)
                     .OrderByDescending(x => x.Id));
 

@@ -146,7 +146,7 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Create_TechStack_With_Same_Name()
         {
-            var allStacks = client.Get(new AllTechnologyStacks());
+            var allStacks = client.Get(new GetAllTechnologyStacks());
             var stack = allStacks.Results.First();
             bool created = true;
             try
@@ -167,7 +167,7 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Update_TechStack_With_Same_Name()
         {
-            var allStacks = client.Get(new AllTechnologyStacks());
+            var allStacks = client.Get(new GetAllTechnologyStacks());
             var stack = allStacks.Results.First();
             var response = client.Post(new CreateTechnologyStack
             {
@@ -188,7 +188,7 @@ namespace TechStacks.Tests
                 //Ignore
             }
 
-            var updatedStacks = client.Get(new AllTechnologyStacks());
+            var updatedStacks = client.Get(new GetAllTechnologyStacks());
             Assert.That(updatedStacks.Results.First().Name, Is.EqualTo(stack.Name));
         }
 
@@ -252,7 +252,7 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Update_TechStack_User_Doesnt_Own()
         {
-            var allStacks = client.Get(new AllTechnologyStacks());
+            var allStacks = client.Get(new GetAllTechnologyStacks());
             var first = allStacks.Results.First();
             try
             {
@@ -263,7 +263,7 @@ namespace TechStacks.Tests
                 //Ignore expected error
             }
 
-            var updatedAllStacks = client.Get(new AllTechnologyStacks());
+            var updatedAllStacks = client.Get(new GetAllTechnologyStacks());
             //Name didn't change to "Foo"
             Assert.That(updatedAllStacks.Results.First().Name, Is.EqualTo("Initial Stack"));
         }
@@ -278,7 +278,7 @@ namespace TechStacks.Tests
                 Name = "My new stack"
             });
 
-            var allStacks = client.Get(new AllTechnologyStacks());
+            var allStacks = client.Get(new GetAllTechnologyStacks());
             var last = allStacks.Results.Last();
             Assert.That(last.Name, Is.EqualTo("My new stack"));
 
@@ -306,7 +306,7 @@ namespace TechStacks.Tests
         [Test]
         public void Cant_Lock_TechStack_As_Normal_User()
         {
-            var allStacks = client.Get(new AllTechnologyStacks());
+            var allStacks = client.Get(new GetAllTechnologyStacks());
             var first = allStacks.Results.First();
             bool isLocked = first.IsLocked;
             try
@@ -318,7 +318,7 @@ namespace TechStacks.Tests
                 //Do nothing
             }
 
-            var updatedStacks = client.Get(new AllTechnologyStacks());
+            var updatedStacks = client.Get(new GetAllTechnologyStacks());
             Assert.That(isLocked, Is.EqualTo(false));
             Assert.That(updatedStacks.Results.First().IsLocked, Is.EqualTo(false));
         }
@@ -326,7 +326,7 @@ namespace TechStacks.Tests
         [Test]
         public void Can_Lock_TechStack_As_AdminUser()
         {
-            var allStacks = client.Get(new AllTechnologyStacks());
+            var allStacks = client.Get(new GetAllTechnologyStacks());
             var first = allStacks.Results.First();
             bool isLocked = first.IsLocked;
             try
@@ -338,7 +338,7 @@ namespace TechStacks.Tests
                 //Do nothing
             }
 
-            var updatedStacks = client.Get(new AllTechnologyStacks());
+            var updatedStacks = client.Get(new GetAllTechnologyStacks());
             Assert.That(isLocked, Is.EqualTo(false));
             Assert.That(updatedStacks.Results.First().IsLocked, Is.EqualTo(true));
         }

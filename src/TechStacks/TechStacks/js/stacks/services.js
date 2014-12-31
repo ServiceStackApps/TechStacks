@@ -18,9 +18,6 @@
             getTechStackFavorites: function(id) {
                 return getResults($http.get('/techstacks/' + id + '/favorites'));
             },
-            latestTechStacks: function () {
-                return getResults($http.get('/techstacks/latest'));
-            },
             allTechs: function () {
                 return getResults($http.get('/technology/search'));
             },

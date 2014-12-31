@@ -52,7 +52,7 @@ namespace TechStacks.Tests
         public void Can_Get_Stacks()
         {
             var service = appHost.Resolve<TechnologyStackServices>();
-            var response = (AllTechnologyStacksResponse)service.Get(new AllTechnologyStacks());
+            var response = (GetAllTechnologyStacksResponse)service.Get(new GetAllTechnologyStacks());
             var dbFactory = appHost.Resolve<IDbConnectionFactory>();
             using (var db = dbFactory.OpenDbConnection())
             {

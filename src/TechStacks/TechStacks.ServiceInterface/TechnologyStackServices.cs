@@ -155,9 +155,9 @@ namespace TechStacks.ServiceInterface
             };
         }
 
-        public object Get(AllTechnologyStacks request)
+        public object Get(GetAllTechnologyStacks request)
         {
-            return new AllTechnologyStacksResponse
+            return new GetAllTechnologyStacksResponse
             {
                 Results = Db.Select(Db.From<TechnologyStack>().Take(100)).ToList()
             };
@@ -211,41 +211,12 @@ namespace TechStacks.ServiceInterface
                 if (tech == null)
                     throw HttpError.NotFound("TechStack not found");
 
-                var favoriteCount =
-                    Db.Count<UserFavoriteTechnologyStack>(x => x.TechnologyStackId == tech.Id);
+                var favoriteCount = Db.Count<UserFavoriteTechnologyStack>(x => x.TechnologyStackId == tech.Id);
 
-                return new GetTechnologyStackFavoriteDetailsResponse
-                {
+                return new GetTechnologyStackFavoriteDetailsResponse {
                     FavoriteCount = (int)favoriteCount
                 };
             });
-        }
-
-        public object Get(TechStackByTier request)
-        {
-            var query = Db.From<TechnologyStack>();
-            if (!string.IsNullOrEmpty(request.Tier))
-            {
-                //Filter by tier
-                query.Join<TechnologyChoice>((stack, choice) => stack.Id == choice.TechnologyStackId);
-            }
-
-            return new TechStackByTierResponse
-            {
-                Results = Db.Select(query).GroupBy(x => x.Id).Select(x => x.First()).ToList()
-            };
-        }
-
-        public object Get(RecentStackWithTechs request)
-        {
-            var stackQuery = Db.From<TechnologyStack>()
-                    .OrderByDescending(x => x.Id).Limit(20);
-
-            var results = Db.GetTechstackDetails(stackQuery);
-            return new RecentStackWithTechsResponse
-            {
-                Results = results
-            };
         }
 
         public object Any(GetConfig request)
@@ -257,8 +228,7 @@ namespace TechStacks.ServiceInterface
                     Title = typeof(TechnologyTier).GetMember(x.ToString())[0].GetDescription(),
                 });
 
-            return new GetConfigResponse
-            {
+            return new GetConfigResponse {
                 AllTiers = allTiers,
             };
         }
@@ -316,8 +286,8 @@ namespace TechStacks.ServiceInterface
         //Cached AutoQuery
         public object Any(FindTechStacks request)
         {
-            var key = ContentCache.TechnologyStackSearchKey(
-                Request.QueryString.ToString(), clear: request.Reload);
+            var key = ContentCache.TechnologyStackSearchKey(Request.QueryString.ToString(), clear: request.Reload);
+
             return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
             {
                 var q = AutoQuery.CreateQuery(request, Request.GetRequestParams());

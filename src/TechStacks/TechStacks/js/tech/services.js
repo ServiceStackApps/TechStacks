@@ -36,7 +36,7 @@
                 return getResults($http.get('/technology/' + id + '/favorites'));
             },
             searchTech: function (searchQuery) {
-                return getResults($http.get('/technology/search?orderBy=-LastModified&NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery));
+                return getResults($http.get('/technology/search?orderBy=Name&NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery));
             },
             getAllTechs: function () {
                 return getResults($http.get('/technology'));

@@ -24,7 +24,7 @@ namespace TechStacks.ServiceModel
     {
         public DateTime Created { get; set; }
         public string AvatarUrl { get; set; }
-        public List<TechStackDetails> TechStacks { get; set; }
+        public List<TechnologyStack> TechStacks { get; set; }
         public List<TechnologyStack> FavoriteTechStacks { get; set; }
         public List<Technology> FavoriteTechnologies { get; set; } 
     }
