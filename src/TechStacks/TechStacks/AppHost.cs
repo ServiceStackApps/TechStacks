@@ -37,9 +37,6 @@ namespace TechStacks
         /// <param name="container"></param>
         public override void Configure(Container container)
         {
-            //Return default.cshtml home page for all 404 requests so we can handle routing on the client
-            base.CustomErrorHttpHandlers[HttpStatusCode.NotFound] = new RazorHandler("/default.cshtml");
- 
             SetConfig(new HostConfig {
                 AddRedirectParamsToQueryString = true,
             });
