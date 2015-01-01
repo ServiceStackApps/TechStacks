@@ -1,30 +1,36 @@
 # TechStacks
 
-This is an example application starting from the AngularJS App template in ServiceStackVS. It allows users to add technologies, and construct their favorite technology stacks. Users can favorite technologies and have a 'feed' of other users techstacks that contain their favorite techs.
+TechStacks is a modern [AngularJS](https://angularjs.org/) CRUD App that lets you Browse and Add Technology Stacks of popular StartUps. After Signing in you can add your own TechStacks and favorite technologies to create a personalized custom 'feed' to view Websites and Apps built with your favorite programming languages and technologies.
 
+TechStacks is based on a [Bootstrap template](http://getbootstrap.com) with client-side features:
 
+ - HTML5 Routing to enable pretty urls, also supports full page reloads and back button support
+ - Same Services supporting both human-readable Slugs or int primary keys
+ - Responsive design supporting iPad Landscape and Portrait modes
+ - Preloading and background data fetching to reduce flicker and maximize responsiveness
+ - [Disqus](https://disqus.com/) commenting system
+ - [Chosen](http://harvesthq.github.io/chosen/) for UX-friendly multi combo boxes
 
-#### Application features
-- Login with Twitter or Github
-- Create a 'TechStack' for your application, describe what/why you use your stack.
-- Add technologies to your stack.
-- Create technologies if their aren't listed.
-- Favorite technologies to watch for any stacks that use them.
-- User 'feeds' of stacks with favorite technologies.
+and some of TechStacks back-end features include: 
 
-**User Feed**
-![](https://github.com/ServiceStack/Assets/raw/master/img/apps/TechStacks/user-feed.png)
+ - [Twitter and GitHub OAuth Providers](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization)
+ - Substitutable [OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite) RDBMS [PostgreSQL and Sqlite](https://github.com/ServiceStackApps/TechStacks/blob/875e78910e43d2230f0925b71d5990497216511e/src/TechStacks/TechStacks/AppHost.cs#L49-L56) back-ends
+ - [Auto Query](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query) for automatic services of RDBMS tables
+ - [RDBMS Sessions and In Memory Caching](https://github.com/ServiceStack/ServiceStack/wiki/Caching)
+ - [Smart Razor Views](http://razor.servicestack.net)
+ - [Fluent Validation](https://github.com/ServiceStack/ServiceStack/wiki/Validation)
+ - Build release, package and deploy via Grunt tasks.
+ - Minification via Grunt tasks only required during deployment
+ - Local Sqlite during development, PostgreSQL when deployed to production
 
-**Front Page**
-![](https://github.com/ServiceStack/Assets/raw/master/img/apps/TechStacks/front-page-logged-out.png)
+## Personalized Feed based on Favorite Technologies
+![Personlaized TechStacks Feed](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks-feed.png)
 
-**View TechStack**
-![](https://github.com/ServiceStack/Assets/raw/master/img/apps/TechStacks/example-stack.png)
-#### Tech usages
-- AngularJS/Bootstrap client
-- Build release, package and deploy via Grunt tasks.
-- Minification via Grunt tasks only for published application.
-- Local Sqlite for easy development, Postgres when published.
+## Home Page
+![Home Page Screenshot](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks.png)
+
+## View TechStack
+![TechStack Screenshot](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks-stacks.png)
 
 ## Developer Guide
 TechStacks is an example of a larger project built from the AngularJS App template found in ServiceStackVS. It is a front end focused application leveraging ServiceStack to take care of all the backend services.
