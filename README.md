@@ -19,8 +19,8 @@ and some of TechStacks back-end features include:
  - [RDBMS Sessions and In Memory Caching](https://github.com/ServiceStack/ServiceStack/wiki/Caching)
  - [Smart Razor Views](http://razor.servicestack.net)
  - [Fluent Validation](https://github.com/ServiceStack/ServiceStack/wiki/Validation)
- - Build release, package and deploy via Grunt tasks.
- - Minification via Grunt tasks only required during deployment
+ - Build release, package and [deploy via Grunt tasks](https://github.com/ServiceStack/ServiceStack/wiki/Simple-Deployments-to-AWS-with-WebDeploy#deploy-using-grunt)
+ - [Minification via Grunt tasks](https://github.com/ServiceStack/ServiceStackVS/blob/master/angular-spa.md) (only required during deployment)
  - Local Sqlite during development, PostgreSQL when deployed to production
 
 ## Personalized Feed based on Favorite Technologies
@@ -33,7 +33,8 @@ and some of TechStacks back-end features include:
 ![TechStack Screenshot](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks-stacks.png)
 
 ## Developer Guide
-TechStacks is an example of a larger project built from the AngularJS App template found in ServiceStackVS. It is a front end focused application leveraging ServiceStack to take care of all the backend services.
+
+TechStacks is a good example of the experience you can get running a [ServiceStackVS](https://github.com/ServiceStack/ServiceStackVS) built **[AngularJS App](https://github.com/ServiceStack/ServiceStackVS/blob/master/angular-spa.md)** on modest hardware - [techstacks.io](http://techstacks.io) is currently running on a shared single **m1.small** AWS EC2 instance and **db.t1.micro** RDS PostgreSQL instance that's hosting all [ServiceStack Live Demos](https://github.com/ServiceStackApps/LiveDemos).
 
 In this guide we'll look at different parts of ServiceStack that are used as well as the developer workflow and deployment.
 
