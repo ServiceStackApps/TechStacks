@@ -57,5 +57,17 @@ namespace TechStacks.Tests
                 db.UpdateAll(allStacks);
             }
         }
+
+        [Test]
+        public void Can_Tweet_update()
+        {
+            var twitter = new TwitterUpdates(
+                Config.GetString("WebStacks.ConsumerKey"),
+                Config.GetString("WebStacks.ConsumerSecret"),
+                Config.GetString("WebStacks.AccessToken"),
+                Config.GetString("WebStacks.AccessSecret"));
+
+            twitter.Tweet("Test for http://techstacks.io");
+        }
     }
 }

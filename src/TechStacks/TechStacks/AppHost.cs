@@ -61,6 +61,12 @@ namespace TechStacks
                 new GithubAuthProvider(AppSettings)
             }));
 
+            container.Register(new TwitterUpdates(
+                AppSettings.GetString("WebStacks.ConsumerKey"),
+                AppSettings.GetString("WebStacks.ConsumerSecret"),
+                AppSettings.GetString("WebStacks.AccessToken"),
+                AppSettings.GetString("WebStacks.AccessSecret")));
+
             var authRepo = new OrmLiteAuthRepository<CustomUserAuth, UserAuthDetails>(dbFactory);
             container.Register<IUserAuthRepository>(authRepo);
             authRepo.InitSchema();

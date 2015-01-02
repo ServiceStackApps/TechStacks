@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using MarkdownSharp;
 using ServiceStack;
 using ServiceStack.Configuration;
@@ -13,10 +14,19 @@ namespace TechStacks.ServiceInterface
     [Authenticate(ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechnologyStackServices : Service
     {
+        public IAppSettings AppSettings { get; set; }
+
+        public TwitterUpdates TwitterUpdates { get; set; }
+
         public ContentCache ContentCache { get; set; }
 
         public object Post(CreateTechnologyStack request)
         {
+            var slug = request.Name.GenerateSlug();
+            var existingStack = Db.Single<TechnologyStack>(q => q.Name == request.Name || q.Slug == slug);
+            if (existingStack != null)
+                throw new ArgumentException("'{0}' already exists".Fmt(slug));
+
             var techStack = request.ConvertTo<TechnologyStack>();
             var session = SessionAs<AuthUserSession>();
             techStack.CreatedBy = session.UserName;
@@ -24,7 +34,8 @@ namespace TechStacks.ServiceInterface
             techStack.OwnerId = session.UserAuthId;
             techStack.Created = DateTime.UtcNow;
             techStack.LastModified = DateTime.UtcNow;
-            techStack.Slug = techStack.Name.GenerateSlug();
+            techStack.LastStatusUpdate = DateTime.UtcNow;
+            techStack.Slug = slug;
 
             long id;
             using (var trans = Db.OpenTransaction())
@@ -56,10 +67,37 @@ namespace TechStacks.ServiceInterface
 
             ContentCache.ClearAll();
 
+            var url = new GetTechnologyStack { Slug = techStack.Slug }.ToAbsoluteUri();
+            PostTwitterUpdate(
+                "{0}'s Stack! - {1} ".Fmt(techStack.Name, url),
+                request.TechnologyIds,
+                maxLength: 140 - (TweetUrlLength - url.Length));
+
             return new CreateTechnologyStackResponse
             {
                 Result = createdTechStack.ConvertTo<TechStackDetails>()
             };
+        }
+
+        private const int TweetUrlLength = 22;
+
+        private void PostTwitterUpdate(string msgPrefix, List<long> techIds, int maxLength)
+        {
+            var techSlugs = Db.Column<string>(Db.From<Technology>()
+                .Where(x => techIds.Contains(x.Id))
+                .Select(x => x.Slug));
+
+            var sb = new StringBuilder(msgPrefix);
+            foreach (var techSlug in techSlugs)
+            {
+                var slug = techSlug.Replace("-", "");
+                if (sb.Length + slug.Length > maxLength) 
+                    break;
+
+                sb.Append(" #" + slug);
+            }
+
+            TwitterUpdates.Tweet(sb.ToString());
         }
 
         public object Put(UpdateTechnologyStack request)
@@ -84,6 +122,7 @@ namespace TechStacks.ServiceInterface
             updated.Created = existingStack.Created;
             updated.LastModifiedBy = session.UserName;
             updated.LastModified = DateTime.UtcNow;
+            updated.LastStatusUpdate = DateTime.UtcNow;
 
             //Update SlugTitle
             updated.Slug = updated.Name.GenerateSlug();
@@ -121,6 +160,12 @@ namespace TechStacks.ServiceInterface
             Db.Insert(history);
 
             ContentCache.ClearAll();
+
+            var url = new GetTechnologyStack { Slug = updated.Slug }.ToAbsoluteUri();
+            PostTwitterUpdate(
+                "{0}'s Stack! - {1} ".Fmt(updated.Name, url),
+                request.TechnologyIds,
+                maxLength: 140 - (TweetUrlLength - url.Length));
 
             return new UpdateTechnologyStackResponse
             {
