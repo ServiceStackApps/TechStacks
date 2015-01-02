@@ -14,11 +14,30 @@ namespace TechStacks.ServiceInterface
     [Authenticate(ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechnologyStackServices : Service
     {
-        public IAppSettings AppSettings { get; set; }
+        public ContentCache ContentCache { get; set; }
 
         public TwitterUpdates TwitterUpdates { get; set; }
 
-        public ContentCache ContentCache { get; set; }
+        private const int TweetUrlLength = 22;
+
+        private void PostTwitterUpdate(string msgPrefix, List<long> techIds, int maxLength)
+        {
+            var techSlugs = Db.Column<string>(Db.From<Technology>()
+                .Where(x => techIds.Contains(x.Id))
+                .Select(x => x.Slug));
+
+            var sb = new StringBuilder(msgPrefix);
+            foreach (var techSlug in techSlugs)
+            {
+                var slug = techSlug.Replace("-", "");
+                if (sb.Length + slug.Length + 2 > maxLength)
+                    break;
+
+                sb.Append(" #" + slug);
+            }
+
+            TwitterUpdates.Tweet(sb.ToString());
+        }
 
         public object Post(CreateTechnologyStack request)
         {
@@ -67,9 +86,9 @@ namespace TechStacks.ServiceInterface
 
             ContentCache.ClearAll();
 
-            var url = new GetTechnologyStack { Slug = techStack.Slug }.ToAbsoluteUri();
+            var url = new ClientTechnologyStack { Slug = techStack.Slug }.ToAbsoluteUri();
             PostTwitterUpdate(
-                "{0}'s Stack! - {1} ".Fmt(techStack.Name, url),
+                "{0}'s Stack! {1} ".Fmt(techStack.Name, url),
                 request.TechnologyIds,
                 maxLength: 140 - (TweetUrlLength - url.Length));
 
@@ -77,27 +96,6 @@ namespace TechStacks.ServiceInterface
             {
                 Result = createdTechStack.ConvertTo<TechStackDetails>()
             };
-        }
-
-        private const int TweetUrlLength = 22;
-
-        private void PostTwitterUpdate(string msgPrefix, List<long> techIds, int maxLength)
-        {
-            var techSlugs = Db.Column<string>(Db.From<Technology>()
-                .Where(x => techIds.Contains(x.Id))
-                .Select(x => x.Slug));
-
-            var sb = new StringBuilder(msgPrefix);
-            foreach (var techSlug in techSlugs)
-            {
-                var slug = techSlug.Replace("-", "");
-                if (sb.Length + slug.Length > maxLength) 
-                    break;
-
-                sb.Append(" #" + slug);
-            }
-
-            TwitterUpdates.Tweet(sb.ToString());
         }
 
         public object Put(UpdateTechnologyStack request)
@@ -123,9 +121,7 @@ namespace TechStacks.ServiceInterface
             updated.LastModifiedBy = session.UserName;
             updated.LastModified = DateTime.UtcNow;
             updated.LastStatusUpdate = DateTime.UtcNow;
-
-            //Update SlugTitle
-            updated.Slug = updated.Name.GenerateSlug();
+            updated.Slug = existingStack.Slug;
 
             using (var trans = Db.OpenTransaction())
             {
@@ -161,9 +157,9 @@ namespace TechStacks.ServiceInterface
 
             ContentCache.ClearAll();
 
-            var url = new GetTechnologyStack { Slug = updated.Slug }.ToAbsoluteUri();
+            var url = new ClientTechnologyStack { Slug = updated.Slug }.ToAbsoluteUri();
             PostTwitterUpdate(
-                "{0}'s Stack! - {1} ".Fmt(updated.Name, url),
+                "{0}'s Stack! {1} ".Fmt(updated.Name, url),
                 request.TechnologyIds,
                 maxLength: 140 - (TweetUrlLength - url.Length));
 

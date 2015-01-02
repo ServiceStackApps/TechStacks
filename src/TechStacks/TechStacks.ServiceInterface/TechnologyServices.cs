@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.OrmLite;
@@ -12,6 +14,32 @@ namespace TechStacks.ServiceInterface
     public class TechnologyServices : Service
     {
         public ContentCache ContentCache { get; set; }
+
+        public TwitterUpdates TwitterUpdates { get; set; }
+
+        private const int TweetUrlLength = 22;
+
+        private void PostTwitterUpdate(string msgPrefix, List<long> techIds, int maxLength)
+        {
+            var stackNames = Db.Column<string>(Db.From<TechnologyStack>()
+                .Where(x => techIds.Contains(x.Id))
+                .Select(x => x.Name));
+
+            var sb = new StringBuilder(msgPrefix);
+            for (int i = 0; i < stackNames.Count; i++)
+            {
+                var name = stackNames[i];
+                if (sb.Length + name.Length + 2 > maxLength)
+                    break;
+
+                if (i > 0)
+                    sb.Append(",");
+
+                sb.Append(" " + name);
+            }
+
+            TwitterUpdates.Tweet(sb.ToString());
+        }
 
         public object Post(CreateTechnology request)
         {
@@ -39,6 +67,14 @@ namespace TechStacks.ServiceInterface
             Db.Insert(history);
 
             ContentCache.ClearAll();
+
+            var url = new ClientTechnology { Slug = tech.Slug }.ToAbsoluteUri();
+            PostTwitterUpdate(
+                "Who's using #{0}? {1}".Fmt(tech.Slug, url),
+                Db.ColumnDistinct<long>(Db.From<TechnologyChoice>()
+                    .Where(x => x.TechnologyId == tech.Id)
+                    .Select(x => x.TechnologyStackId)).ToList(),
+                maxLength: 140 - (TweetUrlLength - url.Length));
 
             return new CreateTechnologyResponse
             {
@@ -68,9 +104,8 @@ namespace TechStacks.ServiceInterface
             updated.OwnerId = existingTech.OwnerId;
             updated.CreatedBy = existingTech.CreatedBy;
             updated.LastStatusUpdate = existingTech.LastStatusUpdate;
+            updated.Slug = existingTech.Slug;
 
-            //Update SlugTitle
-            updated.Slug = updated.Name.GenerateSlug();
             Db.Save(updated);
 
             var history = updated.ConvertTo<TechnologyHistory>();
@@ -79,6 +114,14 @@ namespace TechStacks.ServiceInterface
             Db.Insert(history);
 
             ContentCache.ClearAll();
+
+            var url = new ClientTechnology { Slug = updated.Slug }.ToAbsoluteUri();
+            PostTwitterUpdate(
+                "Who's using #{0}? {1}".Fmt(updated.Slug, url),
+                Db.ColumnDistinct<long>(Db.From<TechnologyChoice>()
+                    .Where(x => x.TechnologyId == updated.Id)
+                    .Select(x => x.TechnologyStackId)).ToList(),
+                maxLength: 140 - (TweetUrlLength - url.Length));
 
             return new UpdateTechnologyResponse
             {

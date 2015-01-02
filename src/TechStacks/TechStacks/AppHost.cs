@@ -93,7 +93,7 @@ namespace TechStacks
                             UrlSet = db.Select<TechnologyStack>(q => q.OrderByDescending(x => x.LastModified))
                                 .Map(x => new SitemapUrl
                                 {
-                                    Location = new ClientTechStack { Slug = x.Slug }.ToAbsoluteUri(),
+                                    Location = new ClientTechnologyStack { Slug = x.Slug }.ToAbsoluteUri(),
                                     LastModified = x.LastModified,
                                     ChangeFrequency = SitemapFrequency.Weekly,
                                 }),

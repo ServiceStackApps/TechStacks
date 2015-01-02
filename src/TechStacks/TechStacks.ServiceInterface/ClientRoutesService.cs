@@ -32,10 +32,10 @@ namespace TechStacks.ServiceInterface
     }
 
     [Route("/stacks")]
-    public class ClientAllTechStacks { }
+    public class ClientAllTechnologyStacks { }
 
     [Route("/stacks/{Slug}")]
-    public class ClientTechStack
+    public class ClientTechnologyStack
     {
         public string Slug { get; set; }
     }
