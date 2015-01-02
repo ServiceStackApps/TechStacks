@@ -15,6 +15,11 @@ namespace TechStacks.ServiceInterface
 
         public object Post(CreateTechnology request)
         {
+            var slug = request.Name.GenerateSlug();
+            var existingTech = Db.Single<Technology>(q => q.Name == request.Name || q.Slug == slug);
+            if (existingTech != null)
+                throw new ArgumentException("'{0}' already exists".Fmt(slug));
+
             var tech = request.ConvertTo<Technology>();
             var session = SessionAs<AuthUserSession>();
             tech.CreatedBy = session.UserName;
@@ -23,8 +28,8 @@ namespace TechStacks.ServiceInterface
             tech.LastModified = DateTime.UtcNow;
             tech.OwnerId = session.UserAuthId;
             tech.LogoApproved = true;
+            tech.Slug = slug;
 
-            tech.Slug = tech.Name.GenerateSlug();
             var id = Db.Insert(tech, selectIdentity: true);
             var createdTechStack = Db.SingleById<Technology>(id);
 
@@ -62,6 +67,7 @@ namespace TechStacks.ServiceInterface
             updated.LastModified = DateTime.UtcNow;
             updated.OwnerId = existingTech.OwnerId;
             updated.CreatedBy = existingTech.CreatedBy;
+            updated.LastStatusUpdate = existingTech.LastStatusUpdate;
 
             //Update SlugTitle
             updated.Slug = updated.Name.GenerateSlug();
