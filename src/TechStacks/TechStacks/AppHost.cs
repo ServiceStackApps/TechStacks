@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Net;
+﻿using System;
+using System.IO;
 using Funq;
 using ServiceStack;
 using ServiceStack.Auth;
@@ -39,6 +39,7 @@ namespace TechStacks
         {
             SetConfig(new HostConfig {
                 AddRedirectParamsToQueryString = true,
+                WebHostUrl = "http://techstacks.io", //for sitemap.xml urls
             });
 
             JsConfig.DateHandler = DateHandler.ISO8601;
@@ -76,6 +77,47 @@ namespace TechStacks
                 db.CreateTableIfNotExists<TechnologyChoice>();
                 db.CreateTableIfNotExists<UserFavoriteTechnologyStack>();
                 db.CreateTableIfNotExists<UserFavoriteTechnology>();
+
+                Plugins.Add(new SitemapFeature
+                {
+                    SitemapIndex = {
+                        new Sitemap {
+                            AtPath = "/sitemap-techstacks.xml",
+                            LastModified = DateTime.UtcNow,
+                            UrlSet = db.Select<TechnologyStack>(q => q.OrderByDescending(x => x.LastModified))
+                                .Map(x => new SitemapUrl
+                                {
+                                    Location = new ClientTechStack { Slug = x.Slug }.ToAbsoluteUri(),
+                                    LastModified = x.LastModified,
+                                    ChangeFrequency = SitemapFrequency.Weekly,
+                                }),
+                        },
+                        new Sitemap {
+                            AtPath = "/sitemap-technologies.xml",
+                            LastModified = DateTime.UtcNow,
+                            UrlSet = db.Select<Technology>(q => q.OrderByDescending(x => x.LastModified))
+                                .Map(x => new SitemapUrl
+                                {
+                                    Location = new ClientTechnology { Slug = x.Slug }.ToAbsoluteUri(),
+                                    LastModified = x.LastModified,
+                                    ChangeFrequency = SitemapFrequency.Weekly,
+                                })
+                        },
+                        new Sitemap
+                        {
+                            AtPath = "/sitemap-users.xml",
+                            LastModified = DateTime.UtcNow,
+                            UrlSet = db.Select<CustomUserAuth>(q => q.OrderByDescending(x => x.ModifiedDate))
+                                .Map(x => new SitemapUrl
+                                {
+                                    Location = new ClientUser { UserName = x.UserName }.ToAbsoluteUri(),
+                                    LastModified = x.ModifiedDate,
+                                    ChangeFrequency = SitemapFrequency.Weekly,
+                                })
+                        }
+                    }
+                });
+
             }
 
             Plugins.Add(new RazorFormat());

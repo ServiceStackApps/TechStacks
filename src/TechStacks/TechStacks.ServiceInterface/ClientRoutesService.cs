@@ -19,4 +19,31 @@ namespace TechStacks.ServiceInterface
             };
         }
     }
+
+    //Client Routes to generate urls in sitemap.xml
+
+    [Route("/tech")]
+    public class ClientAllTechnologies { }
+
+    [Route("/tech/{Slug}")]
+    public class ClientTechnology
+    {
+        public string Slug { get; set; }
+    }
+
+    [Route("/stacks")]
+    public class ClientAllTechStacks { }
+
+    [Route("/stacks/{Slug}")]
+    public class ClientTechStack
+    {
+        public string Slug { get; set; }
+    }
+
+    [Route("/{UserName}")]
+    public class ClientUser
+    {
+        public string UserName { get; set; }
+    }
+
 }
