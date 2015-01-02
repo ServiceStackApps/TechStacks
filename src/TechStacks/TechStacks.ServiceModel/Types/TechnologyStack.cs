@@ -27,6 +27,8 @@ namespace TechStacks.ServiceModel.Types
         public string Slug { get; set; }
 
         public string Details { get; set; }
+
+        public DateTime? LastStatusUpdate { get; set; }
     }
 
     public class TechnologyStackHistory : TechnologyStack
@@ -83,6 +85,8 @@ namespace TechStacks.ServiceModel.Types
         public bool IsLocked { get; set; }
 
         public TechnologyTier Tier { get; set; }
+
+        public DateTime? LastStatusUpdate { get; set; }
     }
 
     public class TechnologyHistory : Technology
