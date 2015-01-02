@@ -18,16 +18,10 @@ namespace TechStacks.ServiceInterface
             var tech = request.ConvertTo<Technology>();
             var session = SessionAs<AuthUserSession>();
             tech.CreatedBy = session.UserName;
+            tech.Created = DateTime.UtcNow;
             tech.LastModifiedBy = session.UserName;
             tech.LastModified = DateTime.UtcNow;
-            tech.Created = DateTime.UtcNow;
             tech.OwnerId = session.UserAuthId;
-
-            // disable explicit approval until we first have a problem
-            //if (!session.HasRole(RoleNames.Admin))
-            //{
-            //    tech.LogoApproved = false;
-            //}
             tech.LogoApproved = true;
 
             tech.Slug = tech.Name.GenerateSlug();
@@ -55,11 +49,6 @@ namespace TechStacks.ServiceInterface
 
             var session = SessionAs<AuthUserSession>();
             
-            // disable explicit approval until we first have a problem
-            //if (request.LogoUrl != existingTech.LogoUrl && !session.HasRole(RoleNames.Admin))
-            //{
-            //    existingTech.LogoApproved = false;
-            //}
             if (existingTech.IsLocked && !session.HasRole(RoleNames.Admin))
                 throw HttpError.Unauthorized("Technology changes are currently restricted to Administrators only.");
 
@@ -67,6 +56,8 @@ namespace TechStacks.ServiceInterface
             //Carry over current logo approved status and locked status
             updated.LogoApproved = existingTech.LogoApproved;
             updated.IsLocked = existingTech.IsLocked;
+            updated.CreatedBy = existingTech.CreatedBy;
+            updated.Created = existingTech.Created;
             updated.LastModifiedBy = session.UserName;
             updated.LastModified = DateTime.UtcNow;
             updated.OwnerId = existingTech.OwnerId;

@@ -81,6 +81,7 @@ namespace TechStacks.ServiceInterface
             updated.IsLocked = existingStack.IsLocked;
             updated.OwnerId = existingStack.OwnerId;
             updated.CreatedBy = existingStack.CreatedBy;
+            updated.Created = existingStack.Created;
             updated.LastModifiedBy = session.UserName;
             updated.LastModified = DateTime.UtcNow;
 
