@@ -20,17 +20,17 @@
         ]).
         config(['$routeProvider', '$httpProvider', '$locationProvider', function ($routeProvider, $httpProvider, $locationProvider) {
             $routeProvider.when('/', { templateUrl: '/partials/home.html', controller: 'homeCtrl' });
-            $routeProvider.when('/tech', { templateUrl: '/partials/tech/latest.html', controller: 'latestTechsCtrl' });
-            $routeProvider.when('/tech/create', { templateUrl: '/partials/tech/create.html', controller: 'createTechCtrl' });
-            $routeProvider.when('/tech/:techId', { templateUrl: '/partials/tech/tech.html', controller: 'techCtrl' });
-            $routeProvider.when('/tech/:techId/edit', { templateUrl: '/partials/tech/edit.html', controller: 'editTechCtrl' });
-            $routeProvider.when('/stacks', { templateUrl: '/partials/stacks/latest.html', controller: 'latestStacksCtrl' });
-            $routeProvider.when('/stacks/create', { templateUrl: '/partials/stacks/create.html', controller: 'createStackCtrl' });
-            $routeProvider.when('/stacks/:stackId', { templateUrl: '/partials/stacks/stack.html', controller: 'stackCtrl' });
-            $routeProvider.when('/stacks/:stackId/edit', { templateUrl: '/partials/stacks/edit.html', controller: 'editStackCtrl' });
+            $routeProvider.when('/tech', { templateUrl: '/partials/tech/latest.html', controller: 'latestTechsCtrl', title: 'Explore Technologies'});
+            $routeProvider.when('/tech/create', { templateUrl: '/partials/tech/create.html', controller: 'createTechCtrl', title: 'Add a new Technology' });
+            $routeProvider.when('/tech/:techId', { templateUrl: '/partials/tech/tech.html', controller: 'techCtrl', title: 'Who uses {slug}?' });
+            $routeProvider.when('/tech/:techId/edit', { templateUrl: '/partials/tech/edit.html', controller: 'editTechCtrl', title: 'Update Technology' });
+            $routeProvider.when('/stacks', { templateUrl: '/partials/stacks/latest.html', controller: 'latestStacksCtrl', title: 'Explore Technology Stacks' });
+            $routeProvider.when('/stacks/create', { templateUrl: '/partials/stacks/create.html', controller: 'createStackCtrl', title: 'Add a new Technology Stack' });
+            $routeProvider.when('/stacks/:stackId', { templateUrl: '/partials/stacks/stack.html', controller: 'stackCtrl', title: '{slug}\'s Technology Stack' });
+            $routeProvider.when('/stacks/:stackId/edit', { templateUrl: '/partials/stacks/edit.html', controller: 'editStackCtrl', title: 'Update Technology Stack' });
 
             $routeProvider.when('/auth/:any', { controller: function () { location.href = location.href; }, template: "<div></div>" });
-            $routeProvider.when('/:userName', { templateUrl: '/partials/user/feed.html', controller: 'userFeedCtrl' });
+            $routeProvider.when('/:userName', { templateUrl: '/partials/user/feed.html', controller: 'userFeedCtrl', title: '{slug}\'s favorite Technology Stacks' });
             
             $routeProvider.otherwise({ redirectTo: '/' });
             
@@ -145,6 +145,14 @@
                         });
                 }
             };
+        }])
+        .run(['$location', '$rootScope', function ($location, $rootScope) {
+            $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+                //Change Window Title for each page
+                var parts = location.href.split('/'), slug = parts[parts.length - 1];
+                var title = (current.$$route.title || 'Technology Stacks').replace('{slug}', slug.charAt(0).toUpperCase() + slug.slice(1));
+                $rootScope.title = title;
+            });
         }]);
 
 })();
