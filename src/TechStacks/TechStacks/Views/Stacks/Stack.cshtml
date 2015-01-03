@@ -21,10 +21,6 @@
         <h2 class="vendor">
             @currentStack.VendorName
         </h2>
- 
-        <div class="small" style="margin-bottom: 25px">
-            added by <a href="/users/@currentStack.CreatedBy">@currentStack.CreatedBy</a>
-        </div>
 
         <p class="description">@currentStack.Description</p>
         
@@ -52,7 +48,10 @@
         <div class="clearfix"></div>
 
         <div class="last-updated">
-            <p>last updated: @currentStack.LastModified.ToString("yyyy/MM/dd")</p>
+            <p>
+                last updated: @currentStack.LastModified.ToString("yyyy/MM/dd")
+                by <a href="/users/@currentStack.LastModifiedBy">@currentStack.LastModifiedBy</a>
+            </p>
         </div>
     </div>
     
