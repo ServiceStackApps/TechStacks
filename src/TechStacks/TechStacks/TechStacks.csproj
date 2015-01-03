@@ -181,6 +181,13 @@
     <Content Include="wwwroot_build\02-package-server.bat" />
     <Content Include="wwwroot_build\03-package-client.bat" />
     <Content Include="wwwroot_build\04-deploy-app.bat" />
+    <Content Include="Views\Home.cshtml" />
+    <Content Include="Views\Shared\ServerHtml.cshtml" />
+    <Content Include="Views\Stacks\AllStacks.cshtml" />
+    <Content Include="Views\Stacks\Stack.cshtml" />
+    <Content Include="Views\Tech\AllTech.cshtml" />
+    <Content Include="Views\Tech\Tech.cshtml" />
+    <Content Include="Views\User\User.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
