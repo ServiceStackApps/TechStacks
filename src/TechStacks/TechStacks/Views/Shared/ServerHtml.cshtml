@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>@ViewBag.Title</title>
+        <meta name="description" content="Welcome to TechStacks! Discover the hottest Technology Stacks of the most popular Startups using your favorite languages and technologies!">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/img/favicon.png" rel="icon">
+
+        <!--build:css /lib/css/bootstrap.min.css-->
+        <link href="/bower_components/roboto-fontface/roboto-fontface.css" rel="stylesheet" />
+        <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/bootstrap-theme.css" />
+        <link href="/bower_components/chosen/chosen.css" rel="stylesheet" />
+        <!-- endbuild -->
+        <!--build:css /css/style.min.css-->
+        <link rel="stylesheet" href="/css/app.css" />
+        <!-- endbuild -->
+        <!-- build:js /lib/js/jquery.min.js -->
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/bower_components/chosen/chosen.jquery.js"></script>
+        <!-- endbuild -->
+        <!-- build:js /lib/js/bootstrap.min.js -->
+        <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <!-- endbuild -->
+        <!-- build:js /lib/js/modernizr.min.js -->
+        <script src="/bower_components/modernizr/modernizr.js"></script>
+        <!-- endbuild -->
+        <style>
+            .navbar, .btn,.btn:focus, .stack .panel-heading, .stack caption {
+                background: #4CAF50;
+            }
+            .panel-heading i {
+                color: #1B5E20;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a id="logo" class="@(ViewBag.Tab == null || ViewBag.Tab == "home" ? "active " : "")navbar-brand" href="/">
+                        <img src="/img/logo-280.png" width="30" height="30"/>
+                        TechStacks
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="@(ViewBag.Tab == "stacks" ? "active " : "")"><a href="/stacks">Stacks</a></li>
+                        <li class="@(ViewBag.Tab == "tech" ? "active " : "")"><a href="/tech">Technologies</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+
+        <div class="container">
+            @RenderBody()
+        </div>
+        
+        <div id="footer">
+            site design / logo &copy; 2015 
+            <a href="https://servicestack.net">Service Stack</a>; 
+            user contributions licensed under 
+            <a href="http://creativecommons.org/licenses/by-sa/3.0/">cc by-sa 3.0</a>
+             with attribution required
+        </div>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-7722718-10', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+
+    </body>
+</html>

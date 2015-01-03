@@ -1,0 +1,70 @@
+﻿@inherits ViewPage<GetTechnologyStackResponse>
+@{
+    Layout = "ServerHtml";
+    ViewBag.Tab = "stacks";
+    var currentStack = Model.Result;
+    var allTiers = TechnologyStackServices.GetAllTiers();
+}
+
+<div id="stack-page">
+    <div id="stack-info">
+       
+        <a class="screenshot" href="@currentStack.AppUrl">
+            <img src="@currentStack.ScreenshotUrl" />
+            <div>@currentStack.AppUrl</div>
+        </a>
+
+        <h2 style="display: inline-block">
+            @currentStack.Name
+        </h2>
+        
+        <h2 class="vendor">
+            @currentStack.VendorName
+        </h2>
+ 
+        <div class="small" style="margin-bottom: 25px">
+            added by <a href="/users/@currentStack.CreatedBy">@currentStack.CreatedBy</a>
+        </div>
+
+        <p class="description">@currentStack.Description</p>
+        
+        @foreach (var tier in allTiers)
+        {
+            var techs = currentStack.TechnologyChoices.Where(x => x.Tier == tier.Value).ToList();
+            if (techs.Count > 0)
+            {
+                <div class="tech-info">
+                    <div class="item">
+                        <h4>@tier.Title</h4>
+                        @foreach (var tech in techs)
+                        {
+                            <div>
+                                <a href="/tech/@tech.Slug" title="@tech.Name">
+                                    <img src="@tech.LogoUrl" />
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+
+        <div class="clearfix"></div>
+
+        <div class="last-updated">
+            <p>last updated: @currentStack.LastModified.ToString("yyyy/MM/dd")</p>
+        </div>
+    </div>
+    
+    @if (currentStack.DetailsHtml != null)
+    {
+        <div id="stack-details">
+            <div class="panel panel-default">
+                <div class="panel panel-body">
+                    <div class="details-html">@currentStack.DetailsHtml.AsRaw()</div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

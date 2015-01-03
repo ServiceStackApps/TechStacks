@@ -1,0 +1,83 @@
+﻿@inherits ViewPage<GetUserInfoResponse>
+@{
+    Layout = "ServerHtml";
+    var avatarUrl = Model.AvatarUrl;
+    var currentUserName = Model.UserName;
+}
+
+<div id="user-page">
+    <div class="col-md-2" style="text-align:center;">
+        <div class="avatarbox">
+            <img src="@avatarUrl" />
+        </div>
+        <h4>@currentUserName</h4>
+    </div>
+    <div class="col-md-10">
+        @if (!Model.TechStacks.IsEmpty())
+        {
+            <table class="table table-striped stack">
+                <caption>
+                    TechStacks
+                </caption>
+                <thead>
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td><strong>Description</strong></td>
+                    </tr>
+                </thead>
+                @foreach (var techStack in Model.TechStacks)
+                {
+                    <tr>
+                        <td class="name"><a href="/@techStack.Slug">@techStack.Name</a></td>
+                        <td>@techStack.Description</td>
+                    </tr>
+                }
+            </table>
+        }
+        
+        @if (!Model.FavoriteTechStacks.IsEmpty())
+        {
+            <table class="table table-striped stack">
+                <caption>
+                    Favorite TechStacks
+                </caption>
+                <thead>
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td><strong>Description</strong></td>
+                    </tr>
+                </thead>
+                @foreach (var techStack in Model.FavoriteTechStacks)
+                {
+                    <tr>
+                        <td class="name"><a href="/@techStack.Slug">@techStack.Name</a></td>
+                        <td class="description" title="@techStack.Description"><div>@techStack.Description</div></td>
+                    </tr>
+                }
+            </table>
+        }
+        
+        @if (!Model.FavoriteTechnologies.IsEmpty())
+        {
+            <table class="table table-striped">
+                <caption>
+                    Favorite Technologies
+                </caption>
+                <thead>
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td><strong>Description</strong></td>
+                    </tr>
+                </thead>
+                @foreach (var tech in Model.FavoriteTechnologies)
+                {
+                    <tr>
+                        <td class="name"><a href="/tech/@tech.Slug">@tech.Name</a></td>
+                        <td class="description" title="@tech.Description"><div>@tech.Description</div></td>
+                    </tr>
+                }
+            </table>
+        }
+
+    </div>
+</div>

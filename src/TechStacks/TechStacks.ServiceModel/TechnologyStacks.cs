@@ -149,6 +149,8 @@ namespace TechStacks.ServiceModel
 
         [DataMember(Name = "title")]
         public string Title { get; set; }
+
+        public TechnologyTier Value { get; set; }
     }
 
     public class OverviewResponse

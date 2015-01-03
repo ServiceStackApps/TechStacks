@@ -30,7 +30,7 @@ namespace TechStacks.ServiceInterface
             foreach (var techSlug in techSlugs)
             {
                 var slug = techSlug.Replace("-", "");
-                if (sb.Length + slug.Length + 2 > maxLength)
+                if (sb.Length + slug.Length + 3 > maxLength)
                     break;
 
                 sb.Append(" #" + slug);
@@ -263,16 +263,21 @@ namespace TechStacks.ServiceInterface
 
         public object Any(GetConfig request)
         {
-            var allTiers = Enum.GetValues(typeof(TechnologyTier)).Map(x =>
-                new Option
-                {
-                    Name = x.ToString(),
-                    Title = typeof(TechnologyTier).GetMember(x.ToString())[0].GetDescription(),
-                });
+            var allTiers = GetAllTiers();
 
             return new GetConfigResponse {
                 AllTiers = allTiers,
             };
+        }
+
+        public static List<Option> GetAllTiers()
+        {
+            return Enum.GetValues(typeof(TechnologyTier)).Map(x =>
+                new Option {
+                    Name = x.ToString(),
+                    Title = typeof(TechnologyTier).GetMember(x.ToString())[0].GetDescription(),
+                    Value = (TechnologyTier)x,
+                });
         }
 
         private const int TechStacksAppId = 1;

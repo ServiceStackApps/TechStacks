@@ -1,0 +1,28 @@
+﻿@inherits ViewPage<GetAllTechnologyStacksResponse>
+@{
+    Layout = "ServerHtml";
+    ViewBag.Tab = "stacks";
+}
+
+<div>
+    <table class="table table-striped stack">
+        <caption>
+            TechStacks
+        </caption>
+        <thead>
+            <tr>
+                <td><strong>Name</strong></td>
+                <td><strong>Description</strong></td>
+                <td style="white-space: nowrap"><strong>Created By</strong></td>
+            </tr>
+        </thead>
+        @foreach (var techStack in Model.Results)
+        {
+            <tr>
+                <td class="name"><a href="/@techStack.Slug">@techStack.Name</a></td>
+                <td class="description" title="@techStack.Description"><div>@techStack.Description</div></td>
+                <td class="createdby"><a href="/@techStack.CreatedBy"></a></td>
+            </tr>
+        }
+    </table>
+</div>
