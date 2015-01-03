@@ -157,6 +157,22 @@ module.exports = function (grunt) {
                     .pipe(useref())
                     .pipe(gulp.dest(webRoot));
             },
+            'wwwroot-bundle-razor-templates': function () {
+                var assets = useref.assets({ searchPath: './' });
+
+                return gulp.src('Views/Shared/ServerHtml.cshtml')
+                    .pipe(assets)
+                    .pipe(gulpif('*.js', uglify()))
+                    .pipe(gulpif('*.css', minifyCss()))
+                    .pipe(assets.restore())
+                    .pipe(useref())
+                    .pipe(gulp.dest(webRoot));
+            },
+            'wwwroot-copy-razor-views': function () {
+                return gulp.src('Views/**/*.cshtml')
+                    .pipe(newer(webRoot + 'Views/'))
+                    .pipe(gulp.dest(webRoot + 'Views/'));
+            },
             'wwwroot-copy-deploy-files': function () {
                 return gulp.src('./wwwroot_build/deploy/*.*')
                     .pipe(newer(webRoot))
@@ -188,8 +204,10 @@ module.exports = function (grunt) {
         'gulp:wwwroot-copy-roboto-fonts',
         'gulp:wwwroot-copy-chosen-resources',
         'gulp:wwwroot-copy-images',
+        'gulp:wwwroot-copy-razor-views',
         'gulp:wwwroot-copy-deploy-files',
-        'gulp:wwwroot-bundle'
+        'gulp:wwwroot-bundle',
+        'gulp:wwwroot-bundle-razor-templates'
     ]);
 
     grunt.registerTask('build', ['02-package-server', '03-package-client']);
