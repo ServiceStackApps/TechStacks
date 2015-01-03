@@ -28,10 +28,13 @@
             $routeProvider.when('/stacks/create', { templateUrl: '/partials/stacks/create.html', controller: 'createStackCtrl', title: 'Add a new Technology Stack' });
             $routeProvider.when('/stacks/:stackId', { templateUrl: '/partials/stacks/stack.html', controller: 'stackCtrl', title: '{slug}\'s Technology Stack' });
             $routeProvider.when('/stacks/:stackId/edit', { templateUrl: '/partials/stacks/edit.html', controller: 'editStackCtrl', title: 'Update Technology Stack' });
+            $routeProvider.when('/users/:userName', { templateUrl: '/partials/user/feed.html', controller: 'userFeedCtrl', title: '{slug}\'s favorite Technology Stacks' });
 
             $routeProvider.when('/auth/:any', { controller: function () { location.href = location.href; }, template: "<div></div>" });
-            $routeProvider.when('/:userName', { templateUrl: '/partials/user/feed.html', controller: 'userFeedCtrl', title: '{slug}\'s favorite Technology Stacks' });
-            
+            $routeProvider.when('/:stackId', { templateUrl: '/partials/stacks/stack.html', controller: 'stackCtrl', title: '{slug}\'s Technology Stack' });
+            $routeProvider.when('/:stackId/edit', { templateUrl: '/partials/stacks/edit.html', controller: 'editStackCtrl', title: 'Update Technology Stack' });
+            //$routeProvider.when('/:userName', { templateUrl: '/partials/user/feed.html', controller: 'userFeedCtrl', title: '{slug}\'s favorite Technology Stacks' });
+
             $routeProvider.otherwise({ redirectTo: '/' });
             
             $locationProvider.html5Mode(true);

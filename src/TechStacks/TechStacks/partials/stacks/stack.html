@@ -6,7 +6,7 @@
             <div>{{currentStack.AppUrl}}</div>
         </a>
 
-        <a href="/stacks/{{currentStack.Slug}}/edit" class="btn btn-primary"
+        <a href="/{{currentStack.Slug}}/edit" class="btn btn-primary"
            ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">
             Edit
         </a>
@@ -24,7 +24,7 @@
         </h2>
  
         <div class="small" style="margin-bottom: 25px">
-            added by <a href="/{{currentStack.CreatedBy}}">{{currentStack.CreatedBy}}</a>
+            added by <a href="/users/{{currentStack.CreatedBy}}">{{currentStack.CreatedBy}}</a>
         </div>
 
         <p class="description" ng-bind="currentStack.Description"></p>

@@ -90,7 +90,7 @@
             }
 
             $scope.share = function (type) {
-                var url = encodeURIComponent(document.location.origin + '/stacks/' + $scope.currentStack.Slug);
+                var url = encodeURIComponent(document.location.origin + '/' + $scope.currentStack.Slug);
                 var message = encodeURIComponent('Checkout ' + $scope.currentStack.Name + ' on Techstacks.io !');
                 var name = encodeURIComponent($scope.currentStack.Name);
                 var hashTags = extractHasTags();
@@ -149,7 +149,7 @@
                     $scope.newStack = $scope.newStack || {};
                     $scope.newStack.Id = techStack.Id;
                     $scope.createInProgress = false;
-                    $location.path("/stacks/" + techStack.Slug);
+                    $location.path("/" + techStack.Slug);
                 }, function () {
                     $scope.createInProgress = false;
                 });
@@ -214,7 +214,7 @@
                     $scope.busy = false;
                     $scope.updateInProgress = false;
                     $scope.currentStack = updatedStack;
-                    $location.path("/stacks/" + updatedStack.Slug);
+                    $location.path("/" + updatedStack.Slug);
                 }, function () {
                     $scope.busy = false;
                     $scope.updateInProgress = false;

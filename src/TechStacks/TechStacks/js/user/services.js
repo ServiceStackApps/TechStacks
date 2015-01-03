@@ -168,7 +168,7 @@
                     return deferred.promise;
                 },
                 getUserInfo: function (userName) {
-                    return $http.get('/users/' + userName);
+                    return $http.get('/userinfo/' + userName);
                 }
             };
         }
