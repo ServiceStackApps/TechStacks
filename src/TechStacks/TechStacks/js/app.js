@@ -155,6 +155,10 @@
                 var parts = location.href.split('/'), slug = parts[parts.length - 1];
                 var title = (current.$$route.title || 'Technology Stacks').replace('{slug}', slug.charAt(0).toUpperCase() + slug.slice(1));
                 $rootScope.title = title;
+
+                if (location.search == "?html=server") {
+                    location.href = location.href;
+                }
             });
         }]);
 

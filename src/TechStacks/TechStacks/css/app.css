@@ -11,6 +11,10 @@ a, a:hover, a:focus {
     color: #03a9f4;
     text-decoration: none;
 }
+.seo {
+    font-size: 12px;
+    color: #eee;
+}
 small {
     color: #999;
 }

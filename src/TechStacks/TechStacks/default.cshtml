@@ -53,6 +53,7 @@
                         <li ng-class="{ active: IsRouteActive('/tech')}"><a href="/tech">Technologies</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                        <li class="seo"><a href="?html=server">seo-friendly</a></li>
                         <li ng-hide="isAuthenticated"><a href="/auth/twitter"><img src="/img/twitter_normal.png" alt="Sign in with Twitter" /></a></li>
                         <li ng-hide="isAuthenticated"><a href="/auth/github"><img src="/img/github_normal.png" alt="Sign in with Github" /></a></li>
                         <li ng-show="isAuthenticated" style="padding: 12px 0 0 0"><a href="/auth/logout">Logout</a></li>
