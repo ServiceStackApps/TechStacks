@@ -6,6 +6,7 @@ using ServiceStack.Auth;
 using ServiceStack.Caching;
 using ServiceStack.Configuration;
 using ServiceStack.Data;
+using ServiceStack.Host.Handlers;
 using ServiceStack.OrmLite;
 using ServiceStack.Razor;
 using ServiceStack.Text;
@@ -83,6 +84,8 @@ namespace TechStacks
                 db.CreateTableIfNotExists<TechnologyChoice>();
                 db.CreateTableIfNotExists<UserFavoriteTechnologyStack>();
                 db.CreateTableIfNotExists<UserFavoriteTechnology>();
+
+                RawHttpHandlers.Add(req => req.PathInfo == "/robots.txt" ? new NotFoundHttpHandler() : null);
 
                 Plugins.Add(new SitemapFeature
                 {

@@ -19,7 +19,7 @@ namespace TechStacks.ServiceInterface
                 return false;
             }
 
-            var serverHtml = Request.UserAgent.Contains("GoogleBot")
+            var serverHtml = Request.UserAgent.Contains("Googlebot")
                 || Request.GetParam("html") == "server";
 
             if (serverHtml)
