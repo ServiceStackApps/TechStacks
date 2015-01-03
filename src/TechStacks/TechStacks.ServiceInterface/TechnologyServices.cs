@@ -29,7 +29,7 @@ namespace TechStacks.ServiceInterface
             for (int i = 0; i < stackNames.Count; i++)
             {
                 var name = stackNames[i];
-                if (sb.Length + name.Length + 2 > maxLength)
+                if (sb.Length + name.Length + 3 > maxLength)
                     break;
 
                 if (i > 0)
@@ -204,7 +204,7 @@ namespace TechStacks.ServiceInterface
 
         public object Get(GetAllTechnologies request)
         {
-            return new AllTechnologiesResponse
+            return new GetAllTechnologiesResponse
             {
                 Results = Db.Select(Db.From<Technology>().Take(100)).ToList()
             };

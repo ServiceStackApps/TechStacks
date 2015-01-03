@@ -81,9 +81,9 @@ namespace TechStacks.ServiceModel
     }
 
     [Route("/technology", Verbs = "GET")]
-    public class GetAllTechnologies : IReturn<AllTechnologiesResponse> {}
+    public class GetAllTechnologies : IReturn<GetAllTechnologiesResponse> {}
 
-    public class AllTechnologiesResponse
+    public class GetAllTechnologiesResponse
     {
         public List<Technology> Results { get; set; }
     }
