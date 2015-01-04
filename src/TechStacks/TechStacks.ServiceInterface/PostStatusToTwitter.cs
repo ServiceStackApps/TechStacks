@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using ServiceStack;
@@ -31,14 +32,17 @@ namespace TechStacks.ServiceInterface
             };
         }
 
-        public void Tweet(string status)
+        public string Tweet(string status)
         {
-            gateway.Send(new PostStatusTwitter
+            var response = gateway.Send(new PostStatusTwitter
             {
                 AccessToken = accessToken,
                 AccessTokenSecret = accessTokenSecret,
                 Status = status
-            });
+            })
+            .FirstOrDefault();
+
+            return response.StartsWithIgnoreCase("ERROR: ") ? response : null;
         }
     }
 

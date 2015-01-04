@@ -20,7 +20,7 @@ namespace TechStacks.ServiceInterface
 
         private const int TweetUrlLength = 22;
 
-        private void PostTwitterUpdate(string msgPrefix, List<long> techIds, int maxLength)
+        private string PostTwitterUpdate(string msgPrefix, List<long> techIds, int maxLength)
         {
             var techSlugs = Db.Column<string>(Db.From<Technology>()
                 .Where(x => techIds.Contains(x.Id))
@@ -36,7 +36,7 @@ namespace TechStacks.ServiceInterface
                 sb.Append(" #" + slug);
             }
 
-            TwitterUpdates.Tweet(sb.ToString());
+            return TwitterUpdates.Tweet(sb.ToString());
         }
 
         public object Post(CreateTechnologyStack request)
@@ -52,16 +52,22 @@ namespace TechStacks.ServiceInterface
             techStack.LastModifiedBy = session.UserName;
             techStack.OwnerId = session.UserAuthId;
             techStack.Created = DateTime.UtcNow;
-            techStack.LastModified = DateTime.UtcNow;
-            techStack.LastStatusUpdate = DateTime.UtcNow;
+            techStack.LastModified = techStack.Created;
             techStack.Slug = slug;
+
+            var techIds = (request.TechnologyIds ?? new List<long>()).ToHashSet();
+
+            //Only Post an Update if Stack has TechCount >= 4
+            var postUpdate = techIds.Count >= 4;
+            if (postUpdate)
+                techStack.LastStatusUpdate = techStack.Created;
 
             long id;
             using (var trans = Db.OpenTransaction())
             {
                 id = Db.Insert(techStack, selectIdentity: true);
 
-                if (request.TechnologyIds != null)
+                if (techIds.Count > 0)
                 {
                     var techChoices = request.TechnologyIds.Map(x => new TechnologyChoice
                     {
@@ -86,57 +92,65 @@ namespace TechStacks.ServiceInterface
 
             ContentCache.ClearAll();
 
-            var url = new ClientTechnologyStack { Slug = techStack.Slug }.ToAbsoluteUri();
-            PostTwitterUpdate(
-                "{0}'s Stack! {1} ".Fmt(techStack.Name, url),
-                request.TechnologyIds,
-                maxLength: 140 - (TweetUrlLength - url.Length));
-
-            return new CreateTechnologyStackResponse
+            var response = new CreateTechnologyStackResponse
             {
-                Result = createdTechStack.ConvertTo<TechStackDetails>()
+                Result = createdTechStack.ConvertTo<TechStackDetails>(),
             };
+
+            if (postUpdate)
+            {
+                var url = new ClientTechnologyStack { Slug = techStack.Slug }.ToAbsoluteUri();
+                response.ResponseStatus = new ResponseStatus
+                {
+                    Message = PostTwitterUpdate(
+                        "{0}'s Stack! {1} ".Fmt(techStack.Name, url),
+                        request.TechnologyIds,
+                        maxLength: 140 - (TweetUrlLength - url.Length))
+                };
+            }
+
+            return response;
         }
 
         public object Put(UpdateTechnologyStack request)
         {
-            var existingStack = Db.SingleById<TechnologyStack>(request.Id);
-            if (existingStack == null)
+            var techStack = Db.SingleById<TechnologyStack>(request.Id);
+            if (techStack == null)
                 throw HttpError.NotFound("Tech stack not found");
 
             var session = SessionAs<AuthUserSession>();
-            if (existingStack.IsLocked && !session.HasRole(RoleNames.Admin))
+            if (techStack.IsLocked && !session.HasRole(RoleNames.Admin))
                 throw HttpError.Unauthorized("TechnologyStack changes are currently restricted to Administrators only.");
 
-            if (existingStack.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
+            if (techStack.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
                 throw HttpError.Unauthorized("You are not the owner of this stack.");
 
-            var updated = request.ConvertTo<TechnologyStack>();
+            var techIds = (request.TechnologyIds ?? new List<long>()).ToHashSet();
 
-            //Carry over audit/admin data
-            updated.IsLocked = existingStack.IsLocked;
-            updated.OwnerId = existingStack.OwnerId;
-            updated.CreatedBy = existingStack.CreatedBy;
-            updated.Created = existingStack.Created;
-            updated.LastModifiedBy = session.UserName;
-            updated.LastModified = DateTime.UtcNow;
-            updated.LastStatusUpdate = DateTime.UtcNow;
-            updated.Slug = existingStack.Slug;
+            //Only Post an Update if there was no other update today and Stack as TechCount >= 4
+            var postUpdate = techStack.LastStatusUpdate.GetValueOrDefault(DateTime.MinValue) < DateTime.UtcNow.Date
+                && techIds.Count >= 4;
+
+            techStack.PopulateWith(request);
+            techStack.LastModified = DateTime.UtcNow;
+            techStack.LastModifiedBy = session.UserName;
+
+            if (postUpdate)
+                techStack.LastStatusUpdate = techStack.LastModified;
 
             using (var trans = Db.OpenTransaction())
             {
-                Db.Save(updated);
+                Db.Save(techStack);
 
-                var techIds = (request.TechnologyIds ?? new List<long>()).ToHashSet();
                 var existingTechChoices = Db.Select<TechnologyChoice>(q => q.TechnologyStackId == request.Id);
                 var techIdsToAdd = techIds.Except(existingTechChoices.Select(x => x.TechnologyId)).ToHashSet();
                 var techChoices = techIdsToAdd.Map(x => new TechnologyChoice
                 {
                     TechnologyId = x,
                     TechnologyStackId = request.Id,
-                    CreatedBy = updated.CreatedBy,
-                    LastModifiedBy = updated.LastModifiedBy,
-                    OwnerId = updated.OwnerId,
+                    CreatedBy = techStack.CreatedBy,
+                    LastModifiedBy = techStack.LastModifiedBy,
+                    OwnerId = techStack.OwnerId,
                 });
 
                 var unusedTechChoices = Db.From<TechnologyChoice>().Where(x => x.TechnologyStackId == request.Id);
@@ -150,23 +164,31 @@ namespace TechStacks.ServiceInterface
                 trans.Commit();
             }
 
-            var history = updated.ConvertTo<TechnologyStackHistory>();
-            history.TechnologyStackId = updated.Id;
+            var history = techStack.ConvertTo<TechnologyStackHistory>();
+            history.TechnologyStackId = techStack.Id;
             history.Operation = "UPDATE";
             Db.Insert(history);
 
             ContentCache.ClearAll();
 
-            var url = new ClientTechnologyStack { Slug = updated.Slug }.ToAbsoluteUri();
-            PostTwitterUpdate(
-                "{0}'s Stack! {1} ".Fmt(updated.Name, url),
-                request.TechnologyIds,
-                maxLength: 140 - (TweetUrlLength - url.Length));
-
-            return new UpdateTechnologyStackResponse
+            var response = new UpdateTechnologyStackResponse
             {
-                Result = updated.ConvertTo<TechStackDetails>()
+                Result = techStack.ConvertTo<TechStackDetails>()
             };
+
+            if (postUpdate)
+            {
+                var url = new ClientTechnologyStack { Slug = techStack.Slug }.ToAbsoluteUri();
+                response.ResponseStatus = new ResponseStatus
+                {
+                    Message = PostTwitterUpdate(
+                        "{0}'s Stack! {1} ".Fmt(techStack.Name, url),
+                        request.TechnologyIds,
+                        maxLength: 140 - (TweetUrlLength - url.Length))
+                };
+            }
+
+            return response;
         }
 
         public object Delete(DeleteTechnologyStack request)

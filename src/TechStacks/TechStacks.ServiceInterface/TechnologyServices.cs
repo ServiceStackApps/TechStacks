@@ -19,7 +19,7 @@ namespace TechStacks.ServiceInterface
 
         private const int TweetUrlLength = 22;
 
-        private void PostTwitterUpdate(string msgPrefix, List<long> techIds, int maxLength)
+        private string PostTwitterUpdate(string msgPrefix, List<long> techIds, int maxLength)
         {
             var stackNames = Db.Column<string>(Db.From<TechnologyStack>()
                 .Where(x => techIds.Contains(x.Id))
@@ -38,7 +38,7 @@ namespace TechStacks.ServiceInterface
                 sb.Append(" " + name);
             }
 
-            TwitterUpdates.Tweet(sb.ToString());
+            return TwitterUpdates.Tweet(sb.ToString());
         }
 
         public object Post(CreateTechnology request)
@@ -69,64 +69,72 @@ namespace TechStacks.ServiceInterface
             ContentCache.ClearAll();
 
             var url = new ClientTechnology { Slug = tech.Slug }.ToAbsoluteUri();
-            PostTwitterUpdate(
-                "Who's using #{0}? {1}".Fmt(tech.Slug, url),
-                Db.ColumnDistinct<long>(Db.From<TechnologyChoice>()
-                    .Where(x => x.TechnologyId == tech.Id)
-                    .Select(x => x.TechnologyStackId)).ToList(),
-                maxLength: 140 - (TweetUrlLength - url.Length));
 
             return new CreateTechnologyResponse
             {
-                Result = createdTechStack
+                Result = createdTechStack,
+                ResponseStatus = new ResponseStatus
+                {
+                    Message = PostTwitterUpdate(
+                        "Who's using #{0}? {1}".Fmt(tech.Slug.Replace("-", ""), url),
+                        Db.ColumnDistinct<long>(Db.From<TechnologyChoice>()
+                            .Where(x => x.TechnologyId == tech.Id)
+                            .Select(x => x.TechnologyStackId)).ToList(),
+                        maxLength: 140 - (TweetUrlLength - url.Length))
+                }
             };
         }
 
         public object Put(UpdateTechnology request)
         {
-            var existingTech = Db.SingleById<Technology>(request.Id);
-            if (existingTech == null)
+            var tech = Db.SingleById<Technology>(request.Id);
+            if (tech == null)
                 throw HttpError.NotFound("Tech not found");
 
             var session = SessionAs<AuthUserSession>();
             
-            if (existingTech.IsLocked && !session.HasRole(RoleNames.Admin))
+            if (tech.IsLocked && !session.HasRole(RoleNames.Admin))
                 throw HttpError.Unauthorized("Technology changes are currently restricted to Administrators only.");
 
-            var updated = request.ConvertTo<Technology>();
-            //Carry over current logo approved status and locked status
-            updated.LogoApproved = existingTech.LogoApproved;
-            updated.IsLocked = existingTech.IsLocked;
-            updated.CreatedBy = existingTech.CreatedBy;
-            updated.Created = existingTech.Created;
-            updated.LastModifiedBy = session.UserName;
-            updated.LastModified = DateTime.UtcNow;
-            updated.OwnerId = existingTech.OwnerId;
-            updated.CreatedBy = existingTech.CreatedBy;
-            updated.LastStatusUpdate = existingTech.LastStatusUpdate;
-            updated.Slug = existingTech.Slug;
+            //Only Post an Update if there was no other update today
+            var postUpdate = tech.LastStatusUpdate.GetValueOrDefault(DateTime.MinValue) < DateTime.UtcNow.Date;
 
-            Db.Save(updated);
+            tech.PopulateWith(request);
+            tech.LastModifiedBy = session.UserName;
+            tech.LastModified = DateTime.UtcNow;
 
-            var history = updated.ConvertTo<TechnologyHistory>();
-            history.TechnologyId = updated.Id;
+            if (postUpdate)
+                tech.LastStatusUpdate = tech.LastModified;
+
+            Db.Save(tech);
+
+            var history = tech.ConvertTo<TechnologyHistory>();
+            history.TechnologyId = tech.Id;
             history.Operation = "UPDATE";
             Db.Insert(history);
 
             ContentCache.ClearAll();
 
-            var url = new ClientTechnology { Slug = updated.Slug }.ToAbsoluteUri();
-            PostTwitterUpdate(
-                "Who's using #{0}? {1}".Fmt(updated.Slug, url),
-                Db.ColumnDistinct<long>(Db.From<TechnologyChoice>()
-                    .Where(x => x.TechnologyId == updated.Id)
-                    .Select(x => x.TechnologyStackId)).ToList(),
-                maxLength: 140 - (TweetUrlLength - url.Length));
-
-            return new UpdateTechnologyResponse
+            var response = new UpdateTechnologyResponse
             {
-                Result = updated
+                Result = tech
             };
+
+            if (postUpdate)
+            {
+                var url = new ClientTechnology { Slug = tech.Slug }.ToAbsoluteUri();
+                response.ResponseStatus = new ResponseStatus
+                {
+                    Message = PostTwitterUpdate(
+                        "Who's using #{0}? {1}".Fmt(tech.Slug.Replace("-", ""), url),
+                        Db.ColumnDistinct<long>(Db.From<TechnologyChoice>()
+                            .Where(x => x.TechnologyId == tech.Id)
+                            .Select(x => x.TechnologyStackId)).ToList(),
+                        maxLength: 140 - (TweetUrlLength - url.Length))
+                };
+            }
+
+            return response;
         }
 
         public object Delete(DeleteTechnology request)
