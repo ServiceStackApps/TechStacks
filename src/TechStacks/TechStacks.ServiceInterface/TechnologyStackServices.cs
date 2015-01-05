@@ -119,11 +119,8 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.NotFound("Tech stack not found");
 
             var session = SessionAs<AuthUserSession>();
-            if (techStack.IsLocked && !session.HasRole(RoleNames.Admin))
-                throw HttpError.Unauthorized("TechnologyStack changes are currently restricted to Administrators only.");
-
-            if (techStack.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
-                throw HttpError.Unauthorized("You are not the owner of this stack.");
+            if (techStack.IsLocked && !(techStack.OwnerId == session.UserAuthId || session.HasRole(RoleNames.Admin)))
+                throw HttpError.Unauthorized("This TechStack is locked and can only be modified by its Owner or Admins.");
 
             var techIds = (request.TechnologyIds ?? new List<long>()).ToHashSet();
 
@@ -195,11 +192,11 @@ namespace TechStacks.ServiceInterface
         {
             var stack = Db.SingleById<TechnologyStack>(request.Id);
             if (stack == null)
-                throw HttpError.NotFound("Tech stack not found");
+                throw HttpError.NotFound("TechStack not found");
 
             var session = SessionAs<AuthUserSession>();
             if (stack.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
-                throw HttpError.Unauthorized("You are not the owner of this stack.");
+                throw HttpError.Unauthorized("Only the Owner or Admins can delete this TechStack");
 
             Db.Delete<TechnologyChoice>(q => q.TechnologyStackId == request.Id);
             Db.DeleteById<TechnologyStack>(request.Id);

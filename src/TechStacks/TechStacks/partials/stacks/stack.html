@@ -7,7 +7,7 @@
         </a>
 
         <a href="/{{currentStack.Slug}}/edit" class="btn btn-primary"
-           ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">
+           ng-show="isAuthenticated && (!currentStack.IsLocked || currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">
             Edit
         </a>
 
