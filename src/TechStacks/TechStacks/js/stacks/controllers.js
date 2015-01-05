@@ -189,6 +189,15 @@
                 });
             };
 
+            techStackServices.getStackPreviousVersions($routeParams.stackId).then(function(results) {
+                $scope.previousVersions = results;
+            });
+            $scope.loadPreviousVersion = function(version) {
+                $.map(['Name', 'VendorName', 'TechnologyIds', 'AppUrl', 'ScreenshotUrl', 'Description', 'Details'], function (key) {
+                    $scope.currentStack[key] = version[key];
+                });
+            };
+
             $scope.refreshStack();
 
             techStackServices.searchTech('').then(function (searchResults) {

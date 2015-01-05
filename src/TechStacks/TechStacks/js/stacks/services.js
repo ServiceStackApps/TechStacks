@@ -15,7 +15,10 @@
             getStack: function (id) {
                 return getResults($http.get('/techstacks/' + id));
             },
-            getTechStackFavorites: function(id) {
+            getStackPreviousVersions: function (id) {
+                return getResults($http.get('/techstacks/' + id + '/previous-versions'));
+            },
+            getTechStackFavorites: function (id) {
                 return getResults($http.get('/techstacks/' + id + '/favorites'));
             },
             allTechs: function () {
