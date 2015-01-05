@@ -13,6 +13,8 @@ namespace TechStacks.ServiceInterface
     [Authenticate(ApplyTo = ApplyTo.Put | ApplyTo.Post | ApplyTo.Delete)]
     public class TechnologyServices : Service
     {
+        public IAppSettings AppSettings { get; set; }
+
         public ContentCache ContentCache { get; set; }
 
         public TwitterUpdates TwitterUpdates { get; set; }
@@ -68,20 +70,21 @@ namespace TechStacks.ServiceInterface
 
             ContentCache.ClearAll();
 
-            var url = new ClientTechnology { Slug = tech.Slug }.ToAbsoluteUri();
+            var postUpdate = AppSettings.Get("EnableTwitterUpdates", false);
+            if (postUpdate)
+            {
+                var url = new ClientTechnology { Slug = tech.Slug }.ToAbsoluteUri();
+                PostTwitterUpdate(
+                    "Who's using #{0}? {1}".Fmt(tech.Slug.Replace("-", ""), url),
+                    Db.ColumnDistinct<long>(Db.From<TechnologyChoice>()
+                        .Where(x => x.TechnologyId == tech.Id)
+                        .Select(x => x.TechnologyStackId)).ToList(),
+                    maxLength: 140 - (TweetUrlLength - url.Length));
+            }
 
             return new CreateTechnologyResponse
             {
                 Result = createdTechStack,
-                ResponseStatus = new ResponseStatus
-                {
-                    Message = PostTwitterUpdate(
-                        "Who's using #{0}? {1}".Fmt(tech.Slug.Replace("-", ""), url),
-                        Db.ColumnDistinct<long>(Db.From<TechnologyChoice>()
-                            .Where(x => x.TechnologyId == tech.Id)
-                            .Select(x => x.TechnologyStackId)).ToList(),
-                        maxLength: 140 - (TweetUrlLength - url.Length))
-                }
             };
         }
 
@@ -97,7 +100,8 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.Unauthorized("This Technology is locked and can only be modified by its Owner or Admins.");
 
             //Only Post an Update if there was no other update today
-            var postUpdate = tech.LastStatusUpdate.GetValueOrDefault(DateTime.MinValue) < DateTime.UtcNow.Date;
+            var postUpdate = AppSettings.Get("EnableTwitterUpdates", false) 
+                && tech.LastStatusUpdate.GetValueOrDefault(DateTime.MinValue) < DateTime.UtcNow.Date;
 
             tech.PopulateWith(request);
             tech.LastModifiedBy = session.UserName;
