@@ -35,12 +35,33 @@ namespace TechStacks.Tests
         }
 
         [Test]
-        public void Create_History_Table()
+        public void Reset_History_Table()
         {
             using (var db = OpenDbConnection())
             {
                 db.DropAndCreateTable<TechnologyHistory>();
                 db.DropAndCreateTable<TechnologyStackHistory>();
+
+                var allTechs = db.Select<Technology>();
+                foreach (var tech in allTechs)
+                {
+                    var history = tech.ConvertTo<TechnologyHistory>();
+                    history.Operation = "INSERT";
+                    history.TechnologyId = tech.Id;
+                    db.Insert(history);
+                }
+
+                var allStacks = db.Select<TechnologyStack>();
+                foreach (var stack in allStacks)
+                {
+                    var history = stack.ConvertTo<TechnologyStackHistory>();
+                    history.Operation = "INSERT";
+                    history.TechnologyStackId = stack.Id;
+                    history.TechnologyIds = db.Column<long>(db.From<TechnologyChoice>()
+                        .Where(x => x.TechnologyStackId == stack.Id)
+                        .Select(x => x.TechnologyId));
+                    db.Insert(history);
+                }
             }
         }
 
