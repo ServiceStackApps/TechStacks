@@ -192,10 +192,11 @@
             techStackServices.getStackPreviousVersions($routeParams.stackId).then(function(results) {
                 $scope.previousVersions = results;
             });
-            $scope.loadPreviousVersion = function(version) {
-                $.map(['Name', 'VendorName', 'TechnologyIds', 'AppUrl', 'ScreenshotUrl', 'Description', 'Details'], function (key) {
+            $scope.loadPreviousVersion = function (version) {
+                $.map(['Name', 'VendorName', 'AppUrl', 'ScreenshotUrl', 'Description', 'Details'], function (key) {
                     $scope.currentStack[key] = version[key];
                 });
+                $scope.currentStack.TechnologyIds = version.TechnologyIds.slice(); //deep clone
             };
 
             $scope.refreshStack();
