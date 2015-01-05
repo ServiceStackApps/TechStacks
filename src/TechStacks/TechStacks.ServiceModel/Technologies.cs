@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using ServiceStack;
 using TechStacks.ServiceModel.Types;
 
@@ -18,6 +19,34 @@ namespace TechStacks.ServiceModel
         }
     }
 
+    public class GetTechnologyResponse
+    {
+        public DateTime Created { get; set; }
+
+        public Technology Technology { get; set; }
+
+        public List<TechnologyStack> TechnologyStacks { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
+    }
+
+    [Route("/technology/{Slug}/previous-versions", Verbs = "GET")]
+    public class GetTechnologyPreviousVersions : IReturn<GetTechnologyPreviousVersionsResponse>
+    {
+        public string Slug { get; set; }
+
+        [IgnoreDataMember]
+        public long Id
+        {
+            set { this.Slug = value.ToString(); }
+        }
+    }
+
+    public class GetTechnologyPreviousVersionsResponse
+    {
+        public List<TechnologyHistory> Results { get; set; }
+    }
+
     [Route("/technology", Verbs = "POST")]
     public class CreateTechnology : IReturn<CreateTechnologyResponse>
     {
@@ -27,6 +56,7 @@ namespace TechStacks.ServiceModel
         public string ProductUrl { get; set; }
         public string LogoUrl { get; set; }
         public string Description { get; set; }
+        public bool IsLocked { get; set; }
 
         public TechnologyTier Tier { get; set; }
     }
@@ -49,6 +79,7 @@ namespace TechStacks.ServiceModel
         public string ProductUrl { get; set; }
         public string LogoUrl { get; set; }
         public string Description { get; set; }
+        public bool IsLocked { get; set; }
 
         public TechnologyTier Tier { get; set; }
     }
@@ -100,16 +131,5 @@ namespace TechStacks.ServiceModel
     {
         public List<string> Users { get; set; }
         public int FavoriteCount { get; set; }
-    }
-
-    public class GetTechnologyResponse
-    {
-        public DateTime Created { get; set; }
-
-        public Technology Technology { get; set; }
-
-        public List<TechnologyStack> TechnologyStacks { get; set; }
-
-        public ResponseStatus ResponseStatus { get; set; }
     }
 }

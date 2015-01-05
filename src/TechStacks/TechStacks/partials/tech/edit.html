@@ -13,6 +13,21 @@
         <div class="panel panel-body">
 
             <form role="form" name="techForm">
+                <div ng-show="previousVersions.length > 0" class="form-group" style="padding: 0 0 10px 0">
+                    <div class="dropdown pull-right">
+                      <button class="btn btn-default dropdown dropdown-menu-right" type="button" data-toggle="dropdown" aria-expanded="true">
+                        Previous Versions
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                          <li role="presentation" ng-repeat="version in previousVersions">
+                              <a role="menuitem" tabindex="-1" href="javascript:void 0" ng-click="loadPreviousVersion(version)">
+                                  {{version.Operation == 'INSERT' ? 'Created by' : 'Modified by'}} {{version.LastModifiedBy}} at {{version.LastModified | date: 'yyyy/MM/dd hh:mm'}}
+                              </a>
+                          </li>
+                      </ul>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="TechName">Technology Name</label>
                     <input type="text" class="form-control" id="TechName" placeholder="Enter name of the technology" ng-model="tech.Name" required>

@@ -32,8 +32,6 @@ namespace TechStacks.ServiceModel
     [Route("/techstacks/{Slug}/previous-versions", Verbs = "GET")]
     public class GetTechnologyStackPreviousVersions : IReturn<GetTechnologyStackPreviousVersionsResponse>
     {
-        public bool Reload { get; set; }
-
         public string Slug { get; set; }
 
         [IgnoreDataMember]

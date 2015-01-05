@@ -194,6 +194,26 @@ namespace TechStacks.ServiceInterface
             });
         }
 
+        public object Get(GetTechnologyPreviousVersions request)
+        {
+            if (request.Slug == null)
+                throw new ArgumentNullException("Slug");
+
+            long id;
+            if (!long.TryParse(request.Slug, out id))
+            {
+                var tech = Db.Single<Technology>(x => x.Slug == request.Slug.ToLower());
+                id = tech.Id;
+            }
+
+            return new GetTechnologyPreviousVersionsResponse
+            {
+                Results = Db.Select<TechnologyHistory>(q =>
+                    q.Where(x => x.TechnologyId == id)
+                      .OrderByDescending(x => x.LastModified))
+            };
+        }
+
         public object Get(GetTechnologyFavoriteDetails request)
         {
             var key = ContentCache.TechnologyFavoriteKey(request.Slug, clear: request.Reload);
