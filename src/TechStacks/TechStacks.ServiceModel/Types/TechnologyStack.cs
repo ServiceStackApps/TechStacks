@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ServiceStack.DataAnnotations;
 
 namespace TechStacks.ServiceModel.Types
@@ -36,6 +37,8 @@ namespace TechStacks.ServiceModel.Types
         public long TechnologyStackId { get; set; }
 
         public string Operation { get; set; }
+
+        public List<long> TechnologyIds { get; set; }
     }
 
     public class TechnologyChoice
