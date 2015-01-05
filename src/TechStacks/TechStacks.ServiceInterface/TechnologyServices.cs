@@ -70,7 +70,7 @@ namespace TechStacks.ServiceInterface
 
             ContentCache.ClearAll();
 
-            var postUpdate = AppSettings.Get("EnableTwitterUpdates", false);
+            var postUpdate = AppSettings.EnableTwitterUpdates();
             if (postUpdate)
             {
                 var url = new ClientTechnology { Slug = tech.Slug }.ToAbsoluteUri();
@@ -100,7 +100,7 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.Unauthorized("This Technology is locked and can only be modified by its Owner or Admins.");
 
             //Only Post an Update if there was no other update today
-            var postUpdate = AppSettings.Get("EnableTwitterUpdates", false) 
+            var postUpdate = AppSettings.EnableTwitterUpdates()
                 && tech.LastStatusUpdate.GetValueOrDefault(DateTime.MinValue) < DateTime.UtcNow.Date;
 
             tech.PopulateWith(request);

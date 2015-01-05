@@ -78,6 +78,7 @@ namespace TechStacks.ServiceModel
         public string ScreenshotUrl { get; set; }
         public string Description { get; set; }
         public string Details { get; set; }
+        public bool IsLocked { get; set; }
 
         public List<long> TechnologyIds { get; set; } 
     }

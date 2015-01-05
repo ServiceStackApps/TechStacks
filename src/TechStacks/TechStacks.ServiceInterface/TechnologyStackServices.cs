@@ -60,7 +60,7 @@ namespace TechStacks.ServiceInterface
             var techIds = (request.TechnologyIds ?? new List<long>()).ToHashSet();
 
             //Only Post an Update if Stack has TechCount >= 4
-            var postUpdate = AppSettings.Get("EnableTwitterUpdates", false) && techIds.Count >= 4;
+            var postUpdate = AppSettings.EnableTwitterUpdates() && techIds.Count >= 4;
             if (postUpdate)
                 techStack.LastStatusUpdate = techStack.Created;
 
@@ -123,7 +123,7 @@ namespace TechStacks.ServiceInterface
             var techIds = (request.TechnologyIds ?? new List<long>()).ToHashSet();
 
             //Only Post an Update if there was no other update today and Stack as TechCount >= 4
-            var postUpdate = AppSettings.Get("EnableTwitterUpdates", false) 
+            var postUpdate = AppSettings.EnableTwitterUpdates() 
                 && techStack.LastStatusUpdate.GetValueOrDefault(DateTime.MinValue) < DateTime.UtcNow.Date
                 && techIds.Count >= 4;
 
