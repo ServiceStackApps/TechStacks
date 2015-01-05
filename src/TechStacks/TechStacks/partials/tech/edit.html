@@ -48,6 +48,10 @@
                     <label for="VendorUrl">Vendor Url</label>
                     <input type="text" class="form-control" id="VendorUrl" placeholder="Enter url of the vendor" ng-model="tech.VendorUrl" required>
                 </div>
+                <div class="form-group">
+                    <input type="checkbox" id="IsLocked" ng-model="tech.IsLocked"/>
+                    <label for="IsLocked" style="font-weight: normal;">Prevent others from editing this Technology?</label>
+                </div>
                 <button class="btn btn-primary" ng-click="done()" ng-disabled="!techForm.$valid">
                     Update Technology
                 </button>
