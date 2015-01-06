@@ -13,6 +13,10 @@ TechStacks is based on a [Bootstrap template](http://getbootstrap.com) with clie
 
 and some of TechStacks back-end features include: 
 
+ - [SEO-optimized, Server HTML generated, read-only version of the website](http://techstacks.io/?html=server)
+   - Dynamically generated [sitemaps.xml](http://techstacks.io/sitemap.xml)
+ - Page-level Locking
+ - Record and Restore Page Content Versioning
  - [Twitter and GitHub OAuth Providers](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization)
  - Substitutable [OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite) RDBMS [PostgreSQL and Sqlite](https://github.com/ServiceStackApps/TechStacks/blob/875e78910e43d2230f0925b71d5990497216511e/src/TechStacks/TechStacks/AppHost.cs#L49-L56) back-ends
  - [Auto Query](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query) for automatic services of RDBMS tables
