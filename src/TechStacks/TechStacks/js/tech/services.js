@@ -32,7 +32,10 @@
             getTech: function(id) {
                 return getResults($http.get('/technology/' + id));
             },
-            getTechFavorites: function(id) {
+            getTechPreviousVersions: function (id) {
+                return getResults($http.get('/technology/' + id + '/previous-versions'));
+            },
+            getTechFavorites: function (id) {
                 return getResults($http.get('/technology/' + id + '/favorites'));
             },
             searchTech: function (searchQuery) {

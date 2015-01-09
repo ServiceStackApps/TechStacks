@@ -1,0 +1,32 @@
+﻿@inherits ViewPage<GetAllTechnologiesResponse>
+@{
+    Layout = "ServerHtml";
+    ViewBag.Tab = "tech";
+}
+
+<div>
+
+    <table class="table table-responsive table-striped">
+        <caption>
+            Technologies
+        </caption>
+        <thead>
+            <tr>
+                <td><strong>Name</strong></td>
+                <td><strong>Description</strong></td>
+                <td><strong>Vendor</strong></td>
+            </tr>
+        </thead>
+        @foreach (var tech in Model.Results)
+        {
+            <tr ng-repeat="tech in techs">
+                <td class="name"><a href="/tech/@tech.Slug">@tech.Name</a></td>
+                <td>
+                    <div>@tech.Description</div>
+                </td>
+                <td class="vendor">@tech.VendorName</td>
+            </tr>
+        }
+    </table>
+
+</div>

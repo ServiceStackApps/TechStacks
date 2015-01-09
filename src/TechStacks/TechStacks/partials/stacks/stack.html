@@ -6,8 +6,8 @@
             <div>{{currentStack.AppUrl}}</div>
         </a>
 
-        <a href="/stacks/{{currentStack.Slug}}/edit" class="btn btn-primary"
-           ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">
+        <a href="/{{currentStack.Slug}}/edit" class="btn btn-primary"
+           ng-show="isAuthenticated && (!currentStack.IsLocked || currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">
             Edit
         </a>
 
@@ -23,10 +23,6 @@
             {{currentStack.VendorName}}
         </h2>
  
-        <div class="small" style="margin-bottom: 25px">
-            by <a href="/{{currentStack.CreatedBy}}">{{currentStack.CreatedBy}}</a>
-        </div>
-
         <p class="description" ng-bind="currentStack.Description"></p>
 
         <div class="tech-info" ng-repeat="tier in allTiers">
@@ -52,7 +48,10 @@
         </ul>
 
         <div class="last-updated">
-            <p>last updated: {{currentStack.LastModified | date: "yyyy/MM/dd"}}</p>
+            <p>
+                last updated: {{currentStack.LastModified | date: "yyyy/MM/dd"}}
+                by <a href="/users/{{currentStack.LastModifiedBy}}">{{currentStack.LastModifiedBy}}</a>
+            </p>
         </div>
     </div>
 

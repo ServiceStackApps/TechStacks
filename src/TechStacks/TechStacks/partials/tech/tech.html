@@ -4,7 +4,7 @@
         <img class="logo" src="{{tech.LogoUrl}}"/>
 
         <a href="/tech/{{tech.Slug}}/edit" class="btn btn-primary"
-           ng-show="isAuthenticated && (currentUserSession.UserAuthId == currentStack.OwnerId || hasRole('Admin'))">
+           ng-show="isAuthenticated && (!tech.IsLocked || currentUserSession.UserAuthId == tech.OwnerId || hasRole('Admin'))">
             Edit
         </a>
 
@@ -45,7 +45,7 @@
             </thead>
             <tr ng-repeat="techStack in relatedStacks">
                 <td class="name">
-                    <a href="/stacks/{{techStack.Slug}}">
+                    <a href="/{{techStack.Slug}}">
                         {{techStack.Name}}
                     </a>
                 </td>

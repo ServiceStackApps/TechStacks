@@ -1,11 +1,12 @@
-﻿using System.IO;
-using System.Net;
+﻿using System;
+using System.IO;
 using Funq;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Caching;
 using ServiceStack.Configuration;
 using ServiceStack.Data;
+using ServiceStack.Host.Handlers;
 using ServiceStack.OrmLite;
 using ServiceStack.Razor;
 using ServiceStack.Text;
@@ -37,11 +38,9 @@ namespace TechStacks
         /// <param name="container"></param>
         public override void Configure(Container container)
         {
-            //Return default.cshtml home page for all 404 requests so we can handle routing on the client
-            base.CustomErrorHttpHandlers[HttpStatusCode.NotFound] = new RazorHandler("/default.cshtml");
- 
             SetConfig(new HostConfig {
                 AddRedirectParamsToQueryString = true,
+                WebHostUrl = "http://techstacks.io", //for sitemap.xml urls
             });
 
             JsConfig.DateHandler = DateHandler.ISO8601;
@@ -63,6 +62,12 @@ namespace TechStacks
                 new GithubAuthProvider(AppSettings)
             }));
 
+            container.Register(new TwitterUpdates(
+                AppSettings.GetString("WebStacks.ConsumerKey"),
+                AppSettings.GetString("WebStacks.ConsumerSecret"),
+                AppSettings.GetString("WebStacks.AccessToken"),
+                AppSettings.GetString("WebStacks.AccessSecret")));
+
             var authRepo = new OrmLiteAuthRepository<CustomUserAuth, UserAuthDetails>(dbFactory);
             container.Register<IUserAuthRepository>(authRepo);
             authRepo.InitSchema();
@@ -79,6 +84,49 @@ namespace TechStacks
                 db.CreateTableIfNotExists<TechnologyChoice>();
                 db.CreateTableIfNotExists<UserFavoriteTechnologyStack>();
                 db.CreateTableIfNotExists<UserFavoriteTechnology>();
+
+                RawHttpHandlers.Add(req => req.PathInfo == "/robots.txt" ? new NotFoundHttpHandler() : null);
+
+                Plugins.Add(new SitemapFeature
+                {
+                    SitemapIndex = {
+                        new Sitemap {
+                            AtPath = "/sitemap-techstacks.xml",
+                            LastModified = DateTime.UtcNow,
+                            UrlSet = db.Select<TechnologyStack>(q => q.OrderByDescending(x => x.LastModified))
+                                .Map(x => new SitemapUrl
+                                {
+                                    Location = new ClientTechnologyStack { Slug = x.Slug }.ToAbsoluteUri(),
+                                    LastModified = x.LastModified,
+                                    ChangeFrequency = SitemapFrequency.Weekly,
+                                }),
+                        },
+                        new Sitemap {
+                            AtPath = "/sitemap-technologies.xml",
+                            LastModified = DateTime.UtcNow,
+                            UrlSet = db.Select<Technology>(q => q.OrderByDescending(x => x.LastModified))
+                                .Map(x => new SitemapUrl
+                                {
+                                    Location = new ClientTechnology { Slug = x.Slug }.ToAbsoluteUri(),
+                                    LastModified = x.LastModified,
+                                    ChangeFrequency = SitemapFrequency.Weekly,
+                                })
+                        },
+                        new Sitemap
+                        {
+                            AtPath = "/sitemap-users.xml",
+                            LastModified = DateTime.UtcNow,
+                            UrlSet = db.Select<CustomUserAuth>(q => q.OrderByDescending(x => x.ModifiedDate))
+                                .Map(x => new SitemapUrl
+                                {
+                                    Location = new ClientUser { UserName = x.UserName }.ToAbsoluteUri(),
+                                    LastModified = x.ModifiedDate,
+                                    ChangeFrequency = SitemapFrequency.Weekly,
+                                })
+                        }
+                    }
+                });
+
             }
 
             Plugins.Add(new RazorFormat());

@@ -35,6 +35,10 @@
                     <label>Add to Category</label>
                     <select class="form-control" ng-model="tech.Tier" ng-options="tier.name as tier.title for tier in allTiers"></select>
                 </div>
+                <div class="form-group">
+                    <input type="checkbox" id="IsLocked" ng-model="tech.IsLocked"/>
+                    <label for="IsLocked" style="font-weight: normal;">Prevent others from editing this Technology?</label>
+                </div>
                 <button ng-show="isAuthenticated" class="btn btn-primary" ng-click="createNewTech()" ng-disabled="!techForm.$valid">
                     Create Technology
                 </button>

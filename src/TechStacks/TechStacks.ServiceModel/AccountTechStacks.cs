@@ -13,7 +13,7 @@ namespace TechStacks.ServiceModel
         public List<TechStackDetails> Results { get; set; } 
     }
 
-    [Route("/users/{UserName}")]
+    [Route("/userinfo/{UserName}")]
     public class GetUserInfo
     {
         public bool Reload { get; set; }
@@ -22,6 +22,7 @@ namespace TechStacks.ServiceModel
 
     public class GetUserInfoResponse
     {
+        public string UserName { get; set; }
         public DateTime Created { get; set; }
         public string AvatarUrl { get; set; }
         public List<TechnologyStack> TechStacks { get; set; }

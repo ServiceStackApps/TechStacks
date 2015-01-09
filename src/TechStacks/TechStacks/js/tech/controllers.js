@@ -142,6 +142,15 @@
                 });
             };
 
+            techServices.getTechPreviousVersions($routeParams.techId).then(function (results) {
+                $scope.previousVersions = results;
+            });
+            $scope.loadPreviousVersion = function (version) {
+                $.map(['Name', 'VendorName', 'Tier', 'Description', 'LogoUrl', 'ProductUrl', 'VendorUrl'], function (key) {
+                    $scope.tech[key] = version[key];
+                });
+            };
+
             $scope.refreshTech();
 
             $scope.hasRole = function(role) {

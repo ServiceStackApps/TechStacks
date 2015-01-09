@@ -20,6 +20,32 @@ namespace TechStacks.ServiceModel
         }
     }
 
+    public class GetTechnologyStackResponse
+    {
+        public DateTime Created { get; set; }
+
+        public TechStackDetails Result { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
+    }
+
+    [Route("/techstacks/{Slug}/previous-versions", Verbs = "GET")]
+    public class GetTechnologyStackPreviousVersions : IReturn<GetTechnologyStackPreviousVersionsResponse>
+    {
+        public string Slug { get; set; }
+
+        [IgnoreDataMember]
+        public long Id
+        {
+            set { this.Slug = value.ToString(); }
+        }
+    }
+
+    public class GetTechnologyStackPreviousVersionsResponse
+    {
+        public List<TechnologyStackHistory> Results { get; set; }
+    }
+
     [Route("/techstacks", Verbs = "POST")]
     public class CreateTechnologyStack : IReturn<CreateTechnologyStackResponse>
     {
@@ -29,6 +55,7 @@ namespace TechStacks.ServiceModel
         public string ScreenshotUrl { get; set; }
         public string Description { get; set; }
         public string Details { get; set; }
+        public bool IsLocked { get; set; }
 
         public List<long> TechnologyIds { get; set; }
     }
@@ -51,6 +78,7 @@ namespace TechStacks.ServiceModel
         public string ScreenshotUrl { get; set; }
         public string Description { get; set; }
         public string Details { get; set; }
+        public bool IsLocked { get; set; }
 
         public List<long> TechnologyIds { get; set; } 
     }
@@ -94,15 +122,6 @@ namespace TechStacks.ServiceModel
     {
         public List<string> Users { get; set; }
         public int FavoriteCount { get; set; }
-    }
-
-    public class GetTechnologyStackResponse
-    {
-        public DateTime Created { get; set; }
-
-        public TechStackDetails Result { get; set; }
-
-        public ResponseStatus ResponseStatus { get; set; }
     }
 
     [Query(QueryTerm.Or)]
@@ -149,6 +168,8 @@ namespace TechStacks.ServiceModel
 
         [DataMember(Name = "title")]
         public string Title { get; set; }
+
+        public TechnologyTier Value { get; set; }
     }
 
     public class OverviewResponse

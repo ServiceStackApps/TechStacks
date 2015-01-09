@@ -8,7 +8,7 @@
         <div class="col-md-9">
             <div class="panel panel-default stack" ng-repeat="feedStack in feedStacks">
                 <div class="panel-heading">
-                    <a href="/stacks/{{feedStack.Slug}}" style="display:block">
+                    <a href="/{{feedStack.Slug}}" style="display:block">
                         <span>
                             {{feedStack.Name}}
                         </span>
@@ -17,7 +17,7 @@
                         </i>
                     </a>
                 </div>
-                <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="/stacks/{{feedStack.Slug}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
+                <div class="panel-body">{{feedStack.Description | limitTo:140}} <a href="/{{feedStack.Slug}}" ng-if="feedStack.Description.length > 140">... Read More</a></div>
                 <div class="panel-footer" >
                     <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in feedStack.TechnologyChoices">
                         <a href="/tech/{{tech.Slug}}" class="ng-binding" title="{{tech.Name}}">
@@ -42,7 +42,7 @@
                             <span ng-show="!isFavoriteTechStack(techStack) && isAuthenticated" class="glyphicon glyphicon-star fav"
                                   ng-click="addFavoriteTechStack(techStack)"></span>
 
-                            <a href="/stacks/{{techStack.Slug}}">{{techStack.Name}}</a> 
+                            <a href="/{{techStack.Slug}}">{{techStack.Name}}</a> 
                         </li>
                     </ul>
                     <a style="margin-top: 25px" href="/stacks/create" class="btn btn-primary">
@@ -92,7 +92,7 @@
                 <div class="panel-body">
                     <ul class="list-unstyled">
                         <li ng-repeat="user in topUsers" style="white-space:nowrap">
-                            <a href="/{{user.UserName}}">
+                            <a href="/users/{{user.UserName}}">
                                 <img ng-show="user.AvatarUrl" src="{{user.AvatarUrl}}" style="height: 20px;" />
                                 {{user.UserName}}
                             </a> 
@@ -113,7 +113,7 @@
                 </div>
                 <div class="panel panel-body">
                     <p>
-                        Discover what technologies were used to create popular Websites and Apps, for example here's what <a href="/stacks/1">TechStacks was created with</a> :)
+                        Discover what technologies were used to create popular Websites and Apps, for example here's what <a href="/techstacks-website">TechStacks was created with</a> :)
                     </p>
                     <p>
                         Missing your favorite Tech or TechStack? Sign-in and add it now!
@@ -126,7 +126,7 @@
         <div class="col-md-9">
             <div class="panel panel-default stack" ng-repeat="techStack in techStacks">
                 <div class="panel-heading">
-                    <a href="/stacks/{{techStack.Slug}}" style="display:block">
+                    <a href="/{{techStack.Slug}}" style="display:block">
                         <span>
                             {{techStack.Name}} 
                         </span>
@@ -135,7 +135,7 @@
                         </i>
                     </a>
                 </div>
-                <div class="panel-body">{{techStack.Description | limitTo:140}} <a href="/stacks/{{techStack.Slug}}" ng-if="techStack.Description.length > 140">... Read More</a></div>
+                <div class="panel-body">{{techStack.Description | limitTo:140}} <a href="/{{techStack.Slug}}" ng-if="techStack.Description.length > 140">... Read More</a></div>
                 <div class="panel-footer">
                     <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in techStack.TechnologyChoices">
                         <a href="/tech/{{tech.Slug}}" class="ng-binding" title="{{tech.Name}}">
@@ -169,7 +169,7 @@
                 <div class="panel-body">
                     <ul class="list-unstyled">
                         <li ng-repeat="user in topUsers" style="white-space:nowrap">
-                            <a href="/{{user.UserName}}">
+                            <a href="/users/{{user.UserName}}">
                                 <img src="{{user.AvatarUrl}}" style="height: 20px;" />
                                 {{user.UserName}}
                             </a> 

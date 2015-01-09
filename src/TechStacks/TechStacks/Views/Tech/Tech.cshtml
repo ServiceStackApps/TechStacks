@@ -1,0 +1,56 @@
+﻿@inherits ViewPage<GetTechnologyResponse>
+@{
+    Layout = "ServerHtml";
+    ViewBag.Tab = "tech";
+    var tech = Model.Technology;
+    var relatedStacks = Model.TechnologyStacks;
+}
+
+<div id="tech-page">
+    
+    <div id="tech-info">
+        <img class="logo" src="@tech.LogoUrl"/>
+
+        <h2>
+            @tech.Name
+        </h2>
+
+        <p>
+            <a href="@tech.ProductUrl" target="_blank">@tech.ProductUrl</a>
+            <span style="color:#aaa;">
+                by 
+                @tech.VendorName
+            </span>
+        </p>
+
+        <p class="description">@tech.Description</p>
+        <div class="clearfix"></div>
+    </div>
+
+    <div ng-show="relatedStacks.length > 0">
+        <table class="table table-striped stack">
+            <caption>TechStacks using @tech.Name</caption>
+            <thead>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td><strong>Description</strong></td>
+                </tr>
+            </thead>
+            @foreach (var techStack in relatedStacks)
+            {
+                <tr>
+                    <td class="name">
+                        <a href="/@techStack.Slug">
+                            @techStack.Name
+                        </a>
+                    </td>
+                    <td class="description" title="@techStack.Description">
+                        <div>@techStack.Description</div>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<disqus />

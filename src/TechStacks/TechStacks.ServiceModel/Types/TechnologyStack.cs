@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ServiceStack.DataAnnotations;
 
 namespace TechStacks.ServiceModel.Types
@@ -27,6 +28,8 @@ namespace TechStacks.ServiceModel.Types
         public string Slug { get; set; }
 
         public string Details { get; set; }
+
+        public DateTime? LastStatusUpdate { get; set; }
     }
 
     public class TechnologyStackHistory : TechnologyStack
@@ -34,6 +37,8 @@ namespace TechStacks.ServiceModel.Types
         public long TechnologyStackId { get; set; }
 
         public string Operation { get; set; }
+
+        public List<long> TechnologyIds { get; set; }
     }
 
     public class TechnologyChoice
@@ -83,6 +88,8 @@ namespace TechStacks.ServiceModel.Types
         public bool IsLocked { get; set; }
 
         public TechnologyTier Tier { get; set; }
+
+        public DateTime? LastStatusUpdate { get; set; }
     }
 
     public class TechnologyHistory : Technology

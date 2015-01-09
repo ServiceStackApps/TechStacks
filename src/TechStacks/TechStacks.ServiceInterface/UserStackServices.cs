@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ServiceStack;
 using ServiceStack.OrmLite;
@@ -56,6 +57,8 @@ namespace TechStacks.ServiceInterface
 
                 return new GetUserInfoResponse
                 {
+                    Created = DateTime.UtcNow,
+                    UserName = user.UserName,
                     AvatarUrl = user.DefaultProfileUrl ?? "/img/no-profile64.png",
                     TechStacks = techStacks,
                     FavoriteTechStacks = favStacks,

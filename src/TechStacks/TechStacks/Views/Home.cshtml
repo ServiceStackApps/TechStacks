@@ -1,0 +1,98 @@
+﻿@inherits ViewPage<OverviewResponse>
+@{
+    Layout = "ServerHtml";
+}
+    <div>
+        <div class="col-md-12">
+            <div class="panel panel-default hero">
+                <div class="panel-heading">
+                    Welcome to TechStacks!
+                </div>
+                <div class="panel panel-body">
+                    <p>
+                        Discover what technologies were used to create popular Websites and Apps, for example here's what <a href="/techstacks-website">TechStacks was created with</a> :)
+                    </p>
+                    <p>
+                        Missing your favorite Tech or TechStack? Sign-in and add it now!
+                        You'll also be able to customize this page and see who else uses your favorite tech!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            
+            @foreach (var techStack in Model.LatestTechStacks)
+            {
+                <div class="panel panel-default stack">
+                    <div class="panel-heading">
+                        <a href="/@techStack.Slug" style="display:block">
+                            <span>
+                                @techStack.Name 
+                            </span>
+                            <i class="pull-right">
+                                @techStack.VendorName
+                            </i>
+                        </a>
+                    </div>
+                    <div class="panel-body">
+                        @techStack.Description.SafeSubstring(0, 140)
+                        <a href="/@techStack.Slug">... Read More</a>
+                    </div>
+                    <div class="panel-footer">
+                        
+                        @foreach (var tech in techStack.TechnologyChoices)
+                        {
+                            <div style="display:inline" title="@tech.Name">
+                                <a href="/tech/@tech.Slug" class="ng-binding" title="@tech.Name">
+                                    <img src="@tech.LogoUrl" height="35" style="padding: 0 10px 0 0;" />
+                                </a>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-md-3">
+            
+            <div class="panel panel-default browse">
+                <div class="panel-heading">
+                    Browse by Technology
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        @foreach (var tech in Model.TopTechnologies)
+                        {
+                            <li style="white-space:nowrap">
+                                <a href="/tech/@tech.Slug">@tech.Name</a> 
+                                <small>(@tech.StacksCount)</small>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel panel-default browse">
+                <div class="panel-heading">
+                    Browse by Users
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        @foreach (var user in Model.TopUsers)
+                        {
+                            <li style="white-space:nowrap">
+                                <a href="/users/@user.UserName">
+                                    <img src="@user.AvatarUrl" style="height: 20px;" />
+                                    @user.UserName
+                                </a> 
+                                <small>(@user.StacksCount)</small>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
