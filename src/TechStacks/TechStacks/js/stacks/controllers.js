@@ -9,15 +9,13 @@
         function ($rootScope, $scope, $routeParams, techStackServices, $filter, userService, $sce) {
 
             function isFavoriteTechStack(techStack) {
-                var isFav = false;
                 for (var i = 0; i < $scope.favoriteTechStacks.length; i++) {
                     var favStack = $scope.favoriteTechStacks[i];
                     if (favStack.Id === techStack.Id) {
-                        isFav = true;
-                        break;
+                        return true;
                     }
                 }
-                return isFav;
+                return false;
             }
 
             function refreshFavorites() {
@@ -26,10 +24,6 @@
                 });
             }
 
-            function filterTechChoiceByTier(tier) {
-                return $filter('filter')($scope.currentStack.TechnologyChoices, { Tier: tier });
-            }
-            
             //load last page with opacity to increase perceived perf
             if ($rootScope.cachedStack) {
                 $scope.loading = true;
@@ -40,8 +34,17 @@
             techStackServices.getStack($routeParams.stackId).then(function (techStack) {
                 $scope.currentStack = techStack;
                 $scope.DetailsHtml = $sce.trustAsHtml(techStack.DetailsHtml);
-                angular.forEach($rootScope.allTiers, function (tier) {
-                    tier.show = filterTechChoiceByTier(tier.name).length > 0;
+                $scope.stackTiers = [];
+
+                techStackServices.allTiers().then(function (allTiers) {
+                    $.map(allTiers, function (tier) {
+                        var techChoices = $.grep(techStack.TechnologyChoices, function(x) {
+                            return x.Tier == tier.name;
+                        });
+                        if (techChoices.length > 0) {
+                            $scope.stackTiers.push({ title: tier.title, techChoices: techChoices });
+                        }
+                    });
                 });
 
                 $rootScope.cachedStack = $scope.currentStack;

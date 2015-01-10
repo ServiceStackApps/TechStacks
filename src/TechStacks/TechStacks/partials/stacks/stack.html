@@ -25,10 +25,10 @@
  
         <p class="description" ng-bind="currentStack.Description"></p>
 
-        <div class="tech-info" ng-repeat="tier in allTiers">
-            <div class="item" ng-show="tier.show">
+        <div class="tech-info" ng-repeat="tier in stackTiers">
+            <div class="item">
                 <h4>{{tier.title}}</h4>
-                <div ng-repeat="tech in currentStack.TechnologyChoices | filter:{Tier:tier.name}">
+                <div ng-repeat="tech in tier.techChoices">
                     <a href="/tech/{{tech.Slug}}" title="{{tech.Name}}">
                         <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" />
                     </a>

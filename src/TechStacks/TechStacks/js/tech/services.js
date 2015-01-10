@@ -23,7 +23,7 @@
                          || errorStatusMessages[status]; //HTTP Status Error
 
                     deferred.reject($rootScope.errorMessage);
-                });;
+                });
             return deferred.promise;
         };
 
@@ -67,6 +67,16 @@
             },
             config: function () {
                 return getResults($http.get('/config'));
+            },
+            allTiers: function() {
+                var deferred = $q.defer();
+                if ($rootScope.allTiers && $rootScope.allTiers.length > 0) {
+                    deferred.resolve($rootScope.allTiers);
+                }
+                getResults($http.get('/config')).then(function(r) {
+                    deferred.resolve(r.AllTiers);
+                });
+                return deferred.promise;
             }
         };
     }]);

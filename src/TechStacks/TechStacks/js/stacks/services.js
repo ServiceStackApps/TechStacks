@@ -37,7 +37,8 @@
                 return getResults($http.get('/techstacks/search?orderBy=-LastModified&NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery));
             },
             overview: techServices.overview,
-            searchTech: techServices.searchTech
+            searchTech: techServices.searchTech,
+            allTiers: techServices.allTiers
         };
     }]);
 })();
