@@ -124,7 +124,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="panel panel-default top" ng-repeat="category in topTechCategories" ng-if="$index <= 4">
+            <div class="panel panel-default top" ng-repeat="category in topTechCategories" ng-if="$index < 4">
                 <div class="panel-heading">
                     <a href="/tech?category={{category.name}}" style="display:block">
                         <span>
@@ -146,7 +146,7 @@
             </div>
         </div>
         <div class="col-md-4">            
-            <div class="panel panel-default top" ng-repeat="category in topTechCategories" ng-if="$index > 4">
+            <div class="panel panel-default top" ng-repeat="category in topTechCategories" ng-if="$index >= 4">
                 <div class="panel-heading">
                     <a href="/tech?category={{category.name}}" style="display:block">
                         <span>
