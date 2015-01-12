@@ -91,6 +91,27 @@ small {
 .stack .panel-heading {
     background-color: #03A9F4;
 }
+.top .panel-heading {
+    background-color: #4CAF50;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.top .panel-footer div {
+    clear: both;
+}
+.top .panel-footer b {
+    display: block;
+    float: left;
+    width: 45px;
+    line-height: 45px;
+    font-weight: normal;
+    color: #999;
+    padding: 5px 0 0 0;
+}
+.top .panel-body, .top .panel-footer, .browse .panel-body {
+    font-size: 18px;
+}
+
 .panel-heading {
     border: none;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);    

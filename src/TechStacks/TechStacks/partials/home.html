@@ -123,30 +123,52 @@
             </div>
         </div>
 
-        <div class="col-md-9">
-            <div class="panel panel-default stack" ng-repeat="techStack in techStacks">
+        <div class="col-md-4">
+            <div class="panel panel-default top" ng-repeat="category in topTechCategories" ng-if="$index <= 4">
                 <div class="panel-heading">
-                    <a href="/{{techStack.Slug}}" style="display:block">
+                    <a href="/tech?category={{category.name}}" style="display:block">
                         <span>
-                            {{techStack.Name}} 
+                            {{category.title}} 
                         </span>
-                        <i class="pull-right">
-                            {{techStack.VendorName}}
-                        </i>
                     </a>
                 </div>
-                <div class="panel-body">{{techStack.Description | limitTo:140}} <a href="/{{techStack.Slug}}" ng-if="techStack.Description.length > 140">... Read More</a></div>
+                <div class="panel-body">
+                    Most Popular:
+                </div>
                 <div class="panel-footer">
-                    <div style="display:inline" title="{{tech.Name}}" ng-repeat="tech in techStack.TechnologyChoices">
-                        <a href="/tech/{{tech.Slug}}" class="ng-binding" title="{{tech.Name}}">
-                            <img ng-if="tech.LogoApproved" ng-src="{{tech.LogoUrl}}" height="35" style="padding: 0 10px 0 0;" />
-                            <span ng-if="!tech.LogoApproved" class="glyphicon glyphicon-cog"></span>
+                    <div title="{{tech.Name}}" ng-repeat="tech in category.techs">
+                        <a href="/tech/{{tech.Slug}}" class="ng-binding" title="{{tech.Name}}" style="display:block">
+                            <b>({{tech.StacksCount}})</b>
+                            <img ng-src="{{tech.LogoUrl}}" height="40" style="padding: 0 10px 0 0;" />
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">            
+            <div class="panel panel-default top" ng-repeat="category in topTechCategories" ng-if="$index > 4">
+                <div class="panel-heading">
+                    <a href="/tech?category={{category.name}}" style="display:block">
+                        <span>
+                            {{category.title}} 
+                        </span>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    Most Popular:
+                </div>
+                <div class="panel-footer">
+                    <div title="{{tech.Name}}" ng-repeat="tech in category.techs">
+                        <a href="/tech/{{tech.Slug}}" class="ng-binding" title="{{tech.Name}}" style="display:block">
+                            <b>({{tech.StacksCount}})</b>
+                            <img ng-src="{{tech.LogoUrl}}" height="40" style="padding: 0 10px 0 0;" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
             
             <div class="panel panel-default browse">
                 <div class="panel-heading">

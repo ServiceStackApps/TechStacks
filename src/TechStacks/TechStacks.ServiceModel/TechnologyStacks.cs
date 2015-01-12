@@ -196,6 +196,7 @@ namespace TechStacks.ServiceModel
         public TechnologyTier Tier { get; set; }
         public string Slug { get; set; }
         public string Name { get; set; }
+        public string LogoUrl { get; set; }
         public int StacksCount { get; set; }
     }
 }

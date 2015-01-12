@@ -327,13 +327,13 @@ namespace TechStacks.ServiceInterface
             return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
             {
                 var topTechByCategory = Db.Select<TechnologyInfo>(
-                    @"select t.tier, t.slug as Slug, t.name, COUNT(*) as StacksCount 
+                    @"select t.tier, t.slug as Slug, t.name, t.logo_url, COUNT(*) as StacksCount 
                         from technology_choice tc
-	                        inner join
-	                        technology t on (tc.technology_id = t.id)
-                        group by t.slug, t.name, t.tier
+	                     inner join
+	                     technology t on (tc.technology_id = t.id)
+                        group by t.tier, t.slug, t.name, t.logo_url
                         having COUNT(*) > 2
-                        order by 1, 4 desc");
+                        order by 4 desc");
 
                 var map = new Dictionary<TechnologyTier, List<TechnologyInfo>>();
                 foreach (var tech in topTechByCategory)
@@ -343,7 +343,10 @@ namespace TechStacks.ServiceInterface
                         map[tech.Tier] = techs = new List<TechnologyInfo>();
 
                     if (techs.Count < 3)
+                    {
                         techs.Add(tech);
+                        techs.Sort((x,y) => y.StacksCount - x.StacksCount);
+                    }
                 }
 
                 var response = new OverviewResponse

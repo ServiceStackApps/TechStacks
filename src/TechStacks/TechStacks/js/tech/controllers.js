@@ -4,7 +4,9 @@
     var app = angular.module('techs.controllers', ['tech.services', 'user.services']);
 
     app.controller('latestTechsCtrl', [
-        '$rootScope', '$scope', 'techServices', '$timeout', function ($rootScope, $scope, techServices, $timeout) {
+        '$rootScope', '$scope', 'techServices', '$timeout', '$location', function ($rootScope, $scope, techServices, $timeout, $location) {
+
+            $scope.category = $location.search().category;
 
             function filterTechsByCategory(techs, category) {
                 var filteredTechs = [];
