@@ -88,29 +88,6 @@ small {
 .panel-default .panel-heading {
     background-color: #607D8B;
 }
-.stack .panel-heading {
-    background-color: #03A9F4;
-}
-.top .panel-heading {
-    background-color: #4CAF50;
-    white-space: nowrap;
-    overflow: hidden;
-}
-.top .panel-footer div {
-    clear: both;
-}
-.top .panel-footer b {
-    display: block;
-    float: left;
-    width: 45px;
-    line-height: 45px;
-    font-weight: normal;
-    color: #999;
-    padding: 5px 0 0 0;
-}
-.top .panel-body, .top .panel-footer, .browse .panel-body {
-    font-size: 18px;
-}
 
 .panel-heading {
     border: none;
@@ -134,6 +111,32 @@ small {
 }
 .browse li img {
     padding-right: 5px;
+}
+.stack .panel-heading {
+    background-color: #03A9F4;
+}
+.top .panel-heading {
+    background-color: #FFEB3B;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.top .panel-heading a {
+    color: #607D8B !important;
+}
+.top .panel-footer div {
+    clear: both;
+}
+.top .panel-footer b {
+    display: block;
+    float: left;
+    width: 45px;
+    line-height: 45px;
+    font-weight: normal;
+    color: #999;
+    padding: 5px 0 0 0;
+}
+.top .panel-body, .top .panel-footer, .browse .panel-body {
+    font-size: 18px;
 }
 
 .btn,.btn:focus {
