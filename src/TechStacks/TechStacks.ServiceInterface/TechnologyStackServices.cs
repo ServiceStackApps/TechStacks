@@ -342,11 +342,15 @@ namespace TechStacks.ServiceInterface
                     if (!map.TryGetValue(tech.Tier, out techs))
                         map[tech.Tier] = techs = new List<TechnologyInfo>();
 
-                    if (techs.Count < 3)
-                    {
-                        techs.Add(tech);
-                        techs.Sort((x,y) => y.StacksCount - x.StacksCount);
-                    }
+                    techs.Add(tech);
+                }
+
+                foreach (var tier in map.Keys)
+                {
+                    var list = map[tier];
+                    list.Sort((x,y) => y.StacksCount - x.StacksCount);
+                    if (list.Count > 3)
+                        list.RemoveRange(3, list.Count - 3);
                 }
 
                 var response = new OverviewResponse
