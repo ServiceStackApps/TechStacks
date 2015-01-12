@@ -177,8 +177,9 @@ namespace TechStacks.ServiceModel
         public DateTime Created { get; set; }
         public List<UserInfo> TopUsers { get; set; }
         public List<TechnologyInfo> TopTechnologies { get; set; }
-
         public List<TechStackDetails> LatestTechStacks { get; set; }
+
+        public Dictionary<TechnologyTier, List<TechnologyInfo>> TopTechnologiesByTier { get; set; }
 
         public ResponseStatus ResponseStatus { get; set; }
     }
@@ -192,6 +193,7 @@ namespace TechStacks.ServiceModel
 
     public class TechnologyInfo
     {
+        public TechnologyTier Tier { get; set; }
         public string Slug { get; set; }
         public string Name { get; set; }
         public int StacksCount { get; set; }

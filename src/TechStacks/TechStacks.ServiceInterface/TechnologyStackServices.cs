@@ -326,6 +326,26 @@ namespace TechStacks.ServiceInterface
             var key = ContentCache.OverviewKey(clear: request.Reload);
             return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
             {
+                var topTechByCategory = Db.Select<TechnologyInfo>(
+                    @"select t.tier, t.slug as Slug, t.name, COUNT(*) as StacksCount 
+                        from technology_choice tc
+	                        inner join
+	                        technology t on (tc.technology_id = t.id)
+                        group by t.slug, t.name, t.tier
+                        having COUNT(*) > 2
+                        order by 1, 4 desc");
+
+                var map = new Dictionary<TechnologyTier, List<TechnologyInfo>>();
+                foreach (var tech in topTechByCategory)
+                {
+                    List<TechnologyInfo> techs;
+                    if (!map.TryGetValue(tech.Tier, out techs))
+                        map[tech.Tier] = techs = new List<TechnologyInfo>();
+
+                    if (techs.Count < 3)
+                        techs.Add(tech);
+                }
+
                 var response = new OverviewResponse
                 {
                     Created = DateTime.UtcNow,
@@ -344,16 +364,21 @@ namespace TechStacks.ServiceInterface
                           order by StacksCount desc
                           limit 20"),
 
-                    TopTechnologies = Db.Select<TechnologyInfo>(
-                        @"select t.slug as Slug, t.name, COUNT(*) as StacksCount 
-                            from technology_choice tc
-                                 inner join
-                                 technology t on (tc.technology_id = t.id)
-                            group by t.slug, t.name
-                            having COUNT(*) > 0
-                            order by StacksCount desc
-                            limit 20"),
+                    TopTechnologies = topTechByCategory
+                        .OrderByDescending(x => x.StacksCount)
+                        .Take(20)
+                        .ToList(),
+
+                    TopTechnologiesByTier = map,
                 };
+
+                //Lighten payload
+                response.LatestTechStacks.Each(x => {
+                    x.Details = x.DetailsHtml = null;
+                    x.TechnologyChoices.Each(y => {
+                        y.Description = null;
+                    });
+                });
 
                 //Put TechStacks entry first to provide a first good experience
                 var techStacksApp = response.LatestTechStacks.FirstOrDefault(x => x.Id == TechStacksAppId);
