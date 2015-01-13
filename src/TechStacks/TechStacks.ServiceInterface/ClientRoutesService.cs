@@ -9,8 +9,16 @@ namespace TechStacks.ServiceInterface
         public string PathInfo { get; set; }
     }
 
+    [Route("/ping")]
+    public class Ping {}
+
     public class ClientRoutesService : Service
     {
+        public object Any(Ping request)
+        {
+            return "OK";
+        }
+
         public bool ShowServerHtml()
         {
             if (Request.GetParam("html") == "client")
