@@ -178,3 +178,106 @@ More information on these default tasks included in the template can be found [h
 The deployment step simply looks at the `wwwroot` folder where all build artifacts are copied and packages it up using WebDeploy. If another tool was being used to package and deploy, a ready to go copy of your application is easily created in `wwwroot`.
 
 For example, .nugetspec could be used to construct a NuGet package for your application. Deployment tools like [OctopusDeploy could then be used to automate deployment](https://github.com/ServiceStack/ServiceStack/wiki/Deploy-Multiple-Sites-to-single-AWS-Instance) to your various environments. 
+
+
+### Server Generated HTML Pages
+
+Whilst we believe Single Page Apps like AngularJS offer the more responsive UI, we've also added a server html version of TechStacks to satisfy WebCrawlers like **Googlebot** so they're better able to properly index the Websites content. It also provides a good insight into the UX difference between a Single Page App vs Server HTML generated websites. Since TechStacks is running on modest hardware (i.e. IIS on shared **m1.small** EC2 instance with a shared **micro** RDS PostgreSQL backend) the differences are more visible with the AngularJS version still being able to yield a snappy App-like experience whilst the full-page reloads of the Server HTML version is clearly visible on each request.
+
+The code to enable this is in [ClientRoutesService.cs](https://github.com/ServiceStackApps/TechStacks/blob/master/src/TechStacks/TechStacks.ServiceInterface/ClientRoutesService.cs) which illustrates a simple technique used to show different versions of your website which by default is enabled implicitly for `Googlebot` User Agents, or can be toggled explicitly between by visiting the routes below:
+
+  - [techstacks.io?html=client](http://techstacks.io?html=client)
+  - [techstacks.io?html=server](http://techstacks.io?html=server)
+
+These links determine whether you'll be shown the AngularJS version or the Server HTML Generated version of the Website. We can see how this works by exploring how the technology pages are implemented which handle both the technology index:
+
+  - http://techstacks.io/tech
+
+as well as individual technology pages, e.g:
+
+  - http://techstacks.io/tech/redis
+  - http://techstacks.io/tech/servicestack
+
+First we need to create empty Request DTO's to capture the client routes (as they were only previously configured in AngularJS routes):
+
+```csharp
+[Route("/tech")]
+public class ClientAllTechnologies {}
+
+[Route("/tech/{Slug}")]
+public class ClientTechnology
+{
+    public string Slug { get; set; }
+}
+```
+
+Then we implement ServiceStack Services for these routes. The `ShowServerHtml()` helper method is used to determine whether 
+to show the AngularJS or Server HTML version of the website which it does by setting a permanent cookie when 
+`techstacks.io?html=server` is requested (or if the UserAgent is `Googlebot`). 
+Every subsequent request then contains the `html=server` Cookie and so will show the Server HTML version. 
+Users can then go to `techstacks.io?html=client` to delete the cookie and resume viewing the default AngularJS version:
+
+```csharp
+public class ClientRoutesService : Service
+{
+    public bool ShowServerHtml()
+    {
+        if (Request.GetParam("html") == "client")
+        {
+            Response.DeleteCookie("html");
+            return false;
+        }
+
+        var serverHtml = Request.UserAgent.Contains("Googlebot")
+            || Request.GetParam("html") == "server";
+
+        if (serverHtml)
+            Response.SetPermanentCookie("html", "server");
+
+        return serverHtml;
+    }
+
+    public object AngularJsApp()
+    {
+        return new HttpResult {
+            View = "/default.cshtml"
+        };
+    }
+
+    public object Any(ClientAllTechnologies request)
+    {
+        return !ShowServerHtml()
+            ? AngularJsApp()
+            : new HttpResult(base.ExecuteRequest(new GetAllTechnologies())) {
+                View = "AllTech"
+            };
+    }
+
+    public object Any(ClientTechnology request)
+    {
+        return !ShowServerHtml()
+            ? AngularJsApp()
+            : new HttpResult(base.ExecuteRequest(new GetTechnology { Reload = true, Slug = request.Slug })) {
+                View = "Tech"
+            };
+    }
+}
+```
+
+The difference between which Website to display boils down to which Razor page to render, where for AngularJS we return the `/default.cshtml` 
+Home Page where the client routes then get handled by AngularJS. Whereas for the Server HTML version, it just renders the appropriate Razor View for that request.
+
+The `base.ExecuteRequest(new GetAllTechnologies())` API lets you execute a ServiceStack Service internally by just passing the 
+`GetAllTechnologies` Request DTO. The Resposne DTO returned by the Service is then passed as a view model to the `/Views/AllTech.cshtml` Razor View. 
+
+We benefit from AngularJS declarative HTML pages when maintaining a server HTML generated version of this Website as porting AngularJS views to Razor is a relatively straight-forward process, basically consisting of converting Angular `ng-attributes` to `@Razor` statements, as can be seen in the client vs server 
+versions of [techstacks.io/tech](http://techstacks.io/tech) index page:
+
+  - [/partials/tech/latest.html](https://github.com/ServiceStackApps/TechStacks/blob/master/src/TechStacks/TechStacks/partials/tech/latest.html)
+  - [/Views/Tech/AllTech.cshtml](https://github.com/ServiceStackApps/TechStacks/blob/master/src/TechStacks/TechStacks/Views/Tech/AllTech.cshtml)
+
+### Twitter Updates
+
+Another way to increase user engagement of your website is by posting Twitter Updates, TechStacks does this whenever anyone adds a new Technology or Technology Stack by posting a status update to [@webstacks](https://twitter.com/webstacks). The [code to make authorized Twitter API requests](https://github.com/ServiceStackApps/TechStacks/blob/master/src/TechStacks/TechStacks.ServiceInterface/TwitterUpdates.cs) ends up being fairly lightweight as it can take advantage of ServiceStack's built-in support for Twitter OAuth.
+
+> We'd also love for others to Sign In and add their Company's Technology Stack on [techstacks.io](http://techstacks.io) so everyone can get a better idea what technologies everyone's using!
