@@ -326,14 +326,7 @@ namespace TechStacks.ServiceInterface
             var key = ContentCache.OverviewKey(clear: request.Reload);
             return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
             {
-                var topTechByCategory = Db.Select<TechnologyInfo>(
-                    @"select t.tier, t.slug as Slug, t.name, t.logo_url, COUNT(*) as StacksCount 
-                        from technology_choice tc
-	                     inner join
-	                     technology t on (tc.technology_id = t.id)
-                        group by t.tier, t.slug, t.name, t.logo_url
-                        having COUNT(*) > 2
-                        order by 4 desc");
+                var topTechByCategory = GetTopTechByCategory();
 
                 var map = new Dictionary<TechnologyTier, List<TechnologyInfo>>();
                 foreach (var tech in topTechByCategory)
@@ -373,7 +366,7 @@ namespace TechStacks.ServiceInterface
 
                     TopTechnologies = topTechByCategory
                         .OrderByDescending(x => x.StacksCount)
-                        .Take(20)
+                        .Take(50)
                         .ToList(),
 
                     TopTechnologiesByTier = map,
@@ -394,6 +387,38 @@ namespace TechStacks.ServiceInterface
                     response.LatestTechStacks.RemoveAll(x => x.Id == TechStacksAppId);
                     response.LatestTechStacks.Insert(0, techStacksApp);
                 }
+
+                return response;
+            });
+        }
+
+        private List<TechnologyInfo> GetTopTechByCategory()
+        {
+            var topTechByCategory = Db.Select<TechnologyInfo>(
+                @"select t.tier, t.slug as Slug, t.name, t.logo_url, COUNT(*) as StacksCount 
+                        from technology_choice tc
+	                     inner join
+	                     technology t on (tc.technology_id = t.id)
+                        group by t.tier, t.slug, t.name, t.logo_url
+                        having COUNT(*) > 2
+                        order by 4 desc");
+            return topTechByCategory;
+        }
+
+        public object Any(AppOverview request)
+        {
+            var key = ContentCache.AppOverviewKey(clear: request.Reload);
+            return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
+            {
+                var response = new AppOverviewResponse
+                {
+                    Created = DateTime.UtcNow,
+                    AllTiers = GetAllTiers(),
+                    TopTechnologies = GetTopTechByCategory()
+                        .OrderByDescending(x => x.StacksCount)
+                        .Take(50)
+                        .ToList(),
+                };
 
                 return response;
             });

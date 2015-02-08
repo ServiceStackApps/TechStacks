@@ -65,6 +65,15 @@ namespace TechStacks.ServiceInterface
             return key;
         }
 
+        public string AppOverviewKey(bool clear = false)
+        {
+            var key = typeof(AppOverview).Name;
+            if (clear)
+                Client.FlushAll();
+
+            return key;
+        }
+
         public void ClearAll()
         {
             Client.FlushAll();           

@@ -131,18 +131,16 @@ namespace TechStacks.ServiceModel
         public bool Reload { get; set; }
     }
 
-    public class TechStackDetails : TechnologyStack
+    public class TechStackDetails : TechnologyStackBase
     {
         public string DetailsHtml { get; set; }
-
         public List<TechnologyInStack> TechnologyChoices { get; set; }
     }
 
-    public class TechnologyInStack : Technology
+    public class TechnologyInStack : TechnologyBase
     {
         public long TechnologyId { get; set; }
         public long TechnologyStackId { get; set; }
-
         public string Justification { get; set; }
     }
 
@@ -160,6 +158,20 @@ namespace TechStacks.ServiceModel
         public bool Reload { get; set; }
     }
 
+    [Route("/app-overview")]
+    public class AppOverview : IReturn<AppOverviewResponse>
+    {
+        public bool Reload { get; set; }
+    }
+    public class AppOverviewResponse
+    {
+        public DateTime Created { get; set; }
+        public List<Option> AllTiers { get; set; }
+        public List<TechnologyInfo> TopTechnologies { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
+    }
+
     [DataContract]
     public class Option
     {
@@ -169,6 +181,7 @@ namespace TechStacks.ServiceModel
         [DataMember(Name = "title")]
         public string Title { get; set; }
 
+        [DataMember(Name = "value")]
         public TechnologyTier Value { get; set; }
     }
 
