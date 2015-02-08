@@ -108,6 +108,8 @@ namespace TechStacks.ServiceModel
     [Route("/technology/search")]
     public class FindTechnologies : QueryBase<Technology>
     {
+        public string Name { get; set; }
+
         public bool Reload { get; set; }
     }
 

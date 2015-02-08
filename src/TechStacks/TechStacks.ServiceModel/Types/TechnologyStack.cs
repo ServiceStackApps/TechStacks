@@ -4,7 +4,7 @@ using ServiceStack.DataAnnotations;
 
 namespace TechStacks.ServiceModel.Types
 {
-    public class TechnologyStack
+    public abstract class TechnologyStackBase
     {
         [AutoIncrement]
         public long Id { get; set; }
@@ -32,12 +32,12 @@ namespace TechStacks.ServiceModel.Types
         public DateTime? LastStatusUpdate { get; set; }
     }
 
-    public class TechnologyStackHistory : TechnologyStack
+    public class TechnologyStack : TechnologyStackBase {}
+
+    public class TechnologyStackHistory : TechnologyStackBase
     {
         public long TechnologyStackId { get; set; }
-
         public string Operation { get; set; }
-
         public List<long> TechnologyIds { get; set; }
     }
 
@@ -63,7 +63,7 @@ namespace TechStacks.ServiceModel.Types
         public string OwnerId { get; set; }
     }
 
-    public class Technology
+    public abstract class TechnologyBase
     {
         [AutoIncrement]
         public long Id { get; set; }
@@ -92,10 +92,11 @@ namespace TechStacks.ServiceModel.Types
         public DateTime? LastStatusUpdate { get; set; }
     }
 
-    public class TechnologyHistory : Technology
+    public class Technology : TechnologyBase {}
+
+    public class TechnologyHistory : TechnologyBase
     {
         public long TechnologyId { get; set; }
-
         public string Operation { get; set; }
     }
 
