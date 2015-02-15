@@ -182,7 +182,7 @@ namespace TechStacks.ServiceModel
         public string Title { get; set; }
 
         [DataMember(Name = "value")]
-        public TechnologyTier Value { get; set; }
+        public TechnologyTier? Value { get; set; }
     }
 
     public class OverviewResponse

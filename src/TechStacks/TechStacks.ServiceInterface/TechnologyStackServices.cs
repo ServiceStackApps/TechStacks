@@ -392,7 +392,7 @@ namespace TechStacks.ServiceInterface
             });
         }
 
-        private List<TechnologyInfo> GetTopTechByCategory()
+        private List<TechnologyInfo> GetTopTechByCategory(int minCount = 3)
         {
             var topTechByCategory = Db.Select<TechnologyInfo>(
                 @"select t.tier, t.slug as Slug, t.name, t.logo_url, COUNT(*) as StacksCount 
@@ -400,8 +400,8 @@ namespace TechStacks.ServiceInterface
 	                     inner join
 	                     technology t on (tc.technology_id = t.id)
                         group by t.tier, t.slug, t.name, t.logo_url
-                        having COUNT(*) > 2
-                        order by 4 desc");
+                        having COUNT(*) >= {0}
+                        order by 4 desc".Fmt(minCount));
             return topTechByCategory;
         }
 
@@ -414,11 +414,13 @@ namespace TechStacks.ServiceInterface
                 {
                     Created = DateTime.UtcNow,
                     AllTiers = GetAllTiers(),
-                    TopTechnologies = GetTopTechByCategory()
+                    TopTechnologies = GetTopTechByCategory(minCount:1)
                         .OrderByDescending(x => x.StacksCount)
-                        .Take(50)
+                        .Take(100)
                         .ToList(),
                 };
+
+                response.AllTiers.Insert(0, new Option { Title = "[ Top 100 Technologies ]"});
 
                 return response;
             });
