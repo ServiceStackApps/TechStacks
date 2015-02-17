@@ -6,6 +6,16 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
+    [Query(QueryTerm.Or)]
+    [Route("/techstacks/search")]
+    [AutoQueryViewer(
+        Title = "Find Technology Stacks", Description = "Explore different Technology Stacks", IconUrl = "/img/app/stacks-white-75.png",
+        DefaultSearchField = "Description", DefaultSearchType = "Contains", DefaultSearchText = "ServiceStack")]
+    public class FindTechStacks : QueryBase<TechnologyStack>
+    {
+        public bool Reload { get; set; }
+    }
+
     [Route("/techstacks/{Slug}", Verbs = "GET")]
     public class GetTechnologyStack : IReturn<GetTechnologyStackResponse>
     {
@@ -122,13 +132,6 @@ namespace TechStacks.ServiceModel
     {
         public List<string> Users { get; set; }
         public int FavoriteCount { get; set; }
-    }
-
-    [Query(QueryTerm.Or)]
-    [Route("/techstacks/search")]
-    public class FindTechStacks : QueryBase<TechnologyStack>
-    {
-        public bool Reload { get; set; }
     }
 
     public class TechStackDetails : TechnologyStackBase

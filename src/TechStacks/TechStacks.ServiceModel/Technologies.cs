@@ -6,6 +6,16 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
+    [Query(QueryTerm.Or)]
+    [Route("/technology/search")]
+    [AutoQueryViewer(
+        Title = "Find Technologies", Description = "Explore different Technologies", IconUrl = "/img/app/tech-white-75.png",
+        DefaultSearchField = "Tier", DefaultSearchType = "=", DefaultSearchText = "Data")]
+    public class FindTechnologies : QueryBase<Technology>
+    {
+        public bool Reload { get; set; }
+    }
+
     [Route("/technology/{Slug}")]
     public class GetTechnology : IReturn<GetTechnologyResponse>
     {
@@ -102,13 +112,6 @@ namespace TechStacks.ServiceModel
         public Technology Result { get; set; }
 
         public ResponseStatus ResponseStatus { get; set; }
-    }
-
-    [Query(QueryTerm.Or)]
-    [Route("/technology/search")]
-    public class FindTechnologies : QueryBase<Technology>
-    {
-        public bool Reload { get; set; }
     }
 
     [Route("/technology", Verbs = "GET")]

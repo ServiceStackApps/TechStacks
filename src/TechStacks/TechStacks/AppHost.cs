@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Funq;
 using ServiceStack;
@@ -130,8 +131,21 @@ namespace TechStacks
             }
 
             Plugins.Add(new RazorFormat());
-            Plugins.Add(new AutoQueryFeature { MaxLimit = 200 });
             Plugins.Add(new ValidationFeature());
+            Plugins.Add(new AutoQueryFeature
+            {
+                MaxLimit = 200,
+                AutoQueryViewerConfig =
+                {
+                    ServiceDescription = "Discover what technologies were used to create popular Websites and Apps",
+                    BackgroundColor = "#0095F5",            
+                    TextColor = "#fff",
+                    LinkColor = "#ffff8d",
+                    BrandImageUrl = "/img/app/brand.png",
+                    BrandUrl = "http://techstacks.io",
+                    IsPublic = true,
+                }
+            });
 
             container.RegisterValidators(typeof(AppHost).Assembly);
             container.RegisterValidators(typeof(TechnologyServices).Assembly);
