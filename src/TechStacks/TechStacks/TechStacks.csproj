@@ -123,6 +123,7 @@
     <Content Include="css\app.css" />
     <Content Include="css\bootstrap-theme.css" />
     <Content Include="gruntfile.js" />
+    <Content Include="img\app\bg.png" />
     <Content Include="img\app\brand.png" />
     <Content Include="img\app\heart-75.png" />
     <Content Include="img\app\logo-220-inverted.png" />

@@ -138,11 +138,13 @@ namespace TechStacks
                 AutoQueryViewerConfig =
                 {
                     ServiceDescription = "Discover what technologies were used to create popular Websites and Apps",
+                    ServiceIconUrl = "/img/app/logo-76.png",
                     BackgroundColor = "#0095F5",            
                     TextColor = "#fff",
                     LinkColor = "#ffff8d",
                     BrandImageUrl = "/img/app/brand.png",
                     BrandUrl = "http://techstacks.io",
+                    BackgroundImageUrl = "/img/app/bg.png",
                     IsPublic = true,
                 }
             });
