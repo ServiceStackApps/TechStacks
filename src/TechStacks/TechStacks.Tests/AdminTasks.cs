@@ -1,15 +1,18 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using NUnit.Framework;
 using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.Data;
+using ServiceStack.DataAnnotations;
 using ServiceStack.OrmLite;
 using TechStacks.ServiceInterface;
 using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.Tests
 {
-    [Ignore("One-off Admin Tasks")]
+    [NUnit.Framework.Ignore("One-off Admin Tasks")]
     public class AdminTasks
     {
         private IAppSettings config;
@@ -90,5 +93,25 @@ namespace TechStacks.Tests
 
             twitter.Tweet("Test for http://techstacks.io");
         }
+
+        [Test]
+        public void Import_Customer_Forum_Posts()
+        {
+            using (var db = OpenDbConnection())
+            {
+                db.DropAndCreateTable<Post>();
+                db.DropAndCreateTable<PostComment>();
+
+                var json = File.ReadAllText("~/servicestack-forum.json".MapProjectPath());
+
+                var posts = json.FromJson<List<Post>>();
+
+                foreach (var post in posts)
+                {
+                    db.Save(post, references: true);
+                }
+            }            
+        }
     }
+
 }

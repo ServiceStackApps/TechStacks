@@ -78,6 +78,7 @@
     <Compile Include="ClientRoutesService.cs" />
     <Compile Include="ContentCache.cs" />
     <Compile Include="CustomAuthUserSession.cs" />
+    <Compile Include="CustomerForumsService.cs" />
     <Compile Include="Filters\TechFilters.cs" />
     <Compile Include="Filters\TechStackFilters.cs" />
     <Compile Include="TwitterUpdates.cs" />
