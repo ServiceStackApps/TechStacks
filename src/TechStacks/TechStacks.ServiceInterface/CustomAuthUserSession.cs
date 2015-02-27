@@ -25,45 +25,28 @@ namespace TechStacks.ServiceInterface
             {
                 if (authTokens.Provider.ToLower() == "github")
                 {
-                    GithubProfileUrl = authTokens.GetProfileUrl();
+                    GithubProfileUrl = session.GetProfileUrl();
                 }
                 if (authTokens.Provider.ToLower() == "twitter")
                 {
-                    TwitterProfileUrl = authTokens.GetProfileUrl();
+                    TwitterProfileUrl = session.GetProfileUrl();
                     if (appSettings.GetList("TwitterAdmins").Contains(session.UserName) && !session.HasRole(RoleNames.Admin))
                     {
                         userAuthRepo.AssignRoles(userAuth, roles: new[] { RoleNames.Admin });
                     }
                 }
 
-                bool setProfileUrl = string.IsNullOrEmpty(DefaultProfileUrl);
-                if (setProfileUrl)
+                DefaultProfileUrl = GithubProfileUrl ?? TwitterProfileUrl;
+                using (var db = dbConnectionFactory.OpenDbConnection())
                 {
-                    DefaultProfileUrl = GithubProfileUrl ?? TwitterProfileUrl;
-                    using (var db = dbConnectionFactory.OpenDbConnection())
+                    var userAuthInstance = db.Single<CustomUserAuth>(x => x.Id == this.UserAuthId.ToInt());
+                    if (userAuthInstance != null)
                     {
-                        var userAuthInstance = db.Single<CustomUserAuth>(x => x.Id == this.UserAuthId.ToInt());
-                        if (userAuthInstance != null)
-                        {
-                            userAuthInstance.DefaultProfileUrl = this.DefaultProfileUrl;
-                            db.Save(userAuthInstance);
-                        }
+                        userAuthInstance.DefaultProfileUrl = this.DefaultProfileUrl;
+                        db.Save(userAuthInstance);
                     }
                 }
             }
-        }
-    }
-
-    public static class AuthUserSessionExtensions
-    {
-        public static string GetProfileUrl(this IAuthTokens tokens)
-        {
-            string profileUrl = null;
-            if (tokens.Items.ContainsKey(AuthMetadataProvider.ProfileUrlKey))
-            {
-                profileUrl = tokens.Items[AuthMetadataProvider.ProfileUrlKey];
-            }
-            return profileUrl;
         }
     }
 
