@@ -146,6 +146,7 @@ namespace TechStacks
                     BrandUrl = "http://techstacks.io",
                     BackgroundImageUrl = "/img/app/bg.png",
                     IsPublic = true,
+                    OnlyShowAnnotatedServices = true,
                 }
             });
 

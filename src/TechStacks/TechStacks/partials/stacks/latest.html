@@ -15,7 +15,7 @@
         <tr ng-repeat="techStack in techStacks">
             <td class="name"><a href="/{{techStack.Slug}}">{{techStack.Name}}</a></td>
             <td class="description" title="{{techStack.Description}}"><div>{{techStack.Description}}</div></td>
-            <td class="createdby"><a href="/{{techStack.CreatedBy}}" ng-bind="techStack.CreatedBy"></a></td>
+            <td class="createdby"><a href="/users/{{techStack.CreatedBy}}" ng-bind="techStack.CreatedBy"></a></td>
         </tr>
     </table>
 

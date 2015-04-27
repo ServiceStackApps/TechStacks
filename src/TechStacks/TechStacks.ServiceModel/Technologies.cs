@@ -13,6 +13,8 @@ namespace TechStacks.ServiceModel
         DefaultSearchField = "Tier", DefaultSearchType = "=", DefaultSearchText = "Data")]
     public class FindTechnologies : QueryBase<Technology>
     {
+        public string Name { get; set; }
+
         public bool Reload { get; set; }
     }
 
