@@ -71,6 +71,9 @@ small {
     margin: 20px 0 0 0;
 }
 
+.badges img {
+    margin: 0 10px 0 0;
+}
 .panel {
     border-radius: 2px;
     border: 0;
