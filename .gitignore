@@ -190,3 +190,4 @@ App_Data/
 src/TechStacks/TechStacks/webdeploy.zip
 .idea/
 *.txt
+src/.vs/config/applicationhost.config

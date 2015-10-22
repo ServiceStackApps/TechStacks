@@ -6,6 +6,9 @@
 'use strict';
 
 module.exports = function (grunt) {
+
+    var fs = require('fs');
+    //var process = require('process');
     var path = require('path');
     // include gulp
     var gulp = require('gulp');
@@ -19,8 +22,37 @@ module.exports = function (grunt) {
     var gulpReplace = require('gulp-replace');
     var webRoot = 'wwwroot/';
 
-    //Deployment config
-    var config = require('./wwwroot_build/publish/config.json');
+    var configFile = 'config.json';
+    var configDir = process.env.ServiceStackPublishConfigDir || './wwwroot_build/publish/';
+    var configPath = configDir + configFile;
+    var appSettingsFile = 'appsettings.txt';
+    var appSettingsDir = process.env.ServiceStackAppSettingsConfigDir || './wwwroot_build/deploy/';
+    var appSettingsPath = appSettingsDir + appSettingsFile;
+
+    function createConfigsIfMissing() {
+        if (!fs.existsSync(configPath)) {
+            if (!fs.existsSync(configDir)) {
+                fs.mkdirSync(configDir);
+            }
+            fs.writeFileSync(configPath, JSON.stringify({
+                "iisApp": "TechStacks",
+                "serverAddress": "deploy-server.example.com",
+                "userName": "{WebDeployUserName}",
+                "password": "{WebDeployPassword}"
+            }, null, 4));
+        }
+        if (!fs.existsSync(appSettingsPath)) {
+            if (!fs.existsSync(appSettingsDir)) {
+                fs.mkdirSync(appSettingsDir);
+            }
+            fs.writeFileSync(appSettingsPath,
+                '# Release App Settings\r\nDebugMode false');
+        }
+    }
+
+    // Deployment config
+    createConfigsIfMissing();
+    var config = require(configPath);
 
     // Project configuration.
     grunt.initConfig({
