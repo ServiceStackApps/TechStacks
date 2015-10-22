@@ -12,6 +12,7 @@ using ServiceStack.OrmLite;
 using ServiceStack.Razor;
 using ServiceStack.Text;
 using ServiceStack.Validation;
+using ServiceStack.Web;
 using TechStacks.ServiceInterface;
 using TechStacks.ServiceModel.Types;
 
@@ -152,6 +153,14 @@ namespace TechStacks
 
             container.RegisterValidators(typeof(AppHost).Assembly);
             container.RegisterValidators(typeof(TechnologyServices).Assembly);
+        }
+
+        public override object OnAfterExecute(IRequest req, object requestDto, object response)
+        {
+            if (req.Response.Dto == null)
+                req.Response.Dto = response;
+
+            return response;
         }
     }
 }
