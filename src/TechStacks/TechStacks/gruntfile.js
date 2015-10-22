@@ -8,7 +8,6 @@
 module.exports = function (grunt) {
 
     var fs = require('fs');
-    //var process = require('process');
     var path = require('path');
     // include gulp
     var gulp = require('gulp');
@@ -190,7 +189,7 @@ module.exports = function (grunt) {
                     .pipe(gulp.dest(webRoot));
             },
             'wwwroot-copy-deploy-files': function () {
-                return gulp.src('./wwwroot_build/deploy/*.*')
+                return gulp.src(appSettingsDir + '*.*')
                     .pipe(newer(webRoot))
                     .pipe(gulp.dest(webRoot));
             }
