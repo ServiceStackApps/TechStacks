@@ -20,12 +20,13 @@ module.exports = function (grunt) {
     var minifyCss = require('gulp-minify-css');
     var gulpReplace = require('gulp-replace');
     var webRoot = 'wwwroot/';
+    var webBuildDir = grunt.option('serviceStackSettingsDir') || './wwwroot_build/';
 
     var configFile = 'config.json';
-    var configDir = process.env.ServiceStackPublishConfigDir || './wwwroot_build/publish/';
+    var configDir = webBuildDir + 'publish/';
     var configPath = configDir + configFile;
     var appSettingsFile = 'appsettings.txt';
-    var appSettingsDir = process.env.ServiceStackAppSettingsConfigDir || './wwwroot_build/deploy/';
+    var appSettingsDir = webBuildDir + 'deploy/';
     var appSettingsPath = appSettingsDir + appSettingsFile;
 
     function createConfigsIfMissing() {
