@@ -198,6 +198,7 @@ namespace TechStacks.ServiceInterface
             if (stack.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
                 throw HttpError.Unauthorized("Only the Owner or Admins can delete this TechStack");
 
+            Db.Delete<UserFavoriteTechnologyStack>(q => q.TechnologyStackId == request.Id);
             Db.Delete<TechnologyChoice>(q => q.TechnologyStackId == request.Id);
             Db.DeleteById<TechnologyStack>(request.Id);
 
