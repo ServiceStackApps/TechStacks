@@ -23,37 +23,37 @@ namespace TechStacks.ServiceInterface
 
         public string UserInfoKey(string userName, bool clear = false)
         {
-            return ClearKey("{0}/{1}".Fmt(typeof(GetUserInfo), userName), clear);
+            return ClearKey("{0}/{1}".Fmt(typeof(GetUserInfo).Name, userName), clear);
         }
 
         public string TechnologyKey(string slug, bool clear = false)
         {
-            return ClearKey("{0}/{1}".Fmt(typeof(GetTechnology), slug), clear);
+            return ClearKey("{0}/{1}".Fmt(typeof(GetTechnology).Name, slug), clear);
         }
 
         public string TechnologySearchKey(string search, bool clear = false)
         {
-            return ClearKey("{0}/{1}".Fmt(typeof(FindTechnologies), search), clear);
+            return ClearKey("{0}/{1}".Fmt(typeof(FindTechnologies).Name, search), clear);
         }
 
         public string TechnologyStackKey(string slug, bool clear = false)
         {
-            return ClearKey("{0}/{1}".Fmt(typeof(GetTechnologyStack), slug), clear);
+            return ClearKey("{0}/{1}".Fmt(typeof(GetTechnologyStack).Name, slug), clear);
         }
 
         public string TechnologyStackSearchKey(string search, bool clear = false)
         {
-            return ClearKey("{0}/{1}".Fmt(typeof(FindTechStacks), search), clear);
+            return ClearKey("{0}/{1}".Fmt(typeof(FindTechStacks).Name, search), clear);
         }
 
         public string TechnologyFavoriteKey(string slug, bool clear = false)
         {
-            return ClearKey("{0}/{1}".Fmt(typeof(GetTechnologyFavoriteDetails), slug), clear);
+            return ClearKey("{0}/{1}".Fmt(typeof(GetTechnologyFavoriteDetails).Name, slug), clear);
         }
 
         public string TechnologyStackFavoriteKey(string slug, bool clear = false)
         {
-            return ClearKey("{0}/{1}".Fmt(typeof(GetTechnologyStackFavoriteDetails), slug), clear);
+            return ClearKey("{0}/{1}".Fmt(typeof(GetTechnologyStackFavoriteDetails).Name, slug), clear);
         }
 
         public string OverviewKey(bool clear = false)
