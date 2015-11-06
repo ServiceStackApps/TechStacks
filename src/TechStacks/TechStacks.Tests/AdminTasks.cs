@@ -93,25 +93,5 @@ namespace TechStacks.Tests
 
             twitter.Tweet("Test for http://techstacks.io");
         }
-
-        [Test]
-        public void Import_Customer_Forum_Posts()
-        {
-            using (var db = OpenDbConnection())
-            {
-                db.DropAndCreateTable<Post>();
-                db.DropAndCreateTable<PostComment>();
-
-                var json = File.ReadAllText("~/servicestack-forum.json".MapProjectPath());
-
-                var posts = json.FromJson<List<Post>>();
-
-                foreach (var post in posts)
-                {
-                    db.Save(post, references: true);
-                }
-            }            
-        }
     }
-
 }
