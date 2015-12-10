@@ -52,6 +52,7 @@
                     <ul class="nav navbar-nav">
                         <li ng-class="{ active: IsRouteActive('/stacks')}"><a href="/stacks">Stacks</a></li>
                         <li ng-class="{ active: IsRouteActive('/tech')}"><a href="/tech">Technologies</a></li>
+                        <li ng-show="isAuthenticated" ng-class="{ active: IsRouteActive('/favorites')}"><a href="/favorites">Favorites</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li ng-hide="isAuthenticated" class="seo"><a href="?html=server">seo-friendly</a></li>
@@ -88,6 +89,7 @@
         <!-- endbuild -->
         <!-- build:js /js/app.min.js -->
         <script src="/js/home/controllers.js"></script>
+        <script src="/js/favorites/controllers.js"></script>
         <script src="/js/tech/controllers.js"></script>
         <script src="/js/tech/services.js"></script>
         <script src="/js/stacks/controllers.js"></script>

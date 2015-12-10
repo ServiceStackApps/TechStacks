@@ -2,15 +2,17 @@
 (function () {
     "use strict";
 
-    angular.module('stacks', ['stacks.controllers', 'stacks.services', 'stacks.filters']);
-    angular.module('techs', ['techs.controllers','tech.services']);
-    angular.module('home', ['home.controllers']);
+    angular.module('home',      ['home.controllers']);
+    angular.module('stacks',    ['stacks.controllers', 'stacks.services', 'stacks.filters']);
+    angular.module('techs',     ['techs.controllers','tech.services']);
+    angular.module('favorites', ['favorites.controllers']);
     angular.module('user', ['user.controllers', 'user.services']);
 
     // Declare app level module which depends on filters, and services
     angular.module('techStackApp', [
             'ngRoute',
             'home',
+            'favorites',
             'techs',
             'stacks',
             'user',
@@ -20,7 +22,8 @@
         ]).
         config(['$routeProvider', '$httpProvider', '$locationProvider', function ($routeProvider, $httpProvider, $locationProvider) {
             $routeProvider.when('/', { templateUrl: '/partials/home.html', controller: 'homeCtrl' });
-            $routeProvider.when('/tech', { templateUrl: '/partials/tech/latest.html', controller: 'latestTechsCtrl', title: 'Explore Technologies'});
+            $routeProvider.when('/favorites', { templateUrl: '/partials/favorites/favorites.html', controller: 'favoritesCtrl', title: 'Favorites' });
+            $routeProvider.when('/tech', { templateUrl: '/partials/tech/latest.html', controller: 'latestTechsCtrl', title: 'Explore Technologies' });
             $routeProvider.when('/tech/create', { templateUrl: '/partials/tech/create.html', controller: 'createTechCtrl', title: 'Add a new Technology' });
             $routeProvider.when('/tech/:techId', { templateUrl: '/partials/tech/tech.html', controller: 'techCtrl', title: 'Who uses {slug}?' });
             $routeProvider.when('/tech/:techId/edit', { templateUrl: '/partials/tech/edit.html', controller: 'editTechCtrl', title: 'Update Technology' });
