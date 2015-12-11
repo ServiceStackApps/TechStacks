@@ -184,7 +184,8 @@ namespace TechStacks.ServiceInterface
                 var techStacks = Db.Select(Db.From<TechnologyStack>()
                     .Join<TechnologyChoice>()
                     .Join<TechnologyChoice, Technology>()
-                    .Where<TechnologyChoice>(x => x.TechnologyId == tech.Id));
+                    .Where<TechnologyChoice>(x => x.TechnologyId == tech.Id)
+                    .OrderByDescending(x => x.LastModified));
 
                 return new GetTechnologyResponse
                 {
