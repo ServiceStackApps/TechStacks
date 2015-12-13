@@ -1,5 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using ServiceStack;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
 using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
 
@@ -24,7 +28,7 @@ namespace TechStacks.ServiceInterface
         {
             string str = phrase.RemoveAccent().ToLower()
                 .Replace("#", "sharp")  // c#, f# => csharp, fsharp
-                .Replace("+","p");      // c++ => cpp
+                .Replace("+", "p");      // c++ => cpp
 
             // invalid chars           
             str = Regex.Replace(str, @"[^a-z0-9\s-]", "-");
@@ -40,6 +44,22 @@ namespace TechStacks.ServiceInterface
         {
             byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(txt);
             return System.Text.Encoding.ASCII.GetString(bytes);
+        }
+
+        public static Task RegisterPageView(this IDbConnectionFactory dbFactory, string id)
+        {
+            return null;
+            //var db = HostContext.Resolve<IDbConnectionFactory>().Open();
+
+            //return db.ExecuteSqlAsync("UPDATE page_stats SET view_count = view_count + 1 WHERE id = @id", new { id })
+            //    .ContinueWith(t =>
+            //    {
+            //        if (t.Result == 0)
+            //            return db.InsertAsync(new PageStats { Id = id, ViewCount = 1, LastModified = DateTime.UtcNow })
+            //                .ContinueWith(t2 => (int)t2.Result);
+
+            //        return t;
+            //    }).ContinueWith(_ => db.Dispose());
         }
     }
 }

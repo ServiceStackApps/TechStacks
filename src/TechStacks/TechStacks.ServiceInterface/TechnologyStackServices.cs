@@ -227,6 +227,8 @@ namespace TechStacks.ServiceInterface
 
         public object Get(GetTechnologyStack request)
         {
+            DbFactory.RegisterPageView("/stack/" + request.Slug);
+
             var key = ContentCache.TechnologyStackKey(request.Slug, clear: request.Reload);
             return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
             {

@@ -66,6 +66,7 @@
     <Compile Include="Technologies.cs" />
     <Compile Include="TechnologyStacks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\PageStats.cs" />
     <Compile Include="Types\TechnologyStack.cs" />
     <Compile Include="Types\UserFavorites.cs" />
     <Compile Include="UserFavorites.cs" />

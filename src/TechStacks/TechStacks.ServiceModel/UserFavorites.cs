@@ -57,4 +57,20 @@ namespace TechStacks.ServiceModel
     {
         public Technology Result { get; set; }
     }
+
+    [Route("/pagestats/{Type}/{Slug}")]
+    public class GetPageStats : IReturn<GetPageStatsResponse>
+    {
+        public string Type { get; set; }
+        public string Slug { get; set; }
+    }
+
+    public class GetPageStatsResponse
+    {
+        public string Type { get; set; }
+        public string Slug { get; set; }
+        public long ViewCount { get; set; }
+        public long FavoritesCount { get; set; }
+    }
+
 }
