@@ -432,12 +432,13 @@ namespace TechStacks.ServiceInterface
         public object Any(GetPageStats request)
         {
             var id = "/{0}/{1}".Fmt(request.Type, request.Slug);
-            var viewCount = Db.Scalar<long>(Db.From<PageStats>().Where(x => x.Id == id).Select(x => x.ViewCount));
+            var pageStats = Db.SingleById<PageStats>(id);
             return new GetPageStatsResponse
             {
                 Type = request.Type,
                 Slug = request.Slug,
-                ViewCount = viewCount,
+                ViewCount = pageStats != null ? pageStats.ViewCount : 0,
+                FavCount = pageStats != null ? pageStats.FavCount : 0,
             };
         }
 

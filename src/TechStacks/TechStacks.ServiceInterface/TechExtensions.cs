@@ -54,7 +54,7 @@ namespace TechStacks.ServiceInterface
                 .ContinueWith(t =>
                 {
                     var parts = id.Substring(1).SplitOnFirst('/');
-                    if (t.Result == 0 && parts.Length != 2)
+                    if (t.Result == 0 && parts.Length == 2)
                     {
                         var type = parts[0];
                         var slug = parts[1];

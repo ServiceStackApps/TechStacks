@@ -70,7 +70,7 @@ namespace TechStacks.ServiceModel
         public string Type { get; set; }
         public string Slug { get; set; }
         public long ViewCount { get; set; }
-        public long FavoritesCount { get; set; }
+        public long FavCount { get; set; }
     }
 
     [Restrict(VisibleInternalOnly = true)]
