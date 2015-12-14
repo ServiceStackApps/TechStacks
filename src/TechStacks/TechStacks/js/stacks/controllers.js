@@ -258,12 +258,17 @@
                 $scope.techStacks = $rootScope.cachedTechStacks;
             }
 
+            techStackServices.popularTechStacks().then(function(r) {
+                $scope.popularTechStacks = r;
+            });
+
             $scope.refresh = function () {
                 techStackServices.searchStacks($scope.Search || '').then(function (results) {
                     $scope.techStacks = results;
                     $rootScope.cachedTechStacks = $scope.techStacks;
                 });
             };
+
             $scope.refresh();
         }
     ]);

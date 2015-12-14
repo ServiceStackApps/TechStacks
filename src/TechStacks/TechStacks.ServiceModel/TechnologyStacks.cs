@@ -194,6 +194,7 @@ namespace TechStacks.ServiceModel
         public List<UserInfo> TopUsers { get; set; }
         public List<TechnologyInfo> TopTechnologies { get; set; }
         public List<TechStackDetails> LatestTechStacks { get; set; }
+        public List<TechnologyStack> PopularTechStacks { get; set; }
 
         public Dictionary<TechnologyTier, List<TechnologyInfo>> TopTechnologiesByTier { get; set; }
 

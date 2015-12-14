@@ -12,6 +12,7 @@
                 $scope.topTechnologies = $rootScope.cachedTopTechnologies;
                 $scope.topUsers = $rootScope.cachedTopUsers;
                 $scope.topTechCategories = $rootScope.cachedTopTechCategories;
+                $scope.popularTechStacks = $rootScope.cachedPopularTechStacks;
             }
 
             function refresh() {
@@ -20,6 +21,7 @@
                     $scope.topTechnologies = overview.TopTechnologies;
                     $scope.topUsers = overview.TopUsers;
                     $scope.topTechCategories = [];
+                    $scope.popularTechStacks = overview.PopularTechStacks;
 
                     techStackServices.allTiers().then(function(allTiers) {
                         $.map(allTiers, function (tier) {
@@ -35,6 +37,7 @@
                     $rootScope.cachedTopTechnologies = $scope.topTechnologies;
                     $rootScope.cachedTopUsers = $scope.topUsers;
                     $rootScope.cachedTopTechCategories = $scope.topTechCategories;
+                    $rootScope.cachedPopularTechStacks = $scope.popularTechStacks;
                 });
             }
 

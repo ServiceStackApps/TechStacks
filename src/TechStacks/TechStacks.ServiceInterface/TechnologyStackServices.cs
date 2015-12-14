@@ -372,6 +372,12 @@ namespace TechStacks.ServiceInterface
                         .Take(50)
                         .ToList(),
 
+                    PopularTechStacks = Db.Select(
+                        Db.From<TechnologyStack>()
+                          .Join<PageStats>((s,p) => s.Id == p.RefId && p.RefType == "stack")
+                          .OrderByDescending<PageStats>(p => p.ViewCount)
+                          .Limit(12)),
+
                     TopTechnologiesByTier = map,
                 };
 

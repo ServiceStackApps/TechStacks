@@ -279,6 +279,11 @@ td.description div {
     opacity: .3;
 }
 
+.popular-stack img {
+    max-width: 260px;
+    float: left;
+    margin: 0 0 20px 20px;
+}
 #stack-page #stack-info {
     background: #fff;
     padding: 15px 15px 40px 40px;

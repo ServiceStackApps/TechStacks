@@ -1,5 +1,14 @@
 ﻿<div>
 
+    <div>
+        <div class="popular-stack" ng-repeat="techStack in popularTechStacks">
+            <a href="/{{techStack.Slug}}" title="{{techStack.Name}}">
+                <img src="{{techStack.ScreenshotUrl}}" />
+            </a>
+        </div>
+        <span class="clearfix"></span>
+    </div>
+
     <table class="table table-striped stack">
         <caption>
             <input type="text" id="Search" class="search" placeholder="Search" ng-model="Search" ng-keyup="refresh()" auto-focus>

@@ -39,6 +39,7 @@
             getPageStats: function (id) {
                 return getResults($http.get('/pagestats/stack/' + id));
             },
+            popularTechStacks: techServices.popularTechStacks,
             overview: techServices.overview,
             searchTech: techServices.searchTech,
             allTiers: techServices.allTiers

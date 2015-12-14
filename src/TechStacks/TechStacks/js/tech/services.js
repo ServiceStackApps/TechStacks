@@ -71,6 +71,17 @@
             config: function () {
                 return getResults($http.get('/config'));
             },
+            popularTechStacks: function () {
+                var deferred = $q.defer();
+                if ($rootScope.cachedPopularTechStacks) {
+                    deferred.resolve($rootScope.cachedPopularTechStacks);
+                } else {
+                    this.overview().then(function (r) {
+                        deferred.resolve($rootScope.cachedPopularTechStacks = r.PopularTechStacks);
+                    });
+                }
+                return deferred.promise;
+            },
             allTiers: function() {
                 var deferred = $q.defer();
                 if ($rootScope.allTiers && $rootScope.allTiers.length > 0) {
