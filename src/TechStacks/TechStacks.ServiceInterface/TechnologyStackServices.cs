@@ -429,6 +429,49 @@ namespace TechStacks.ServiceInterface
             });
         }
 
+        public object Any(GetPageStats request)
+        {
+            var id = "/{0}/{1}".Fmt(request.Type, request.Slug);
+            var viewCount = Db.Scalar<long>(Db.From<PageStats>().Where(x => x.Id == id).Select(x => x.ViewCount));
+            return new GetPageStatsResponse
+            {
+                Type = request.Type,
+                Slug = request.Slug,
+                ViewCount = viewCount,
+            };
+        }
+
+        public object Any(HourlyTask request)
+        {
+            var updatedTechIds = Db.ExecuteSql("UPDATE page_stats AS p SET ref_id = t.id FROM technology AS t WHERE t.slug = p.ref_slug and p.ref_type = 'tech' AND ref_id = 0");
+            var updatedStackIds = Db.ExecuteSql("UPDATE page_stats AS p SET ref_id = t.id FROM technology_stack AS t WHERE t.slug = p.ref_slug and p.ref_type = 'stack' AND ref_id = 0");
+
+            var techFavs = Db.Dictionary<long, long>("SELECT technology_id, count(*) FROM user_favorite_technology GROUP BY technology_id");
+            foreach (var techFav in techFavs)
+            {
+                Db.ExecuteSql("UPDATE page_stats SET fav_count = @favCount WHERE ref_id = @refId and ref_type = 'tech'",
+                    new { refId = techFav.Key, favCount = techFav.Value });
+            }
+
+            var stackFavs = Db.Dictionary<long, long>("SELECT technology_stack_id, count(*) FROM user_favorite_technology_stack GROUP BY technology_stack_id");
+            foreach (var stackFav in stackFavs)
+            {
+                Db.ExecuteSql("UPDATE page_stats SET fav_count = @favCount WHERE ref_id = @refId and ref_type = 'stack'",
+                    new { refId = stackFav.Key, favCount = stackFav.Value });
+            }
+
+            return new HourlyTaskResponse
+            {
+                Meta = new Dictionary<string, string>
+                {
+                    { "updatedTechIds", updatedTechIds.ToString() },
+                    { "updatedStackIds", updatedStackIds.ToString() },
+                    { "techFavsCount", techFavs.Count.ToString() },
+                    { "stackFavsCount", stackFavs.Count.ToString() },
+                }
+            };
+        }
+
         public IAutoQuery AutoQuery { get; set; }
 
         //Cached AutoQuery

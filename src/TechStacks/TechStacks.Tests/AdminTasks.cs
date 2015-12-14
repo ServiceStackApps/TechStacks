@@ -115,17 +115,13 @@ namespace TechStacks.Tests
                     if (parts.Length != 2) continue;
                     var type = parts[0];
                     var slug = parts[1];
-                    long refId = 0;
-                    if (type == "tech")
-                        refId = db.Scalar<long>(db.From<Technology>().Where(x => x.Slug == slug).Select(x => x.Id));
-                    else if (type == "stack")
-                        refId = db.Scalar<long>(db.From<TechnologyStack>().Where(x => x.Slug == slug).Select(x => x.Id));
 
                     var pageStats = new PageStats
                     {
                         Id = entry.Key,
                         RefType = type,
-                        RefId = refId,
+                        RefSlug = slug,
+                        RefId = 0,
                         ViewCount = long.Parse(entry.Value),
                         LastModified = now,
                     };

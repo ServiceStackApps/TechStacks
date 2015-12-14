@@ -73,4 +73,14 @@ namespace TechStacks.ServiceModel
         public long FavoritesCount { get; set; }
     }
 
+    [Restrict(VisibleInternalOnly = true)]
+    [Route("/tasks/hourly")]
+    public class HourlyTask {}
+
+    public class HourlyTaskResponse : IMeta
+    {
+        public Dictionary<string, string> Meta { get; set; }
+
+        public ResponseStatus ResponseStatus { get; set; }
+    }
 }

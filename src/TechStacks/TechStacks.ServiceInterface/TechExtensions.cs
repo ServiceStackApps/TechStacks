@@ -48,18 +48,30 @@ namespace TechStacks.ServiceInterface
 
         public static Task RegisterPageView(this IDbConnectionFactory dbFactory, string id)
         {
-            return null;
-            //var db = HostContext.Resolve<IDbConnectionFactory>().Open();
+            var db = HostContext.Resolve<IDbConnectionFactory>().Open();
 
-            //return db.ExecuteSqlAsync("UPDATE page_stats SET view_count = view_count + 1 WHERE id = @id", new { id })
-            //    .ContinueWith(t =>
-            //    {
-            //        if (t.Result == 0)
-            //            return db.InsertAsync(new PageStats { Id = id, ViewCount = 1, LastModified = DateTime.UtcNow })
-            //                .ContinueWith(t2 => (int)t2.Result);
+            return db.ExecuteSqlAsync("UPDATE page_stats SET view_count = view_count + 1 WHERE id = @id", new { id })
+                .ContinueWith(t =>
+                {
+                    var parts = id.Substring(1).SplitOnFirst('/');
+                    if (t.Result == 0 && parts.Length != 2)
+                    {
+                        var type = parts[0];
+                        var slug = parts[1];
 
-            //        return t;
-            //    }).ContinueWith(_ => db.Dispose());
+                        return db.InsertAsync(new PageStats
+                        {
+                            Id = id,
+                            RefType = type,
+                            RefSlug = slug,
+                            ViewCount = 1,
+                            LastModified = DateTime.UtcNow,
+                        })
+                        .ContinueWith(t2 => (int)t2.Result);
+                    }
+
+                    return t;
+                }).ContinueWith(_ => db.Dispose());
         }
     }
 }

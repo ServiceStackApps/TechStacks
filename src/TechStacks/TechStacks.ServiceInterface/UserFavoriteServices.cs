@@ -34,9 +34,9 @@ namespace TechStacks.ServiceInterface
             if (techStack == null)
                 throw HttpError.NotFound("TechnologyStack not found");
 
-            var existingFavorite =  Db.Single<UserFavoriteTechnologyStack>(
+            var existingFavorite = Db.Single<UserFavoriteTechnologyStack>(
                 x => x.TechnologyStackId == request.TechnologyStackId && x.UserId == session.UserAuthId);
- 
+
             if (existingFavorite == null)
             {
                 Db.Insert(new UserFavoriteTechnologyStack
@@ -89,7 +89,8 @@ namespace TechStacks.ServiceInterface
                 : Db.Select(Db.From<Technology>()
                     .Where(x => Sql.In(x.Id, favorites.Select(y => y.TechnologyId))));
 
-            return new GetFavoriteTechnologiesResponse {
+            return new GetFavoriteTechnologiesResponse
+            {
                 Results = results
             };
         }
