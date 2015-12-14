@@ -1,7 +1,12 @@
 ﻿<div id="tech-page" ng-class="{'loading-page': loading}">
-    
+
     <div id="tech-info">
-        <img class="logo" src="{{tech.LogoUrl}}"/>
+        <div id="aside">
+            <img class="logo" src="{{tech.LogoUrl}}"/>
+            <p class="stats" ng-show="stats">
+                <span><b>{{stats.ViewCount}}</b> views</span><span ng-show="stats.FavCount >= 2">, <b>{{stats.FavCount}}</b> faves</span>
+            </p>
+        </div>
 
         <a href="/tech/{{tech.Slug}}/edit" class="btn btn-primary"
            ng-show="isAuthenticated && (!tech.IsLocked || currentUserSession.UserAuthId == tech.OwnerId || hasRole('Admin'))">
@@ -24,7 +29,7 @@
 
         <p>
             <a href="{{tech.ProductUrl}}" target="_blank">{{tech.ProductUrl}}</a>
-            <span style="color:#aaa;">
+            <span style="color: #aaa;">
                 by 
                 {{tech.VendorName}}
             </span>

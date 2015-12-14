@@ -58,6 +58,10 @@
                 $scope.favoriteCount = r.FavoriteCount;
             });
 
+            techStackServices.getPageStats($routeParams.stackId).then(function (r) {
+                $scope.stats = r;
+            });
+
             $scope.addFavorite = function () {
                 userService.addFavoriteTechStack($scope.currentStack).then(function (techStack) {
                     refreshFavorites();

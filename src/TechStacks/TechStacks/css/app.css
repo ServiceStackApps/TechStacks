@@ -309,6 +309,11 @@ td.description div {
 
 #stack-info .btn-primary {
     float: right;
+    margin: 0 0 0 10px;
+}
+
+#stack-info .stats {
+    color: #999;
 }
 
 #stack-info .description, #tech-info .description {
@@ -348,10 +353,17 @@ td.description div {
     padding: 15px 15px 40px 40px;
     margin: 0 0 20px 0;
 }
-#tech-info .logo {
-    height: 100px;
+#tech-info #aside {
     float: right;
     margin: 0 0 20px 20px;
+}
+#tech-info #aside .logo {
+    height: 100px;
+}
+#tech-info #aside .stats {
+    text-align: right;
+    margin: 0 10px 0 0;
+    color: #999;
 }
 
 .favorite-count {

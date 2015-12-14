@@ -57,7 +57,7 @@
 
     app.controller('techCtrl', [
         '$rootScope', '$scope', 'techServices', '$routeParams', 'userService',
-        function ($rootScope, $scope, techServices, $routeParams, userService) {
+        function($rootScope, $scope, techServices, $routeParams, userService) {
             function isFavoriteTech(tech) {
                 var isFav = false;
                 for (var i = 0; i < $scope.favoriteTechs.length > 0; i++) {
@@ -71,26 +71,26 @@
             }
 
             function refreshFavorites() {
-                userService.getFavoriteTechs().then(function (techs) {
+                userService.getFavoriteTechs().then(function(techs) {
                     $scope.isFavorite = isFavoriteTech($scope.tech);
                 });
             }
 
-            $scope.addFavorite = function () {
-                userService.addFavoriteTech($scope.tech).then(function (techStack) {
+            $scope.addFavorite = function() {
+                userService.addFavoriteTech($scope.tech).then(function(techStack) {
                     refreshFavorites();
                     $scope.favoriteCount++;
                 });
             };
 
-            $scope.removeFavorite = function () {
-                userService.removeFavoriteTech($scope.tech).then(function (techStack) {
+            $scope.removeFavorite = function() {
+                userService.removeFavoriteTech($scope.tech).then(function(techStack) {
                     refreshFavorites();
                     $scope.favoriteCount--;
                 });
             };
 
-            $scope.hasRole = function (role) {
+            $scope.hasRole = function(role) {
                 return userService.hasRole(role);
             };
 
@@ -101,7 +101,7 @@
                 $scope.relatedStacks = $rootScope.cachedRelatedStacks;
             }
 
-            techServices.getTech($routeParams.techId).then(function (r) {
+            techServices.getTech($routeParams.techId).then(function(r) {
                 $scope.tech = r.Technology;
                 $scope.relatedStacks = r.TechnologyStacks;
                 refreshFavorites();
@@ -109,6 +109,10 @@
                 $rootScope.cachedTech = $scope.tech;
                 $rootScope.cachedRelatedStacks = $scope.relatedStacks;
                 $scope.loading = false;
+            });
+
+            techServices.getPageStats($routeParams.techId).then(function(r) {
+                $scope.stats = r;
             });
 
             techServices.getTechFavorites($routeParams.techId).then(function(r) {

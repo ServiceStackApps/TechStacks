@@ -11,6 +11,10 @@
             Edit
         </a>
 
+        <p class="stats" ng-show="stats" style="float: right">
+            <span><b>{{stats.ViewCount}}</b> views</span><span ng-show="stats.FavCount >= 2">, <b>{{stats.FavCount}}</b> faves</span>
+        </p>
+
         <h2 style="display: inline-block">
             {{currentStack.Name}}
             <span ng-show="isFavorite && isAuthenticated" class="glyphicon glyphicon-star fav selected"

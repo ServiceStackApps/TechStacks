@@ -62,6 +62,9 @@
             approveLogo: function(tech,status) {
                 return getResults($http.put('/admin/technology/' + tech.Id + '/logo', { Approved: status }));
             },
+            getPageStats: function(id) {
+                return getResults($http.get('/pagestats/tech/' + id));
+            },
             overview: function () {
                 return getResults($http.get('/overview'));
             },

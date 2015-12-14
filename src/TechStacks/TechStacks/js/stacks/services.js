@@ -36,6 +36,9 @@
             searchStacks: function (searchQuery) {
                 return getResults($http.get('/techstacks/search?orderBy=-LastModified&NameContains=' + searchQuery + "&DescriptionContains=" + searchQuery));
             },
+            getPageStats: function (id) {
+                return getResults($http.get('/pagestats/stack/' + id));
+            },
             overview: techServices.overview,
             searchTech: techServices.searchTech,
             allTiers: techServices.allTiers
