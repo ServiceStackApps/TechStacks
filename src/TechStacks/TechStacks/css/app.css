@@ -284,6 +284,14 @@ td.description div {
     float: left;
     margin: 0 0 20px 20px;
 }
+.td-logo {
+    display: block;
+    text-align: right;
+}
+.td-logo img {
+    max-width: 200px;
+    max-height: 100px;
+}
 #stack-page #stack-info {
     background: #fff;
     padding: 15px 15px 40px 40px;

@@ -22,11 +22,20 @@
             </tr>
         </thead>
         <tr ng-repeat="tech in techs">
-            <td class="name"><a href="/tech/{{tech.Slug}}">{{tech.Name}}</a></td>
+            <td class="name">
+                <a href="/tech/{{tech.Slug}}">
+                    <div>{{tech.Name}}</div>
+                </a>
+            </td>
             <td>
                 <div>{{tech.Description}}</div>
             </td>
-            <td class="vendor">{{tech.VendorName}}</td>
+            <td class="vendor">
+                <a class="td-logo" href="/tech/{{tech.Slug}}" title="{{tech.Name}}">
+                    <img ng-show="{{tech.LogoUrl}}" src="{{tech.LogoUrl}}" />
+                </a>
+                <div>{{tech.VendorName}}</div>
+            </td>
         </tr>
     </table>
     <a ng-show="isAuthenticated" href="/tech/create?category={{category}}" class="btn btn-primary">Add technology</a>
