@@ -325,10 +325,15 @@ td.description div {
     opacity: .3;
 }
 
+.popular-stack a {
+    display: block;    
+    float: left;
+    width: 265px;
+    height: 215px;
+    margin: 0 0 15px 15px;
+}
 .popular-stack img {
     max-width: 265px;
-    float: left;
-    margin: 0 0 15px 15px;
     padding: 5px;
     background: #fff;
     -moz-box-shadow: 2px 2px 3px #ddd;
@@ -347,10 +352,10 @@ td.description div {
     text-align: right;
 }
 
-    .td-logo img {
-        max-width: 200px;
-        max-height: 100px;
-    }
+.td-logo img {
+    max-width: 200px;
+    max-height: 100px;
+}
 
 #stack-page #stack-info {
     background: #fff;
