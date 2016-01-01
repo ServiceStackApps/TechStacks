@@ -124,9 +124,12 @@
     <Content Include="img\app\stacks-white-75.png" />
     <Content Include="img\app\tech-75.png" />
     <Content Include="img\app\tech-white-75.png" />
+    <Content Include="img\en_app_rgb_wo_60.png" />
     <Content Include="img\facebook_normal.png" />
     <Content Include="img\favicon.png" />
     <Content Include="img\github_normal.png" />
+    <Content Include="img\java-logo.png" />
+    <Content Include="img\kotlin-logo.png" />
     <Content Include="img\logo-280.png" />
     <Content Include="img\no-profile64.png" />
     <Content Include="img\share\Email.png" />
@@ -141,6 +144,7 @@
     <Content Include="img\share\Twitter.png" />
     <Content Include="img\share\Wordpress.png" />
     <Content Include="img\sign-in-with-twitter-gray.png" />
+    <Content Include="img\swift-logo.png" />
     <Content Include="img\twitter_normal.png" />
     <None Include="default.cshtml" />
     <Content Include="js\app.js" />
