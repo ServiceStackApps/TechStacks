@@ -37,8 +37,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Npgsql, Version=3.0.3.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Npgsql.3.0.3\lib\net45\Npgsql.dll</HintPath>
+    <Reference Include="Npgsql, Version=3.0.4.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Npgsql.3.0.4\lib\net45\Npgsql.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=3.0.5797.27534, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
@@ -66,7 +66,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ServiceStack.OrmLite.PostgreSQL, Version=4.0.51.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.OrmLite.PostgreSQL.4.0.51\lib\net40\ServiceStack.OrmLite.PostgreSQL.dll</HintPath>
+      <HintPath>..\..\packages\ServiceStack.OrmLite.PostgreSQL.4.0.51\lib\net45\ServiceStack.OrmLite.PostgreSQL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ServiceStack.OrmLite.Sqlite.Windows, Version=4.0.51.0, Culture=neutral, processorArchitecture=MSIL">
