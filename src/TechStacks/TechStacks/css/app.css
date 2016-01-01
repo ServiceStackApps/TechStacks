@@ -42,7 +42,6 @@ small {
     margin: 39px 0 0 0;
     padding: 6px 12px 6px 12px;
 }
-
     .navbar-nav > li > a:hover {
         color: #ffff8d !important;
     }
@@ -59,7 +58,6 @@ small {
     padding: 0 20px 3px 0;
     font-size: 24px;
 }
-
     #logo:hover {
         color: #ffff8d !important;
     }
@@ -105,7 +103,6 @@ small {
 .panel-heading {
     padding: 0;
 }
-
     .panel-heading, .panel-heading a {
         color: rgba(255,255,255,.84) !important;
         line-height: 50px;
@@ -121,7 +118,6 @@ small {
     border: none;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
-
     .panel-heading i {
         font-style: normal;
         font-size: 18px;
@@ -133,7 +129,6 @@ small {
 .panel-footer {
     border: none;
 }
-
     .panel-footer img {
         margin: 10px 10px 0 0;
     }
@@ -141,7 +136,6 @@ small {
 .browse li {
     line-height: 30px;
 }
-
     .browse li img {
         padding-right: 5px;
     }
@@ -151,13 +145,12 @@ small {
 }
 
 .top .panel-heading {
-    background-color: #FFEB3B;
+    background-color: #03a9f4;
     white-space: nowrap;
     overflow: hidden;
 }
-
     .top .panel-heading a {
-        color: #607D8B !important;
+        color: #fff !important;
     }
 
 .top .panel-footer div {
@@ -187,7 +180,6 @@ small {
     border: none;
     color: rgba(255,255,255,.84);
 }
-
     .btn:hover {
         background: #29B6F6;
         box-shadow: 0 2px 6px rgba(0,0,0,0.26);
@@ -199,7 +191,6 @@ small {
     background-color: #d9534f;
     border-color: #d9534f;
 }
-
     .btn-danger:focus, .btn-danger:hover {
         color: #ffffff;
         background-color: #c9302c;
@@ -211,12 +202,10 @@ small {
     color: #eee;
     margin: 0 0 0 5px;
 }
-
     .fav.selected {
         color: #FFEB3B;
         text-shadow: 0px 1px 0px #FF8F00;
     }
-
     .fav:hover {
         color: #FFF176;
     }
@@ -229,7 +218,6 @@ small {
     padding: 20px;
     font-size: 18px;
 }
-
     .details-html code {
         white-space: pre;
         display: block;
@@ -241,12 +229,10 @@ small {
         background-color: #f7f7f7;
         border-radius: 3px;
     }
-
     .details-html em {
         color: #999;
         font-style: normal;
     }
-
     .details-html h2 {
         color: #999;
         font-weight: normal;
@@ -263,7 +249,6 @@ small {
     width: 60px;
     height: 60px;
 }
-
     .avatarbox img {
         margin: 4px;
         -webkit-border-radius: 50%; /* Can also be 50px */
@@ -279,7 +264,6 @@ small {
 textarea {
     min-height: 110px;
 }
-
     textarea#Details {
         min-height: 340px;
     }
@@ -326,12 +310,13 @@ td.description div {
 }
 
 .popular-stack a {
-    display: block;    
+    display: block;
     float: left;
     width: 265px;
     height: 215px;
     margin: 0 0 15px 15px;
 }
+
 .popular-stack img {
     max-width: 265px;
     padding: 5px;
@@ -340,22 +325,21 @@ td.description div {
     -webkit-box-shadow: 2px 2px 3px #ddd;
     box-shadow: 2px 2px 3px #ddd;
 }
-.popular-stack img:hover {
-    -moz-box-shadow: 1px 4px 10px #aaa;
-    -webkit-box-shadow: 1px 4px 10px #aaa;
-    box-shadow: 1px 4px 10px #aaa;
-    cursor: pointer;
-}
+    .popular-stack img:hover {
+        -moz-box-shadow: 1px 4px 10px #aaa;
+        -webkit-box-shadow: 1px 4px 10px #aaa;
+        box-shadow: 1px 4px 10px #aaa;
+        cursor: pointer;
+    }
 
 .td-logo {
     display: block;
     text-align: right;
 }
-
-.td-logo img {
-    max-width: 200px;
-    max-height: 100px;
-}
+    .td-logo img {
+        max-width: 200px;
+        max-height: 100px;
+    }
 
 #stack-page #stack-info {
     background: #fff;
@@ -369,22 +353,18 @@ td.description div {
     float: right;
     padding: 0 0 0 20px;
 }
-
     #stack-info a.screenshot img {
         width: 450px;
     }
-
     #stack-info a.screenshot:hover img {
         opacity: .7;
     }
-
     #stack-info a.screenshot div {
         color: #aaa;
         text-align: center;
         font-size: 12px;
         padding: 5px;
     }
-
     #stack-info a.screenshot:hover div {
         color: #03A9F4;
     }
@@ -409,20 +389,17 @@ td.description div {
 .tech-info .item {
     clear: left;
 }
-
     .tech-info .item h4 {
         padding: 40px 0 15px 0;
         color: #999;
         font-size: 20px;
         font-weight: normal;
     }
-
     .tech-info .item a {
         display: block;
         float: left;
         padding: 0 30px 0 0;
     }
-
     .tech-info .item img {
         height: 75px;
         margin: 10px 0;
@@ -439,16 +416,13 @@ td.description div {
     padding: 15px 15px 40px 40px;
     margin: 0 0 20px 0;
 }
-
     #tech-info #aside {
         float: right;
         margin: 0 0 20px 20px;
     }
-
         #tech-info #aside .logo {
             height: 100px;
         }
-
         #tech-info #aside .stats {
             text-align: right;
             margin: 0 10px 0 0;
@@ -467,7 +441,6 @@ td.description div {
     color: #aaa;
     position: relative;
 }
-
     .last-updated p {
         white-space: nowrap;
         position: absolute;
@@ -479,7 +452,6 @@ td.description div {
     list-style: none;
     margin: 40px 0 0 0;
 }
-
     .share-buttons li {
         display: inline;
     }
@@ -490,7 +462,6 @@ td.description div {
     box-shadow: 0 1px 1px rgba(0,0,0,.12), 0 1px 6px rgba(0,0,0,.12);
     border-radius: 2px;
 }
-
     .table-striped caption {
         font-size: 24px;
         padding: 10px 15px;
@@ -499,7 +470,6 @@ td.description div {
         text-align: left;
         border-radius: 2px 2px 0 0;
     }
-
         .table-striped caption input {
             color: #444;
             border: 1px solid #fff;
@@ -524,27 +494,21 @@ td.description div {
         text-indent: 10px;
         font-size: 18px;
     }
-
     .search, .search-tiers {
         width: 200px;
     }
-
     #stack-info a.screenshot img {
         width: 250px;
     }
-
     .navbar .navbar-nav > li > a {
         margin: 39px 0 0 0;
     }
-
     .navbar .navbar-right > li > a {
         margin: 0;
     }
-
     .tech-info .item img {
         height: 35px;
     }
-
     #tech-info .logo {
         height: 50px;
     }
@@ -555,15 +519,12 @@ td.description div {
     .search, .search-tiers {
         width: 220px;
     }
-
     #stack-info a.screenshot img {
         width: 300px;
     }
-
     .tech-info .item img {
         height: 50px;
     }
-
     #tech-info .logo {
         height: 75px;
     }

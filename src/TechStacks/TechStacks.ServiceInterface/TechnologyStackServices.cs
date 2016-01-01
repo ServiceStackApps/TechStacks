@@ -345,8 +345,8 @@ namespace TechStacks.ServiceInterface
                 {
                     var list = map[tier];
                     list.Sort((x,y) => y.StacksCount - x.StacksCount);
-                    if (list.Count > 3)
-                        list.RemoveRange(3, list.Count - 3);
+                    if (list.Count > 5)
+                        list.RemoveRange(5, list.Count - 5);
                 }
 
                 var response = new OverviewResponse
