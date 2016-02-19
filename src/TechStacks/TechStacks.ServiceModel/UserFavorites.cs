@@ -75,7 +75,10 @@ namespace TechStacks.ServiceModel
 
     [Restrict(VisibleInternalOnly = true)]
     [Route("/tasks/hourly")]
-    public class HourlyTask {}
+    public class HourlyTask
+    {
+        public bool Force { get; set; }
+    }
 
     public class HourlyTaskResponse : IMeta
     {

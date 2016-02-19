@@ -48,7 +48,7 @@ namespace TechStacks.ServiceInterface
 
         public static Task RegisterPageView(this IDbConnectionFactory dbFactory, string id)
         {
-            var db = HostContext.Resolve<IDbConnectionFactory>().Open();
+            var db = dbFactory.Open();
 
             return db.ExecuteSqlAsync("UPDATE page_stats SET view_count = view_count + 1 WHERE id = @id", new { id })
                 .ContinueWith(t =>

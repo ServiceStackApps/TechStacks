@@ -450,6 +450,9 @@ namespace TechStacks.ServiceInterface
 
         public object Any(HourlyTask request)
         {
+            if (!request.Force)
+                return new HourlyTaskResponse();
+            
             var updatedTechIds = Db.ExecuteSql("UPDATE page_stats AS p SET ref_id = t.id FROM technology AS t WHERE t.slug = p.ref_slug and p.ref_type = 'tech' AND ref_id = 0");
             var updatedStackIds = Db.ExecuteSql("UPDATE page_stats AS p SET ref_id = t.id FROM technology_stack AS t WHERE t.slug = p.ref_slug and p.ref_type = 'stack' AND ref_id = 0");
 
