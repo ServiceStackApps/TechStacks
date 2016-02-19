@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Funq;
 using ServiceStack;
+using ServiceStack.Admin;
 using ServiceStack.Auth;
 using ServiceStack.Caching;
 using ServiceStack.Configuration;
@@ -150,6 +151,7 @@ namespace TechStacks
                     OnlyShowAnnotatedServices = true,
                 }
             });
+            Plugins.Add(new AdminFeature());
 
             container.RegisterValidators(typeof(AppHost).Assembly);
             container.RegisterValidators(typeof(TechnologyServices).Assembly);

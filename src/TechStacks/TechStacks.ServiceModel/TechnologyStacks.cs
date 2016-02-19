@@ -9,7 +9,8 @@ namespace TechStacks.ServiceModel
     [Query(QueryTerm.Or)]
     [Route("/techstacks/search")]
     [AutoQueryViewer(
-        Title = "Find Technology Stacks", Description = "Explore different Technology Stacks", IconUrl = "/img/app/stacks-white-75.png",
+        Title = "Find Technology Stacks", Description = "Explore different Technology Stacks", 
+        IconUrl = "material-icons:cloud",
         DefaultSearchField = "Description", DefaultSearchType = "Contains", DefaultSearchText = "ServiceStack")]
     public class FindTechStacks : QueryBase<TechnologyStack>
     {
