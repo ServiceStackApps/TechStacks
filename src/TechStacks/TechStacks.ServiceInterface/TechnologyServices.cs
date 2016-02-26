@@ -258,5 +258,16 @@ namespace TechStacks.ServiceInterface
                 return AutoQuery.Execute(request, q);
             });
         }
+
+        [Authenticate]
+        public object Any(FindTechnologiesAdmin request)
+        {
+            var key = ContentCache.TechnologyKey(Request.QueryString.ToString(), clear: request.Reload);
+            return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
+            {
+                var q = AutoQuery.CreateQuery(request, Request.GetRequestParams());
+                return AutoQuery.Execute(request, q);
+            });
+        }
     }
 }

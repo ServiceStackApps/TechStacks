@@ -19,6 +19,19 @@ namespace TechStacks.ServiceModel
         public bool Reload { get; set; }
     }
 
+    [Query(QueryTerm.And)]
+    [Route("/admin/technology/search")]
+    [AutoQueryViewer(
+        Title = "Find Technologies Admin", Description = "Explore different Technologies",
+        IconUrl = "octicon:database",
+        DefaultSearchField = "Tier", DefaultSearchType = "=", DefaultSearchText = "Data")]
+    public class FindTechnologiesAdmin : QueryBase<Technology>
+    {
+        public string Name { get; set; }
+
+        public bool Reload { get; set; }
+    }
+
     [Route("/technology/{Slug}")]
     public class GetTechnology : IReturn<GetTechnologyResponse>
     {
