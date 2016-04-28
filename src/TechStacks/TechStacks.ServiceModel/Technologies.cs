@@ -6,26 +6,26 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Query(QueryTerm.Or)]
+    [QueryDb(QueryTerm.Or)]
     [Route("/technology/search")]
     [AutoQueryViewer(
         Title = "Find Technologies", Description = "Explore different Technologies", 
         IconUrl = "octicon:database",
         DefaultSearchField = "Tier", DefaultSearchType = "=", DefaultSearchText = "Data")]
-    public class FindTechnologies : QueryBase<Technology>
+    public class FindTechnologies : QueryDb<Technology>
     {
         public string Name { get; set; }
 
         public bool Reload { get; set; }
     }
 
-    [Query(QueryTerm.And)]
+    [QueryDb(QueryTerm.And)]
     [Route("/admin/technology/search")]
     [AutoQueryViewer(
         Title = "Find Technologies Admin", Description = "Explore different Technologies",
         IconUrl = "octicon:database",
         DefaultSearchField = "Tier", DefaultSearchType = "=", DefaultSearchText = "Data")]
-    public class FindTechnologiesAdmin : QueryBase<Technology>
+    public class FindTechnologiesAdmin : QueryDb<Technology>
     {
         public string Name { get; set; }
 

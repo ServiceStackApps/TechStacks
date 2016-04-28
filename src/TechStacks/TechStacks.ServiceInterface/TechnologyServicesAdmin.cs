@@ -168,7 +168,7 @@ namespace TechStacks.ServiceInterface
             };
         }
 
-        public IAutoQuery AutoQuery { get; set; }
+        public IAutoQueryDb AutoQuery { get; set; }
 
         public object Any(FindTechnologiesAdmin request)
         {

@@ -16,7 +16,7 @@ namespace TechStacks.ServiceInterface
 
         public ContentCache ContentCache { get; set; }
 
-        public IAutoQuery AutoQuery { get; set; }
+        public IAutoQueryDb AutoQuery { get; set; }
 
         //Cached AutoQuery
         public object Any(FindTechnologies request)

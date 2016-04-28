@@ -285,7 +285,7 @@ namespace TechStacks.ServiceInterface
             };
         }
 
-        public IAutoQuery AutoQuery { get; set; }
+        public IAutoQueryDb AutoQuery { get; set; }
 
         //Cached AutoQuery
         public object Any(FindTechStacks request)

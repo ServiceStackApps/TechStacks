@@ -96,7 +96,7 @@ namespace TechStacks
                         new Sitemap {
                             AtPath = "/sitemap-techstacks.xml",
                             LastModified = DateTime.UtcNow,
-                            UrlSet = db.Select<TechnologyStack>(q => q.OrderByDescending(x => x.LastModified))
+                            UrlSet = db.Select(db.From<TechnologyStack>().OrderByDescending(x => x.LastModified))
                                 .Map(x => new SitemapUrl
                                 {
                                     Location = new ClientTechnologyStack { Slug = x.Slug }.ToAbsoluteUri(),
@@ -107,7 +107,7 @@ namespace TechStacks
                         new Sitemap {
                             AtPath = "/sitemap-technologies.xml",
                             LastModified = DateTime.UtcNow,
-                            UrlSet = db.Select<Technology>(q => q.OrderByDescending(x => x.LastModified))
+                            UrlSet = db.Select(db.From<Technology>().OrderByDescending(x => x.LastModified))
                                 .Map(x => new SitemapUrl
                                 {
                                     Location = new ClientTechnology { Slug = x.Slug }.ToAbsoluteUri(),
@@ -119,7 +119,7 @@ namespace TechStacks
                         {
                             AtPath = "/sitemap-users.xml",
                             LastModified = DateTime.UtcNow,
-                            UrlSet = db.Select<CustomUserAuth>(q => q.OrderByDescending(x => x.ModifiedDate))
+                            UrlSet = db.Select(db.From<CustomUserAuth>().OrderByDescending(x => x.ModifiedDate))
                                 .Map(x => new SitemapUrl
                                 {
                                     Location = new ClientUser { UserName = x.UserName }.ToAbsoluteUri(),
@@ -134,14 +134,13 @@ namespace TechStacks
 
             Plugins.Add(new RazorFormat());
             Plugins.Add(new ValidationFeature());
-            Plugins.Add(new AutoQueryFeature
+            Plugins.Add(new AutoQueryMetadataFeature
             {
-                MaxLimit = 200,
                 AutoQueryViewerConfig =
                 {
                     ServiceDescription = "Discover what technologies were used to create popular Websites and Apps",
                     ServiceIconUrl = "/img/app/logo-76.png",
-                    BackgroundColor = "#0095F5",            
+                    BackgroundColor = "#0095F5",
                     TextColor = "#fff",
                     LinkColor = "#ffff8d",
                     BrandImageUrl = "/img/app/brand.png",
@@ -151,6 +150,7 @@ namespace TechStacks
                     OnlyShowAnnotatedServices = true,
                 }
             });
+            Plugins.Add(new AutoQueryFeature { MaxLimit = 200 });
             Plugins.Add(new AdminFeature());
 
             container.RegisterValidators(typeof(AppHost).Assembly);

@@ -6,13 +6,13 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks.ServiceModel
 {
-    [Query(QueryTerm.Or)]
+    [QueryDb(QueryTerm.Or)]
     [Route("/techstacks/search")]
     [AutoQueryViewer(
         Title = "Find Technology Stacks", Description = "Explore different Technology Stacks", 
         IconUrl = "material-icons:cloud",
         DefaultSearchField = "Description", DefaultSearchType = "Contains", DefaultSearchText = "ServiceStack")]
-    public class FindTechStacks : QueryBase<TechnologyStack>
+    public class FindTechStacks : QueryDb<TechnologyStack>
     {
         public bool Reload { get; set; }
     }
