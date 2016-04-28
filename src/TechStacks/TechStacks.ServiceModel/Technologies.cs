@@ -15,8 +15,6 @@ namespace TechStacks.ServiceModel
     public class FindTechnologies : QueryDb<Technology>
     {
         public string Name { get; set; }
-
-        public bool Reload { get; set; }
     }
 
     [QueryDb(QueryTerm.And)]
@@ -28,15 +26,11 @@ namespace TechStacks.ServiceModel
     public class FindTechnologiesAdmin : QueryDb<Technology>
     {
         public string Name { get; set; }
-
-        public bool Reload { get; set; }
     }
 
     [Route("/technology/{Slug}")]
     public class GetTechnology : IReturn<GetTechnologyResponse>
     {
-        public bool Reload { get; set; }
-
         public string Slug { get; set; }
 
         public long Id
@@ -142,8 +136,6 @@ namespace TechStacks.ServiceModel
     public class GetTechnologyFavoriteDetails : IReturn<GetTechnologyFavoriteDetailsResponse>
     {
         public string Slug { get; set; }
-
-        public bool Reload { get; set; }
     }
 
     public class GetTechnologyFavoriteDetailsResponse

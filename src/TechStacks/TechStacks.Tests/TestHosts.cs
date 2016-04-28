@@ -35,8 +35,6 @@ namespace TechStacks.Tests
             container.RegisterAs<OrmLiteCacheClient, ICacheClient>();
             container.Resolve<ICacheClient>().InitSchema();
 
-            container.Register(c => new ContentCache(new MemoryCacheClient()));
-
             using (var db = dbFactory.OpenDbConnection())
             {
                 db.CreateTableIfNotExists<TechnologyStack>();
@@ -72,8 +70,6 @@ namespace TechStacks.Tests
 
             container.RegisterAs<OrmLiteCacheClient, ICacheClient>();
             container.Resolve<ICacheClient>().InitSchema();
-
-            container.Register(c => new ContentCache(new MemoryCacheClient()));
 
             using (var db = dbFactory.OpenDbConnection())
             {

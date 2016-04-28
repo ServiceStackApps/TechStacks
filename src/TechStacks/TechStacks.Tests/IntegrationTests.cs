@@ -23,7 +23,7 @@ namespace TechStacks.Tests
         JsonServiceClient adminClient = new JsonServiceClient(TestHostUrl);
 
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Init()
         {
             appHost = new IntegrationTestHost();
@@ -33,7 +33,7 @@ namespace TechStacks.Tests
             appHost.Start("http://*:21001/");
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TestFixtureTearDown()
         {
             appHost.Dispose();

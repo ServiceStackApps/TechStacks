@@ -10,8 +10,6 @@ namespace TechStacks.ServiceInterface
     [Authenticate]
     public class UserFavoriteServices : Service
     {
-        public ContentCache ContentCache { get; set; }
-
         public object Get(GetFavoriteTechStack request)
         {
             var session = SessionAs<CustomUserSession>();
@@ -45,8 +43,7 @@ namespace TechStacks.ServiceInterface
                     UserId = session.UserAuthId
                 });
 
-                ContentCache.UserInfoKey(session.UserName, clear: true);
-                ContentCache.TechnologyStackFavoriteKey(techStack.Slug, clear: true);
+                Cache.FlushAll();
             }
 
             return new FavoriteTechStackResponse
@@ -71,8 +68,7 @@ namespace TechStacks.ServiceInterface
 
             Db.DeleteById<UserFavoriteTechnologyStack>(existingFavorite.Id);
 
-            ContentCache.UserInfoKey(session.UserName, clear: true);
-            ContentCache.TechnologyStackFavoriteKey(techStack.Slug, clear: true);
+            Cache.FlushAll();
 
             return new FavoriteTechStackResponse
             {
@@ -114,8 +110,7 @@ namespace TechStacks.ServiceInterface
                     UserId = session.UserAuthId
                 });
 
-                ContentCache.UserInfoKey(session.UserName, clear: true);
-                ContentCache.TechnologyFavoriteKey(technology.Slug, clear: true);
+                Cache.FlushAll();
             }
 
             return new FavoriteTechnologyResponse
@@ -140,8 +135,7 @@ namespace TechStacks.ServiceInterface
 
             Db.DeleteById<UserFavoriteTechnology>(existingFavorite.Id);
 
-            ContentCache.UserInfoKey(session.UserName, clear: true);
-            ContentCache.TechnologyFavoriteKey(technology.Slug, clear: true);
+            Cache.FlushAll();
 
             return new FavoriteTechnologyResponse
             {

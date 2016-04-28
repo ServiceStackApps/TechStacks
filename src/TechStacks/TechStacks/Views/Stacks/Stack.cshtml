@@ -3,7 +3,7 @@
     Layout = "ServerHtml";
     ViewBag.Tab = "stacks";
     var currentStack = Model.Result;
-    var allTiers = TechnologyStackServices.GetAllTiers();
+    var allTiers = CachedTechnologyStackServices.GetAllTiers();
 }
 
 <div id="stack-page">

@@ -14,9 +14,8 @@ namespace TechStacks.ServiceModel
     }
 
     [Route("/userinfo/{UserName}")]
-    public class GetUserInfo
+    public class GetUserInfo : IReturn<GetUserInfoResponse>
     {
-        public bool Reload { get; set; }
         public string UserName { get; set; }
     }
 

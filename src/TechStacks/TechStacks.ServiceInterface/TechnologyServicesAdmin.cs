@@ -15,8 +15,6 @@ namespace TechStacks.ServiceInterface
     {
         public IAppSettings AppSettings { get; set; }
 
-        public ContentCache ContentCache { get; set; }
-
         public TwitterUpdates TwitterUpdates { get; set; }
 
         private const int TweetUrlLength = 22;
@@ -68,7 +66,7 @@ namespace TechStacks.ServiceInterface
             history.Operation = "INSERT";
             Db.Insert(history);
 
-            ContentCache.ClearAll();
+            Cache.FlushAll();
 
             var postUpdate = AppSettings.EnableTwitterUpdates();
             if (postUpdate)
@@ -117,7 +115,7 @@ namespace TechStacks.ServiceInterface
             history.Operation = "UPDATE";
             Db.Insert(history);
 
-            ContentCache.ClearAll();
+            Cache.FlushAll();
 
             var response = new UpdateTechnologyResponse
             {
@@ -160,24 +158,12 @@ namespace TechStacks.ServiceInterface
             history.Operation = "DELETE";
             Db.Insert(history);
 
-            ContentCache.ClearAll();
+            Cache.FlushAll();
 
             return new DeleteTechnologyResponse
             {
                 Result = new Technology { Id = (long)request.Id }
             };
-        }
-
-        public IAutoQueryDb AutoQuery { get; set; }
-
-        public object Any(FindTechnologiesAdmin request)
-        {
-            var key = ContentCache.TechnologyKey(Request.QueryString.ToString(), clear: request.Reload);
-            return base.Request.ToOptimizedResultUsingCache(ContentCache.Client, key, () =>
-            {
-                var q = AutoQuery.CreateQuery(request, Request.GetRequestParams());
-                return AutoQuery.Execute(request, q);
-            });
         }
     }
 }

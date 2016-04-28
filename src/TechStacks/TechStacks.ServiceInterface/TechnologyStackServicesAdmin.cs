@@ -15,8 +15,6 @@ namespace TechStacks.ServiceInterface
     {
         public IAppSettings AppSettings { get; set; }
 
-        public ContentCache ContentCache { get; set; }
-
         public TwitterUpdates TwitterUpdates { get; set; }
 
         private const int TweetUrlLength = 22;
@@ -92,7 +90,7 @@ namespace TechStacks.ServiceInterface
             history.TechnologyIds = techIds.ToList();
             Db.Insert(history);
 
-            ContentCache.ClearAll();
+            Cache.FlushAll();
 
             if (postUpdate)
             {
@@ -165,7 +163,7 @@ namespace TechStacks.ServiceInterface
             history.TechnologyIds = techIds.ToList();
             Db.Insert(history);
 
-            ContentCache.ClearAll();
+            Cache.FlushAll();
 
             var response = new UpdateTechnologyStackResponse
             {
@@ -208,7 +206,7 @@ namespace TechStacks.ServiceInterface
             history.Operation = "DELETE";
             Db.Insert(history);
 
-            ContentCache.ClearAll();
+            Cache.FlushAll();
 
             return new DeleteTechnologyStackResponse
             {

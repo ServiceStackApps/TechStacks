@@ -12,16 +12,11 @@ namespace TechStacks.ServiceModel
         Title = "Find Technology Stacks", Description = "Explore different Technology Stacks", 
         IconUrl = "material-icons:cloud",
         DefaultSearchField = "Description", DefaultSearchType = "Contains", DefaultSearchText = "ServiceStack")]
-    public class FindTechStacks : QueryDb<TechnologyStack>
-    {
-        public bool Reload { get; set; }
-    }
+    public class FindTechStacks : QueryDb<TechnologyStack> {}
 
     [Route("/techstacks/{Slug}", Verbs = "GET")]
     public class GetTechnologyStack : IReturn<GetTechnologyStackResponse>
     {
-        public bool Reload { get; set; }
-
         public string Slug { get; set; }
 
         [IgnoreDataMember]
@@ -126,7 +121,6 @@ namespace TechStacks.ServiceModel
     public class GetTechnologyStackFavoriteDetails : IReturn<GetTechnologyStackFavoriteDetailsResponse>
     {
         public string Slug { get; set; }
-        public bool Reload { get; set; }
     }
 
     public class GetTechnologyStackFavoriteDetailsResponse
