@@ -14,10 +14,9 @@ namespace TechStacks.Tests
     [TestFixture]
     public class UnitTests
     {
-
         private ServiceStackHost appHost;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Init()
         {
             appHost = new UnitTestHost();
@@ -26,7 +25,7 @@ namespace TechStacks.Tests
             appHost.Init();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TestFixtureTearDown()
         {
            appHost.Dispose();
@@ -51,7 +50,7 @@ namespace TechStacks.Tests
         [Test]
         public void Can_Get_Stacks()
         {
-            var service = appHost.Resolve<TechnologyStackServices>();
+            var service = appHost.Resolve<CachedTechnologyStackServices>();
             var response = (GetAllTechnologyStacksResponse)service.Get(new GetAllTechnologyStacks());
             var dbFactory = appHost.Resolve<IDbConnectionFactory>();
             using (var db = dbFactory.OpenDbConnection())
@@ -66,5 +65,4 @@ namespace TechStacks.Tests
             Seeds.SeedApp(appHost.Resolve<IDbConnectionFactory>());
         }
     }
-
 }

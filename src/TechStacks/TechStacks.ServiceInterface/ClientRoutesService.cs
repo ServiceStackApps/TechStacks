@@ -11,7 +11,7 @@ namespace TechStacks.ServiceInterface
 
     [Route("/ping")]
     public class Ping {}
-
+    
     public class ClientRoutesService : Service
     {
         public object Any(Ping request)
@@ -43,10 +43,10 @@ namespace TechStacks.ServiceInterface
             var path = (request.PathInfo ?? "").Trim('/');
             if (ShowServerHtml())
                 return path == ""
-                    ? new HttpResult(base.ExecuteRequest(new Overview { Reload = true })) {
+                    ? new HttpResult(base.Gateway.Send(new Overview())) {
                         View = "Home"
                     }
-                    : new HttpResult(base.ExecuteRequest(new GetTechnologyStack { Reload = true, Slug = request.PathInfo })) {
+                    : new HttpResult(base.Gateway.Send(new GetTechnologyStack { Slug = request.PathInfo })) {
                         View = "Stack"
                     };
 
@@ -66,7 +66,7 @@ namespace TechStacks.ServiceInterface
         {
             return !ShowServerHtml()
                 ? AngularJsApp()
-                : new HttpResult(base.ExecuteRequest(new GetAllTechnologyStacks())) {
+                : new HttpResult(base.Gateway.Send(new GetAllTechnologyStacks())) {
                     View = "AllStacks"
                 };
         }
@@ -75,7 +75,7 @@ namespace TechStacks.ServiceInterface
         {
             return !ShowServerHtml()
                 ? AngularJsApp()
-                : new HttpResult(base.ExecuteRequest(new GetAllTechnologies())) {
+                : new HttpResult(base.Gateway.Send(new GetAllTechnologies())) {
                     View = "AllTech"
                 };
         }
@@ -84,7 +84,7 @@ namespace TechStacks.ServiceInterface
         {
             return !ShowServerHtml()
                 ? AngularJsApp()
-                : new HttpResult(base.ExecuteRequest(new GetTechnology { Reload = true, Slug = request.Slug })) {
+                : new HttpResult(base.Gateway.Send(new GetTechnology { Slug = request.Slug })) {
                     View = "Tech"
                 };
         }
@@ -93,7 +93,7 @@ namespace TechStacks.ServiceInterface
         {
             return !ShowServerHtml()
                 ? AngularJsApp()
-                : new HttpResult(base.ExecuteRequest(new GetUserInfo { Reload = true, UserName = request.UserName })) {
+                : new HttpResult(base.Gateway.Send(new GetUserInfo { UserName = request.UserName })) {
                     View = "User"
                 };
         }
