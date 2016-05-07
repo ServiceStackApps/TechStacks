@@ -214,8 +214,6 @@ namespace TechStacks.ServiceInterface
 
         public object Get(GetTechnologyStack request)
         {
-            TryResolve<IDbConnectionFactory>().RegisterPageView("/stack/" + request.Slug);
-
             int id;
             var techStack = int.TryParse(request.Slug, out id)
                 ? Db.SingleById<TechnologyStack>(id)

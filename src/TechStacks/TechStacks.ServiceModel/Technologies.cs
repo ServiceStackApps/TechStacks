@@ -29,13 +29,18 @@ namespace TechStacks.ServiceModel
     }
 
     [Route("/technology/{Slug}")]
-    public class GetTechnology : IReturn<GetTechnologyResponse>
+    public class GetTechnology : IReturn<GetTechnologyResponse>, IRegisterStats
     {
         public string Slug { get; set; }
 
         public long Id
         {
             set { this.Slug = value.ToString(); }
+        }
+
+        public string GetStatsId()
+        {
+            return "/tech/" + Slug;
         }
     }
 

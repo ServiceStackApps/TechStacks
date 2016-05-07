@@ -18,4 +18,9 @@ namespace TechStacks.ServiceModel.Types
 
         public DateTime LastModified { get; set; }
     }
+
+    public interface IRegisterStats
+    {
+        string GetStatsId();
+    }
 }

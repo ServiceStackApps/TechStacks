@@ -52,8 +52,6 @@ namespace TechStacks.ServiceInterface
 
         public object Get(GetTechnology request)
         {
-            TryResolve<IDbConnectionFactory>().RegisterPageView("/tech/" + request.Slug);
-
             int id;
             var tech = int.TryParse(request.Slug, out id)
                 ? Db.SingleById<Technology>(id)

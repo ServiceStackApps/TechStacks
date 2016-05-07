@@ -15,7 +15,7 @@ namespace TechStacks.ServiceModel
     public class FindTechStacks : QueryDb<TechnologyStack> {}
 
     [Route("/techstacks/{Slug}", Verbs = "GET")]
-    public class GetTechnologyStack : IReturn<GetTechnologyStackResponse>
+    public class GetTechnologyStack : IReturn<GetTechnologyStackResponse>, IRegisterStats
     {
         public string Slug { get; set; }
 
@@ -23,6 +23,11 @@ namespace TechStacks.ServiceModel
         public long Id
         {
             set { this.Slug = value.ToString(); }
+        }
+
+        public string GetStatsId()
+        {
+            return "/stack/" + Slug;
         }
     }
 

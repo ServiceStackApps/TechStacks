@@ -153,6 +153,9 @@ namespace TechStacks
 
             container.RegisterValidators(typeof(AppHost).Assembly);
             container.RegisterValidators(typeof(TechnologyServices).Assembly);
+
+            RegisterTypedRequestFilter<IRegisterStats>((req,res,dto) => 
+                dbFactory.RegisterPageView(dto.GetStatsId()));
         }
 
         public override object OnAfterExecute(IRequest req, object requestDto, object response)
