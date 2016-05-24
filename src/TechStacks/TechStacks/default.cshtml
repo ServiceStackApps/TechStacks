@@ -55,9 +55,17 @@
                         <li ng-show="isAuthenticated" ng-class="{ active: IsRouteActive('/favorites')}"><a href="/favorites">Favorites</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li ng-hide="isAuthenticated" class="seo"><a href="?html=server">seo-friendly</a></li>
-                        <li ng-hide="isAuthenticated"><a href="/auth/twitter"><img src="/img/twitter_normal.png" alt="Sign in with Twitter" /></a></li>
-                        <li ng-hide="isAuthenticated"><a href="/auth/github"><img src="/img/github_normal.png" alt="Sign in with Github" /></a></li>
+                        <li ng-hide="isAuthenticated">
+                            <div style="padding: 5px 0 0 0">
+                                <a href="/auth/github"><img src="/img/github_normal.png" alt="Sign in with Github"/></a>
+                                <a href="/auth/twitter"><img src="/img/twitter_normal.png" alt="Sign in with Twitter"/></a>
+                            </div>
+                            <div>
+                                <p style="font-size: 12px; text-align: center; padding: 5px 0 0 0;">
+                                    sign-in to add techstacks
+                                </p>
+                            </div>
+                        </li>
                         <li ng-show="isAuthenticated" style="padding: 12px 0 0 0"><a href="/auth/logout">Logout</a></li>
                         <li ng-show="isAuthenticated">
                             <span>
@@ -79,7 +87,8 @@
             user contributions licensed under 
             <a href="http://creativecommons.org/licenses/by-sa/3.0/">cc by-sa 3.0</a>
             with attribution required.
-            <a href="/sitemap.xml" target="_blank">sitemap.xml</a>
+            <a href="/sitemap.xml" target="_blank">sitemap.xml</a>,
+            seo-friendly <a href="?html=server">static website</a>
         </div>
         
         <!-- build:js /lib/js/angular.min.js -->
