@@ -1,10 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Testing;
+using ServiceStack.Text;
 using TechStacks.ServiceInterface;
 using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
@@ -63,6 +65,12 @@ namespace TechStacks.Tests
         private void SeedTestHost()
         {
             Seeds.SeedApp(appHost.Resolve<IDbConnectionFactory>());
+        }
+
+        [Test]
+        public void Generate_AuthKey()
+        {
+            Convert.ToBase64String(AesUtils.CreateKey()).Print();
         }
     }
 }

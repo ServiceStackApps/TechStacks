@@ -62,7 +62,8 @@ namespace TechStacks
             this.Plugins.Add(new AuthFeature(() => new CustomUserSession(), new IAuthProvider[]
             {
                 new TwitterAuthProvider(AppSettings), 
-                new GithubAuthProvider(AppSettings)
+                new GithubAuthProvider(AppSettings),
+                new JwtAuthProvider(AppSettings) { RequireSecureConnection = false },
             }));
 
             container.Register(new TwitterUpdates(
@@ -74,9 +75,6 @@ namespace TechStacks
             var authRepo = new OrmLiteAuthRepository<CustomUserAuth, UserAuthDetails>(dbFactory);
             container.Register<IUserAuthRepository>(authRepo);
             authRepo.InitSchema();
-
-            container.RegisterAs<OrmLiteCacheClient, ICacheClient>();
-            container.Resolve<ICacheClient>().InitSchema();
 
             using (var db = dbFactory.OpenDbConnection())
             {

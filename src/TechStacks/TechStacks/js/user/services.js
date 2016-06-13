@@ -27,13 +27,14 @@
                         $http.get('/my-session').success(function (response) {
                             $rootScope.currentUserSession = response;
                             $rootScope.isAuthenticated = true;
+                            $http.post("/session-to-token");
                             deferred.resolve(response);
                         })
-                            .error(function (error) {
-                                $rootScope.currentUserSession = null;
-                                $rootScope.isAuthenticated = false;
-                                deferred.reject(error);
-                            });
+                        .error(function (error) {
+                            $rootScope.currentUserSession = null;
+                            $rootScope.isAuthenticated = false;
+                            deferred.reject(error);
+                        });
                     } else {
                         deferred.reject();
                     }
