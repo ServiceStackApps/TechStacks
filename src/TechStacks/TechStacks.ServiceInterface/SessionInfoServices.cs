@@ -8,11 +8,9 @@ namespace TechStacks.ServiceInterface
     {
         public object Any(SessionInfo request)
         {
-            var result = SessionAs<CustomUserSession>().ConvertTo<UserSessionInfo>();
-            result.ProviderOAuthAccess = null;
-            return result;
+            var sessionClone = SessionAs<CustomUserSession>().CreateCopy();
+            sessionClone.ProviderOAuthAccess = null;
+            return sessionClone;
         }
     }
-
-    public class UserSessionInfo : CustomUserSession {}
 }

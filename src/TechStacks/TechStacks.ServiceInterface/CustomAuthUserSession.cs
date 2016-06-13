@@ -9,8 +9,6 @@ namespace TechStacks.ServiceInterface
 {
     public class CustomUserSession : AuthUserSession
     {
-        public string DefaultProfileUrl { get; set; }
-
         public string GithubProfileUrl { get; set; }
         public string TwitterProfileUrl { get; set; }
 
@@ -36,13 +34,13 @@ namespace TechStacks.ServiceInterface
                     }
                 }
 
-                DefaultProfileUrl = GithubProfileUrl ?? TwitterProfileUrl;
+                ProfileUrl = GithubProfileUrl ?? TwitterProfileUrl;
                 using (var db = dbConnectionFactory.OpenDbConnection())
                 {
                     var userAuthInstance = db.Single<CustomUserAuth>(x => x.Id == this.UserAuthId.ToInt());
                     if (userAuthInstance != null)
                     {
-                        userAuthInstance.DefaultProfileUrl = this.DefaultProfileUrl;
+                        userAuthInstance.DefaultProfileUrl = this.ProfileUrl;
                         db.Save(userAuthInstance);
                     }
                 }
