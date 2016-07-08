@@ -15,6 +15,7 @@ namespace TechStacks.ServiceModel
     public class FindTechnologies : QueryDb<Technology>
     {
         public string Name { get; set; }
+        public string NameContains { get; set; }
     }
 
     [QueryDb(QueryTerm.And)]

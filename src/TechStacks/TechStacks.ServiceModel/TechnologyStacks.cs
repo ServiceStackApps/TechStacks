@@ -12,7 +12,10 @@ namespace TechStacks.ServiceModel
         Title = "Find Technology Stacks", Description = "Explore different Technology Stacks", 
         IconUrl = "material-icons:cloud",
         DefaultSearchField = "Description", DefaultSearchType = "Contains", DefaultSearchText = "ServiceStack")]
-    public class FindTechStacks : QueryDb<TechnologyStack> {}
+    public class FindTechStacks : QueryDb<TechnologyStack>
+    {
+        public string NameContains { get; set; }
+    }
 
     [Route("/techstacks/{Slug}", Verbs = "GET")]
     public class GetTechnologyStack : IReturn<GetTechnologyStackResponse>, IRegisterStats
