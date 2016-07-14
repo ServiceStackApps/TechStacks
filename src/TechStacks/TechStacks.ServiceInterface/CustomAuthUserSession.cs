@@ -28,7 +28,7 @@ namespace TechStacks.ServiceInterface
                 if (authTokens.Provider.ToLower() == "twitter")
                 {
                     TwitterProfileUrl = session.GetProfileUrl();
-                    if (appSettings.GetList("TwitterAdmins").Contains(session.UserName) && !session.HasRole(RoleNames.Admin))
+                    if (appSettings.GetList("TwitterAdmins").Contains(session.UserName) && !session.HasRole(RoleNames.Admin, userAuthRepo))
                     {
                         userAuthRepo.AssignRoles(userAuth, roles: new[] { RoleNames.Admin });
                     }

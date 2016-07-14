@@ -93,9 +93,13 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.NotFound("Tech not found");
 
             var session = SessionAs<AuthUserSession>();
-
-            if (tech.IsLocked && !(tech.OwnerId == session.UserAuthId || session.HasRole(RoleNames.Admin)))
-                throw HttpError.Unauthorized("This Technology is locked and can only be modified by its Owner or Admins.");
+            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
+            using (authRepo as IDisposable)
+            {
+                if (tech.IsLocked && !(tech.OwnerId == session.UserAuthId || session.HasRole(RoleNames.Admin, authRepo)))
+                    throw HttpError.Unauthorized(
+                        "This Technology is locked and can only be modified by its Owner or Admins.");
+            }
 
             //Only Post an Update if there was no other update today
             var postUpdate = AppSettings.EnableTwitterUpdates()
@@ -146,8 +150,12 @@ namespace TechStacks.ServiceInterface
                 throw HttpError.NotFound("Tech not found");
 
             var session = SessionAs<AuthUserSession>();
-            if (existingTech.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin))
-                throw HttpError.Unauthorized("Only the Owner or Admins can delete this Technology");
+            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
+            using (authRepo as IDisposable)
+            {
+                if (existingTech.OwnerId != session.UserAuthId && !session.HasRole(RoleNames.Admin, authRepo))
+                    throw HttpError.Unauthorized("Only the Owner or Admins can delete this Technology");
+            }
 
             Db.DeleteById<Technology>(request.Id);
 
