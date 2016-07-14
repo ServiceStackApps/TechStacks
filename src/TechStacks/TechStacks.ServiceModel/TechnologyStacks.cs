@@ -199,7 +199,7 @@ namespace TechStacks.ServiceModel
         public List<TechStackDetails> LatestTechStacks { get; set; }
         public List<TechnologyStack> PopularTechStacks { get; set; }
 
-        public Dictionary<TechnologyTier, List<TechnologyInfo>> TopTechnologiesByTier { get; set; }
+        public Dictionary<string, List<TechnologyInfo>> TopTechnologiesByTier { get; set; }
 
         public ResponseStatus ResponseStatus { get; set; }
     }

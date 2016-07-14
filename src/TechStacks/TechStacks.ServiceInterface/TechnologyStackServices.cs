@@ -102,14 +102,16 @@ namespace TechStacks.ServiceInterface
 
             var topTechByCategory = GetTopTechByCategory();
 
-            var map = new Dictionary<TechnologyTier, List<TechnologyInfo>>();
+            var map = new Dictionary<string, List<TechnologyInfo>>();
             foreach (var tech in topTechByCategory)
             {
-                List<TechnologyInfo> techs;
-                if (!map.TryGetValue(tech.Tier, out techs))
-                    map[tech.Tier] = techs = new List<TechnologyInfo>();
+                List<TechnologyInfo> techs = null;
+                var key = Enum.GetName(typeof(TechnologyTier), tech.Tier);
+                if (key != null && !map.TryGetValue(key, out techs))
+                    map[key] = techs = new List<TechnologyInfo>();
 
-                techs.Add(tech);
+                if (techs != null) 
+                    techs.Add(tech);
             }
 
             foreach (var tier in map.Keys)
