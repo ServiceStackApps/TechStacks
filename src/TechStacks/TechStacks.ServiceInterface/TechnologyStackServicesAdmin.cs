@@ -45,6 +45,12 @@ namespace TechStacks.ServiceInterface
             if (existingStack != null)
                 throw new ArgumentException("'{0}' already exists".Fmt(slug));
 
+            if (string.IsNullOrEmpty(request.AppUrl) || request.AppUrl.IndexOf("://", StringComparison.Ordinal) == -1)
+                throw new ArgumentException("A valid URL to the Website or App is required");
+
+            if (string.IsNullOrEmpty(request.Description) || request.Description.Length < 100)
+                throw new ArgumentException("Summary needs to be a min of 100 chars");
+
             var techStack = request.ConvertTo<TechnologyStack>();
             var session = SessionAs<AuthUserSession>();
             techStack.CreatedBy = session.UserName;
@@ -112,6 +118,12 @@ namespace TechStacks.ServiceInterface
             var techStack = Db.SingleById<TechnologyStack>(request.Id);
             if (techStack == null)
                 throw HttpError.NotFound("Tech stack not found");
+
+            if (string.IsNullOrEmpty(request.AppUrl) || request.AppUrl.IndexOf("://", StringComparison.Ordinal) == -1)
+                throw new ArgumentException("A valid URL to the Website or App is required");
+
+            if (string.IsNullOrEmpty(request.Description) || request.Description.Length < 100)
+                throw new ArgumentException("Summary needs to be a min of 100 chars");
 
             var session = SessionAs<AuthUserSession>();
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
