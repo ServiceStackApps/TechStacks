@@ -514,6 +514,27 @@ td.description div {
     }
 }
 
+.btn-add {
+    float: left;
+    width: 34px;
+    height: 34px;
+    border-radius: 17px;
+    font-size: 30px;
+    line-height: 30px;
+    background: #64DD17;
+    text-align: center;
+    margin: 0 10px 0 0;
+    cursor: pointer;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.26);
+    user-select: none;
+}
+.btn-add a {
+    color: #fff;
+}
+.btn-add:hover {
+    opacity: .9;
+}
+
 /* Medium devices (desktops, 992px and up) */
 @media (max-width: 992px) {
     .search, .search-tiers {

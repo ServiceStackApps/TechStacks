@@ -11,6 +11,11 @@
 
     <table class="table table-striped stack">
         <caption>
+            <div class="btn-add">
+                <a ng-show="isAuthenticated" href="/stacks/create" title="Add TechStack">+</a>
+                <a ng-hide="isAuthenticated" href="/auth/twitter" title="Sign-in to add TechStack">+</a>
+            </div>
+
             <input type="text" id="Search" class="search" placeholder="Search" ng-model="Search" ng-keyup="refresh()" auto-focus>
             TechStacks
         </caption>
