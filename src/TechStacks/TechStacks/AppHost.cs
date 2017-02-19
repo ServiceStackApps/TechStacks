@@ -154,6 +154,11 @@ namespace TechStacks
 
             RegisterTypedRequestFilter<IRegisterStats>((req,res,dto) => 
                 dbFactory.RegisterPageView(dto.GetStatsId()));
+
+            Plugins.Add(new CorsFeature(
+                allowOriginWhitelist: new[] { "http://localhost", "http://localhost:8080", "http://localhost:56500", "http://test.servicestack.net", "http://null.jsbin.com" },
+                allowCredentials: true,
+                allowedHeaders: "Content-Type, Allow, Authorization"));
         }
 
         public override object OnAfterExecute(IRequest req, object requestDto, object response)
