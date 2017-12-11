@@ -94,7 +94,7 @@ namespace TechStacks.ServiceInterface
                 {
                     if (sb.Length > 0)
                         sb.Append("&");
-                    sb.AppendFormat("{0}={1}", arg.Key, OAuthUtils.PercentEncode(arg.Value));
+                    sb.Append($"{arg.Key}={OAuthUtils.PercentEncode(arg.Value)}");
                 }
                 data = sb.ToString();
             }

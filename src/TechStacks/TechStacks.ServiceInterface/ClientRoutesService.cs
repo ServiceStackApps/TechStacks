@@ -3,7 +3,7 @@ using TechStacks.ServiceModel;
 
 namespace TechStacks.ServiceInterface
 {
-    [FallbackRoute("/{PathInfo*}")]
+    [FallbackRoute("/{PathInfo*}", Matches = "AcceptsHtml")]
     public class FallbackForClientRoutes
     {
         public string PathInfo { get; set; }

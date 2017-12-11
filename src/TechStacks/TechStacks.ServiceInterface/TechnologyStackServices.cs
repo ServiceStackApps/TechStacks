@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MarkdownSharp;
 using ServiceStack;
-using ServiceStack.Configuration;
-using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using TechStacks.ServiceModel;
 using TechStacks.ServiceModel.Types;
@@ -35,14 +32,14 @@ namespace TechStacks.ServiceInterface
 
         public object Any(GetPageStats request)
         {
-            var id = "/{0}/{1}".Fmt(request.Type, request.Slug);
+            var id = $"/{request.Type}/{request.Slug}";
             var pageStats = Db.SingleById<PageStats>(id);
             return new GetPageStatsResponse
             {
                 Type = request.Type,
                 Slug = request.Slug,
-                ViewCount = pageStats != null ? pageStats.ViewCount : 0,
-                FavCount = pageStats != null ? pageStats.FavCount : 0,
+                ViewCount = pageStats?.ViewCount ?? 0,
+                FavCount = pageStats?.FavCount ?? 0,
             };
         }
 
@@ -110,8 +107,7 @@ namespace TechStacks.ServiceInterface
                 if (key != null && !map.TryGetValue(key, out techs))
                     map[key] = techs = new List<TechnologyInfo>();
 
-                if (techs != null) 
-                    techs.Add(tech);
+                techs?.Add(tech);
             }
 
             foreach (var tier in map.Keys)
@@ -232,7 +228,7 @@ namespace TechStacks.ServiceInterface
             var result = techStack.ConvertTo<TechStackDetails>();
             if (!string.IsNullOrEmpty(techStack.Details))
             {
-                result.DetailsHtml = new Markdown().Transform(techStack.Details);
+                result.DetailsHtml = MarkdownConfig.Transform(techStack.Details);
             }
 
             result.TechnologyChoices = techChoices.Map(x => x.ToTechnologyInStack());
@@ -247,8 +243,7 @@ namespace TechStacks.ServiceInterface
 
         public object Get(GetTechnologyStackFavoriteDetails request)
         {
-            int id;
-            var tech = int.TryParse(request.Slug, out id)
+            var tech = int.TryParse(request.Slug, out var id)
                 ? Db.SingleById<TechnologyStack>(id)
                 : Db.Single<TechnologyStack>(x => x.Slug == request.Slug.ToLower());
 

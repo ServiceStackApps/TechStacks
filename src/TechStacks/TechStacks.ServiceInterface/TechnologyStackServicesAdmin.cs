@@ -43,7 +43,7 @@ namespace TechStacks.ServiceInterface
             var slug = request.Name.GenerateSlug();
             var existingStack = Db.Single<TechnologyStack>(q => q.Name == request.Name || q.Slug == slug);
             if (existingStack != null)
-                throw new ArgumentException("'{0}' already exists".Fmt(slug));
+                throw new ArgumentException($"'{slug}' already exists");
 
             if (string.IsNullOrEmpty(request.AppUrl) || request.AppUrl.IndexOf("://", StringComparison.Ordinal) == -1)
                 throw new ArgumentException("A valid URL to the Website or App is required");
