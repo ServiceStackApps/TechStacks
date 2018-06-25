@@ -1,6 +1,6 @@
-# TechStacks
+# Angular TechStacks
 
-TechStacks is a modern [AngularJS](https://angularjs.org/) CRUD App that lets you Browse and Add Technology Stacks of popular StartUps. After Signing in you can add your own TechStacks and favorite technologies to create a personalized custom 'feed' to view Websites and Apps built with your favorite programming languages and technologies.
+TechStacks is a [AngularJS](https://angularjs.org/) CRUD App that lets you Browse and Add Technology Stacks of popular StartUps. After Signing in you can add your own TechStacks and favorite technologies to create a personalized custom 'feed' to view Websites and Apps built with your favorite programming languages and technologies.
 
 TechStacks is based on a [Bootstrap template](http://getbootstrap.com) with client-side features:
 
@@ -27,14 +27,18 @@ and some of TechStacks back-end features include:
  - [Minification via Grunt tasks](https://github.com/ServiceStack/ServiceStackVS/blob/master/angular-spa.md) (only required during deployment)
  - Local Sqlite during development, PostgreSQL when deployed to production
 
-## Personalized Feed based on Favorite Technologies
-![Personlaized TechStacks Feed](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks-feed.png)
+### Live Demo
+
+ - [angular.techstacks.io/](http://angular.techstacks.io/)
 
 ## Home Page
-![Home Page Screenshot](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks.png)
+[![Home Page Screenshot](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks.png)](http://angular.techstacks.io/)
 
 ## View TechStack
-![TechStack Screenshot](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks-stacks.png)
+[![TechStack Screenshot](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks-stacks.png)](http://angular.techstacks.io/techstacks-website)
+
+## Personalized Feed based on Favorite Technologies
+![Personlaized TechStacks Feed](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks-feed.png)
 
 ## Developer Guide
 
