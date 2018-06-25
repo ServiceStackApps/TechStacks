@@ -29,7 +29,7 @@ and some of TechStacks back-end features include:
 
 ### Live Demo
 
- - [angular.techstacks.io/](http://angular.techstacks.io/)
+ - [angular.techstacks.io](http://angular.techstacks.io/)
 
 ## Home Page
 [![Home Page Screenshot](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks.png)](http://angular.techstacks.io/)
