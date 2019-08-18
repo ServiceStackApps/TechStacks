@@ -37,6 +37,7 @@ namespace TechStacks
 
         public static void Load() => PreInit();
         static partial void PreInit();
+        static partial void PreConfigure(IAppHost appHost);
 
         /// <summary>
         /// Application specific configuration
@@ -45,12 +46,14 @@ namespace TechStacks
         /// <param name="container"></param>
         public override void Configure(Container container)
         {
+            PreConfigure(this);
+
             SetConfig(new HostConfig {
                 AddRedirectParamsToQueryString = true,
                 WebHostUrl = "http://techstacks.io", //for sitemap.xml urls
             });
 
-            JsConfig.DateHandler = DateHandler.ISO8601;
+            JsConfig.Init(new ServiceStack.Text.Config { DateHandler = DateHandler.ISO8601 });
 
             if (AppSettings.GetString("OrmLite.Provider") == "Postgres")
             {
