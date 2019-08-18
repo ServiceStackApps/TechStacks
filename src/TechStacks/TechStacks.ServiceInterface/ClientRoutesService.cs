@@ -56,10 +56,7 @@ namespace TechStacks.ServiceInterface
         public object AngularJsApp()
         {
             //Return default.cshtml for unmatched requests so routing is handled on the client
-            return new HttpResult
-            {
-                View = "/default.cshtml"
-            };
+            return new HttpResult(VirtualFileSources.GetFile("/default.html"));
         }
 
         public object Any(ClientAllTechnologyStacks request)
