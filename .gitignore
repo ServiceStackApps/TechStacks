@@ -6,6 +6,7 @@
 *.user
 *.sln.docstates
 .vs/
+*.secrets.cs
 
 # Build results
 [Dd]ebug/

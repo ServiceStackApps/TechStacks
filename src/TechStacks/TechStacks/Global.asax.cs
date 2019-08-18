@@ -17,8 +17,7 @@ namespace TechStacks
         {
             var customSettings = new FileInfo(@"~/appsettings.license.txt".MapHostAbsolutePath());
             var debugSettings = new FileInfo(@"~/../wwwroot_build/deploy/appsettings.license.txt".MapAbsolutePath());
-            Licensing.RegisterLicenseFromFileIfExists(customSettings.FullName);
-            Licensing.RegisterLicenseFromFileIfExists(debugSettings.FullName);
+            AppHost.Load();
             new AppHost().Init();
         }
     }
