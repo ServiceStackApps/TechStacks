@@ -1,1 +1,0 @@
-grunt package-and-deploy
