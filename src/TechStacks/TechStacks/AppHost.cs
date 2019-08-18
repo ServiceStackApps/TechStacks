@@ -20,7 +20,7 @@ using TechStacks.ServiceModel.Types;
 
 namespace TechStacks
 {
-    public class AppHost : AppHostBase
+    public partial class AppHost : AppHostBase
     {
         /// <summary>
         /// Default constructor.
@@ -34,6 +34,9 @@ namespace TechStacks
                 ? (IAppSettings)new TextFileSettings(customSettings.FullName)
                 : new AppSettings();
         }
+
+        public static void Load() => PreInit();
+        static partial void PreInit();
 
         /// <summary>
         /// Application specific configuration
