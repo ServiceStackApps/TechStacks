@@ -27,18 +27,15 @@ and some of TechStacks back-end features include:
  - [Minification via Grunt tasks](https://github.com/ServiceStack/ServiceStackVS/blob/master/angular-spa.md) (only required during deployment)
  - Local Sqlite during development, PostgreSQL when deployed to production
 
-### Live Demo
-
- - [angular.techstacks.io](http://angular.techstacks.io/)
 
 ## Home Page
-[![Home Page Screenshot](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks.png)](http://angular.techstacks.io/)
+![Home Page Screenshot](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks.png)
 
 ## View TechStack
-[![TechStack Screenshot](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks-stacks.png)](http://angular.techstacks.io/techstacks-website)
+![TechStack Screenshot](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks-stacks.png)
 
 ## Personalized Feed based on Favorite Technologies
-![Personlaized TechStacks Feed](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks-feed.png)
+![Personalized TechStacks Feed](https://github.com/ServiceStack/Assets/blob/master/img/livedemos/techstacks-feed.png)
 
 ## Developer Guide
 
