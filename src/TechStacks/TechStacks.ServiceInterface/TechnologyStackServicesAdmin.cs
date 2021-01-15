@@ -60,7 +60,7 @@ namespace TechStacks.ServiceInterface
             techStack.LastModified = techStack.Created;
             techStack.Slug = slug;
 
-            var techIds = (request.TechnologyIds ?? new List<long>()).ToHashSet();
+            var techIds = new HashSet<long>(request.TechnologyIds ?? new List<long>());
 
             //Only Post an Update if Stack has TechCount >= 4
             var postUpdate = AppSettings.EnableTwitterUpdates() && techIds.Count >= 4;
@@ -134,7 +134,7 @@ namespace TechStacks.ServiceInterface
                         "This TechStack is locked and can only be modified by its Owner or Admins.");
             }
 
-            var techIds = (request.TechnologyIds ?? new List<long>()).ToHashSet();
+            var techIds = new HashSet<long>(request.TechnologyIds ?? new List<long>());
 
             //Only Post an Update if there was no other update today and Stack as TechCount >= 4
             var postUpdate = AppSettings.EnableTwitterUpdates()
@@ -153,7 +153,7 @@ namespace TechStacks.ServiceInterface
                 Db.Save(techStack);
 
                 var existingTechChoices = Db.Select<TechnologyChoice>(q => q.TechnologyStackId == request.Id);
-                var techIdsToAdd = techIds.Except(existingTechChoices.Select(x => x.TechnologyId)).ToHashSet();
+                var techIdsToAdd = new HashSet<long>(techIds.Except(existingTechChoices.Select(x => x.TechnologyId)));
                 var techChoices = techIdsToAdd.Map(x => new TechnologyChoice
                 {
                     TechnologyId = x,
