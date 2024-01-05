@@ -49,7 +49,11 @@ namespace TechStacks
 
             SetConfig(new HostConfig {
                 AddRedirectParamsToQueryString = true,
+#if DEBUG
+                AdminAuthSecret = "secrtetz",
+#else
                 WebHostUrl = "http://techstacks.io", //for sitemap.xml urls
+#endif
             });
 
             JsConfig.Init(new ServiceStack.Text.Config { DateHandler = DateHandler.ISO8601 });
