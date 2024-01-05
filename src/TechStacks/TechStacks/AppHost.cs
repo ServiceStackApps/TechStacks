@@ -50,7 +50,7 @@ namespace TechStacks
             SetConfig(new HostConfig {
                 AddRedirectParamsToQueryString = true,
 #if DEBUG
-                AdminAuthSecret = "secrtetz",
+                AdminAuthSecret = "secretz",
 #else
                 WebHostUrl = "http://techstacks.io", //for sitemap.xml urls
 #endif

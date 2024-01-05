@@ -76,11 +76,17 @@ namespace TechStacks.ServiceModel
     [Route("/technology", Verbs = "POST")]
     public class CreateTechnology : IReturn<CreateTechnologyResponse>
     {
+        [ValidateNotEmpty]
         public string Name { get; set; }
+        [ValidateNotEmpty]
         public string VendorName { get; set; }
+        [ValidateNotEmpty]
         public string VendorUrl { get; set; }
+        [ValidateNotEmpty]
         public string ProductUrl { get; set; }
+        [ValidateNotEmpty]
         public string LogoUrl { get; set; }
+        [ValidateNotEmpty]
         public string Description { get; set; }
         public bool IsLocked { get; set; }
 
