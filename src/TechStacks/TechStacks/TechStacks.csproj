@@ -1378,23 +1378,23 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.2.7" />
-    <PackageReference Include="ServiceStack" Version="5.*" />
-    <PackageReference Include="ServiceStack.Admin" Version="5.*" />
-    <PackageReference Include="ServiceStack.Api.OpenApi" Version="5.*" />
-    <PackageReference Include="ServiceStack.Client" Version="5.*" />
-    <PackageReference Include="ServiceStack.Common" Version="5.*" />
-    <PackageReference Include="ServiceStack.Interfaces" Version="5.*" />
-    <PackageReference Include="ServiceStack.OrmLite" Version="5.*" />
-    <PackageReference Include="ServiceStack.OrmLite.PostgreSQL" Version="5.*" />
-    <PackageReference Include="ServiceStack.OrmLite.Sqlite" Version="5.*" />
-    <PackageReference Include="ServiceStack.Razor" Version="5.*" />
-    <PackageReference Include="ServiceStack.Redis" Version="5.*" />
-    <PackageReference Include="ServiceStack.Server" Version="5.*" />
-    <PackageReference Include="ServiceStack.Text" Version="5.*" />
+    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.3.0" />
+    <PackageReference Include="ServiceStack" Version="8.*" />
+    <PackageReference Include="ServiceStack.Api.OpenApi" Version="8.*" />
+    <PackageReference Include="ServiceStack.Client" Version="8.*" />
+    <PackageReference Include="ServiceStack.Common" Version="8.*" />
+    <PackageReference Include="ServiceStack.Interfaces" Version="8.*" />
+    <PackageReference Include="ServiceStack.OrmLite" Version="8.*" />
+    <PackageReference Include="ServiceStack.OrmLite.PostgreSQL" Version="8.*" />
+    <PackageReference Include="ServiceStack.OrmLite.Sqlite" Version="8.*" />
+    <PackageReference Include="ServiceStack.Razor" Version="8.*" />
+    <PackageReference Include="ServiceStack.Redis" Version="8.*" />
+    <PackageReference Include="ServiceStack.Server" Version="8.*" />
+    <PackageReference Include="ServiceStack.Text" Version="8.*" />
     <PackageReference Include="System.Buffers" Version="4.5.1" />
-    <PackageReference Include="System.Memory" Version="4.5.4" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="8.0.0" />
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>

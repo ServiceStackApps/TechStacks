@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using Funq;
 using ServiceStack;
-using ServiceStack.Admin;
 using ServiceStack.Api.OpenApi;
 using ServiceStack.Auth;
 using ServiceStack.Caching;
@@ -154,7 +153,6 @@ namespace TechStacks
                 }
             });
             Plugins.Add(new AutoQueryFeature { MaxLimit = 200 });
-            Plugins.Add(new AdminFeature());
             Plugins.Add(new OpenApiFeature());
 
             container.RegisterValidators(typeof(AppHost).Assembly);
